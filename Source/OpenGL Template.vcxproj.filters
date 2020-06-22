@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="OpenGL Template.cpp" />
+    <ClCompile Include="Core\Dependencies\imgui\imgui.cpp">
+      <Filter>Dependencies\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Dependencies\imgui\imgui_demo.cpp">
+      <Filter>Dependencies\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Dependencies\imgui\imgui_draw.cpp">
+      <Filter>Dependencies\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Dependencies\imgui\imgui_impl_glfw_gl3.cpp">
+      <Filter>Dependencies\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Dependencies\imgui\main.cpp">
+      <Filter>Dependencies\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\OpenGL Classes\stb_image.cpp">
+      <Filter>Dependencies\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\OpenGL Classes\Fps.cpp">
+      <Filter>Abstract OpenGL\FPS</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\OpenGL Classes\IndexBuffer.cpp">
+      <Filter>Abstract OpenGL\Index Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\OpenGL Classes\Shader.cpp">
+      <Filter>Abstract OpenGL\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\OpenGL Classes\Texture.cpp">
+      <Filter>Abstract OpenGL\Texturing</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\OpenGL Classes\VertexArray.cpp">
+      <Filter>Abstract OpenGL\Vertex Array</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\OpenGL Classes\VertexBuffer.cpp">
+      <Filter>Abstract OpenGL\Vertex Buffer</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Core\Dependencies\imgui\stb_truetype.h">
+      <Filter>Dependencies\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Dependencies\imgui\imconfig.h">
+      <Filter>Dependencies\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Dependencies\imgui\imgui.h">
+      <Filter>Dependencies\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Dependencies\imgui\imgui_impl_glfw_gl3.h">
+      <Filter>Dependencies\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Dependencies\imgui\imgui_internal.h">
+      <Filter>Dependencies\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\OpenGL Classes\stb_image.h">
+      <Filter>Dependencies\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Dependencies\imgui\stb_rect_pack.h">
+      <Filter>Dependencies\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Dependencies\imgui\stb_textedit.h">
+      <Filter>Dependencies\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\OpenGL Classes\Fps.h">
+      <Filter>Abstract OpenGL\FPS</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\OpenGL Classes\IndexBuffer.h">
+      <Filter>Abstract OpenGL\Index Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\OpenGL Classes\Shader.h">
+      <Filter>Abstract OpenGL\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\OpenGL Classes\Texture.h">
+      <Filter>Abstract OpenGL\Texturing</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\OpenGL Classes\VertexArray.h">
+      <Filter>Abstract OpenGL\Vertex Array</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\OpenGL Classes\VertexBuffer.h">
+      <Filter>Abstract OpenGL\Vertex Buffer</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Core\Resources\grass_block.png">
+      <Filter>Resources</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Core\Shaders\fragment.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Core\Shaders\vertex.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Dependencies">
+      <UniqueIdentifier>{ccd1e0a0-ecbe-4f35-9b5d-958675a1c52f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Abstract OpenGL">
+      <UniqueIdentifier>{b6ced12a-7a63-4aa8-9b2d-aafd8ddd0c32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{f8191836-fbd8-4d79-819a-b6a561058afa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dependencies\Imgui">
+      <UniqueIdentifier>{a8561fbb-0a88-489b-b9f2-fb69a0aac2ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{af69efa1-10d3-4bcc-8099-85542c221f8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Abstract OpenGL\FPS">
+      <UniqueIdentifier>{bcfbad3a-d102-46ba-8b20-c9c8099fb90a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Abstract OpenGL\Index Buffer">
+      <UniqueIdentifier>{aae92ad1-c247-477a-80a4-5dd66a939fac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Abstract OpenGL\Vertex Buffer">
+      <UniqueIdentifier>{e6fff3f6-26ea-4cae-8acb-d6c433df9b81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Abstract OpenGL\Vertex Array">
+      <UniqueIdentifier>{3c04947b-208d-445f-98af-53fea2f018ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Abstract OpenGL\Texturing">
+      <UniqueIdentifier>{a605ec37-6fb4-4369-aa60-e87e9a286417}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Abstract OpenGL\Shader">
+      <UniqueIdentifier>{7ddfb443-2f34-4080-8310-0e48373ee1cf}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
