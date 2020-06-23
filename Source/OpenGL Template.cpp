@@ -14,7 +14,13 @@
 #include "Core\OpenGL Classes\Texture.h"
 
 #include "Core\CubeRenderer.h"
+#include "Core\Camera.h"
+
 #include <iostream>
+
+glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f); 
+glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f); 
+glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
@@ -61,11 +67,14 @@ int main()
         glm::vec3(-1.3f,  1.0f, -1.5f)
     };
 
-    glm::vec3 cube_position = glm::vec3(0.0f, 0.0f, 0.0f);
-
     glm::mat4 projection = glm::perspective(glm::radians(45.0f),(float) SCR_WIDTH/SCR_HEIGHT, 0.1f, 100.0f);
     Minecraft::CubeRenderer cb;
+    Minecraft::Camera camera(45.0f, SCR_WIDTH / SCR_HEIGHT, 0.1, 100.0f);
+
     float angle = 0;
+    const int block_count = 16;
+
+    glm::vec3 cube_position = glm::vec3(0.0f, 0.0f, -4.0f);
 
     while (!glfwWindowShouldClose(window))
     {
@@ -75,14 +84,7 @@ int main()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // also clear the depth buffer now!
 
- /*       for (int i = 0; i < 10; i++)
-        {
-            float angle = 20.0f * i;
-
-            cb.RenderCube(cubePositions[i], &texture, angle, projection);
-        }*/
-
-        cb.RenderCube(cube_position, &texture, angle, projection);
+        cb.RenderCube(cube_position, &texture, angle, camera.GetViewProjection());
 
         glfwSwapBuffers(window);
         glfwPollEvents();

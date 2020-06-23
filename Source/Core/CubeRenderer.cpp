@@ -63,7 +63,7 @@ namespace Minecraft
 
 	}
 
-    void CubeRenderer::RenderCube(const glm::vec3& position, Texture* texture, float rotation, const glm::mat4& projection, Shader* shader)
+    void CubeRenderer::RenderCube(const glm::vec3& position, Texture* texture, float rotation, const glm::mat4& projection, const glm::mat4& view, Shader* shader)
 	{
         Shader* use_shader;
 
@@ -77,7 +77,6 @@ namespace Minecraft
             use_shader = shader;
         }
 
-        glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -3.0f));
         glm::mat4 model = glm::translate(glm::mat4(1.0f), position);
         model = glm::rotate(model, glm::radians(rotation), glm::vec3(1.0f, 0.5f, 0.5f));
 

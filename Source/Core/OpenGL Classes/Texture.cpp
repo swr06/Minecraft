@@ -4,7 +4,7 @@ namespace GLClasses
 {
 	Texture::Texture(string path, GLint internalformat, GLenum type, GLenum min_filter, GLenum mag_filter, GLenum texwrap_s, GLenum texwrap_t, array<GLfloat, 8> TextureCoords, bool clean_up)
 	{
-		stbi_set_flip_vertically_on_load(false);
+		stbi_set_flip_vertically_on_load(true);
 
 		m_Texture = new GLuint;
 		this->CreateTexture(path, internalformat, type, min_filter, mag_filter, texwrap_s, texwrap_t, TextureCoords, clean_up);	
@@ -12,7 +12,7 @@ namespace GLClasses
 
 	void Texture::CreateTexture(string path, GLint internalformat, GLenum type, GLenum min_filter, GLenum mag_filter, GLenum texwrap_s, GLenum texwrap_t, array<GLfloat, 8> TextureCoords, bool clean_up)
 	{
-		stbi_set_flip_vertically_on_load(false); // already done manually
+		stbi_set_flip_vertically_on_load(true); 
 		
 		m_delete_texture = true;
 		m_Texture = new GLuint;

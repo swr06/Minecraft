@@ -41,6 +41,9 @@
     <ClCompile Include="Core\CubeRenderer.cpp">
       <Filter>Internal</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Camera.cpp">
+      <Filter>Internal</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Dependencies\imgui\stb_truetype.h">
@@ -86,6 +89,9 @@
       <Filter>Abstract OpenGL\Vertex Buffer</Filter>
     </ClInclude>
     <ClInclude Include="Core\CubeRenderer.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Camera.h">
       <Filter>Internal</Filter>
     </ClInclude>
   </ItemGroup>

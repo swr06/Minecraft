@@ -29,7 +29,7 @@ namespace Minecraft
 	public :
 		CubeRenderer();
 		~CubeRenderer();
-		void RenderCube(const glm::vec3& position, Texture* texture, float rotation, const glm::mat4& projection, Shader* shader = nullptr);
+		void RenderCube(const glm::vec3& position, Texture* texture, float rotation, const glm::mat4& projection, const glm::mat4& view = glm::mat4(1.0f), Shader* shader = nullptr);
 
 	private :
 
