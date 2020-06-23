@@ -159,6 +159,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Core\CubeRenderer.cpp" />
     <ClCompile Include="Core\Dependencies\imgui\imgui.cpp" />
     <ClCompile Include="Core\Dependencies\imgui\imgui_demo.cpp" />
     <ClCompile Include="Core\Dependencies\imgui\imgui_draw.cpp" />
@@ -174,6 +175,7 @@
     <ClCompile Include="OpenGL Template.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Core\CubeRenderer.h" />
     <ClInclude Include="Core\Dependencies\imgui\imconfig.h" />
     <ClInclude Include="Core\Dependencies\imgui\imgui.h" />
     <ClInclude Include="Core\Dependencies\imgui\imgui_impl_glfw_gl3.h" />

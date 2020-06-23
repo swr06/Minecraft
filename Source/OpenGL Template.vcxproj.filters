@@ -38,6 +38,9 @@
     <ClCompile Include="Core\OpenGL Classes\VertexBuffer.cpp">
       <Filter>Abstract OpenGL\Vertex Buffer</Filter>
     </ClCompile>
+    <ClCompile Include="Core\CubeRenderer.cpp">
+      <Filter>Internal</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Dependencies\imgui\stb_truetype.h">
@@ -81,6 +84,9 @@
     </ClInclude>
     <ClInclude Include="Core\OpenGL Classes\VertexBuffer.h">
       <Filter>Abstract OpenGL\Vertex Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\CubeRenderer.h">
+      <Filter>Internal</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -129,6 +135,9 @@
     </Filter>
     <Filter Include="Abstract OpenGL\Shader">
       <UniqueIdentifier>{7ddfb443-2f34-4080-8310-0e48373ee1cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Internal">
+      <UniqueIdentifier>{0b8f253f-73e4-44c1-a840-8b5e5905774c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
