@@ -166,6 +166,7 @@
     <ClCompile Include="Core\Dependencies\imgui\imgui_draw.cpp" />
     <ClCompile Include="Core\Dependencies\imgui\imgui_impl_glfw_gl3.cpp" />
     <ClCompile Include="Core\Dependencies\imgui\main.cpp" />
+    <ClCompile Include="Core\FpsCamera.cpp" />
     <ClCompile Include="Core\OpenGL Classes\Fps.cpp" />
     <ClCompile Include="Core\OpenGL Classes\IndexBuffer.cpp" />
     <ClCompile Include="Core\OpenGL Classes\Shader.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="Core\Dependencies\imgui\stb_rect_pack.h" />
     <ClInclude Include="Core\Dependencies\imgui\stb_textedit.h" />
     <ClInclude Include="Core\Dependencies\imgui\stb_truetype.h" />
+    <ClInclude Include="Core\FpsCamera.h" />
     <ClInclude Include="Core\OpenGL Classes\Fps.h" />
     <ClInclude Include="Core\OpenGL Classes\IndexBuffer.h" />
     <ClInclude Include="Core\OpenGL Classes\Shader.h" />

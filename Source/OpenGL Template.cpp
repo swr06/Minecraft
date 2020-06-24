@@ -13,13 +13,14 @@
 #include "Core\OpenGL Classes\Shader.h"
 #include "Core\OpenGL Classes\Texture.h"
 
+#include "Core\FpsCamera.h"
 #include "Core\CubeRenderer.h"
 #include "Core\Camera.h"
 
 #include <iostream>
 
-glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f); 
-glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f); 
+glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -33,7 +34,7 @@ using namespace GLClasses;
 
 void CameraMove(GLFWwindow* window, double xpos, double ypos);
 
-Minecraft::Camera camera(45.0f, SCR_WIDTH / SCR_HEIGHT, 0.1, 100.0f);
+Minecraft::FPSCamera camera(45.0f, SCR_WIDTH / SCR_HEIGHT, 0.1, 100.0f);
 
 int main()
 {
@@ -74,7 +75,7 @@ int main()
         glm::vec3(-1.3f,  1.0f, -1.5f)
     };
 
-    glm::mat4 projection = glm::perspective(glm::radians(45.0f),(float) SCR_WIDTH/SCR_HEIGHT, 0.1f, 100.0f);
+    glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / SCR_HEIGHT, 0.1f, 100.0f);
     Minecraft::CubeRenderer cb;
 
     float angle = 0;
@@ -102,7 +103,7 @@ int main()
 
 void processInput(GLFWwindow* window)
 {
-    const float camera_speed = 0.1f;
+    const float camera_speed = 0.25f;
 
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
@@ -128,54 +129,7 @@ void processInput(GLFWwindow* window)
 
 void CameraMove(GLFWwindow* window, double xpos, double ypos)
 {
-    static bool first_move = false;
-
-    const float sensitivity = 0.2;
-    static float prev_mx = 0.0f;
-    static float prev_my = 0.0f;
-    static float yaw = 0.0f;
-    static float pitch = 0.0f;
-
-    ypos = -ypos;
-
-    float x_diff = xpos - prev_mx;
-    float y_diff = ypos - prev_my;
-
-    if (first_move == false)
-    {
-        first_move = true;
-        prev_mx = xpos;
-        prev_my = ypos;
-    }
-
-
-    // Apply the sensitivity 
-    x_diff = x_diff * sensitivity;
-    y_diff = y_diff * sensitivity;
-
-    prev_mx = xpos;
-    prev_my = ypos;
-
-    yaw = yaw + x_diff;
-    pitch = pitch + y_diff;
-
-    if (pitch > 89.0f)
-    {
-        pitch = 89.0f;
-    }
-    
-    if (pitch < -89.0f)
-    {
-        pitch = -89.0f;
-    }
-
-    glm::vec3 front; 
-    
-    front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
-    front.y = sin(glm::radians(pitch)); 
-    front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
-
-    camera.SetFront(front);
+    camera.UpdateOnMouseMovement(xpos, ypos);
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)

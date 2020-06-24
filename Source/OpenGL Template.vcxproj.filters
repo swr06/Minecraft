@@ -44,6 +44,9 @@
     <ClCompile Include="Core\Camera.cpp">
       <Filter>Internal</Filter>
     </ClCompile>
+    <ClCompile Include="Core\FpsCamera.cpp">
+      <Filter>Internal</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Dependencies\imgui\stb_truetype.h">
@@ -92,6 +95,9 @@
       <Filter>Internal</Filter>
     </ClInclude>
     <ClInclude Include="Core\Camera.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\FpsCamera.h">
       <Filter>Internal</Filter>
     </ClInclude>
   </ItemGroup>
