@@ -31,6 +31,8 @@ const unsigned int SCR_HEIGHT = 600;
 
 using namespace GLClasses;
 
+Minecraft::Camera camera(45.0f, SCR_WIDTH / SCR_HEIGHT, 0.1, 100.0f);
+
 int main()
 {
     glfwInit();
@@ -69,7 +71,6 @@ int main()
 
     glm::mat4 projection = glm::perspective(glm::radians(45.0f),(float) SCR_WIDTH/SCR_HEIGHT, 0.1f, 100.0f);
     Minecraft::CubeRenderer cb;
-    Minecraft::Camera camera(45.0f, SCR_WIDTH / SCR_HEIGHT, 0.1, 100.0f);
 
     float angle = 0;
     const int block_count = 16;
@@ -84,7 +85,7 @@ int main()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // also clear the depth buffer now!
 
-        cb.RenderCube(cube_position, &texture, angle, camera.GetViewProjection());
+        cb.RenderCube(cube_position, &texture, 5, camera.GetViewProjection());
 
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -98,6 +99,18 @@ void processInput(GLFWwindow* window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
+
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+        camera.ChangePosition(glm::vec3(0, 0, -0.1));
+
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+        camera.ChangePosition(glm::vec3(0, 0, 0.1));
+
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+        camera.ChangePosition(glm::vec3(-0.1, 0, 0));
+
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+        camera.ChangePosition(glm::vec3(0.1, 0, 0));
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
@@ -105,4 +118,5 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     // make sure the viewport matches the new window dimensions; note that width and 
     // height will be significantly larger than specified on retina displays.
     glViewport(0, 0, width, height);
+    camera.SetAspect(width / height);
 }

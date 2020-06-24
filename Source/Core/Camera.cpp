@@ -21,12 +21,22 @@ namespace Minecraft
 
 	Camera::~Camera()
 	{
-		
+		// Nothing to do here
 	}
 
 	void Camera::SetPosition(const glm::vec3& position)
 	{
 		m_Position = position;
+
+		RecalculateViewMatrix();
+	}
+
+	void Camera::ChangePosition(const glm::vec3& position_increment)
+	{
+		m_Position.x += position_increment.x;
+		m_Position.y += position_increment.y;
+		m_Position.z += position_increment.z;
+		//m_Position = m_Position + position_increment;
 
 		RecalculateViewMatrix();
 	}
@@ -72,12 +82,16 @@ namespace Minecraft
 
 	void Camera::RecalculateViewMatrix()
 	{
-		m_ViewMatrix = glm::lookAt(m_Position, m_Front + m_Position, m_Up + m_Position);
+		m_ViewMatrix = glm::lookAt(m_Position, m_Front + m_Position, m_Up);
 		m_ViewMatrix = glm::rotate(m_ViewMatrix, glm::radians(m_Rotation), glm::vec3(1.0f, 0.5f, 0.5f));
+
+		m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
 	}
 
 	void Camera::RecalculateProjectionMatrix()
 	{
 		m_ProjectionMatrix = glm::perspective(m_Fov, m_Aspect, m_zNear, m_zFar);
+
+		m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
 	}
 }

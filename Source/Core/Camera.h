@@ -17,6 +17,7 @@ namespace Minecraft
 		~Camera();
 
 		void SetPosition(const glm::vec3& position);
+		void ChangePosition(const glm::vec3& position_increment);
 		void SetRotation(float angle);
 		void SetFov(float fov);
 		void SetAspect(float aspect);
