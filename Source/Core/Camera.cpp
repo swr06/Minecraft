@@ -33,11 +33,14 @@ namespace Minecraft
 
 	void Camera::ChangePosition(const glm::vec3& position_increment)
 	{
-		m_Position.x += position_increment.x;
-		m_Position.y += position_increment.y;
-		m_Position.z += position_increment.z;
-		//m_Position = m_Position + position_increment;
+		m_Position = m_Position + position_increment;
 
+		RecalculateViewMatrix();
+	}
+
+	void Camera::SetFront(const glm::vec3& front)
+	{
+		m_Front = front;
 		RecalculateViewMatrix();
 	}
 

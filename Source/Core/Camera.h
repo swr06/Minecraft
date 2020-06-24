@@ -18,6 +18,7 @@ namespace Minecraft
 
 		void SetPosition(const glm::vec3& position);
 		void ChangePosition(const glm::vec3& position_increment);
+		void SetFront(const glm::vec3& front);
 		void SetRotation(float angle);
 		void SetFov(float fov);
 		void SetAspect(float aspect);
@@ -47,6 +48,21 @@ namespace Minecraft
 		inline const glm::mat4& GetViewMatrix()
 		{
 			return m_ViewMatrix;
+		}
+
+		inline const glm::vec3& GetFront()
+		{
+			return m_Front;
+		}
+
+		inline const glm::vec3& GetUp()
+		{
+			return m_Up;
+		}
+
+		inline const glm::vec3& GetRight()
+		{
+			return glm::normalize(glm::cross(m_Front, m_Up));
 		}
 
 	private : 
