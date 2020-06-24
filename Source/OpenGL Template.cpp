@@ -91,7 +91,17 @@ int main()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // also clear the depth buffer now!
 
-        cb.RenderCube(cube_position, &texture, angle, camera.GetViewProjection());
+        for (int i = 0; i < 4; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                for (int k = 0; k < 4; k++)
+                {
+                    cb.RenderCube(glm::vec3(i + 1, j + 1, k + 1), &texture, 0, camera.GetViewProjection());
+                }
+            }
+        }
+
 
         glfwSwapBuffers(window);
         glfwPollEvents();
