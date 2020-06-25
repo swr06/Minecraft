@@ -47,45 +47,83 @@ namespace Minecraft
 			{
 				for (int z = 0; z < ChunkSizeZ; z++)
 				{
-					if (x <= 0 || y <= 0 || z <= 0 || x >= ChunkSizeX - 1 || y >= ChunkSizeY - 1 || z >= ChunkSizeZ - 1)
+					if (Chunk->at(x).at(y).at(z).p_BlockType != BlockType::Air)
 					{
-						continue;
-					}
 
-					// If the next block is an air block, add the right face to the mesh
-					if (Chunk->at(x + 1).at(y).at(z).p_BlockType == BlockType::Air)
-					{
-						AddFace(FaceType::right, Chunk->at(x).at(y).at(z).p_Position);
-					}
+						if (x <= 0)
+						{
+							AddFace(FaceType::left, Chunk->at(x).at(y).at(z).p_Position);
+						}
 
-					// If the previous block is an air block, add the left face to the mesh
-					if (Chunk->at(x - 1).at(y).at(z).p_BlockType == BlockType::Air)
-					{
-						AddFace(FaceType::left, Chunk->at(x).at(y).at(z).p_Position);
-					}
+						else if (x >= ChunkSizeX - 1)
+						{
+							AddFace(FaceType::right, Chunk->at(x).at(y).at(z).p_Position);
+						}
 
-					// If the top block is an air block, add the top face to the mesh
-					if (Chunk->at(x).at(y - 1).at(z).p_BlockType == BlockType::Air)
-					{
-						AddFace(FaceType::top, Chunk->at(x).at(y).at(z).p_Position);
-					}
+						else
+						{
+							// If the next block is an air block, add the right face to the mesh
+							if (Chunk->at(x + 1).at(y).at(z).p_BlockType == BlockType::Air)
+							{
+								AddFace(FaceType::right, Chunk->at(x).at(y).at(z).p_Position);
+							}
 
-					// If the bottom block is an air block, add the top face to the mesh
-					if (Chunk->at(x).at(y + 1).at(z).p_BlockType == BlockType::Air)
-					{
-						AddFace(FaceType::bottom, Chunk->at(x).at(y).at(z).p_Position);
-					}
+							// If the previous block is an air block, add the left face to the mesh
+							if (Chunk->at(x - 1).at(y).at(z).p_BlockType == BlockType::Air)
+							{
+								AddFace(FaceType::left, Chunk->at(x).at(y).at(z).p_Position);
+							}
+						}
 
-					// If the forward block is an air block, add the forward face to the mesh
-					if (Chunk->at(x).at(y).at(z + 1).p_BlockType == BlockType::Air)
-					{
-						AddFace(FaceType::forward, Chunk->at(x).at(y).at(z).p_Position);
-					}
+						if (y <= 0)
+						{
+							AddFace(FaceType::top, Chunk->at(x).at(y).at(z).p_Position);
+						}
 
-					// If the back (-forward) block is an air block, add the back face to the mesh
-					if (Chunk->at(x).at(y).at(z - 1).p_BlockType == BlockType::Air)
-					{
-						AddFace(FaceType::backward, Chunk->at(x).at(y).at(z).p_Position);
+						else if (y >= ChunkSizeY - 1)
+						{
+							AddFace(FaceType::bottom, Chunk->at(x).at(y).at(z).p_Position);
+						}
+
+						else
+						{
+							// If the top block is an air block, add the top face to the mesh
+							if (Chunk->at(x).at(y - 1).at(z).p_BlockType == BlockType::Air)
+							{
+								AddFace(FaceType::bottom, Chunk->at(x).at(y).at(z).p_Position);
+							}
+
+							// If the bottom block is an air block, add the top face to the mesh
+							if (Chunk->at(x).at(y + 1).at(z).p_BlockType == BlockType::Air)
+							{
+								AddFace(FaceType::top, Chunk->at(x).at(y).at(z).p_Position);
+							}
+						}
+
+						if (z <= 0)
+						{
+							AddFace(FaceType::forward, Chunk->at(x).at(y).at(z).p_Position);
+						}
+
+						else if (z >= ChunkSizeZ - 1)
+						{
+							AddFace(FaceType::backward, Chunk->at(x).at(y).at(z).p_Position);
+						}
+
+						else
+						{
+							//If the forward block is an air block, add the forward face to the mesh
+							if (Chunk->at(x).at(y).at(z + 1).p_BlockType == BlockType::Air)
+							{
+								AddFace(FaceType::forward, Chunk->at(x).at(y).at(z).p_Position);
+							}
+
+							// If the back (-forward) block is an air block, add the back face to the mesh
+							if (Chunk->at(x).at(y).at(z - 1).p_BlockType == BlockType::Air)
+							{
+								AddFace(FaceType::backward, Chunk->at(x).at(y).at(z).p_Position);
+							}
+						}
 					}
 				}
 			}

@@ -8,7 +8,7 @@ namespace Minecraft
 
 		m_VAO.Bind();
 		m_VBO.Bind();
-		m_VBO.BufferData(1000000 * sizeof(Vertex), nullptr, GL_DYNAMIC_DRAW);
+		m_VBO.BufferData(10000000 * sizeof(Vertex), nullptr, GL_DYNAMIC_DRAW);
 		m_VBO.VertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 		m_VBO.VertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 		m_VBO.VertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(5 * sizeof(float)));
@@ -27,8 +27,15 @@ namespace Minecraft
 		m_DefaultShader.SetMatrix4("u_Projection", glm::mat4(1.0f));
 
 		m_VAO.Bind();
-		m_VBO.BufferSubData(0, chunk->GetChunkMesh()->p_Vertices.size() * sizeof(Vertex), 
-			&chunk->GetChunkMesh()->p_Vertices.front());
+
+		static bool data_sent = false;
+
+		if (data_sent == false)
+		{
+			data_sent = true;
+			m_VBO.BufferSubData(0, chunk->GetChunkMesh()->p_Vertices.size() * sizeof(Vertex),
+				&chunk->GetChunkMesh()->p_Vertices.front());
+		}
 
 		glDrawArrays(GL_TRIANGLES, 0, chunk->GetChunkMesh()->p_Vertices.size() * 6);
 		m_VAO.Unbind();

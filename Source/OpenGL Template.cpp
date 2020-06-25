@@ -12,6 +12,7 @@
 #include "Core\OpenGL Classes\IndexBuffer.h"
 #include "Core\OpenGL Classes\Shader.h"
 #include "Core\OpenGL Classes\Texture.h"
+#include "Core\OpenGL Classes\Fps.h"
 
 #include "Core\Renderer\Renderer.h"
 #include "Core\FpsCamera.h"
@@ -66,7 +67,6 @@ int main()
 
     Texture texture("Core\\Resources\\grass_block.png");
 
-
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / SCR_HEIGHT, 0.1f, 100.0f);
     Minecraft::CubeRenderer cb;
     Minecraft::Chunk chunk;
@@ -101,8 +101,8 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // also clear the depth buffer now!
 
         renderer.RenderChunk(&chunk, &camera);
-        //cb.RenderCube(cube_position, &texture, 0, camera.GetViewProjection());
 
+        DisplayFrameRate(window, "Minecraft Clone V0.01 ");
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
