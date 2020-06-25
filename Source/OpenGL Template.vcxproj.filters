@@ -62,6 +62,12 @@
     <ClCompile Include="Core\World\World.cpp">
       <Filter>Internal\World</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Utils\Math.cpp">
+      <Filter>Internal\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Renderer\Renderer.cpp">
+      <Filter>Internal\Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Dependencies\imgui\stb_truetype.h">
@@ -128,10 +134,19 @@
       <Filter>Internal\Chunk</Filter>
     </ClInclude>
     <ClInclude Include="Core\Utils\Defs.h">
-      <Filter>Internal\Def</Filter>
+      <Filter>Internal\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Core\World\World.h">
       <Filter>Internal\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Utils\Math.h">
+      <Filter>Internal\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Utils\Vertex.h">
+      <Filter>Internal\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Renderer\Renderer.h">
+      <Filter>Internal\Rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -193,11 +208,11 @@
     <Filter Include="Internal\Rendering">
       <UniqueIdentifier>{3ffab1c5-ab31-4678-aae2-e73a22397650}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Internal\Def">
-      <UniqueIdentifier>{21e7ff03-94c0-4836-9070-73c92bcbae57}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Internal\World">
       <UniqueIdentifier>{235eebda-c213-44ae-ab0b-ceda491018dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Internal\Utils">
+      <UniqueIdentifier>{21e7ff03-94c0-4836-9070-73c92bcbae57}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

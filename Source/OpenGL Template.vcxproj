@@ -179,6 +179,8 @@
     <ClCompile Include="Core\OpenGL Classes\Texture.cpp" />
     <ClCompile Include="Core\OpenGL Classes\VertexArray.cpp" />
     <ClCompile Include="Core\OpenGL Classes\VertexBuffer.cpp" />
+    <ClCompile Include="Core\Renderer\Renderer.cpp" />
+    <ClCompile Include="Core\Utils\Math.cpp" />
     <ClCompile Include="Core\World\World.cpp" />
     <ClCompile Include="OpenGL Template.cpp" />
   </ItemGroup>
@@ -204,7 +206,10 @@
     <ClInclude Include="Core\OpenGL Classes\Texture.h" />
     <ClInclude Include="Core\OpenGL Classes\VertexArray.h" />
     <ClInclude Include="Core\OpenGL Classes\VertexBuffer.h" />
+    <ClInclude Include="Core\Renderer\Renderer.h" />
     <ClInclude Include="Core\Utils\Defs.h" />
+    <ClInclude Include="Core\Utils\Math.h" />
+    <ClInclude Include="Core\Utils\Vertex.h" />
     <ClInclude Include="Core\World\World.h" />
   </ItemGroup>
   <ItemGroup>

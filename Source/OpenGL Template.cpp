@@ -83,6 +83,8 @@ int main()
 
     glm::vec3 cube_position = glm::vec3(0.0f, 0.0f, -4.0f);
 
+    cout << " size of glm::vec3 : " << sizeof(glm::vec3);
+
     while (!glfwWindowShouldClose(window))
     {
         angle += 3;
@@ -106,7 +108,7 @@ void processInput(GLFWwindow* window)
     const float camera_speed = 0.25f;
 
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         camera.ChangePosition(camera.GetFront() * camera_speed);

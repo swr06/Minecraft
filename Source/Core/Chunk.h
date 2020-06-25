@@ -2,13 +2,29 @@
 #include <vector>
 #include <string>
 #include <array>
-#include "Block.h"
+#include "ChunkMesh.h"
 
 namespace Minecraft
 {
 	class Chunk
 	{
 	public : 
+		Chunk()
+		{
+			// Initialize all the blocks in the chunk to be air blocks
+
+			for (int i = 0; i < ChunkSizeX; i++)
+			{
+				for (int j = 0; j < ChunkSizeY; j++)
+				{
+					for (int k = 0; k < ChunkSizeZ; k++)
+					{
+						m_ChunkContents[i][j][k].p_BlockType = BlockType::Air;
+					}
+				}
+			}
+		}
+
 		void AddBlock(BlockType type, glm::vec3 position)
 		{
 			Block b;
@@ -19,9 +35,15 @@ namespace Minecraft
 			m_ChunkContents[position.x][position.y][position.z] = b;
 		}
 
+		void Construct()
+		{
+			m_ChunkMesh.ConstructMesh(&m_ChunkContents);
+		}
+
 	private :
 		// each chunk will be a 16x16x16 block space. A 3D array
 
-		std::array<std::array<std::array<Block, 16>, 16>, 16> m_ChunkContents;
+		std::array<std::array<std::array<Block, ChunkSizeX>, ChunkSizeY>, ChunkSizeZ> m_ChunkContents;
+		ChunkMesh m_ChunkMesh;
 	};
 }
