@@ -173,6 +173,7 @@
     <ClCompile Include="Core\Dependencies\imgui\main.cpp" />
     <ClCompile Include="Core\FpsCamera.cpp" />
     <ClCompile Include="Core\OpenGL Classes\Fps.cpp" />
+    <ClCompile Include="Core\OpenGL Classes\GLDebug.cpp" />
     <ClCompile Include="Core\OpenGL Classes\IndexBuffer.cpp" />
     <ClCompile Include="Core\OpenGL Classes\Shader.cpp" />
     <ClCompile Include="Core\OpenGL Classes\stb_image.cpp" />
@@ -200,6 +201,7 @@
     <ClInclude Include="Core\Dependencies\imgui\stb_truetype.h" />
     <ClInclude Include="Core\FpsCamera.h" />
     <ClInclude Include="Core\OpenGL Classes\Fps.h" />
+    <ClInclude Include="Core\OpenGL Classes\GLDebug.h" />
     <ClInclude Include="Core\OpenGL Classes\IndexBuffer.h" />
     <ClInclude Include="Core\OpenGL Classes\Shader.h" />
     <ClInclude Include="Core\OpenGL Classes\stb_image.h" />

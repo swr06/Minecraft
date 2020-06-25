@@ -39,12 +39,19 @@ namespace Minecraft
 
 	void ChunkMesh::ConstructMesh(std::array<std::array<std::array<Block, ChunkSizeX>, ChunkSizeY>, ChunkSizeZ>* Chunk)
 	{
-		for (int x = 0; x < Chunk->size(); x++)
+		p_Vertices.erase(p_Vertices.begin(), p_Vertices.end());
+
+		for (int x = 0; x < ChunkSizeX; x++)
 		{
-			for (int y = 0; y < Chunk->at(x).size(); y++)
+			for (int y = 0; y < ChunkSizeY; y++)
 			{
-				for (int z = 0; z < Chunk->at(x).at(y).size(); z++)
+				for (int z = 0; z < ChunkSizeZ; z++)
 				{
+					if (x <= 0 || y <= 0 || z <= 0 || x >= ChunkSizeX - 1 || y >= ChunkSizeY - 1 || z >= ChunkSizeZ - 1)
+					{
+						continue;
+					}
+
 					// If the next block is an air block, add the right face to the mesh
 					if (Chunk->at(x + 1).at(y).at(z).p_BlockType == BlockType::Air)
 					{

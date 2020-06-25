@@ -9,6 +9,7 @@ namespace Minecraft
 	class Chunk
 	{
 	public : 
+
 		Chunk()
 		{
 			// Initialize all the blocks in the chunk to be air blocks
@@ -38,6 +39,11 @@ namespace Minecraft
 		void Construct()
 		{
 			m_ChunkMesh.ConstructMesh(&m_ChunkContents);
+		}
+
+		ChunkMesh* GetChunkMesh()
+		{
+			return &m_ChunkMesh;
 		}
 
 	private :

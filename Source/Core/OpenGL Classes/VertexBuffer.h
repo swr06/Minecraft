@@ -1,9 +1,12 @@
 #pragma once
 
-#include <iostream>
-#include <string>
 #define GLEW_STATIC
 #include <GL/glew.h>
+
+#include <iostream>
+#include <string>
+
+#include "GLDebug.h"
 
 namespace GLClasses
 {
@@ -17,6 +20,7 @@ namespace GLClasses
 		~VertexBuffer();
 
 		void BufferData(GLsizeiptr size, void* data, GLenum usage);
+		void BufferSubData(GLintptr offset, GLsizeiptr size, void* data);
 		void Bind();
 		void Unbind();
 		void VertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized,

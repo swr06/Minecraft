@@ -13,9 +13,12 @@
 #include "Core\OpenGL Classes\Shader.h"
 #include "Core\OpenGL Classes\Texture.h"
 
+#include "Core\Renderer\Renderer.h"
 #include "Core\FpsCamera.h"
 #include "Core\CubeRenderer.h"
-#include "Core\Camera.h"
+//#include "Core\Camera.h"
+//
+//#include "Core\Chunk.h"
 
 #include <iostream>
 
@@ -62,28 +65,32 @@ int main()
     glEnable(GL_DEPTH_TEST);
 
     Texture texture("Core\\Resources\\grass_block.png");
-    glm::vec3 cubePositions[] = {
-        glm::vec3(0.0f,  0.0f,  0.0f),
-        glm::vec3(2.0f,  10.0f, -12.0f),
-        glm::vec3(-1.5f, -2.2f, -2.5f),
-        glm::vec3(-3.8f, -2.0f, -12.3f),
-        glm::vec3(2.4f, -0.4f, -3.5f),
-        glm::vec3(-1.7f,  3.0f, -7.5f),
-        glm::vec3(1.3f, -2.0f, -2.5f),
-        glm::vec3(1.5f,  2.0f, -2.5f),
-        glm::vec3(1.5f,  0.2f, -1.5f),
-        glm::vec3(-1.3f,  1.0f, -1.5f)
-    };
+
 
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / SCR_HEIGHT, 0.1f, 100.0f);
     Minecraft::CubeRenderer cb;
+    Minecraft::Chunk chunk;
+    Minecraft::Renderer renderer;
 
     float angle = 0;
     const int block_count = 16;
 
+    float* cube_address;
+
     glm::vec3 cube_position = glm::vec3(0.0f, 0.0f, -4.0f);
 
-    cout << " size of glm::vec3 : " << sizeof(glm::vec3);
+    for (int i = 0; i < 16; i++)
+    {
+        for (int j = 0; j < 16; j++)
+        {
+            for (int k = 0; k < 16; k++)
+            {
+                chunk.AddBlock(Minecraft::BlockType::Dirt, glm::vec3(i, j, k));
+            }
+        }
+    }
+
+    chunk.Construct();
 
     while (!glfwWindowShouldClose(window))
     {
@@ -93,7 +100,8 @@ int main()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // also clear the depth buffer now!
 
-        cb.RenderCube(cube_position, &texture, 0, camera.GetViewProjection());
+        renderer.RenderChunk(&chunk, &camera);
+        //cb.RenderCube(cube_position, &texture, 0, camera.GetViewProjection());
 
         glfwSwapBuffers(window);
         glfwPollEvents();

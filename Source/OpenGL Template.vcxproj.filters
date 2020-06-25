@@ -68,6 +68,9 @@
     <ClCompile Include="Core\Renderer\Renderer.cpp">
       <Filter>Internal\Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="Core\OpenGL Classes\GLDebug.cpp">
+      <Filter>Abstract OpenGL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Dependencies\imgui\stb_truetype.h">
@@ -147,6 +150,9 @@
     </ClInclude>
     <ClInclude Include="Core\Renderer\Renderer.h">
       <Filter>Internal\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\OpenGL Classes\GLDebug.h">
+      <Filter>Abstract OpenGL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

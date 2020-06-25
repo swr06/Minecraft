@@ -23,7 +23,7 @@ namespace Minecraft
 	public : 
 
 		ChunkMesh();
-		void ConstructMesh(std::array<std::array<std::array<Block, 16>, 16>, 16>* Chunk);
+		void ConstructMesh(std::array<std::array<std::array<Block, ChunkSizeX>, ChunkSizeY>, ChunkSizeZ>* Chunk);
 		std::vector<Vertex> p_Vertices;
 
 	private : 

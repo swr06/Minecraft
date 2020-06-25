@@ -1,5 +1,7 @@
 #include "CubeRenderer.h"
 
+// A basic cube renderer that was used to test
+
 namespace Minecraft
 {
 	CubeRenderer::CubeRenderer() : m_VBO(GL_ARRAY_BUFFER)
