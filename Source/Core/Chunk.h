@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 #include <vector>
 #include <string>
@@ -10,8 +12,10 @@ namespace Minecraft
 	{
 	public : 
 
-		Chunk()
+		Chunk(const glm::vec2& chunk_pos)
 		{
+			m_ChunkPosition = chunk_pos;
+
 			// Initialize all the blocks in the chunk to be air blocks
 
 			for (int i = 0; i < ChunkSizeX; i++)
@@ -50,6 +54,7 @@ namespace Minecraft
 		// each chunk will be a 16x16x16 block space. A 3D array
 
 		std::array<std::array<std::array<Block, ChunkSizeX>, ChunkSizeY>, ChunkSizeZ> m_ChunkContents;
+		glm::vec2 m_ChunkPosition;
 		ChunkMesh m_ChunkMesh;
 	};
 }
