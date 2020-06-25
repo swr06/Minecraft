@@ -79,11 +79,11 @@ int main()
 
     glm::vec3 cube_position = glm::vec3(0.0f, 0.0f, -4.0f);
 
-    for (int i = 0; i < 16; i++)
+    for (int i = 0; i < 32; i++)
     {
-        for (int j = 0; j < 16; j++)
+        for (int j = 0; j < 32; j++)
         {
-            for (int k = 0; k < 16; k++)
+            for (int k = 0; k < 32; k++)
             {
                 chunk.AddBlock(Minecraft::BlockType::Dirt, glm::vec3(i, j, k));
             }

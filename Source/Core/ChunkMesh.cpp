@@ -52,13 +52,13 @@ namespace Minecraft
 						if (x <= 0)
 						{
 							AddFace(FaceType::right, Chunk->at(x).at(y).at(z).p_Position);
-							//
 							AddFace(FaceType::left, Chunk->at(x).at(y).at(z).p_Position);
 						}
 
-						else if (x >= ChunkSizeX)
+						else if (x >= ChunkSizeX - 1)
 						{
 							AddFace(FaceType::right, Chunk->at(x).at(y).at(z).p_Position);
+							AddFace(FaceType::left, Chunk->at(x).at(y).at(z).p_Position);
 						}
 
 						else
@@ -79,13 +79,13 @@ namespace Minecraft
 						if (y <= 0)
 						{
 							AddFace(FaceType::bottom, Chunk->at(x).at(y).at(z).p_Position);
-							//
 							AddFace(FaceType::top, Chunk->at(x).at(y).at(z).p_Position);
 						}
 
-						else if (y >= ChunkSizeY)
+						else if (y >= ChunkSizeY - 1)
 						{
 							AddFace(FaceType::bottom, Chunk->at(x).at(y).at(z).p_Position);
+							AddFace(FaceType::top, Chunk->at(x).at(y).at(z).p_Position);
 						}
 
 						else
@@ -106,13 +106,13 @@ namespace Minecraft
 						if (z <= 0)
 						{
 							AddFace(FaceType::backward, Chunk->at(x).at(y).at(z).p_Position);
-							//
 							AddFace(FaceType::forward, Chunk->at(x).at(y).at(z).p_Position);
 						}
 
-						else if (z >= ChunkSizeZ)
+						else if (z >= ChunkSizeZ - 1)
 						{
 							AddFace(FaceType::backward, Chunk->at(x).at(y).at(z).p_Position);
+							AddFace(FaceType::forward, Chunk->at(x).at(y).at(z).p_Position);
 						}
 
 						else
@@ -238,5 +238,7 @@ namespace Minecraft
 		p_Vertices.push_back(v4);
 		p_Vertices.push_back(v5);
 		p_Vertices.push_back(v6);
+
+
 	}
 }
