@@ -56,9 +56,6 @@
     <ClCompile Include="Core\ChunkMesh.cpp">
       <Filter>Internal\Chunk</Filter>
     </ClCompile>
-    <ClCompile Include="Core\ChunkMeshBuilder.cpp">
-      <Filter>Internal\Chunk</Filter>
-    </ClCompile>
     <ClCompile Include="Core\World\World.cpp">
       <Filter>Internal\World</Filter>
     </ClCompile>
@@ -70,6 +67,15 @@
     </ClCompile>
     <ClCompile Include="Core\OpenGL Classes\GLDebug.cpp">
       <Filter>Abstract OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Player\Player.cpp">
+      <Filter>Internal\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Application\Application.cpp">
+      <Filter>Internal\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Application\Events.cpp">
+      <Filter>Internal\Application</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -133,9 +139,6 @@
     <ClInclude Include="Core\ChunkMesh.h">
       <Filter>Internal\Chunk</Filter>
     </ClInclude>
-    <ClInclude Include="Core\ChunkMeshBuilder.h">
-      <Filter>Internal\Chunk</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Utils\Defs.h">
       <Filter>Internal\Utils</Filter>
     </ClInclude>
@@ -153,6 +156,18 @@
     </ClInclude>
     <ClInclude Include="Core\OpenGL Classes\GLDebug.h">
       <Filter>Abstract OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Player\Player.h">
+      <Filter>Internal\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Application\Application.h">
+      <Filter>Internal\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Application\Events.h">
+      <Filter>Internal\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Application\EventStructs.h">
+      <Filter>Internal\Application</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -219,6 +234,12 @@
     </Filter>
     <Filter Include="Internal\Utils">
       <UniqueIdentifier>{21e7ff03-94c0-4836-9070-73c92bcbae57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Internal\Player">
+      <UniqueIdentifier>{07e18ff2-e23f-497e-b545-e74041d5ca14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Internal\Application">
+      <UniqueIdentifier>{3e73c252-ec64-4600-af77-57acbeeb5b04}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

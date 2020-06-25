@@ -28,6 +28,9 @@ namespace Minecraft
 		void ConstructMesh(std::array<std::array<std::array<Block, ChunkSizeX>, ChunkSizeY>, ChunkSizeZ>* Chunk);
 		std::vector<Vertex> p_Vertices;
 
+		GLClasses::VertexBuffer p_VBO;
+		GLClasses::VertexArray p_VAO;
+
 	private : 
 		enum FaceType
 		{

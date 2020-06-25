@@ -69,7 +69,7 @@ int main()
 
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / SCR_HEIGHT, 0.1f, 100.0f);
     Minecraft::CubeRenderer cb;
-    Minecraft::Chunk chunk;
+    Minecraft::Chunk chunk(glm::vec2(0,0));
     Minecraft::Renderer renderer;
 
     float angle = 0;

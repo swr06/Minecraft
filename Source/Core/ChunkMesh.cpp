@@ -2,8 +2,16 @@
 
 namespace Minecraft
 {
-	ChunkMesh::ChunkMesh()
+	ChunkMesh::ChunkMesh() : p_VBO(GL_ARRAY_BUFFER)
 	{
+		p_VAO.Bind();
+		p_VBO.Bind();
+		p_VBO.BufferData((ChunkSizeX * ChunkSizeY * ChunkSizeZ * sizeof(Vertex) * 6) + 10, nullptr, GL_DYNAMIC_DRAW);
+		p_VBO.VertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+		p_VBO.VertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+		p_VBO.VertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(5 * sizeof(float)));
+		p_VAO.Unbind();
+
 		// Set the values of the 2D planes
 
 		m_ForwardFace[0] = glm::vec4(-0.5f, -0.5f, 0.5f, 1.0f);
@@ -79,12 +87,12 @@ namespace Minecraft
 						if (y <= 0)
 						{
 							AddFace(FaceType::bottom, Chunk->at(x).at(y).at(z).p_Position);
-						//	AddFace(FaceType::top, Chunk->at(x).at(y).at(z).p_Position);
+							//AddFace(FaceType::top, Chunk->at(x).at(y).at(z).p_Position);
 						}
 
 						else if (y >= ChunkSizeY - 1)
 						{
-						//	AddFace(FaceType::bottom, Chunk->at(x).at(y).at(z).p_Position);
+							//AddFace(FaceType::bottom, Chunk->at(x).at(y).at(z).p_Position);
 							AddFace(FaceType::top, Chunk->at(x).at(y).at(z).p_Position);
 						}
 
@@ -106,12 +114,12 @@ namespace Minecraft
 						if (z <= 0)
 						{
 							AddFace(FaceType::backward, Chunk->at(x).at(y).at(z).p_Position);
-						//	AddFace(FaceType::forward, Chunk->at(x).at(y).at(z).p_Position);
+							//AddFace(FaceType::forward, Chunk->at(x).at(y).at(z).p_Position);
 						}
 
 						else if (z >= ChunkSizeZ - 1)
 						{
-						//	AddFace(FaceType::backward, Chunk->at(x).at(y).at(z).p_Position);
+							//AddFace(FaceType::backward, Chunk->at(x).at(y).at(z).p_Position);
 							AddFace(FaceType::forward, Chunk->at(x).at(y).at(z).p_Position);
 						}
 
@@ -133,6 +141,10 @@ namespace Minecraft
 				}
 			}
 		}
+
+		// Upload the data to the GPU whenever the mesh is reconstructed
+		p_VBO.BufferSubData(0, this->p_Vertices.size() * sizeof(Vertex),
+			&this->p_Vertices.front());
 	}
 
 	void ChunkMesh::AddFace(FaceType face_type, const glm::vec3& position)
@@ -238,7 +250,5 @@ namespace Minecraft
 		p_Vertices.push_back(v4);
 		p_Vertices.push_back(v5);
 		p_Vertices.push_back(v6);
-
-
 	}
 }
