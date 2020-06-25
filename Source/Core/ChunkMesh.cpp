@@ -49,13 +49,14 @@ namespace Minecraft
 				{
 					if (Chunk->at(x).at(y).at(z).p_BlockType != BlockType::Air)
 					{
-
 						if (x <= 0)
 						{
+							AddFace(FaceType::right, Chunk->at(x).at(y).at(z).p_Position);
+							//
 							AddFace(FaceType::left, Chunk->at(x).at(y).at(z).p_Position);
 						}
 
-						else if (x >= ChunkSizeX - 1)
+						else if (x >= ChunkSizeX)
 						{
 							AddFace(FaceType::right, Chunk->at(x).at(y).at(z).p_Position);
 						}
@@ -77,10 +78,12 @@ namespace Minecraft
 
 						if (y <= 0)
 						{
+							AddFace(FaceType::bottom, Chunk->at(x).at(y).at(z).p_Position);
+							//
 							AddFace(FaceType::top, Chunk->at(x).at(y).at(z).p_Position);
 						}
 
-						else if (y >= ChunkSizeY - 1)
+						else if (y >= ChunkSizeY)
 						{
 							AddFace(FaceType::bottom, Chunk->at(x).at(y).at(z).p_Position);
 						}
@@ -102,10 +105,12 @@ namespace Minecraft
 
 						if (z <= 0)
 						{
+							AddFace(FaceType::backward, Chunk->at(x).at(y).at(z).p_Position);
+							//
 							AddFace(FaceType::forward, Chunk->at(x).at(y).at(z).p_Position);
 						}
 
-						else if (z >= ChunkSizeZ - 1)
+						else if (z >= ChunkSizeZ)
 						{
 							AddFace(FaceType::backward, Chunk->at(x).at(y).at(z).p_Position);
 						}
