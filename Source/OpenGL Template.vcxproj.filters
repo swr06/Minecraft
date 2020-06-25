@@ -47,6 +47,21 @@
     <ClCompile Include="Core\FpsCamera.cpp">
       <Filter>Internal</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Block.cpp">
+      <Filter>Internal\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Chunk.cpp">
+      <Filter>Internal\Chunk</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ChunkMesh.cpp">
+      <Filter>Internal\Chunk</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ChunkMeshBuilder.cpp">
+      <Filter>Internal\Chunk</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\World\World.cpp">
+      <Filter>Internal\World</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Dependencies\imgui\stb_truetype.h">
@@ -100,6 +115,24 @@
     <ClInclude Include="Core\FpsCamera.h">
       <Filter>Internal</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Block.h">
+      <Filter>Internal\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Chunk.h">
+      <Filter>Internal\Chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ChunkMesh.h">
+      <Filter>Internal\Chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ChunkMeshBuilder.h">
+      <Filter>Internal\Chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Utils\Defs.h">
+      <Filter>Internal\Def</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\World\World.h">
+      <Filter>Internal\World</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Core\Resources\grass_block.png">
@@ -150,6 +183,21 @@
     </Filter>
     <Filter Include="Internal">
       <UniqueIdentifier>{0b8f253f-73e4-44c1-a840-8b5e5905774c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Internal\Block">
+      <UniqueIdentifier>{539441b8-cb3a-47fa-b810-104a12cf1091}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Internal\Chunk">
+      <UniqueIdentifier>{f63d2a17-9615-4960-8fc0-6b6e83ec71f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Internal\Rendering">
+      <UniqueIdentifier>{3ffab1c5-ab31-4678-aae2-e73a22397650}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Internal\Def">
+      <UniqueIdentifier>{21e7ff03-94c0-4836-9070-73c92bcbae57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Internal\World">
+      <UniqueIdentifier>{235eebda-c213-44ae-ab0b-ceda491018dc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

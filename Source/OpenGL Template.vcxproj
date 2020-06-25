@@ -160,7 +160,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Core\Block.cpp" />
     <ClCompile Include="Core\Camera.cpp" />
+    <ClCompile Include="Core\Chunk.cpp" />
+    <ClCompile Include="Core\ChunkMesh.cpp" />
+    <ClCompile Include="Core\ChunkMeshBuilder.cpp" />
     <ClCompile Include="Core\CubeRenderer.cpp" />
     <ClCompile Include="Core\Dependencies\imgui\imgui.cpp" />
     <ClCompile Include="Core\Dependencies\imgui\imgui_demo.cpp" />
@@ -175,10 +179,15 @@
     <ClCompile Include="Core\OpenGL Classes\Texture.cpp" />
     <ClCompile Include="Core\OpenGL Classes\VertexArray.cpp" />
     <ClCompile Include="Core\OpenGL Classes\VertexBuffer.cpp" />
+    <ClCompile Include="Core\World\World.cpp" />
     <ClCompile Include="OpenGL Template.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Core\Block.h" />
     <ClInclude Include="Core\Camera.h" />
+    <ClInclude Include="Core\Chunk.h" />
+    <ClInclude Include="Core\ChunkMesh.h" />
+    <ClInclude Include="Core\ChunkMeshBuilder.h" />
     <ClInclude Include="Core\CubeRenderer.h" />
     <ClInclude Include="Core\Dependencies\imgui\imconfig.h" />
     <ClInclude Include="Core\Dependencies\imgui\imgui.h" />
@@ -195,6 +204,8 @@
     <ClInclude Include="Core\OpenGL Classes\Texture.h" />
     <ClInclude Include="Core\OpenGL Classes\VertexArray.h" />
     <ClInclude Include="Core\OpenGL Classes\VertexBuffer.h" />
+    <ClInclude Include="Core\Utils\Defs.h" />
+    <ClInclude Include="Core\World\World.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Core\Resources\grass_block.png" />
