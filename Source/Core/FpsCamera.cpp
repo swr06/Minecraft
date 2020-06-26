@@ -128,6 +128,36 @@ namespace Minecraft
 		RecalculateProjectionMatrix();
 	}
 
+	void FPSCamera::MoveCamera(MoveDirection dir, float camera_speed)
+	{
+		switch (dir)
+		{
+			case MoveDirection::Front:
+				ChangePosition(GetFront() * camera_speed);
+				break;
+
+			case MoveDirection::Back:	
+				ChangePosition(-(GetFront() * camera_speed));
+				break;
+
+			case MoveDirection::Left : 
+				ChangePosition(-(GetRight() * camera_speed));
+				break;
+
+			case MoveDirection::Right :
+				ChangePosition(GetRight() * camera_speed);
+				break;
+
+			case MoveDirection::Up :
+				ChangePosition(GetUp() * camera_speed);
+				break;
+
+			case MoveDirection::Down :
+				ChangePosition(-(GetUp() * camera_speed));
+				break;
+		}
+	}
+
 	void FPSCamera::RecalculateViewMatrix()
 	{
 		m_ViewMatrix = glm::lookAt(m_Position, m_Front + m_Position, m_Up);

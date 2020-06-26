@@ -83,6 +83,12 @@
     <ClCompile Include="Core\TextureAtlas.cpp">
       <Filter>Internal</Filter>
     </ClCompile>
+    <ClCompile Include="Core\World\WorldGenerator.cpp">
+      <Filter>Internal\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Utils\Logger.cpp">
+      <Filter>Internal\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Dependencies\imgui\stb_truetype.h">
@@ -180,6 +186,12 @@
     </ClInclude>
     <ClInclude Include="Core\TextureAtlas.h">
       <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\World\WorldGenerator.h">
+      <Filter>Internal\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Utils\Logger.h">
+      <Filter>Internal\Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

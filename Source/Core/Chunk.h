@@ -12,10 +12,8 @@ namespace Minecraft
 	{
 	public : 
 
-		Chunk(const glm::vec2& chunk_pos)
+		Chunk()
 		{
-			m_ChunkPosition = chunk_pos;
-
 			// Initialize all the blocks in the chunk to be air blocks
 
 			for (int i = 0; i < ChunkSizeX; i++)
@@ -40,9 +38,9 @@ namespace Minecraft
 			m_ChunkContents[position.x][position.y][position.z] = b;
 		}
 
-		void Construct()
+		void Construct(glm::vec3 pos)
 		{
-			m_ChunkMesh.ConstructMesh(&m_ChunkContents);
+			m_ChunkMesh.ConstructMesh(&m_ChunkContents, pos);
 		}
 
 		ChunkMesh* GetChunkMesh()
@@ -54,7 +52,6 @@ namespace Minecraft
 		// each chunk will be a 16x16x16 block space. A 3D array
 
 		std::array<std::array<std::array<Block, ChunkSizeX>, ChunkSizeY>, ChunkSizeZ> m_ChunkContents;
-		glm::vec2 m_ChunkPosition;
 		ChunkMesh m_ChunkMesh;
 	};
 }

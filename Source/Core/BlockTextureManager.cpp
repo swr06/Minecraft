@@ -35,11 +35,11 @@ namespace Minecraft
 					break;
 
 				case BlockFaceType::left:
-					return DirtBlockTexture[1];
+					return DirtBlockTexture[2];
 					break;
 
 				case BlockFaceType::right:
-					return DirtBlockTexture[1];
+					return DirtBlockTexture[2];
 					break;
 
 				default:

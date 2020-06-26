@@ -14,6 +14,11 @@ namespace Minecraft
 	{
 	public : 
 
+		Player() : p_Camera(45.0f, 800/600, 0.1, 100.0f)
+		{
+
+		}
+
 		void OnUpdate();
 		void OnEvent();
 

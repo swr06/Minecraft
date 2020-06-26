@@ -10,6 +10,16 @@
 
 namespace Minecraft
 {
+	enum MoveDirection
+	{
+		Up,
+		Down,
+		Left,
+		Right,
+		Front,
+		Back
+	};
+
 	class FPSCamera
 	{
 	public : 
@@ -65,6 +75,8 @@ namespace Minecraft
 		{
 			return glm::normalize(glm::cross(m_Front, m_Up));
 		}
+
+		void MoveCamera(MoveDirection dir, float speed);
 
 	private : 
 

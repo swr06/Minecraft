@@ -26,9 +26,9 @@ namespace Minecraft
 	public : 
 
 		ChunkMesh();
-		void ConstructMesh(std::array<std::array<std::array<Block, ChunkSizeX>, ChunkSizeY>, ChunkSizeZ>* Chunk);
+		void ConstructMesh(std::array<std::array<std::array<Block, ChunkSizeX>, ChunkSizeY>, ChunkSizeZ>* Chunk, const glm::vec3& chunk_pos);
+		
 		std::vector<Vertex> p_Vertices;
-
 		GLClasses::VertexBuffer p_VBO;
 		GLClasses::VertexArray p_VAO;
 

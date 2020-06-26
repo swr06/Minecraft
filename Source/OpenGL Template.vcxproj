@@ -185,8 +185,10 @@
     <ClCompile Include="Core\Player\Player.cpp" />
     <ClCompile Include="Core\Renderer\Renderer.cpp" />
     <ClCompile Include="Core\TextureAtlas.cpp" />
+    <ClCompile Include="Core\Utils\Logger.cpp" />
     <ClCompile Include="Core\Utils\Math.cpp" />
     <ClCompile Include="Core\World\World.cpp" />
+    <ClCompile Include="Core\World\WorldGenerator.cpp" />
     <ClCompile Include="OpenGL Template.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -219,9 +221,11 @@
     <ClInclude Include="Core\Renderer\Renderer.h" />
     <ClInclude Include="Core\TextureAtlas.h" />
     <ClInclude Include="Core\Utils\Defs.h" />
+    <ClInclude Include="Core\Utils\Logger.h" />
     <ClInclude Include="Core\Utils\Math.h" />
     <ClInclude Include="Core\Utils\Vertex.h" />
     <ClInclude Include="Core\World\World.h" />
+    <ClInclude Include="Core\World\WorldGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Core\Resources\grass_block.png" />
