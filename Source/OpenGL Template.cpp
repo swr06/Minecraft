@@ -65,8 +65,6 @@ int main()
     glfwSetCursorPosCallback(window, CameraMove);
     glEnable(GL_DEPTH_TEST);
 
-    Texture texture("Core\\Resources\\grass_block.png");
-
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / SCR_HEIGHT, 0.1f, 100.0f);
     Minecraft::CubeRenderer cb;
     Minecraft::Chunk chunk(glm::vec2(0,0));

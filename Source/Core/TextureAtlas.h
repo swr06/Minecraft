@@ -6,11 +6,9 @@
 #include <vector>
 #include <string>
 
-#include "Core\OpenGL Classes\GLDebug\GLDebug.h"
-#include "Core\OpenGL Classes\Texture\Texture.h"
-#include "Core\Engine\Logger\Log.h"
+#include "OpenGL Classes/Texture.h"
 
-namespace GLGame
+namespace GLClasses
 {
 	using namespace std;
 
@@ -18,7 +16,7 @@ namespace GLGame
 	{
 	public : 
 
-		TextureAtlas(Texture* atlas_texture, int tx, int ty)
+		TextureAtlas(GLClasses::Texture* atlas_texture, int tx, int ty)
 		{
 			m_Atlas = atlas_texture;
 			m_TileX = tx;
@@ -27,12 +25,12 @@ namespace GLGame
 
 		TextureAtlas(const string& atlas_path, int tx, int ty)
 		{
-			m_Atlas = new Texture(atlas_path);
+			m_Atlas = new GLClasses::Texture(atlas_path);
 			m_TileX = tx;
 			m_TileY = ty;
 		}
 
-		Texture* Sample(const glm::vec2& start_coords, const glm::vec2& end_coords)
+		array<GLfloat, 8> Sample(const glm::vec2& start_coords, const glm::vec2& end_coords)
 		{
 			float width, height;
 			float x2, y2;
@@ -62,15 +60,10 @@ namespace GLGame
 			TextureCoordinates[6] = x1;
 			TextureCoordinates[7] = y2;
 
-			Texture *tex = new Texture;
-
-			*tex = *m_Atlas;
-			tex->IntCreateTexture(m_Atlas->GetTextureID(), TextureCoordinates, width, height, false);
-
-			return tex;
+			return TextureCoordinates;
 		}
 
-		Texture* SampleCustom(const glm::vec2& start_coords, const glm::vec2& end_coords)
+		array<GLfloat, 8> SampleCustom(const glm::vec2& start_coords, const glm::vec2& end_coords)
 		{
 			float width, height;
 			float x2, y2;
@@ -99,18 +92,13 @@ namespace GLGame
 			TextureCoordinates[5] = y1;
 			TextureCoordinates[6] = x1;
 			TextureCoordinates[7] = y2;
-
-			Texture* tex = new Texture;
-
-			*tex = *m_Atlas;
-			tex->IntCreateTexture(m_Atlas->GetTextureID(), TextureCoordinates, width, height, false);
-
-			return tex;
+			
+			return TextureCoordinates;
 		}
 
 	private : 
 
 		int m_TileX, m_TileY;
-		Texture* m_Atlas;
+		GLClasses::Texture* m_Atlas;
 	};
 }

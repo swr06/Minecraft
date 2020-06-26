@@ -77,6 +77,12 @@
     <ClCompile Include="Core\Application\Events.cpp">
       <Filter>Internal\Application</Filter>
     </ClCompile>
+    <ClCompile Include="Core\BlockTextureManager.cpp">
+      <Filter>Internal\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\TextureAtlas.cpp">
+      <Filter>Internal</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Dependencies\imgui\stb_truetype.h">
@@ -168,6 +174,12 @@
     </ClInclude>
     <ClInclude Include="Core\Application\EventStructs.h">
       <Filter>Internal\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\BlockTextureManager.h">
+      <Filter>Internal\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\TextureAtlas.h">
+      <Filter>Internal</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

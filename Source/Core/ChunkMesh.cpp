@@ -60,12 +60,12 @@ namespace Minecraft
 						if (x <= 0)
 						{
 							//AddFace(FaceType::right, Chunk->at(x).at(y).at(z).p_Position);
-							AddFace(FaceType::left, Chunk->at(x).at(y).at(z).p_Position);
+							AddFace(BlockFaceType::left, Chunk->at(x).at(y).at(z).p_Position, Chunk->at(x).at(y).at(z).p_BlockType);
 						}
 
 						else if (x >= ChunkSizeX - 1)
 						{
-							AddFace(FaceType::right, Chunk->at(x).at(y).at(z).p_Position);
+							AddFace(BlockFaceType::right, Chunk->at(x).at(y).at(z).p_Position, Chunk->at(x).at(y).at(z).p_BlockType);
 							//AddFace(FaceType::left, Chunk->at(x).at(y).at(z).p_Position);
 						}
 
@@ -74,26 +74,26 @@ namespace Minecraft
 							// If the next block is an air block, add the right face to the mesh
 							if (Chunk->at(x + 1).at(y).at(z).p_BlockType == BlockType::Air)
 							{
-								AddFace(FaceType::right, Chunk->at(x).at(y).at(z).p_Position);
+								AddFace(BlockFaceType::right, Chunk->at(x).at(y).at(z).p_Position, Chunk->at(x).at(y).at(z).p_BlockType);
 							}
 
 							// If the previous block is an air block, add the left face to the mesh
 							if (Chunk->at(x - 1).at(y).at(z).p_BlockType == BlockType::Air)
 							{
-								AddFace(FaceType::left, Chunk->at(x).at(y).at(z).p_Position);
+								AddFace(BlockFaceType::left, Chunk->at(x).at(y).at(z).p_Position, Chunk->at(x).at(y).at(z).p_BlockType);
 							}
 						}
 
 						if (y <= 0)
 						{
-							AddFace(FaceType::bottom, Chunk->at(x).at(y).at(z).p_Position);
+							AddFace(BlockFaceType::bottom, Chunk->at(x).at(y).at(z).p_Position, Chunk->at(x).at(y).at(z).p_BlockType);
 							//AddFace(FaceType::top, Chunk->at(x).at(y).at(z).p_Position);
 						}
 
 						else if (y >= ChunkSizeY - 1)
 						{
 							//AddFace(FaceType::bottom, Chunk->at(x).at(y).at(z).p_Position);
-							AddFace(FaceType::top, Chunk->at(x).at(y).at(z).p_Position);
+							AddFace(BlockFaceType::top, Chunk->at(x).at(y).at(z).p_Position, Chunk->at(x).at(y).at(z).p_BlockType);
 						}
 
 						else
@@ -101,26 +101,26 @@ namespace Minecraft
 							// If the top block is an air block, add the top face to the mesh
 							if (Chunk->at(x).at(y - 1).at(z).p_BlockType == BlockType::Air)
 							{
-								AddFace(FaceType::bottom, Chunk->at(x).at(y).at(z).p_Position);
+								AddFace(BlockFaceType::bottom, Chunk->at(x).at(y).at(z).p_Position, Chunk->at(x).at(y).at(z).p_BlockType);
 							}
 
 							// If the bottom block is an air block, add the top face to the mesh
 							if (Chunk->at(x).at(y + 1).at(z).p_BlockType == BlockType::Air)
 							{
-								AddFace(FaceType::top, Chunk->at(x).at(y).at(z).p_Position);
+								AddFace(BlockFaceType::top, Chunk->at(x).at(y).at(z).p_Position, Chunk->at(x).at(y).at(z).p_BlockType);
 							}
 						}
 
 						if (z <= 0)
 						{
-							AddFace(FaceType::backward, Chunk->at(x).at(y).at(z).p_Position);
+							AddFace(BlockFaceType::backward, Chunk->at(x).at(y).at(z).p_Position, Chunk->at(x).at(y).at(z).p_BlockType);
 							//AddFace(FaceType::forward, Chunk->at(x).at(y).at(z).p_Position);
 						}
 
 						else if (z >= ChunkSizeZ - 1)
 						{
 							//AddFace(FaceType::backward, Chunk->at(x).at(y).at(z).p_Position);
-							AddFace(FaceType::forward, Chunk->at(x).at(y).at(z).p_Position);
+							AddFace(BlockFaceType::front, Chunk->at(x).at(y).at(z).p_Position, Chunk->at(x).at(y).at(z).p_BlockType);
 						}
 
 						else
@@ -128,13 +128,13 @@ namespace Minecraft
 							//If the forward block is an air block, add the forward face to the mesh
 							if (Chunk->at(x).at(y).at(z + 1).p_BlockType == BlockType::Air)
 							{
-								AddFace(FaceType::forward, Chunk->at(x).at(y).at(z).p_Position);
+								AddFace(BlockFaceType::front, Chunk->at(x).at(y).at(z).p_Position, Chunk->at(x).at(y).at(z).p_BlockType);
 							}
 
 							// If the back (-forward) block is an air block, add the back face to the mesh
 							if (Chunk->at(x).at(y).at(z - 1).p_BlockType == BlockType::Air)
 							{
-								AddFace(FaceType::backward, Chunk->at(x).at(y).at(z).p_Position);
+								AddFace(BlockFaceType::backward, Chunk->at(x).at(y).at(z).p_Position, Chunk->at(x).at(y).at(z).p_BlockType);
 							}
 						}
 					}
@@ -147,7 +147,7 @@ namespace Minecraft
 			&this->p_Vertices.front());
 	}
 
-	void ChunkMesh::AddFace(FaceType face_type, const glm::vec3& position)
+	void ChunkMesh::AddFace(BlockFaceType face_type, const glm::vec3& position, BlockType type)
 	{
 		glm::mat4 translation = glm::translate(glm::mat4(1.0f), position);
 
@@ -155,7 +155,7 @@ namespace Minecraft
 
 		switch (face_type)
 		{
-			case FaceType::top : 
+			case BlockFaceType::top :
 			{
 				v1.position = translation * m_TopFace[0];
 				v2.position = translation * m_TopFace[1];
@@ -167,7 +167,7 @@ namespace Minecraft
 				break;
 			}
 
-			case FaceType::bottom:
+			case BlockFaceType::bottom:
 			{
 				v1.position = translation * m_BottomFace[0];
 				v2.position = translation * m_BottomFace[1];
@@ -179,7 +179,7 @@ namespace Minecraft
 				break;
 			}
 
-			case FaceType::forward :
+			case BlockFaceType::front:
 			{
 				v1.position = translation * m_ForwardFace[0];
 				v2.position = translation * m_ForwardFace[1];
@@ -191,7 +191,7 @@ namespace Minecraft
 				break;
 			}
 
-			case FaceType::backward : 
+			case BlockFaceType::backward :
 			{
 				v1.position = translation * m_BackFace[0];
 				v2.position = translation * m_BackFace[1];
@@ -203,7 +203,7 @@ namespace Minecraft
 				break;
 			}
 
-			case FaceType::left : 
+			case BlockFaceType::left :
 			{
 				v1.position = translation * m_LeftFace[0];
 				v2.position = translation * m_LeftFace[1];
@@ -215,7 +215,7 @@ namespace Minecraft
 				break;
 			}
 
-			case FaceType::right : 
+			case BlockFaceType::right :
 			{
 				v1.position = translation * m_RightFace[0];
 				v2.position = translation * m_RightFace[1];
@@ -236,12 +236,22 @@ namespace Minecraft
 
 		// For now, set generic texture coordinates
 
-		v1.texture_coords = glm::vec2(1.0f, 0.0f);
+		//std::array<GLfloat, 8> TextureCoordinates = { 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f };
+		std::array<GLfloat, 8> TextureCoordinates = GetBlockTexture(type, face_type);
+
+		/*v1.texture_coords = glm::vec2(1.0f, 0.0f);
 		v2.texture_coords = glm::vec2(1.0f, 1.0f);
 		v3.texture_coords = glm::vec2(0.0f, 1.0f);
 		v4.texture_coords = glm::vec2(0.0f, 1.0f);
 		v5.texture_coords = glm::vec2(0.0f, 0.0f);
-		v6.texture_coords = glm::vec2(1.0f, 0.0f);
+		v6.texture_coords = glm::vec2(1.0f, 0.0f);*/
+
+		v1.texture_coords = glm::vec2(TextureCoordinates[0], TextureCoordinates[1]);
+		v2.texture_coords = glm::vec2(TextureCoordinates[2], TextureCoordinates[3]);
+		v3.texture_coords = glm::vec2(TextureCoordinates[4], TextureCoordinates[5]);
+		v4.texture_coords = glm::vec2(TextureCoordinates[4], TextureCoordinates[5]);
+		v5.texture_coords = glm::vec2(TextureCoordinates[6], TextureCoordinates[7]);
+		v6.texture_coords = glm::vec2(TextureCoordinates[0], TextureCoordinates[1]);
 
 		// Push the vertices to the buffer
 		p_Vertices.push_back(v1);

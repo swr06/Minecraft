@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <vector>
+#include <array>
 
 #include "OpenGL Classes\VertexBuffer.h"
 #include "OpenGL Classes\VertexArray.h"
@@ -16,7 +17,7 @@
 #include "OpenGL Classes\Texture.h"
 
 #include "Utils\Vertex.h"
-#include "Block.h"
+#include "BlockTextureManager.h"
 
 namespace Minecraft
 {
@@ -32,12 +33,8 @@ namespace Minecraft
 		GLClasses::VertexArray p_VAO;
 
 	private : 
-		enum FaceType
-		{
-			top, bottom, left, right, forward, backward
-		};
 
-		void AddFace(FaceType face_type, const glm::vec3& position);
+		void AddFace(BlockFaceType face_type, const glm::vec3& position, BlockType type);
 		glm::vec4 m_TopFace[4];
 		glm::vec4 m_BottomFace[4];
 		glm::vec4 m_ForwardFace[4];

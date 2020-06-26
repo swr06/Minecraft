@@ -21,5 +21,6 @@ namespace Minecraft
 		GLClasses::VertexBuffer m_VBO;
 		GLClasses::VertexArray m_VAO;
 		GLClasses::Shader m_DefaultShader;
+		GLClasses::Texture m_BlockAtlas;
 	};
 }
