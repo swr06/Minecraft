@@ -37,9 +37,11 @@ namespace Minecraft
 		Player* p_Player;
 
 	private:
+		void RenderChunkFromMap(int cx, int cz);
+
 		Renderer m_Renderer;
-		std::array<std::array<Chunk, 16>, 16> m_WorldChunks;
-		std::map<glm::vec3, Chunk> m_Chunks;
+		//std::array<std::array<Chunk, 16>, 16> m_WorldChunks;
+		std::map<int, std::map<int, Chunk>> m_WorldChunks;
 		int m_ChunkCount;
 	};
 }

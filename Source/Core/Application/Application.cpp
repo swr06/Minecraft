@@ -64,6 +64,7 @@ namespace Minecraft
 
 	void Application::PollEvents()
 	{
+
         for (int i = 0; i < m_EventQueue.size(); i++)
         {
             OnEvent(m_EventQueue[i]);

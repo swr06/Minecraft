@@ -4,6 +4,7 @@
 #include "../OpenGL Classes/VertexArray.h"
 #include "../OpenGL Classes/Shader.h"
 #include "../OpenGL Classes/Texture.h"
+#include "../OpenGL Classes/GLDebug.h"
 
 #include "../Chunk.h"
 #include "../FpsCamera.h"
