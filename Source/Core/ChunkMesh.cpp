@@ -4,9 +4,11 @@ namespace Minecraft
 {
 	ChunkMesh::ChunkMesh() : p_VBO(GL_ARRAY_BUFFER)
 	{
+		int chunk_surface_area = (2 * ChunkSizeX * ChunkSizeZ) + (2 * ChunkSizeX * ChunkSizeY) + (2 * ChunkSizeY * ChunkSizeZ);
+
 		p_VAO.Bind();
 		p_VBO.Bind();
-		p_VBO.BufferData((ChunkSizeX * ChunkSizeY * ChunkSizeZ * sizeof(Vertex) * 6) + 16, nullptr, GL_DYNAMIC_DRAW);
+		p_VBO.BufferData(chunk_surface_area * sizeof(Vertex) * 6, nullptr, GL_DYNAMIC_DRAW);
 		p_VBO.VertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 		p_VBO.VertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 		p_VBO.VertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(5 * sizeof(float)));
@@ -47,8 +49,9 @@ namespace Minecraft
 
 	void ChunkMesh::ConstructMesh(std::array<std::array<std::array<Block, ChunkSizeX>, ChunkSizeY>, ChunkSizeZ>* Chunk, const glm::vec3& chunk_pos)
 	{
-		glm::vec3 world_position;
 		p_Vertices.erase(p_Vertices.begin(), p_Vertices.end());
+
+		glm::vec3 world_position;
 
 		for (int x = 0; x < ChunkSizeX; x++)
 		{
@@ -142,8 +145,6 @@ namespace Minecraft
 				}
 			}
 		}
-
-
 
 		// Upload the data to the GPU whenever the mesh is reconstructed
 		p_VBO.BufferSubData(0, this->p_Vertices.size() * sizeof(Vertex),

@@ -25,7 +25,7 @@ namespace Minecraft
 		{
 			for (int j = 0; j < 16; j++)
 			{
-				Timer timer("Construction Begin!");
+				Timer timer("Mesh Construction!");
 
 				m_WorldChunks[i][j].Construct(glm::vec3(i,1,j));
 			}
@@ -107,35 +107,19 @@ namespace Minecraft
 			player_chunk_z = floor(p_Player->p_Position.z / ChunkSizeZ);
 		}
 
-		/*for (int i = 0; i < 4; i++)
+		int render_distance_x = 4, render_distance_y = 4;
+
+		for (int i = player_chunk_x - render_distance_x ; i < player_chunk_x + render_distance_x; i++)
 		{
-			for (int j = 0; j < 4; j++)
+			for (int j = player_chunk_y - render_distance_y ; j < player_chunk_y + render_distance_y; j++)
 			{
+				if (i < 0) { i = 0; }
+				if (j < 0) { j = 0; }
+				if (i > 15) { i = 15; }
+				if (j > 15) { j = 15; }
+
 				m_Renderer.RenderChunk(&m_WorldChunks[i][j], &p_Player->p_Camera);
 			}
-		}*/
-
-		// Render the player chunk
-		m_Renderer.RenderChunk(&m_WorldChunks[player_chunk_x][player_chunk_z], &p_Player->p_Camera);
-
-		if (player_chunk_x < 16)
-		{
-			m_Renderer.RenderChunk(&m_WorldChunks[player_chunk_x + 1][player_chunk_z], &p_Player->p_Camera);
-		}
-
-		if (player_chunk_x > 0)
-		{
-			m_Renderer.RenderChunk(&m_WorldChunks[player_chunk_x - 1][player_chunk_z], &p_Player->p_Camera);
-		}
-
-		if (player_chunk_z < 16)
-		{
-			m_Renderer.RenderChunk(&m_WorldChunks[player_chunk_x][player_chunk_z + 1], &p_Player->p_Camera);
-		}
-
-		if (player_chunk_z > 0)
-		{
-			m_Renderer.RenderChunk(&m_WorldChunks[player_chunk_x][player_chunk_z - 1], &p_Player->p_Camera);
 		}
 	}
 
