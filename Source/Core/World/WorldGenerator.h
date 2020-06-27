@@ -1,6 +1,15 @@
 #pragma once
 
 #include <iostream>
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/compatibility.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+// Include fast noise
+#include "../Noise/FastNoise.h"
+
 #include "World.h"
 #include "../Chunk.h"
 #include "../Utils/Defs.h"

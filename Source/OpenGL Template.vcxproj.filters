@@ -89,6 +89,9 @@
     <ClCompile Include="Core\Utils\Logger.cpp">
       <Filter>Internal\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Noise\FastNoise.cpp">
+      <Filter>Internal\Perlin Noise</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Dependencies\imgui\stb_truetype.h">
@@ -196,6 +199,9 @@
     <ClInclude Include="Core\Utils\Timer.h">
       <Filter>Internal\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Noise\FastNoise.h">
+      <Filter>Internal\Perlin Noise</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Core\Resources\grass_block.png">
@@ -267,6 +273,9 @@
     </Filter>
     <Filter Include="Internal\Application">
       <UniqueIdentifier>{3e73c252-ec64-4600-af77-57acbeeb5b04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Internal\Perlin Noise">
+      <UniqueIdentifier>{568f3f65-7797-48f9-9c06-5464507871dd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

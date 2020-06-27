@@ -43,7 +43,7 @@ namespace Minecraft
 	{
 		p_Player->OnUpdate();
 
-		const float camera_speed = 1.0f;
+		const float camera_speed = 0.35f;
 
 		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);

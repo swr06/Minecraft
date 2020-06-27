@@ -8,7 +8,7 @@ namespace Minecraft
 
 		p_VAO.Bind();
 		p_VBO.Bind();
-		p_VBO.BufferData(chunk_surface_area * sizeof(Vertex) * 6, nullptr, GL_DYNAMIC_DRAW);
+		p_VBO.BufferData(ChunkSizeX * ChunkSizeY * ChunkSizeZ * sizeof(Vertex) * 36, nullptr, GL_DYNAMIC_DRAW);
 		p_VBO.VertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 		p_VBO.VertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 		p_VBO.VertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(5 * sizeof(float)));
