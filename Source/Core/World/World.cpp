@@ -10,9 +10,9 @@ namespace Minecraft
 
 		Logger::LogToConsole("World Generation Began");
 
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 2; i++)
 		{
-			for (int j = 0; j < 4; j++)
+			for (int j = 0; j < 2; j++)
 			{
 				GenerateChunk(&m_WorldChunks[i][j]);
 			}
@@ -21,9 +21,9 @@ namespace Minecraft
 		Logger::LogToConsole("World Generation Ended");
 		Logger::LogToConsole("Chunk Mesh construction began");
 
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 2; i++)
 		{
-			for (int j = 0; j < 4; j++)
+			for (int j = 0; j < 2; j++)
 			{
 				Timer timer("Mesh Construction!");
 
@@ -81,7 +81,7 @@ namespace Minecraft
 		player_chunk_y = floor(p_Player->p_Position.y / ChunkSizeY);
 		player_chunk_z = floor(p_Player->p_Position.z / ChunkSizeZ);
 
-		RenderChunkFromMap(player_chunk_x, player_chunk_z);
+	/*	RenderChunkFromMap(player_chunk_x, player_chunk_z);
 		RenderChunkFromMap(player_chunk_x + 1, player_chunk_z);
 		RenderChunkFromMap(player_chunk_x, player_chunk_z + 1);
 
@@ -91,7 +91,17 @@ namespace Minecraft
 		RenderChunkFromMap(player_chunk_x + 1, player_chunk_z + 1);
 		RenderChunkFromMap(player_chunk_x + 1, player_chunk_z - 1);
 		RenderChunkFromMap(player_chunk_x - 1, player_chunk_z - 1);
-		RenderChunkFromMap(player_chunk_x - 1, player_chunk_z + 1);
+		RenderChunkFromMap(player_chunk_x - 1, player_chunk_z + 1);*/
+
+		int render_distance_x = 2, render_distance_z = 2;
+
+		for (int i = player_chunk_x - render_distance_x; i < player_chunk_x + render_distance_x; i++)
+		{
+			for (int j = player_chunk_z - render_distance_z; j < player_chunk_z + render_distance_z; j++)
+			{
+				RenderChunkFromMap(i, j);
+			}
+		}
 	}
 
 	void World::OnEvent(EventSystem::Event e)
