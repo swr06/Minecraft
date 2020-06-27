@@ -143,6 +143,8 @@ namespace Minecraft
 			}
 		}
 
+
+
 		// Upload the data to the GPU whenever the mesh is reconstructed
 		p_VBO.BufferSubData(0, this->p_Vertices.size() * sizeof(Vertex),
 			&this->p_Vertices.front());

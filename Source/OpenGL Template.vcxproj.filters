@@ -193,6 +193,9 @@
     <ClInclude Include="Core\Utils\Logger.h">
       <Filter>Internal\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Utils\Timer.h">
+      <Filter>Internal\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Core\Resources\grass_block.png">

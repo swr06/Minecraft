@@ -10,7 +10,7 @@ namespace Minecraft
 			{
 				for (int z = 0; z < ChunkSizeZ; z++)
 				{
-					if (y <= 4)
+					if (y >= 4)
 					{
 						chunk->AddBlock(BlockType::Dirt, glm::vec3((float)x, (float)y, (float)z));
 					}

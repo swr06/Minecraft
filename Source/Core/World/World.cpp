@@ -25,6 +25,8 @@ namespace Minecraft
 		{
 			for (int j = 0; j < 16; j++)
 			{
+				Timer timer("Construction Begin!");
+
 				m_WorldChunks[i][j].Construct(glm::vec3(i,1,j));
 			}
 		}
@@ -82,7 +84,7 @@ namespace Minecraft
 
 		else
 		{
-			player_chunk_x = ceil(p_Player->p_Position.x / ChunkSizeX);
+			player_chunk_x = floor(p_Player->p_Position.x / ChunkSizeX);
 		}
 
 		if (p_Player->p_Position.y < 1)
@@ -92,7 +94,7 @@ namespace Minecraft
 
 		else
 		{
-			player_chunk_y = ceil(p_Player->p_Position.y / ChunkSizeY);
+			player_chunk_y = floor(p_Player->p_Position.y / ChunkSizeY);
 		}
 
 		if (p_Player->p_Position.z < 1)
@@ -102,23 +104,46 @@ namespace Minecraft
 
 		else
 		{
-			player_chunk_z = ceil(p_Player->p_Position.z / ChunkSizeZ);
+			player_chunk_z = floor(p_Player->p_Position.z / ChunkSizeZ);
 		}
 
-		for (int i = 0; i < 4; i++)
+		/*for (int i = 0; i < 4; i++)
 		{
 			for (int j = 0; j < 4; j++)
 			{
 				m_Renderer.RenderChunk(&m_WorldChunks[i][j], &p_Player->p_Camera);
 			}
+		}*/
+
+		// Render the player chunk
+		m_Renderer.RenderChunk(&m_WorldChunks[player_chunk_x][player_chunk_z], &p_Player->p_Camera);
+
+		if (player_chunk_x < 16)
+		{
+			m_Renderer.RenderChunk(&m_WorldChunks[player_chunk_x + 1][player_chunk_z], &p_Player->p_Camera);
 		}
 
-		
+		if (player_chunk_x > 0)
+		{
+			m_Renderer.RenderChunk(&m_WorldChunks[player_chunk_x - 1][player_chunk_z], &p_Player->p_Camera);
+		}
+
+		if (player_chunk_z < 16)
+		{
+			m_Renderer.RenderChunk(&m_WorldChunks[player_chunk_x][player_chunk_z + 1], &p_Player->p_Camera);
+		}
+
+		if (player_chunk_z > 0)
+		{
+			m_Renderer.RenderChunk(&m_WorldChunks[player_chunk_x][player_chunk_z - 1], &p_Player->p_Camera);
+		}
 	}
 
 	void World::OnEvent(EventSystem::Event e)
 	{
 		if (e.type == EventSystem::EventTypes::MouseMove)
+		{
 			p_Player->p_Camera.UpdateOnMouseMovement(e.mx, e.my);
+		}
 	}
 }

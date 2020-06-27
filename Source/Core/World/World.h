@@ -15,6 +15,7 @@
 #include "../Block.h"
 #include "../Utils/Defs.h"
 #include "../Utils/Logger.h"
+#include "../Utils/Timer.h"
 #include "../Player/Player.h"
 #include "../Renderer/Renderer.h"
 #include "../Application/Events.h"
