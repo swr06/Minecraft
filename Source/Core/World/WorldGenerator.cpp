@@ -54,5 +54,7 @@ namespace Minecraft
                 SetVerticalBlocks(chunk, generated_x, generated_z, generated_y);
             }
         }
+
+
     }
 }

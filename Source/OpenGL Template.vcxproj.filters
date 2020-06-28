@@ -92,6 +92,9 @@
     <ClCompile Include="Core\Noise\FastNoise.cpp">
       <Filter>Internal\Perlin Noise</Filter>
     </ClCompile>
+    <ClCompile Include="Core\World\Structures\WorldStructures.cpp">
+      <Filter>Internal\World\Structures</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Dependencies\imgui\stb_truetype.h">
@@ -205,6 +208,9 @@
     <ClInclude Include="Core\Utils\Random.h">
       <Filter>Internal\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Core\World\Structures\WorldStructures.h">
+      <Filter>Internal\World\Structures</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Core\Resources\grass_block.png">
@@ -279,6 +285,9 @@
     </Filter>
     <Filter Include="Internal\Perlin Noise">
       <UniqueIdentifier>{568f3f65-7797-48f9-9c06-5464507871dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Internal\World\Structures">
+      <UniqueIdentifier>{e79fa21c-b3ea-4d8e-883e-fda50bda6a49}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

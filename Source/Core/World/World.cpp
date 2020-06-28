@@ -100,11 +100,11 @@ namespace Minecraft
 
 		int render_distance_x = 2, render_distance_z = 2;
 
-		for (int i = player_chunk_x - render_distance_x; i < player_chunk_x + render_distance_x; i++)
+		for (int i = player_chunk_z - render_distance_z; i < player_chunk_z + render_distance_z; i++)
 		{
-			for (int j = player_chunk_z - render_distance_z; j < player_chunk_z + render_distance_z; j++)
+			for (int j = player_chunk_x - render_distance_x; j < player_chunk_x + render_distance_x; j++)
 			{
-				RenderChunkFromMap(i, j);
+				RenderChunkFromMap(j, i);
 			}
 		}
 	}

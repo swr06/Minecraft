@@ -20,7 +20,8 @@ namespace Minecraft
         glfwMakeContextCurrent(m_Window);
 
         // Turn on V-Sync
-        glfwSwapInterval(1);
+        //glfwSwapInterval(1);
+
         glewInit();
 
         // Lock the cursor to the window

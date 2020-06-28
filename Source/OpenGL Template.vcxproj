@@ -188,6 +188,7 @@
     <ClCompile Include="Core\TextureAtlas.cpp" />
     <ClCompile Include="Core\Utils\Logger.cpp" />
     <ClCompile Include="Core\Utils\Math.cpp" />
+    <ClCompile Include="Core\World\Structures\WorldStructures.cpp" />
     <ClCompile Include="Core\World\World.cpp" />
     <ClCompile Include="Core\World\WorldGenerator.cpp" />
     <ClCompile Include="OpenGL Template.cpp" />
@@ -228,6 +229,7 @@
     <ClInclude Include="Core\Utils\Random.h" />
     <ClInclude Include="Core\Utils\Timer.h" />
     <ClInclude Include="Core\Utils\Vertex.h" />
+    <ClInclude Include="Core\World\Structures\WorldStructures.h" />
     <ClInclude Include="Core\World\World.h" />
     <ClInclude Include="Core\World\WorldGenerator.h" />
   </ItemGroup>
