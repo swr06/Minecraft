@@ -4,6 +4,11 @@
 #include <vector>
 #include <string>
 #include <array>
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #include "ChunkMesh.h"
 
 namespace Minecraft
@@ -54,6 +59,8 @@ namespace Minecraft
 		{
 			return &m_ChunkMesh;
 		}
+
+		glm::vec3 p_Position;
 
 	private :
 		// each chunk will be a 16x16x16 block space. A 3D array

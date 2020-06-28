@@ -225,6 +225,7 @@
     <ClInclude Include="Core\Utils\Defs.h" />
     <ClInclude Include="Core\Utils\Logger.h" />
     <ClInclude Include="Core\Utils\Math.h" />
+    <ClInclude Include="Core\Utils\Random.h" />
     <ClInclude Include="Core\Utils\Timer.h" />
     <ClInclude Include="Core\Utils\Vertex.h" />
     <ClInclude Include="Core\World\World.h" />

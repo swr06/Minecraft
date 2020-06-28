@@ -12,9 +12,11 @@
 
 #include "World.h"
 #include "../Chunk.h"
+#include "../Utils/Random.h"
 #include "../Utils/Defs.h"
 
 namespace Minecraft
 {
 	void GenerateChunk(Chunk* chunk);
+
 }

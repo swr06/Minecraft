@@ -202,6 +202,9 @@
     <ClInclude Include="Core\Noise\FastNoise.h">
       <Filter>Internal\Perlin Noise</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Utils\Random.h">
+      <Filter>Internal\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Core\Resources\grass_block.png">

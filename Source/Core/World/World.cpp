@@ -8,12 +8,17 @@ namespace Minecraft
 
 		p_Player = new Player;
 
+		// Set the players position
+		p_Player->p_Camera.SetPosition(glm::vec3(2 * 16, 2 * 16, 2 * 16));
+		p_Player->p_Position = glm::vec3(2 * 16, 2 * 16, 2 * 16);
+
 		Logger::LogToConsole("World Generation Began");
 
-		for (int i = 0; i < 2; i++)
+		for (int i = 0; i < 4; i++)
 		{
-			for (int j = 0; j < 2; j++)
+			for (int j = 0; j < 4; j++)
 			{
+				m_WorldChunks[i][j].p_Position = glm::vec3(i, 1, j);
 				GenerateChunk(&m_WorldChunks[i][j]);
 			}
 		}
@@ -21,9 +26,9 @@ namespace Minecraft
 		Logger::LogToConsole("World Generation Ended");
 		Logger::LogToConsole("Chunk Mesh construction began");
 
-		for (int i = 0; i < 2; i++)
+		for (int i = 0; i < 4; i++)
 		{
-			for (int j = 0; j < 2; j++)
+			for (int j = 0; j < 4; j++)
 			{
 				Timer timer("Mesh Construction!");
 
@@ -130,6 +135,7 @@ namespace Minecraft
 
 			else
 			{
+				m_WorldChunks[cx][cz].p_Position = glm::vec3(cx, 1, cz);
 				GenerateChunk(&m_WorldChunks[cx][cz]);
 				m_WorldChunks[cx][cz].Construct(glm::vec3(cx,1,cz));
 			}
@@ -137,6 +143,7 @@ namespace Minecraft
 
 		else
 		{
+			m_WorldChunks[cx][cz].p_Position = glm::vec3(cx, 1, cz);
 			GenerateChunk(&m_WorldChunks[cx][cz]);
 			m_WorldChunks[cx][cz].Construct(glm::vec3(cx, 1, cz));
 		}
