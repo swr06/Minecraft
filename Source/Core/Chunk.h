@@ -35,19 +35,19 @@ namespace Minecraft
 			}
 		}
 
+		~Chunk()
+		{
+			delete m_ChunkContents;
+		}
+
 		void AddBlock(BlockType type, const glm::vec3& position)
 		{
-			if (position.x >= 0 && position.x < 16 &&
-				position.y >= 0 && position.y < 16 && 
-				position.z >= 0 && position.z < 16)
-			{
-				Block b;
-				b.p_Position = position;
-				b.p_Chunk = this;
-				b.p_BlockType = type;
+			Block b;
+			b.p_Position = position;
+			b.p_Chunk = this;
+			b.p_BlockType = type;
 
-				m_ChunkContents->at(position.x).at(position.y).at(position.z) = b;
-			}
+			m_ChunkContents->at(position.x).at(position.y).at(position.z) = b;
 		}
 
 		void Construct(const glm::vec3& pos)
