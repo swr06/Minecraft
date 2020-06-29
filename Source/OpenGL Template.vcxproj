@@ -237,8 +237,8 @@
     <Image Include="Core\Resources\grass_block.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Core\Shaders\fragment.glsl" />
-    <None Include="Core\Shaders\vertex.glsl" />
+    <None Include="Core\Shaders\BlockRendererFrag.glsl" />
+    <None Include="Core\Shaders\BlockRendererVertex.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

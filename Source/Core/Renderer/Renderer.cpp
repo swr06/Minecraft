@@ -6,7 +6,7 @@ namespace Minecraft
 	{
 		// Manage the vertex arrays
 
-		m_DefaultShader.CreateShaderProgramFromFile("Core\\Shaders\\vertex.glsl", "Core\\Shaders\\fragment.glsl");
+		m_DefaultShader.CreateShaderProgramFromFile("Core\\Shaders\\BlockRendererVertex.glsl", "Core\\Shaders\\BlockRendererFrag.glsl");
 		m_DefaultShader.CompileShaders();
 		m_BlockAtlas.CreateTexture("Core\\Resources\\block_atlas.png");
 	}

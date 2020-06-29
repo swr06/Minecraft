@@ -154,6 +154,10 @@ namespace Minecraft
 
 		Vertex v1, v2, v3, v4, v5, v6;
 
+		// Order
+		// Top, bottom, front, back, left, right
+		const float lighting_levels[6] = { 1.0f, 0.2f, 0.6f, 0.7f, 0.6f, 0.7f };
+
 		switch (face_type)
 		{
 			case BlockFaceType::top :
@@ -164,7 +168,14 @@ namespace Minecraft
 				v4.position = translation * m_TopFace[2];
 				v5.position = translation * m_TopFace[3];
 				v6.position = translation * m_TopFace[0];
-
+				
+				// Set the lighting level for the vertex
+				v1.lighting_level = lighting_levels[0];
+				v2.lighting_level = lighting_levels[0];
+				v3.lighting_level = lighting_levels[0];
+				v4.lighting_level = lighting_levels[0];
+				v5.lighting_level = lighting_levels[0];
+				v6.lighting_level = lighting_levels[0];
 				break;
 			}
 
@@ -176,6 +187,14 @@ namespace Minecraft
 				v4.position = translation * m_BottomFace[2];
 				v5.position = translation * m_BottomFace[3];
 				v6.position = translation * m_BottomFace[0];
+
+				// Set the lighting level for the vertex
+				v1.lighting_level = lighting_levels[1];
+				v2.lighting_level = lighting_levels[1];
+				v3.lighting_level = lighting_levels[1];
+				v4.lighting_level = lighting_levels[1];
+				v5.lighting_level = lighting_levels[1];
+				v6.lighting_level = lighting_levels[1];
 
 				break;
 			}
@@ -189,6 +208,14 @@ namespace Minecraft
 				v5.position = translation * m_ForwardFace[3];
 				v6.position = translation * m_ForwardFace[0];
 
+				// Set the lighting level for the vertex
+				v1.lighting_level = lighting_levels[2];
+				v2.lighting_level = lighting_levels[2];
+				v3.lighting_level = lighting_levels[2];
+				v4.lighting_level = lighting_levels[2];
+				v5.lighting_level = lighting_levels[2];
+				v6.lighting_level = lighting_levels[2];
+
 				break;
 			}
 
@@ -200,6 +227,13 @@ namespace Minecraft
 				v4.position = translation * m_BackFace[2];
 				v5.position = translation * m_BackFace[3];
 				v6.position = translation * m_BackFace[0];
+
+				v1.lighting_level = lighting_levels[3];
+				v2.lighting_level = lighting_levels[3];
+				v3.lighting_level = lighting_levels[3];
+				v4.lighting_level = lighting_levels[3];
+				v5.lighting_level = lighting_levels[3];
+				v6.lighting_level = lighting_levels[3];
 
 				break;
 			}
@@ -213,6 +247,13 @@ namespace Minecraft
 				v5.position = translation * m_LeftFace[3];
 				v6.position = translation * m_LeftFace[0];
 
+				v1.lighting_level = lighting_levels[4];
+				v2.lighting_level = lighting_levels[4];
+				v3.lighting_level = lighting_levels[4];
+				v4.lighting_level = lighting_levels[4];
+				v5.lighting_level = lighting_levels[4];
+				v6.lighting_level = lighting_levels[4];
+
 				break;
 			}
 
@@ -224,6 +265,13 @@ namespace Minecraft
 				v4.position = translation * m_RightFace[2];
 				v5.position = translation * m_RightFace[3];
 				v6.position = translation * m_RightFace[0];
+
+				v1.lighting_level = lighting_levels[5];
+				v2.lighting_level = lighting_levels[5];
+				v3.lighting_level = lighting_levels[5];
+				v4.lighting_level = lighting_levels[5];
+				v5.lighting_level = lighting_levels[5];
+				v6.lighting_level = lighting_levels[5];
 
 				break;
 			}

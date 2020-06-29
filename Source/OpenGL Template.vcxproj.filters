@@ -218,14 +218,6 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Core\Shaders\fragment.glsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Core\Shaders\vertex.glsl">
-      <Filter>Shaders</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <Filter Include="Dependencies">
       <UniqueIdentifier>{ccd1e0a0-ecbe-4f35-9b5d-958675a1c52f}</UniqueIdentifier>
     </Filter>
@@ -289,5 +281,13 @@
     <Filter Include="Internal\World\Structures">
       <UniqueIdentifier>{e79fa21c-b3ea-4d8e-883e-fda50bda6a49}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Core\Shaders\BlockRendererFrag.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Core\Shaders\BlockRendererVertex.glsl">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
