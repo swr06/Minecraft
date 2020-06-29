@@ -50,6 +50,11 @@ namespace Minecraft
 			m_ChunkContents->at(position.x).at(position.y).at(position.z) = b;
 		}
 
+		void AddBlock(Block* block)
+		{
+			m_ChunkContents->at(block->p_Position.x).at(block->p_Position.y).at(block->p_Position.z) = *block;
+		}
+
 		void Construct(const glm::vec3& pos)
 		{
 			m_ChunkMesh.ConstructMesh(m_ChunkContents, pos);

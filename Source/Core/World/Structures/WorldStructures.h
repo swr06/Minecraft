@@ -51,7 +51,11 @@ namespace Minecraft
 			delete p_Structure;
 		}
 
+		WorldStructureType p_StructureType;
+		std::array<std::array<std::array<Block, MaxStructureX>, MaxStructureY>, MaxStructureZ>* p_Structure;
+
 	protected : 
+
 		void SetBlock(int x, int y, int z, BlockType type)
 		{
 			Block b;
@@ -60,13 +64,12 @@ namespace Minecraft
 			b.p_BlockType = type;
 			p_Structure->at(x).at(y).at(z) = b;
 		}
-
-		WorldStructureType p_StructureType;
-		std::array<std::array<std::array<Block, MaxStructureX>, MaxStructureY>, MaxStructureZ>* p_Structure;
 	};
 
 	class TreeStructure : public WorldStructure
 	{
+	public :
+
 		TreeStructure()
 		{
 			// Define the tree structure

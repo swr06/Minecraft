@@ -9,7 +9,7 @@ namespace Minecraft
 		p_Player = new Player;
 
 		// Set the players position
-		p_Player->p_Camera.SetPosition(glm::vec3(2 * 16, 2 * 16, 2 * 16));
+		p_Player->p_Camera.SetPosition(glm::vec3(2 * 16, 10 * 16, 2 * 16));
 		p_Player->p_Position = glm::vec3(2 * 16, 2 * 16, 2 * 16);
 
 		Logger::LogToConsole("World Generation Began");

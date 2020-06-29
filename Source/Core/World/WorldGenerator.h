@@ -11,6 +11,7 @@
 #include "../Noise/FastNoise.h"
 
 #include "World.h"
+#include "Structures/WorldStructures.h"
 #include "../Chunk.h"
 #include "../Utils/Random.h"
 #include "../Utils/Defs.h"

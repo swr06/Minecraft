@@ -23,15 +23,39 @@ namespace Minecraft
         }
     }
 
+    void FillInWorldStructure(Chunk* chunk, WorldStructure* structure, int x, int y, int z)
+    {
+        Block block;
+
+        for (int i = x, sx = 0; i < x + MaxStructureX; i++, sx++)
+        {
+            for (int j = y, sy = 0; j < y + MaxStructureY; j++, sy++)
+            {
+                for (int k = z, sz = 0; k < z + MaxStructureZ; k++, sz++)
+                {
+                    if (i < ChunkSizeX && j < ChunkSizeY && k < ChunkSizeZ && sx < MaxStructureX && sy < MaxStructureY && sz < MaxStructureZ)
+                    {
+                        block.p_BlockType  = structure->p_Structure->at(sx).at(sy).at(sz).p_BlockType;
+                        block.p_Position = glm::vec3(i, j, k);
+                        chunk->AddBlock(&block);
+                    }
+                }
+            }
+        }
+    }
+
     void GenerateChunk(Chunk* chunk)
     {
         static Random rand_engine;
         static FastNoise myNoise(rand_engine.Int(4000));
+        
         myNoise.SetNoiseType(FastNoise::Simplex);
 
         float generated_x = 0;
         float generated_y = 0;
         float generated_z = 0;
+
+        static TreeStructure WorldStructureTree;
 
         static float HeightMap[ChunkSizeX][ChunkSizeY]; // 2D heightmap to create terrain
 
@@ -48,13 +72,17 @@ namespace Minecraft
             for (int z = 0; z < ChunkSizeZ; z++)
             {
                 generated_x = x;
-                generated_y = (HeightMap[x][z] / 2 + 1) * ChunkSizeY;
+                generated_y = (HeightMap[x][z] / 2 + 1) * (ChunkSizeY - 32);
                 generated_z = z;
 
                 SetVerticalBlocks(chunk, generated_x, generated_z, generated_y);
+                
+                if (rand() % 100 == 7)
+                {
+                     FillInWorldStructure(chunk, &WorldStructureTree, generated_x, generated_y, generated_z);
+                }
             }
         }
-
 
     }
 }

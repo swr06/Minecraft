@@ -7,6 +7,9 @@ namespace Minecraft
 		static GLClasses::TextureAtlas BlockTextureAtlas("Core\\Resources\\block_atlas.png", 32, 32);
 		static std::array<GLfloat, 8> DirtBlockTexture[4];
 		static std::array<GLfloat, 8> StoneBlockTexture;
+		static std::array<GLfloat, 8> CobblestoneBlockTexture;
+		static std::array<GLfloat, 8> LeafBlockTexture;
+		static std::array<GLfloat, 8> SandBlockTexture;
 		static std::array<GLfloat, 8> WoodBlockTexture[2];
 
 		static bool arrays_initialized = false;
@@ -20,8 +23,11 @@ namespace Minecraft
 			DirtBlockTexture[3] = BlockTextureAtlas.Sample(glm::vec2(2, 2), glm::vec2(3, 3));
 
 			StoneBlockTexture = BlockTextureAtlas.Sample(glm::vec2(3, 3), glm::vec2(4, 4));
-			WoodBlockTexture[0] = BlockTextureAtlas.Sample(glm::vec2(3, 3), glm::vec2(4, 4));
-			WoodBlockTexture[1] = BlockTextureAtlas.Sample(glm::vec2(4, 4), glm::vec2(5, 5));
+			CobblestoneBlockTexture = BlockTextureAtlas.Sample(glm::vec2(4, 4), glm::vec2(5, 5));
+			WoodBlockTexture[0] = BlockTextureAtlas.Sample(glm::vec2(5, 5), glm::vec2(6, 6));
+			WoodBlockTexture[1] = BlockTextureAtlas.Sample(glm::vec2(6, 6), glm::vec2(7, 7));
+			LeafBlockTexture = BlockTextureAtlas.Sample(glm::vec2(7, 7), glm::vec2(8, 8));
+			SandBlockTexture = BlockTextureAtlas.Sample(glm::vec2(8, 8), glm::vec2(9, 9));
 		}
 
 		switch (block_type)
@@ -35,15 +41,15 @@ namespace Minecraft
 					break;
 
 				case BlockFaceType::left:
-					return DirtBlockTexture[2];
+					return DirtBlockTexture[1];
 					break;
 
 				case BlockFaceType::right:
-					return DirtBlockTexture[2];
+					return DirtBlockTexture[1];
 					break;
 
 				default:
-					return DirtBlockTexture[2];
+					return DirtBlockTexture[1];
 					break;
 				}
 
@@ -53,6 +59,24 @@ namespace Minecraft
 			case BlockType::Stone:
 			{
 				return StoneBlockTexture;
+				break;
+			}
+
+			case BlockType::Wood :
+			{
+				return WoodBlockTexture[0];
+				break;
+			}
+
+			case BlockType::Leaf :
+			{
+				return LeafBlockTexture;
+				break;
+			}
+
+			default : 
+			{
+				return WoodBlockTexture[0];
 				break;
 			}
 		}
