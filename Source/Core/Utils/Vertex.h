@@ -6,6 +6,6 @@ namespace Minecraft
 	{
 		glm::vec3 position;
 		glm::vec2 texture_coords;
-		float block_type;
+		float face_type; 
 	};
 }

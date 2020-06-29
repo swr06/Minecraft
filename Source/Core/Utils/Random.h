@@ -8,9 +8,9 @@
 class Random
 {
 public:
-	Random()
+	Random(unsigned int seed = std::random_device()())
 	{
-		m_Engine.seed(std::random_device()());
+		m_Engine.seed(seed);
 	}
 
 	float Float()
@@ -21,6 +21,11 @@ public:
 	int Int(int limit)
 	{
 		return (int)m_Distribution(m_Engine) % limit;
+	}
+
+	unsigned int UnsignedInt(unsigned int limit)
+	{
+		return (unsigned int)m_Distribution(m_Engine) % limit;
 	}
 
 private:

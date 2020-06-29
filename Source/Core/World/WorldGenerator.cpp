@@ -49,10 +49,12 @@ namespace Minecraft
 
     void GenerateChunk(Chunk* chunk)
     {
-        static Random rand_engine;
-        static FastNoise myNoise(rand_engine.Int(4000));
+        static Random SeedEngine;
+        static unsigned int WorldSeed = 1569;
+        static Random WorldTreeGenerator(WorldSeed);
+        static FastNoise WorldGenerator(WorldSeed);
         
-        myNoise.SetNoiseType(FastNoise::Simplex);
+        WorldGenerator.SetNoiseType(FastNoise::Simplex);
 
         float generated_x = 0;
         float generated_y = 0;
@@ -66,7 +68,7 @@ namespace Minecraft
         {
             for (int y = 0; y < ChunkSizeY; y++)
             {
-                HeightMap[x][y] = myNoise.GetNoise(x + chunk->p_Position.x * ChunkSizeX, y + chunk->p_Position.z * ChunkSizeZ);
+                HeightMap[x][y] = WorldGenerator.GetNoise(x + chunk->p_Position.x * ChunkSizeX, y + chunk->p_Position.z * ChunkSizeZ);
             }
         }
 
@@ -75,17 +77,16 @@ namespace Minecraft
             for (int z = 0; z < ChunkSizeZ; z++)
             {
                 generated_x = x;
-                generated_y = (HeightMap[x][z] / 2 + 1) * (ChunkSizeY - 32);
+                generated_y = (HeightMap[x][z] / 2 + 1.0) * (ChunkSizeY - 32);
                 generated_z = z;
 
                 SetVerticalBlocks(chunk, generated_x, generated_z, generated_y);
                 
-                if (rand() % 100 == 7 && generated_x + MaxStructureX < ChunkSizeX && generated_y + MaxStructureY < ChunkSizeY && generated_z + MaxStructureZ < ChunkSizeZ)
+                if (WorldTreeGenerator.UnsignedInt(75) == 7 && generated_x + MaxStructureX < ChunkSizeX && generated_y + MaxStructureY < ChunkSizeY && generated_z + MaxStructureZ < ChunkSizeZ)
                 {
                      FillInWorldStructure(chunk, &WorldStructureTree, generated_x, generated_y - 1, generated_z);
                 }
             }
         }
-
     }
 }
