@@ -35,9 +35,12 @@ namespace Minecraft
                 {
                     if (i < ChunkSizeX && j < ChunkSizeY && k < ChunkSizeZ && sx < MaxStructureX && sy < MaxStructureY && sz < MaxStructureZ)
                     {
-                        block.p_BlockType  = structure->p_Structure->at(sx).at(sy).at(sz).p_BlockType;
-                        block.p_Position = glm::vec3(i, j, k);
-                        chunk->AddBlock(&block);
+                        if (structure->p_Structure->at(sx).at(sy).at(sz).p_BlockType != BlockType::Air)
+                        {
+                            block.p_BlockType = structure->p_Structure->at(sx).at(sy).at(sz).p_BlockType;
+                            block.p_Position = glm::vec3(i, j, k);
+                            chunk->AddBlock(&block);
+                        }
                     }
                 }
             }
@@ -77,9 +80,9 @@ namespace Minecraft
 
                 SetVerticalBlocks(chunk, generated_x, generated_z, generated_y);
                 
-                if (rand() % 100 == 7)
+                if (rand() % 100 == 7 && generated_x + MaxStructureX < ChunkSizeX && generated_y + MaxStructureY < ChunkSizeY && generated_z + MaxStructureZ < ChunkSizeZ)
                 {
-                     FillInWorldStructure(chunk, &WorldStructureTree, generated_x, generated_y, generated_z);
+                     FillInWorldStructure(chunk, &WorldStructureTree, generated_x, generated_y - 1, generated_z);
                 }
             }
         }

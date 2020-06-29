@@ -19,15 +19,15 @@ namespace Minecraft
 			arrays_initialized = true;
 			DirtBlockTexture[0] = BlockTextureAtlas.Sample(glm::vec2(0, 0), glm::vec2(1, 1));
 			DirtBlockTexture[1] = BlockTextureAtlas.Sample(glm::vec2(1, 1), glm::vec2(2, 2));
-			DirtBlockTexture[2] = BlockTextureAtlas.Sample(glm::vec2(2, 2), glm::vec2(3, 3));
-			DirtBlockTexture[3] = BlockTextureAtlas.Sample(glm::vec2(2, 2), glm::vec2(3, 3));
+			DirtBlockTexture[2] = BlockTextureAtlas.Sample(glm::vec2(3, 3), glm::vec2(2, 2));
+			DirtBlockTexture[3] = BlockTextureAtlas.Sample(glm::vec2(3, 3), glm::vec2(4, 4));
 
-			StoneBlockTexture = BlockTextureAtlas.Sample(glm::vec2(3, 3), glm::vec2(4, 4));
-			CobblestoneBlockTexture = BlockTextureAtlas.Sample(glm::vec2(4, 4), glm::vec2(5, 5));
-			WoodBlockTexture[0] = BlockTextureAtlas.Sample(glm::vec2(5, 5), glm::vec2(6, 6));
-			WoodBlockTexture[1] = BlockTextureAtlas.Sample(glm::vec2(6, 6), glm::vec2(7, 7));
-			LeafBlockTexture = BlockTextureAtlas.Sample(glm::vec2(7, 7), glm::vec2(8, 8));
-			SandBlockTexture = BlockTextureAtlas.Sample(glm::vec2(8, 8), glm::vec2(9, 9));
+			StoneBlockTexture = BlockTextureAtlas.Sample(glm::vec2(4, 4), glm::vec2(5, 5));
+			CobblestoneBlockTexture = BlockTextureAtlas.Sample(glm::vec2(5, 5), glm::vec2(6, 6));
+			WoodBlockTexture[0] = BlockTextureAtlas.Sample(glm::vec2(6, 6), glm::vec2(7, 7));
+			WoodBlockTexture[1] = BlockTextureAtlas.Sample(glm::vec2(7, 7), glm::vec2(8, 8));
+			LeafBlockTexture = BlockTextureAtlas.Sample(glm::vec2(8, 8), glm::vec2(9, 9));
+			SandBlockTexture = BlockTextureAtlas.Sample(glm::vec2(9, 9), glm::vec2(10, 10));
 		}
 
 		switch (block_type)
@@ -40,15 +40,27 @@ namespace Minecraft
 					return DirtBlockTexture[0];
 					break;
 
-				case BlockFaceType::left:
+				case BlockFaceType::bottom:
 					return DirtBlockTexture[1];
+					break;
+
+				case BlockFaceType::left:
+					return DirtBlockTexture[2];
 					break;
 
 				case BlockFaceType::right:
-					return DirtBlockTexture[1];
+					return DirtBlockTexture[2];
 					break;
 
-				default:
+				case BlockFaceType::front:
+					return DirtBlockTexture[3];
+					break;
+
+				case BlockFaceType::backward:
+					return DirtBlockTexture[3];
+					break;
+
+				default : 
 					return DirtBlockTexture[1];
 					break;
 				}
