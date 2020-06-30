@@ -175,6 +175,7 @@
     <ClCompile Include="Core\Dependencies\imgui\main.cpp" />
     <ClCompile Include="Core\FpsCamera.cpp" />
     <ClCompile Include="Core\Noise\FastNoise.cpp" />
+    <ClCompile Include="Core\OpenGL Classes\CubeTextureMap.cpp" />
     <ClCompile Include="Core\OpenGL Classes\Fps.cpp" />
     <ClCompile Include="Core\OpenGL Classes\GLDebug.cpp" />
     <ClCompile Include="Core\OpenGL Classes\IndexBuffer.cpp" />
@@ -188,6 +189,7 @@
     <ClCompile Include="Core\TextureAtlas.cpp" />
     <ClCompile Include="Core\Utils\Logger.cpp" />
     <ClCompile Include="Core\Utils\Math.cpp" />
+    <ClCompile Include="Core\World\Skybox.cpp" />
     <ClCompile Include="Core\World\Structures\WorldStructures.cpp" />
     <ClCompile Include="Core\World\World.cpp" />
     <ClCompile Include="Core\World\WorldGenerator.cpp" />
@@ -212,6 +214,7 @@
     <ClInclude Include="Core\Dependencies\imgui\stb_truetype.h" />
     <ClInclude Include="Core\FpsCamera.h" />
     <ClInclude Include="Core\Noise\FastNoise.h" />
+    <ClInclude Include="Core\OpenGL Classes\CubeTextureMap.h" />
     <ClInclude Include="Core\OpenGL Classes\Fps.h" />
     <ClInclude Include="Core\OpenGL Classes\GLDebug.h" />
     <ClInclude Include="Core\OpenGL Classes\IndexBuffer.h" />
@@ -229,16 +232,19 @@
     <ClInclude Include="Core\Utils\Random.h" />
     <ClInclude Include="Core\Utils\Timer.h" />
     <ClInclude Include="Core\Utils\Vertex.h" />
+    <ClInclude Include="Core\World\Skybox.h" />
     <ClInclude Include="Core\World\Structures\WorldStructures.h" />
     <ClInclude Include="Core\World\World.h" />
     <ClInclude Include="Core\World\WorldGenerator.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Core\Resources\grass_block.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Core\Shaders\BlockRendererFrag.glsl" />
     <None Include="Core\Shaders\BlockRendererVertex.glsl" />
+    <None Include="Core\Shaders\SkyboxFrag.glsl" />
+    <None Include="Core\Shaders\SkyboxVertex.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Core\Resources\block_atlas.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -58,6 +58,8 @@ namespace Minecraft
 				{
 					if (Chunk->at(x).at(y).at(z).p_BlockType != BlockType::Air)
 					{
+						// To fix chunk edge mesh building issues, both faces are added if it is in the edge
+
 						world_position = Chunk->at(x).at(y).at(z).p_Position;
 						
 						world_position.x = chunk_pos.x * ChunkSizeX + Chunk->at(x).at(y).at(z).p_Position.x;
@@ -67,11 +69,14 @@ namespace Minecraft
 						if (z <= 0)
 						{
 							AddFace(BlockFaceType::backward, world_position, Chunk->at(x).at(y).at(z).p_BlockType);
+							AddFace(BlockFaceType::front, world_position, Chunk->at(x).at(y).at(z).p_BlockType);
+
 						}
 
 						else if (z >= ChunkSizeZ - 1)
 						{
 							AddFace(BlockFaceType::front, world_position, Chunk->at(x).at(y).at(z).p_BlockType);
+							AddFace(BlockFaceType::backward, world_position, Chunk->at(x).at(y).at(z).p_BlockType);
 						}
 
 						else
@@ -92,11 +97,15 @@ namespace Minecraft
 						if (x <= 0)
 						{
 							AddFace(BlockFaceType::left, world_position, Chunk->at(x).at(y).at(z).p_BlockType);
+							AddFace(BlockFaceType::right, world_position, Chunk->at(x).at(y).at(z).p_BlockType);
+
 						}
 
 						else if (x >= ChunkSizeX - 1)
 						{
 							AddFace(BlockFaceType::right, world_position, Chunk->at(x).at(y).at(z).p_BlockType);
+							AddFace(BlockFaceType::left, world_position, Chunk->at(x).at(y).at(z).p_BlockType);
+
 						}
 
 						else
@@ -117,11 +126,14 @@ namespace Minecraft
 						if (y <= 0)
 						{
 							AddFace(BlockFaceType::bottom, world_position, Chunk->at(x).at(y).at(z).p_BlockType);
+							AddFace(BlockFaceType::top, world_position, Chunk->at(x).at(y).at(z).p_BlockType);
+
 						}
 
 						else if (y >= ChunkSizeY - 1)
 						{
 							AddFace(BlockFaceType::top, world_position, Chunk->at(x).at(y).at(z).p_BlockType);
+							AddFace(BlockFaceType::bottom, world_position, Chunk->at(x).at(y).at(z).p_BlockType);
 						}
 
 						else

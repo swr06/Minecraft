@@ -95,6 +95,12 @@
     <ClCompile Include="Core\World\Structures\WorldStructures.cpp">
       <Filter>Internal\World\Structures</Filter>
     </ClCompile>
+    <ClCompile Include="Core\OpenGL Classes\CubeTextureMap.cpp">
+      <Filter>Abstract OpenGL\Texturing</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\World\Skybox.cpp">
+      <Filter>Internal\Skybox</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Dependencies\imgui\stb_truetype.h">
@@ -211,11 +217,12 @@
     <ClInclude Include="Core\World\Structures\WorldStructures.h">
       <Filter>Internal\World\Structures</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Core\Resources\grass_block.png">
-      <Filter>Resources</Filter>
-    </Image>
+    <ClInclude Include="Core\OpenGL Classes\CubeTextureMap.h">
+      <Filter>Abstract OpenGL\Texturing</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\World\Skybox.h">
+      <Filter>Internal\Skybox</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Dependencies">
@@ -281,6 +288,9 @@
     <Filter Include="Internal\World\Structures">
       <UniqueIdentifier>{e79fa21c-b3ea-4d8e-883e-fda50bda6a49}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Internal\Skybox">
+      <UniqueIdentifier>{65474e96-753d-4358-9f25-642d54d4bd3c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Core\Shaders\BlockRendererFrag.glsl">
@@ -289,5 +299,16 @@
     <None Include="Core\Shaders\BlockRendererVertex.glsl">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="Core\Shaders\SkyboxFrag.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Core\Shaders\SkyboxVertex.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Core\Resources\block_atlas.png">
+      <Filter>Resources</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -86,17 +86,7 @@ namespace Minecraft
 		player_chunk_y = floor(p_Player->p_Position.y / ChunkSizeY);
 		player_chunk_z = floor(p_Player->p_Position.z / ChunkSizeZ);
 
-	/*	RenderChunkFromMap(player_chunk_x, player_chunk_z);
-		RenderChunkFromMap(player_chunk_x + 1, player_chunk_z);
-		RenderChunkFromMap(player_chunk_x, player_chunk_z + 1);
-
-		RenderChunkFromMap(player_chunk_x - 1, player_chunk_z);
-		RenderChunkFromMap(player_chunk_x - 1, player_chunk_z + 1);
-		RenderChunkFromMap(player_chunk_x, player_chunk_z - 1);
-		RenderChunkFromMap(player_chunk_x + 1, player_chunk_z + 1);
-		RenderChunkFromMap(player_chunk_x + 1, player_chunk_z - 1);
-		RenderChunkFromMap(player_chunk_x - 1, player_chunk_z - 1);
-		RenderChunkFromMap(player_chunk_x - 1, player_chunk_z + 1);*/
+		m_WorldSkybox.RenderSkybox(&p_Player->p_Camera);
 
 		int render_distance_x = 2, render_distance_z = 2;
 

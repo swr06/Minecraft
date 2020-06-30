@@ -15,6 +15,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "Skybox.h"
 #include "../Chunk.h"
 #include "../Block.h"
 #include "../Utils/Defs.h"
@@ -47,5 +48,6 @@ namespace Minecraft
 		//std::array<std::array<Chunk, 16>, 16> m_WorldChunks;
 		std::map<int, std::map<int, Chunk>> m_WorldChunks;
 		int m_ChunkCount;
+		Skybox m_WorldSkybox;
 	};
 }
