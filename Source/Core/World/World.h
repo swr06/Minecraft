@@ -45,9 +45,7 @@ namespace Minecraft
 		void RenderChunkFromMap(int cx, int cz);
 
 		Renderer m_Renderer;
-		//std::array<std::array<Chunk, 16>, 16> m_WorldChunks;
 		std::map<int, std::map<int, Chunk>> m_WorldChunks;
 		int m_ChunkCount;
-		Skybox m_WorldSkybox;
 	};
 }

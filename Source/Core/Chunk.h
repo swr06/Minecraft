@@ -33,18 +33,19 @@ namespace Minecraft
 					}
 				}
 			}
+
 		}
 
 		~Chunk()
 		{
 			delete m_ChunkContents;
+			m_ChunkMesh.p_Vertices.erase(m_ChunkMesh.p_Vertices.begin(), m_ChunkMesh.p_Vertices.end());
 		}
 
 		void AddBlock(BlockType type, const glm::vec3& position)
 		{
 			Block b;
 			b.p_Position = position;
-			b.p_Chunk = this;
 			b.p_BlockType = type;
 
 			m_ChunkContents->at(position.x).at(position.y).at(position.z) = b;

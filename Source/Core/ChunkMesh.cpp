@@ -48,7 +48,6 @@ namespace Minecraft
 	void ChunkMesh::ConstructMesh(std::array<std::array<std::array<Block, ChunkSizeX>, ChunkSizeY>, ChunkSizeZ>* Chunk, const glm::vec3& chunk_pos)
 	{
 		glm::vec3 world_position;
-		p_Vertices.erase(p_Vertices.begin(), p_Vertices.end());
 
 		for (int x = 0; x < ChunkSizeX; x++)
 		{

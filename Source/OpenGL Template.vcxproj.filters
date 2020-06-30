@@ -59,9 +59,6 @@
     <ClCompile Include="Core\World\World.cpp">
       <Filter>Internal\World</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Utils\Math.cpp">
-      <Filter>Internal\Utils</Filter>
-    </ClCompile>
     <ClCompile Include="Core\Renderer\Renderer.cpp">
       <Filter>Internal\Rendering</Filter>
     </ClCompile>
@@ -169,9 +166,6 @@
     <ClInclude Include="Core\World\World.h">
       <Filter>Internal\World</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Utils\Math.h">
-      <Filter>Internal\Utils</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Utils\Vertex.h">
       <Filter>Internal\Utils</Filter>
     </ClInclude>
@@ -222,6 +216,9 @@
     </ClInclude>
     <ClInclude Include="Core\World\Skybox.h">
       <Filter>Internal\Skybox</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Utils\Ray.h">
+      <Filter>Internal\Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

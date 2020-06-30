@@ -143,7 +143,7 @@ namespace Minecraft
 
                     case Biome::Desert : 
                     {
-                        generated_y = (HeightMap[x][z] / 2 + 1.0) * (ChunkSizeY - 40);
+                        generated_y = (HeightMap[x][z] / 2 + 1.0) * (ChunkSizeY - 36);
                         Structure = &WorldStructureCactus;
                         break;
                     }

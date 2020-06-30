@@ -188,7 +188,6 @@
     <ClCompile Include="Core\Renderer\Renderer.cpp" />
     <ClCompile Include="Core\TextureAtlas.cpp" />
     <ClCompile Include="Core\Utils\Logger.cpp" />
-    <ClCompile Include="Core\Utils\Math.cpp" />
     <ClCompile Include="Core\World\Skybox.cpp" />
     <ClCompile Include="Core\World\Structures\WorldStructures.cpp" />
     <ClCompile Include="Core\World\World.cpp" />
@@ -228,8 +227,8 @@
     <ClInclude Include="Core\TextureAtlas.h" />
     <ClInclude Include="Core\Utils\Defs.h" />
     <ClInclude Include="Core\Utils\Logger.h" />
-    <ClInclude Include="Core\Utils\Math.h" />
     <ClInclude Include="Core\Utils\Random.h" />
+    <ClInclude Include="Core\Utils\Ray.h" />
     <ClInclude Include="Core\Utils\Timer.h" />
     <ClInclude Include="Core\Utils\Vertex.h" />
     <ClInclude Include="Core\World\Skybox.h" />

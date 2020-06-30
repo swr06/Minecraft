@@ -74,10 +74,6 @@ namespace Minecraft
 
 	void World::RenderWorld()
 	{
-		const int render_distance = 4;
-
-		std::vector<std::pair<int, int>> chunks;
-		
 		int player_chunk_x = 0;
 		int player_chunk_y = 0;
 		int player_chunk_z = 0;
@@ -86,15 +82,13 @@ namespace Minecraft
 		player_chunk_y = floor(p_Player->p_Position.y / ChunkSizeY);
 		player_chunk_z = floor(p_Player->p_Position.z / ChunkSizeZ);
 
-		//m_WorldSkybox.RenderSkybox(&p_Player->p_Camera);
-
 		int render_distance_x = 2, render_distance_z = 2;
 
-		for (int i = player_chunk_z - render_distance_z; i < player_chunk_z + render_distance_z; i++)
+		for (int i = player_chunk_x - render_distance_x; i < player_chunk_x + render_distance_x; i++)
 		{
-			for (int j = player_chunk_x - render_distance_x; j < player_chunk_x + render_distance_x; j++)
+			for (int j = player_chunk_z - render_distance_z; j < player_chunk_z + render_distance_z; j++)
 			{
-				RenderChunkFromMap(j, i);
+				RenderChunkFromMap(i, j);
 			}
 		}
 	}

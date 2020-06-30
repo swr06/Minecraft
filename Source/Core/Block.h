@@ -28,6 +28,5 @@ namespace Minecraft
 	{
 		BlockType p_BlockType;
 		glm::vec3 p_Position;
-		Chunk* p_Chunk;
 	};
 }
