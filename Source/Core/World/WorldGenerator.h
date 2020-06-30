@@ -18,6 +18,15 @@
 
 namespace Minecraft
 {
+	enum Biome
+	{
+		Grassland,
+		Plains,
+		Ocean,
+		Desert,
+		Jungle
+	};
+
 	void GenerateChunk(Chunk* chunk);
 
 }

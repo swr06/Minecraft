@@ -19,6 +19,7 @@ namespace Minecraft
 		Leaf,
 		Wood,
 		Cactus,
+		Sand,
 		Water,
 		Air
 	};

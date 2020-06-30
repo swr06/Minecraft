@@ -168,4 +168,18 @@ namespace Minecraft
 			SetBlock(4, 5, 3, BlockType::Leaf);
 		}
 	};
+
+	class CactusStructure : public WorldStructure
+	{
+	public : 
+		CactusStructure()
+		{
+			SetBlock(2, 0, 2, BlockType::Cactus);
+			SetBlock(2, 1, 2, BlockType::Cactus);
+			SetBlock(2, 2, 2, BlockType::Cactus);
+			SetBlock(2, 3, 2, BlockType::Cactus);
+			SetBlock(2, 4, 2, BlockType::Cactus);
+			SetBlock(2, 5, 2, BlockType::Cactus);
+		}
+	};
 }

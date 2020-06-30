@@ -86,7 +86,7 @@ namespace Minecraft
 		player_chunk_y = floor(p_Player->p_Position.y / ChunkSizeY);
 		player_chunk_z = floor(p_Player->p_Position.z / ChunkSizeZ);
 
-		m_WorldSkybox.RenderSkybox(&p_Player->p_Camera);
+		//m_WorldSkybox.RenderSkybox(&p_Player->p_Camera);
 
 		int render_distance_x = 2, render_distance_z = 2;
 

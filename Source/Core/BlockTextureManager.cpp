@@ -10,6 +10,7 @@ namespace Minecraft
 		static std::array<GLfloat, 8> CobblestoneBlockTexture;
 		static std::array<GLfloat, 8> LeafBlockTexture;
 		static std::array<GLfloat, 8> SandBlockTexture;
+		static std::array<GLfloat, 8> CactusBlockTexture;
 		static std::array<GLfloat, 8> WoodBlockTexture[2];
 
 		static bool arrays_initialized = false;
@@ -21,13 +22,13 @@ namespace Minecraft
 			DirtBlockTexture[1] = BlockTextureAtlas.Sample(glm::vec2(1, 1), glm::vec2(2, 2));
 			DirtBlockTexture[2] = BlockTextureAtlas.Sample(glm::vec2(3, 3), glm::vec2(2, 2));
 			DirtBlockTexture[3] = BlockTextureAtlas.Sample(glm::vec2(3, 3), glm::vec2(4, 4));
-
 			StoneBlockTexture = BlockTextureAtlas.Sample(glm::vec2(4, 4), glm::vec2(5, 5));
 			CobblestoneBlockTexture = BlockTextureAtlas.Sample(glm::vec2(5, 5), glm::vec2(6, 6));
 			WoodBlockTexture[0] = BlockTextureAtlas.Sample(glm::vec2(6, 6), glm::vec2(7, 7));
 			WoodBlockTexture[1] = BlockTextureAtlas.Sample(glm::vec2(7, 7), glm::vec2(8, 8));
 			LeafBlockTexture = BlockTextureAtlas.Sample(glm::vec2(8, 8), glm::vec2(9, 9));
 			SandBlockTexture = BlockTextureAtlas.Sample(glm::vec2(9, 9), glm::vec2(10, 10));
+			CactusBlockTexture = BlockTextureAtlas.Sample(glm::vec2(10, 10), glm::vec2(11, 11));
 		}
 
 		switch (block_type)
@@ -83,6 +84,18 @@ namespace Minecraft
 			case BlockType::Leaf :
 			{
 				return LeafBlockTexture;
+				break;
+			}
+
+			case BlockType::Sand : 
+			{
+				return SandBlockTexture;
+				break;
+			}
+
+			case BlockType::Cactus : 
+			{
+				return CactusBlockTexture;
 				break;
 			}
 

@@ -2,7 +2,7 @@
 
 namespace Minecraft
 {
-    void SetVerticalBlocks(Chunk* chunk, int x, int z, int y_level)
+    void SetVerticalBlocks(Chunk* chunk, int x, int z, int y_level, Biome biome)
     {
         if (y_level >= ChunkSizeY)
         {
@@ -11,14 +11,30 @@ namespace Minecraft
 
         for (int i = 0; i < y_level; i++)
         {
-            if (i >= y_level - 5)
+            if (biome == Biome::Grassland)
             {
-                chunk->AddBlock(BlockType::Dirt, glm::vec3(x, i, z));
+                if (i >= y_level - 5)
+                {
+                    chunk->AddBlock(BlockType::Dirt, glm::vec3(x, i, z));
+                }
+
+                else
+                {
+                    chunk->AddBlock(BlockType::Stone, glm::vec3(x, i, z));
+                }
             }
 
-            else
+            else if (biome == Biome::Desert)
             {
-                chunk->AddBlock(BlockType::Stone, glm::vec3(x, i, z));
+                if (i >= y_level - 6)
+                {
+                    chunk->AddBlock(BlockType::Sand, glm::vec3(x, i, z));
+                }
+
+                else
+                {
+                    chunk->AddBlock(BlockType::Stone, glm::vec3(x, i, z));
+                }
             }
         }
     }
@@ -47,22 +63,59 @@ namespace Minecraft
         }
     }
 
+    Biome GetBiome(float chunk_noise)
+    {
+        // Quantize the noise into various levels and frequency
+
+        const float grass_land = 0.6f;
+        const float desert = 0.4f;
+        const float ocean = 0.2f;
+
+        if (chunk_noise > 0 && chunk_noise < grass_land)
+        {
+            return Biome::Grassland;
+        }
+
+        else 
+        {
+            return Biome::Desert;
+        }
+
+        /*else if (chunk_noise > 0 && chunk_noise < ocean)
+        {
+            return Biome::Ocean;
+        }
+
+        else
+        {
+            return Biome::Grassland;
+        }*/
+    }
+
     void GenerateChunk(Chunk* chunk)
     {
         static Random SeedEngine;
         static unsigned int WorldSeed = 1569;
         static Random WorldTreeGenerator(WorldSeed);
         static FastNoise WorldGenerator(WorldSeed);
+        static FastNoise BiomeGenerator(WorldSeed);
         
         WorldGenerator.SetNoiseType(FastNoise::Simplex);
+        BiomeGenerator.SetNoiseType(FastNoise::PerlinFractal);
 
         float generated_x = 0;
         float generated_y = 0;
         float generated_z = 0;
 
         static TreeStructure WorldStructureTree;
+        static CactusStructure WorldStructureCactus;
+        WorldStructure* Structure;
 
         static float HeightMap[ChunkSizeX][ChunkSizeY]; // 2D heightmap to create terrain
+
+        Biome chunk_biome;
+
+        chunk_biome = GetBiome(BiomeGenerator.GetNoise(chunk->p_Position.x * ChunkSizeX, chunk->p_Position.y * ChunkSizeY, chunk->p_Position.z * ChunkSizeZ));
 
         for (int x = 0; x < ChunkSizeX; x++)
         {
@@ -77,14 +130,41 @@ namespace Minecraft
             for (int z = 0; z < ChunkSizeZ; z++)
             {
                 generated_x = x;
-                generated_y = (HeightMap[x][z] / 2 + 1.0) * (ChunkSizeY - 32);
                 generated_z = z;
 
-                SetVerticalBlocks(chunk, generated_x, generated_z, generated_y);
-                
-                if (WorldTreeGenerator.UnsignedInt(75) == 7 && generated_x + MaxStructureX < ChunkSizeX && generated_y + MaxStructureY < ChunkSizeY && generated_z + MaxStructureZ < ChunkSizeZ)
+                switch (chunk_biome)
                 {
-                     FillInWorldStructure(chunk, &WorldStructureTree, generated_x, generated_y - 1, generated_z);
+                    case Biome::Grassland :
+                    {
+                        generated_y = (HeightMap[x][z] / 2 + 1.0) * (ChunkSizeY - 32);
+                        Structure = &WorldStructureTree;
+                        break;
+                    }
+
+                    case Biome::Desert : 
+                    {
+                        generated_y = (HeightMap[x][z] / 2 + 1.0) * (ChunkSizeY - 40);
+                        Structure = &WorldStructureCactus;
+                        break;
+                    }
+
+                    default :
+                    {
+                        generated_y = (HeightMap[x][z] / 2 + 1.0) * (ChunkSizeY - 32);
+                        Structure = nullptr;
+                        break;
+                    }
+                }
+
+                SetVerticalBlocks(chunk, generated_x, generated_z, generated_y, chunk_biome);
+                
+                if (WorldTreeGenerator.UnsignedInt(75) == 7 &&
+                    generated_x + MaxStructureX < ChunkSizeX && 
+                    generated_y + MaxStructureY < ChunkSizeY &&
+                    generated_z + MaxStructureZ < ChunkSizeZ &&
+                    Structure != nullptr)
+                {
+                     FillInWorldStructure(chunk, Structure, generated_x, generated_y - 1, generated_z);
                 }
             }
         }
