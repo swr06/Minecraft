@@ -20,10 +20,15 @@ namespace Minecraft
 	class Application
 	{
 	public : 
-			
+		
 		GLFWwindow* m_Window;
 
 		Application();
+		~Application()
+		{
+			delete m_World;
+		}
+
 		void OnUpdate();
 
 	private :

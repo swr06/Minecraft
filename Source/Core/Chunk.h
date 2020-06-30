@@ -39,7 +39,6 @@ namespace Minecraft
 		~Chunk()
 		{
 			delete m_ChunkContents;
-			m_ChunkMesh.p_Vertices.erase(m_ChunkMesh.p_Vertices.begin(), m_ChunkMesh.p_Vertices.end());
 		}
 
 		void AddBlock(BlockType type, const glm::vec3& position)

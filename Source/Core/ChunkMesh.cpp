@@ -45,9 +45,15 @@ namespace Minecraft
 		m_RightFace[3] = glm::vec4(0.5f, -0.5f, 0.5f, 1.0f);
 	}
 
+	ChunkMesh::~ChunkMesh()
+	{
+		m_Vertices.clear();
+	}
+
 	void ChunkMesh::ConstructMesh(std::array<std::array<std::array<Block, ChunkSizeX>, ChunkSizeY>, ChunkSizeZ>* Chunk, const glm::vec3& chunk_pos)
 	{
 		glm::vec3 world_position;
+		m_Vertices.clear();
 
 		for (int x = 0; x < ChunkSizeX; x++)
 		{
@@ -156,7 +162,9 @@ namespace Minecraft
 
 		// Upload the data to the GPU whenever the mesh is reconstructed
 
-		p_VBO.BufferData(this->p_Vertices.size() * sizeof(Vertex), &this->p_Vertices.front(), GL_STATIC_DRAW);
+		p_VBO.BufferData(this->m_Vertices.size() * sizeof(Vertex), &this->m_Vertices.front(), GL_STATIC_DRAW);
+		p_VerticesCount = m_Vertices.size();
+		m_Vertices.clear();
 	}
 
 	void ChunkMesh::AddFace(BlockFaceType face_type, const glm::vec3& position, BlockType type)
@@ -314,11 +322,11 @@ namespace Minecraft
 		v6.texture_coords = glm::vec2(TextureCoordinates[0], TextureCoordinates[1]);
 
 		// Push the vertices to the buffer
-		p_Vertices.push_back(v1);
-		p_Vertices.push_back(v2);
-		p_Vertices.push_back(v3);
-		p_Vertices.push_back(v4);
-		p_Vertices.push_back(v5);
-		p_Vertices.push_back(v6);
+		m_Vertices.push_back(v1);
+		m_Vertices.push_back(v2);
+		m_Vertices.push_back(v3);
+		m_Vertices.push_back(v4);
+		m_Vertices.push_back(v5);
+		m_Vertices.push_back(v6);
 	}
 }

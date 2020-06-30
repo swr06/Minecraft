@@ -26,15 +26,18 @@ namespace Minecraft
 	public : 
 
 		ChunkMesh();
+		~ChunkMesh();
+
 		void ConstructMesh(std::array<std::array<std::array<Block, ChunkSizeX>, ChunkSizeY>, ChunkSizeZ>* Chunk, const glm::vec3& chunk_pos);
 		
-		std::vector<Vertex> p_Vertices;
+		std::uint32_t p_VerticesCount;
 		GLClasses::VertexBuffer p_VBO;
 		GLClasses::VertexArray p_VAO;
 
 	private : 
 
 		void AddFace(BlockFaceType face_type, const glm::vec3& position, BlockType type);
+		std::vector<Vertex> m_Vertices;
 		glm::vec4 m_TopFace[4];
 		glm::vec4 m_BottomFace[4];
 		glm::vec4 m_ForwardFace[4];

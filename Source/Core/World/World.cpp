@@ -78,6 +78,8 @@ namespace Minecraft
 		int player_chunk_y = 0;
 		int player_chunk_z = 0;
 
+		m_Skybox.RenderSkybox(&p_Player->p_Camera);
+
 		player_chunk_x = floor(p_Player->p_Position.x / ChunkSizeX);
 		player_chunk_y = floor(p_Player->p_Position.y / ChunkSizeY);
 		player_chunk_z = floor(p_Player->p_Position.z / ChunkSizeZ);

@@ -72,7 +72,7 @@ namespace Minecraft
         glDepthMask(GL_FALSE);
         m_SkyboxShader.Use();
 
-        m_SkyboxShader.SetMatrix4("u_View", camera->GetViewMatrix());
+        m_SkyboxShader.SetMatrix4("u_ViewProjection", camera->GetViewProjection());
         m_SkyboxShader.SetInteger("u_Skybox", 0);
 
         m_VAO.Bind();

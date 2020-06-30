@@ -20,7 +20,7 @@ namespace Minecraft
 		m_DefaultShader.SetMatrix4("u_ViewProjection", camera->GetViewProjection());
 
 		chunk->GetChunkMesh()->p_VAO.Bind();
-		DebugGLFunction(glDrawArrays(GL_TRIANGLES, 0, chunk->GetChunkMesh()->p_Vertices.size() * 6));
+		DebugGLFunction(glDrawArrays(GL_TRIANGLES, 0, chunk->GetChunkMesh()->p_VerticesCount * 6));
 		chunk->GetChunkMesh()->p_VAO.Unbind();
 	}
 }
