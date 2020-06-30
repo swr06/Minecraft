@@ -50,12 +50,12 @@ namespace Minecraft
         };
 
         m_CubeMap.CreateCubeTextureMap({
-            "Core\\Resources\\Skybox\\right.png",
-            "Core\\Resources\\Skybox\\left.png",
-            "Core\\Resources\\Skybox\\top.png",
-            "Core\\Resources\\Skybox\\bottom.png",
-            "Core\\Resources\\Skybox\\front.png",
-            "Core\\Resources\\Skybox\\back.png"
+            "Core\\Resources\\Skybox\\right.jpg",
+            "Core\\Resources\\Skybox\\left.jpg",
+            "Core\\Resources\\Skybox\\top.jpg",
+            "Core\\Resources\\Skybox\\bottom.jpg",
+            "Core\\Resources\\Skybox\\front.jpg",
+            "Core\\Resources\\Skybox\\back.jpg"
             });
 
         m_SkyboxShader.CreateShaderProgramFromFile("Core\\Shaders\\SkyboxVertex.glsl", "Core\\Shaders\\SkyboxFrag.glsl");
@@ -72,7 +72,8 @@ namespace Minecraft
         glDepthMask(GL_FALSE);
         m_SkyboxShader.Use();
 
-        m_SkyboxShader.SetMatrix4("u_ViewProjection", camera->GetViewProjection());
+        m_SkyboxShader.SetMatrix4("u_Projection", camera->GetProjectionMatrix());
+        m_SkyboxShader.SetMatrix4("u_View", glm::mat4(glm::mat3(camera->GetViewMatrix())));
         m_SkyboxShader.SetInteger("u_Skybox", 0);
 
         m_VAO.Bind();

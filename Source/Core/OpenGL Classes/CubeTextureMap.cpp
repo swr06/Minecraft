@@ -14,7 +14,8 @@ namespace GLClasses
 
 		for (int i = 0; i < cube_face_paths.size(); i++)
 		{
-			image_data = stbi_load(cube_face_paths[i].c_str(), &width, &height, &channels, 4);
+			stbi_set_flip_vertically_on_load(false);
+			image_data = stbi_load(cube_face_paths[i].c_str(), &width, &height, &channels, 0);
 
 			if (image_data)
 			{
@@ -25,7 +26,7 @@ namespace GLClasses
 
 			else
 			{
-				std::cout <<"\nFailed to load image : " << cube_face_paths[i] << "\n\n\n" ;
+				std::cout <<"\nFailed to load image : " << cube_face_paths[i] ;
 				stbi_image_free(image_data);
 			}
 		}

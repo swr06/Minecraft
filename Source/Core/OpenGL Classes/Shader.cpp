@@ -85,6 +85,9 @@ namespace GLClasses
 
 		vertex_file.open(vertex_pth, ios::in);
 		frag_file.open(fragment_pth, ios::in);
+		
+		m_VertexPath = vertex_pth;
+		m_FragmentPath = fragment_pth;
 
 		if (vertex_file.good() && frag_file.good())
 		{

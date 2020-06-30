@@ -56,6 +56,11 @@ namespace Minecraft
 			return m_ViewProjectionMatrix;
 		}
 
+		inline const glm::mat4& GetProjectionMatrix()
+		{
+			return m_ProjectionMatrix;
+		}
+
 		inline const glm::mat4& GetViewMatrix()
 		{
 			return m_ViewMatrix;
