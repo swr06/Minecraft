@@ -11,12 +11,12 @@
 #include <vector>
 #include <array>
 
-#include "OpenGL Classes\VertexBuffer.h"
-#include "OpenGL Classes\VertexArray.h"
-#include "OpenGL Classes\Shader.h"
-#include "OpenGL Classes\Texture.h"
+#include "OpenGL Classes/VertexBuffer.h"
+#include "OpenGL Classes/VertexArray.h"
+#include "OpenGL Classes/Shader.h"
+#include "OpenGL Classes/Texture.h"
 
-#include "Utils\Vertex.h"
+#include "Utils/Vertex.h"
 #include "BlockTextureManager.h"
 
 namespace Minecraft

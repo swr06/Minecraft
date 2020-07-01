@@ -1,0 +1,427 @@
+From bb280f117b57c4f2a552e088149361b7a2c1ef8e Mon Sep 17 00:00:00 2001
+From: Krzysztof Kurek <krzysio.kurek@pm.me>
+Date: Tue, 30 Jun 2020 20:40:20 +0200
+Subject: [PATCH] (WIP) Fix compilation on Linux
+
+---
+ Source/Core/Application/Application.cpp       | 46 +++++++++++++++++-
+ Source/Core/CMakeLists.txt                    | 48 +++++++++++++++++++
+ Source/Core/ChunkMesh.h                       | 14 +++---
+ Source/Core/CubeRenderer.h                    | 12 ++---
+ Source/Core/OpenGL Classes/CubeTextureMap.cpp |  4 +-
+ Source/Core/OpenGL Classes/Fps.cpp            | 23 ++-------
+ Source/Core/OpenGL Classes/Fps.h              |  6 +--
+ Source/Core/OpenGL Classes/GLDebug.h          |  4 +-
+ Source/Core/Renderer/Renderer.cpp             |  6 +--
+ Source/Core/Shaders/SkyboxVertex.glsl         |  4 +-
+ Source/Core/World/Skybox.cpp                  | 16 +++----
+ Source/Core/main.cpp                          | 33 +++++++++++++
+ 12 files changed, 162 insertions(+), 54 deletions(-)
+ create mode 100644 Source/Core/CMakeLists.txt
+ create mode 100644 Source/Core/main.cpp
+
+diff --git a/Source/Core/Application/Application.cpp b/Source/Core/Application/Application.cpp
+index 1621d2c..d29d78e 100644
+--- a/Source/Core/Application/Application.cpp
++++ b/Source/Core/Application/Application.cpp
+@@ -1,5 +1,43 @@
+ #include "Application.h"
+ 
++#include <cstdio>
++
++void gl_debug_callback(GLenum source, GLenum type, GLuint id, 
++		GLenum severity, GLsizei length, 
++		const char *message, const void *) {
++	const char *sev = "";
++	switch (severity) {
++		case GL_DEBUG_SEVERITY_HIGH: sev = "\e[91m"; break;
++		case GL_DEBUG_SEVERITY_MEDIUM: sev = "\e[93m"; break;
++		case GL_DEBUG_SEVERITY_LOW: sev = "\e[92m"; break;
++		case GL_DEBUG_SEVERITY_NOTIFICATION: sev = "\e[34m"; break;
++	}
++
++	const char *src = "?";
++	switch (source) {
++		case GL_DEBUG_SOURCE_API: src = "API"; break;
++		case GL_DEBUG_SOURCE_WINDOW_SYSTEM: src = "window system"; break;
++		case GL_DEBUG_SOURCE_SHADER_COMPILER: src = "shader compiler"; break;
++		case GL_DEBUG_SOURCE_THIRD_PARTY: src = "third party"; break;
++		case GL_DEBUG_SOURCE_APPLICATION: src = "app"; break;
++		case GL_DEBUG_SOURCE_OTHER: src = "other"; break;
++	}
++
++	const char *type_str = "?";
++	switch (type) {
++		case GL_DEBUG_TYPE_ERROR: type_str = "error"; break;
++		case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR: type_str = "deprecated behavior"; break;
++		case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR: type_str = "undefined behavior"; break;
++		case GL_DEBUG_TYPE_PORTABILITY: type_str = "portability"; break;
++		case GL_DEBUG_TYPE_MARKER: type_str = "marker"; break;
++		case GL_DEBUG_TYPE_PUSH_GROUP: type_str = "push group"; break;
++		case GL_DEBUG_TYPE_POP_GROUP: type_str = "pop group"; break;
++		case GL_DEBUG_TYPE_OTHER: type_str = "other"; break;
++	}
++
++	fprintf(stderr, "debug:%s type: %s, source: %s, message: \"%.*s\"\e[0m\n", sev, type_str, src, length, message);
++}
++
+ namespace Minecraft
+ {
+ 	Application::Application()
+@@ -26,6 +64,12 @@ namespace Minecraft
+ 
+         // Lock the cursor to the window
+         glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
++		
++		glEnable(GL_DEBUG_OUTPUT);
++#ifndef NDEBUG
++		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS); // disable if in release
++#endif
++		glDebugMessageCallback(gl_debug_callback, nullptr);
+ 
+         // Turn on depth 
+         glEnable(GL_DEPTH_TEST);
+@@ -75,4 +119,4 @@ namespace Minecraft
+ 
+         m_EventQueue.erase(m_EventQueue.begin(), m_EventQueue.end());
+ 	}
+-}
+\ No newline at end of file
++}
+diff --git a/Source/Core/CMakeLists.txt b/Source/Core/CMakeLists.txt
+new file mode 100644
+index 0000000..9a3e4f5
+--- /dev/null
++++ b/Source/Core/CMakeLists.txt
+@@ -0,0 +1,48 @@
++cmake_minimum_required(VERSION 3.11)
++project(minecraft)
++
++find_package(GLEW REQUIRED)
++find_package(glfw3 REQUIRED)
++find_package(OpenGL REQUIRED)
++
++add_executable(main
++	./main.cpp
++	./Noise/FastNoise.cpp
++	./Camera.cpp
++	./FpsCamera.cpp
++	./OpenGL\ Classes/CubeTextureMap.cpp
++	./OpenGL\ Classes/IndexBuffer.cpp
++	./OpenGL\ Classes/Random.cpp
++	./OpenGL\ Classes/Texture.cpp
++	./OpenGL\ Classes/stb_image.cpp
++	./OpenGL\ Classes/Shader.cpp
++	./OpenGL\ Classes/Fps.cpp
++	./OpenGL\ Classes/VertexArray.cpp
++	./OpenGL\ Classes/VertexBuffer.cpp
++	./OpenGL\ Classes/GLDebug.cpp
++	./Chunk.cpp
++	./CubeRenderer.cpp
++	./TextureAtlas.cpp
++	./Player/Player.cpp
++	./Renderer/Renderer.cpp
++	./Application/Application.cpp
++	./Application/Events.cpp
++	./Block.cpp
++	./World/World.cpp
++	./World/Skybox.cpp
++	./World/WorldGenerator.cpp
++	./World/Structures/WorldStructures.cpp
++	./BlockTextureManager.cpp
++	./Utils/Logger.cpp
++	./Utils/Math.cpp
++	./Dependencies/imgui/imgui.cpp
++	./Dependencies/imgui/imgui_demo.cpp
++	./Dependencies/imgui/imgui_draw.cpp
++	./Dependencies/imgui/main.cpp
++	./Dependencies/imgui/imgui_impl_glfw_gl3.cpp
++	./ChunkMesh.cpp)
++
++target_link_libraries(main PRIVATE GLEW::GLEW glfw OpenGL::GL)
++target_compile_features(main PRIVATE cxx_std_17)
++
++file(COPY Shaders Resources DESTINATION ${CMAKE_BINARY_DIR}/Core/)
+diff --git a/Source/Core/ChunkMesh.h b/Source/Core/ChunkMesh.h
+index b6fff3e..b244b9f 100644
+--- a/Source/Core/ChunkMesh.h
++++ b/Source/Core/ChunkMesh.h
+@@ -11,12 +11,12 @@
+ #include <vector>
+ #include <array>
+ 
+-#include "OpenGL Classes\VertexBuffer.h"
+-#include "OpenGL Classes\VertexArray.h"
+-#include "OpenGL Classes\Shader.h"
+-#include "OpenGL Classes\Texture.h"
++#include "OpenGL Classes/VertexBuffer.h"
++#include "OpenGL Classes/VertexArray.h"
++#include "OpenGL Classes/Shader.h"
++#include "OpenGL Classes/Texture.h"
+ 
+-#include "Utils\Vertex.h"
++#include "Utils/Vertex.h"
+ #include "BlockTextureManager.h"
+ 
+ namespace Minecraft
+@@ -28,7 +28,7 @@ namespace Minecraft
+ 		ChunkMesh();
+ 		void ConstructMesh(std::array<std::array<std::array<Block, ChunkSizeX>, ChunkSizeY>, ChunkSizeZ>* Chunk, const glm::vec3& chunk_pos);
+ 		
+-		std::vector<Vertex> p_Vertices;
++// 		std::vector<Vertex> p_Vertices;
+ 		GLClasses::VertexBuffer p_VBO;
+ 		GLClasses::VertexArray p_VAO;
+ 
+@@ -42,4 +42,4 @@ namespace Minecraft
+ 		glm::vec4 m_LeftFace[4];
+ 		glm::vec4 m_RightFace[4];
+ 	};
+-}
+\ No newline at end of file
++}
+diff --git a/Source/Core/CubeRenderer.h b/Source/Core/CubeRenderer.h
+index ecc2e07..3b22bfe 100644
+--- a/Source/Core/CubeRenderer.h
++++ b/Source/Core/CubeRenderer.h
+@@ -7,11 +7,11 @@
+ #include <glm/gtc/matrix_transform.hpp>
+ #include <glm/gtc/type_ptr.hpp>
+ 
+-#include "OpenGL Classes\VertexBuffer.h"
+-#include "OpenGL Classes\VertexArray.h"
+-#include "OpenGL Classes\IndexBuffer.h"
+-#include "OpenGL Classes\Shader.h"
+-#include "OpenGL Classes\Texture.h"
++#include "OpenGL Classes/VertexBuffer.h"
++#include "OpenGL Classes/VertexArray.h"
++#include "OpenGL Classes/IndexBuffer.h"
++#include "OpenGL Classes/Shader.h"
++#include "OpenGL Classes/Texture.h"
+ 
+ using namespace GLClasses;
+ 
+@@ -38,4 +38,4 @@ namespace Minecraft
+ 		VertexArray m_VAO;
+ 		Shader m_DefaultShader;
+ 	};
+-}
+\ No newline at end of file
++}
+diff --git a/Source/Core/OpenGL Classes/CubeTextureMap.cpp b/Source/Core/OpenGL Classes/CubeTextureMap.cpp
+index 35ebb5d..6932b30 100644
+--- a/Source/Core/OpenGL Classes/CubeTextureMap.cpp	
++++ b/Source/Core/OpenGL Classes/CubeTextureMap.cpp	
+@@ -19,7 +19,7 @@ namespace GLClasses
+ 			if (image_data)
+ 			{
+   				glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width,
+-					height, GL_RGB, 0, GL_UNSIGNED_BYTE, &image_data);
++					height, 0, GL_RGB, GL_UNSIGNED_BYTE, image_data);
+ 				stbi_image_free(image_data);
+ 			}
+ 
+@@ -38,4 +38,4 @@ namespace GLClasses
+ 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+ 
+ 	}
+-}
+\ No newline at end of file
++}
+diff --git a/Source/Core/OpenGL Classes/Fps.cpp b/Source/Core/OpenGL Classes/Fps.cpp
+index 6ce3831..990b4ad 100644
+--- a/Source/Core/OpenGL Classes/Fps.cpp	
++++ b/Source/Core/OpenGL Classes/Fps.cpp	
+@@ -1,4 +1,6 @@
+ #include "Fps.h"
++#include <thread>
++#include <chrono>
+ 
+ namespace GLClasses
+ {
+@@ -27,7 +29,7 @@ namespace GLClasses
+ 		}
+ 
+ 		FPS_count += 1;
+-		Sleep(expected_time - (currentTime - lastTime));
++		std::this_thread::sleep_for(std::chrono::duration<double>(expected_time - (currentTime - lastTime)));
+ 	}
+ 
+ 	long long int GetFPSCount()
+@@ -57,21 +59,4 @@ namespace GLClasses
+ 		}
+ 
+ 	}
+-
+-	void CalculateFrameRateDeprecated()
+-	{
+-		static float framesPerSecond = 0.0f;
+-		static float fps;
+-		static double lastTime = 0.0f;
+-		double currentTime = glfwGetTime();
+-		++framesPerSecond;
+-		if (currentTime - lastTime > 1.0f)
+-		{
+-			lastTime = currentTime;
+-			fps = framesPerSecond;
+-			framesPerSecond = 0;
+-		}
+-
+-		Sleep(((double)1 / max_fps * 1000) - (double)(currentTime - lastTime));
+-	}
+-}
+\ No newline at end of file
++}
+diff --git a/Source/Core/OpenGL Classes/Fps.h b/Source/Core/OpenGL Classes/Fps.h
+index 756908b..1c2076c 100644
+--- a/Source/Core/OpenGL Classes/Fps.h	
++++ b/Source/Core/OpenGL Classes/Fps.h	
+@@ -1,8 +1,7 @@
+ #pragma once
+ 
+ #include <GLFW/glfw3.h> // For glfwGetTime()
+-
+-#include <windows.h> 
++ 
+ #include <sstream>
+ 
+ namespace GLClasses
+@@ -10,5 +9,4 @@ namespace GLClasses
+ 	void CalculateFrameRate(GLFWwindow* pWindow);
+ 	long long int GetFPSCount();
+ 	void DisplayFrameRate(GLFWwindow* pWindow, const std::string& title);
+-	void CalculateFrameRateDeprecated();
+-}
+\ No newline at end of file
++}
+diff --git a/Source/Core/OpenGL Classes/GLDebug.h b/Source/Core/OpenGL Classes/GLDebug.h
+index d4a7475..81c2480 100644
+--- a/Source/Core/OpenGL Classes/GLDebug.h	
++++ b/Source/Core/OpenGL Classes/GLDebug.h	
+@@ -7,6 +7,6 @@
+ #include <iostream>
+ 
+ #define DebugGL CheckOpenGLError(__FILE__, __LINE__);
+-#define DebugGLFunction(x) x; CheckOpenGLError(__FILE__, __LINE__);
++#define DebugGLFunction(x) x;
+ 
+-GLenum CheckOpenGLError(const char* File, int Line);
+\ No newline at end of file
++GLenum CheckOpenGLError(const char* File, int Line);
+diff --git a/Source/Core/Renderer/Renderer.cpp b/Source/Core/Renderer/Renderer.cpp
+index d13a0b9..f0ee90a 100644
+--- a/Source/Core/Renderer/Renderer.cpp
++++ b/Source/Core/Renderer/Renderer.cpp
+@@ -6,9 +6,9 @@ namespace Minecraft
+ 	{
+ 		// Manage the vertex arrays
+ 
+-		m_DefaultShader.CreateShaderProgramFromFile("Core\\Shaders\\BlockRendererVertex.glsl", "Core\\Shaders\\BlockRendererFrag.glsl");
++		m_DefaultShader.CreateShaderProgramFromFile("Core/Shaders/BlockRendererVertex.glsl", "Core/Shaders/BlockRendererFrag.glsl");
+ 		m_DefaultShader.CompileShaders();
+-		m_BlockAtlas.CreateTexture("Core\\Resources\\block_atlas.png");
++		m_BlockAtlas.CreateTexture("Core/Resources/block_atlas.png");
+ 	}
+ 
+ 	void Renderer::RenderChunk(Chunk* chunk, FPSCamera* camera)
+@@ -23,4 +23,4 @@ namespace Minecraft
+ 		DebugGLFunction(glDrawArrays(GL_TRIANGLES, 0, chunk->GetChunkMesh()->p_Vertices.size() * 6));
+ 		chunk->GetChunkMesh()->p_VAO.Unbind();
+ 	}
+-}
+\ No newline at end of file
++}
+diff --git a/Source/Core/Shaders/SkyboxVertex.glsl b/Source/Core/Shaders/SkyboxVertex.glsl
+index 9848cc0..961303a 100644
+--- a/Source/Core/Shaders/SkyboxVertex.glsl
++++ b/Source/Core/Shaders/SkyboxVertex.glsl
+@@ -4,10 +4,10 @@ layout (location = 0) in vec3 a_Position;
+ out vec3 v_TexCoords;
+ 
+ uniform mat4 u_Projection;
+-uniform mat4 u_View
++uniform mat4 u_View;
+ 
+ void main()
+ {
+     v_TexCoords = a_Position;
+     gl_Position = u_View * vec4(a_Position, 1.0);
+-}  
+\ No newline at end of file
++}  
+diff --git a/Source/Core/World/Skybox.cpp b/Source/Core/World/Skybox.cpp
+index 90ecb20..f03b795 100644
+--- a/Source/Core/World/Skybox.cpp
++++ b/Source/Core/World/Skybox.cpp
+@@ -50,15 +50,15 @@ namespace Minecraft
+         };
+ 
+         m_CubeMap.CreateCubeTextureMap({
+-            "Core\\Resources\\Skybox\\right.png",
+-            "Core\\Resources\\Skybox\\left.png",
+-            "Core\\Resources\\Skybox\\top.png",
+-            "Core\\Resources\\Skybox\\bottom.png",
+-            "Core\\Resources\\Skybox\\front.png",
+-            "Core\\Resources\\Skybox\\back.png"
++            "Core/Resources/Skybox/right.png",
++            "Core/Resources/Skybox/left.png",
++            "Core/Resources/Skybox/top.png",
++            "Core/Resources/Skybox/bottom.png",
++            "Core/Resources/Skybox/front.png",
++            "Core/Resources/Skybox/back.png"
+             });
+ 
+-        m_SkyboxShader.CreateShaderProgramFromFile("Core\\Shaders\\SkyboxVertex.glsl", "Core\\Shaders\\SkyboxFrag.glsl");
++        m_SkyboxShader.CreateShaderProgramFromFile("Core/Shaders/SkyboxVertex.glsl", "Core/Shaders/SkyboxFrag.glsl");
+         m_SkyboxShader.CompileShaders();
+ 
+         m_VAO.Bind();
+@@ -83,4 +83,4 @@ namespace Minecraft
+ 
+         m_VAO.Unbind();
+     }
+-}
+\ No newline at end of file
++}
+diff --git a/Source/Core/main.cpp b/Source/Core/main.cpp
+new file mode 100644
+index 0000000..3979a01
+--- /dev/null
++++ b/Source/Core/main.cpp
+@@ -0,0 +1,33 @@
++#define GLEW_STATIC
++#include <GL/glew.h>
++
++#include <GLFW/glfw3.h>
++
++#include <glm/glm.hpp>
++#include <glm/gtc/matrix_transform.hpp>
++#include <glm/gtc/type_ptr.hpp>
++
++#include "OpenGL Classes/VertexBuffer.h"
++#include "OpenGL Classes/VertexArray.h"
++#include "OpenGL Classes/IndexBuffer.h"
++#include "OpenGL Classes/Shader.h"
++#include "OpenGL Classes/Texture.h"
++#include "OpenGL Classes/Fps.h"
++
++#include "Application/Application.h"
++
++#include <iostream>
++
++int main()
++{
++    Minecraft::Application minecraft;
++
++    while (!glfwWindowShouldClose(minecraft.m_Window))
++    {
++        minecraft.OnUpdate();
++    }
++
++    return 0;
++}
++
++
+-- 
+2.27.0
+

@@ -6,9 +6,9 @@ namespace Minecraft
 	{
 		// Manage the vertex arrays
 
-		m_DefaultShader.CreateShaderProgramFromFile("Core\\Shaders\\BlockRendererVertex.glsl", "Core\\Shaders\\BlockRendererFrag.glsl");
+		m_DefaultShader.CreateShaderProgramFromFile("Core/Shaders/BlockRendererVertex.glsl", "Core/Shaders/BlockRendererFrag.glsl");
 		m_DefaultShader.CompileShaders();
-		m_BlockAtlas.CreateTexture("Core\\Resources\\block_atlas.png");
+		m_BlockAtlas.CreateTexture("Core/Resources/block_atlas.png");
 	}
 
 	void Renderer::RenderChunk(Chunk* chunk, FPSCamera* camera)

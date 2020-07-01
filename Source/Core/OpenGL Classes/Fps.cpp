@@ -1,9 +1,9 @@
 #include "Fps.h"
+#include <thread>
+#include <chrono>
 
 namespace GLClasses
 {
-
-
 	void DisplayFrameRate(GLFWwindow* pWindow, const std::string& title)
 	{
 		static double lastTime = 0;
