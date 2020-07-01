@@ -50,15 +50,15 @@ namespace Minecraft
         };
 
         m_CubeMap.CreateCubeTextureMap({
-            "Core\\Resources\\Skybox\\right.jpg",
-            "Core\\Resources\\Skybox\\left.jpg",
-            "Core\\Resources\\Skybox\\top.jpg",
-            "Core\\Resources\\Skybox\\bottom.jpg",
-            "Core\\Resources\\Skybox\\front.jpg",
-            "Core\\Resources\\Skybox\\back.jpg"
+            "Resources/Skybox/right.jpg",
+            "Resources/Skybox/left.jpg",
+            "Resources/Skybox/top.jpg",
+            "Resources/Skybox/bottom.jpg",
+            "Resources/Skybox/front.jpg",
+            "Resources/Skybox/back.jpg"
             });
 
-        m_SkyboxShader.CreateShaderProgramFromFile("Core\\Shaders\\SkyboxVertex.glsl", "Core\\Shaders\\SkyboxFrag.glsl");
+        m_SkyboxShader.CreateShaderProgramFromFile("Shaders/SkyboxVertex.glsl", "Shaders/SkyboxFrag.glsl");
         m_SkyboxShader.CompileShaders();
 
         m_VAO.Bind();

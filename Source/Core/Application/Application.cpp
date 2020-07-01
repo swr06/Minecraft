@@ -6,6 +6,11 @@
 #define NDEBUG
 #endif
 
+// Needs OpenGL 4+
+#if GL_VERSION_MAJOR > 3
+#define SHOULD_DEBUG_GL
+#endif
+
 void GLAPIENTRY gl_debug_callback(GLenum source, GLenum type, GLuint id,
 		GLenum severity, GLsizei length,
 		const char *message, const void *) 
@@ -54,8 +59,8 @@ namespace Minecraft
 	Application::Application()
 	{
         glfwInit();
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
         m_Window = glfwCreateWindow(800, 600, "Minecraft V0.01", NULL, NULL);
@@ -78,10 +83,13 @@ namespace Minecraft
 
 		glEnable(GL_DEBUG_OUTPUT);
 
-#ifndef NDEBUG
-		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS); // disable if in release
+// Enable synchronus debugging if the opengl version is 4.0 or 4.0+
+#ifdef SHOULD_DEBUG_GL
+	#ifndef NDEBUG
+			glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS); // disable if in release
+	#endif
+			glDebugMessageCallback(gl_debug_callback, nullptr);
 #endif
-		glDebugMessageCallback(gl_debug_callback, nullptr);
 
         // Turn on depth 
         glEnable(GL_DEPTH_TEST);
@@ -118,7 +126,6 @@ namespace Minecraft
 	void Application::OnEvent(EventSystem::Event e)
 	{
         m_World->OnEvent(e);
-
 	}
 
 	void Application::PollEvents()

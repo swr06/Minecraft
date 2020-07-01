@@ -237,13 +237,13 @@
     <ClInclude Include="Core\World\WorldGenerator.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Core\Shaders\BlockRendererFrag.glsl" />
-    <None Include="Core\Shaders\BlockRendererVertex.glsl" />
-    <None Include="Core\Shaders\SkyboxFrag.glsl" />
-    <None Include="Core\Shaders\SkyboxVertex.glsl" />
+    <None Include="Shaders\BlockRendererFrag.glsl" />
+    <None Include="Shaders\BlockRendererVertex.glsl" />
+    <None Include="Shaders\SkyboxFrag.glsl" />
+    <None Include="Shaders\SkyboxVertex.glsl" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Core\Resources\block_atlas.png" />
+    <Image Include="Resources\block_atlas.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

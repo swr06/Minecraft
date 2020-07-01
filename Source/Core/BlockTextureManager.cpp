@@ -4,7 +4,7 @@ namespace Minecraft
 {
 	const std::array<GLfloat, 8>& GetBlockTexture(BlockType block_type, BlockFaceType face_type)
 	{
-		static GLClasses::TextureAtlas BlockTextureAtlas("Core\\Resources\\block_atlas.png", 32, 32);
+		static GLClasses::TextureAtlas BlockTextureAtlas("Resources/block_atlas.png", 32, 32);
 		static std::array<GLfloat, 8> DirtBlockTexture[4];
 		static std::array<GLfloat, 8> StoneBlockTexture;
 		static std::array<GLfloat, 8> CobblestoneBlockTexture;

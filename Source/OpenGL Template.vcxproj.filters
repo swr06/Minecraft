@@ -290,21 +290,21 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Core\Shaders\BlockRendererFrag.glsl">
+    <None Include="Shaders\BlockRendererFrag.glsl">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Core\Shaders\BlockRendererVertex.glsl">
+    <None Include="Shaders\BlockRendererVertex.glsl">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Core\Shaders\SkyboxFrag.glsl">
+    <None Include="Shaders\SkyboxFrag.glsl">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Core\Shaders\SkyboxVertex.glsl">
+    <None Include="Shaders\SkyboxVertex.glsl">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Core\Resources\block_atlas.png">
+    <Image Include="Resources\block_atlas.png">
       <Filter>Resources</Filter>
     </Image>
   </ItemGroup>
