@@ -14,7 +14,8 @@ namespace Minecraft
 
 	enum BlockType
 	{
-		Dirt = 0,
+		Grass = 0,
+		Dirt,
 		Stone,
 		Leaf,
 		Wood,

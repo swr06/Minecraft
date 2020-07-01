@@ -33,7 +33,7 @@ namespace Minecraft
 
 		switch (block_type)
 		{
-			case BlockType::Dirt:
+			case BlockType::Grass:
 			{
 				switch (face_type)
 				{
@@ -66,6 +66,12 @@ namespace Minecraft
 					break;
 				}
 
+				break;
+			}
+
+			case BlockType::Dirt :
+			{
+				return DirtBlockTexture[1];
 				break;
 			}
 

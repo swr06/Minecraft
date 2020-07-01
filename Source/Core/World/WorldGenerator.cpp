@@ -13,7 +13,12 @@ namespace Minecraft
         {
             if (biome == Biome::Grassland)
             {
-                if (i >= y_level - 5)
+                if (i >= y_level - 1)
+                {
+                    chunk->AddBlock(BlockType::Grass, glm::vec3(x, i, z));
+                }
+
+                else if (i >= y_level - 5)
                 {
                     chunk->AddBlock(BlockType::Dirt, glm::vec3(x, i, z));
                 }
@@ -67,29 +72,24 @@ namespace Minecraft
     {
         // Quantize the noise into various levels and frequency
 
-        const float grass_land = 0.6f;
-        const float desert = 0.4f;
-        const float ocean = 0.2f;
+        const float grass_land = 0.1f;
+        const float desert = 0.6f;
+        const float ocean = 0.6f;
 
-        if (chunk_noise > 0 && chunk_noise < grass_land)
+        if (chunk_noise < grass_land)
         {
             return Biome::Grassland;
         }
 
-        else 
+        else if (chunk_noise > 0 && chunk_noise < desert)
         {
             return Biome::Desert;
-        }
-
-        /*else if (chunk_noise > 0 && chunk_noise < ocean)
-        {
-            return Biome::Ocean;
         }
 
         else
         {
             return Biome::Grassland;
-        }*/
+        }
     }
 
     void GenerateChunk(Chunk* chunk)
@@ -143,7 +143,7 @@ namespace Minecraft
 
                     case Biome::Desert : 
                     {
-                        generated_y = (HeightMap[x][z] / 2 + 1.0) * (ChunkSizeY - 36);
+                        generated_y = (HeightMap[x][z] / 2 + 1.0) * (ChunkSizeY - 32);
                         Structure = &WorldStructureCactus;
                         break;
                     }
