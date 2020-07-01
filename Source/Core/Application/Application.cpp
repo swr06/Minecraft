@@ -2,13 +2,18 @@
 
 #include <cstdio>
 
+#ifdef _DEBUG
 #define NDEBUG
+#endif
 
 void GLAPIENTRY gl_debug_callback(GLenum source, GLenum type, GLuint id,
 		GLenum severity, GLsizei length,
-		const char *message, const void *) {
+		const char *message, const void *) 
+{
 	const char *sev = "";
-	switch (severity) {
+
+	switch (severity) 
+	{
 		case GL_DEBUG_SEVERITY_HIGH: sev = "\e[91m"; break;
 		case GL_DEBUG_SEVERITY_MEDIUM: sev = "\e[93m"; break;
 		case GL_DEBUG_SEVERITY_LOW: sev = "\e[92m"; break;
@@ -16,7 +21,9 @@ void GLAPIENTRY gl_debug_callback(GLenum source, GLenum type, GLuint id,
 	}
 
 	const char *src = "?";
-	switch (source) {
+
+	switch (source) 
+	{
 		case GL_DEBUG_SOURCE_API: src = "API"; break;
 		case GL_DEBUG_SOURCE_WINDOW_SYSTEM: src = "window system"; break;
 		case GL_DEBUG_SOURCE_SHADER_COMPILER: src = "shader compiler"; break;
@@ -26,7 +33,9 @@ void GLAPIENTRY gl_debug_callback(GLenum source, GLenum type, GLuint id,
 	}
 
 	const char *type_str = "?";
-	switch (type) {
+
+	switch (type) 
+	{
 		case GL_DEBUG_TYPE_ERROR: type_str = "error"; break;
 		case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR: type_str = "deprecated behavior"; break;
 		case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR: type_str = "undefined behavior"; break;
