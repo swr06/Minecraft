@@ -66,11 +66,11 @@ namespace Minecraft
 		}
 
 		glm::vec3 p_Position;
+		std::array<std::array<std::array<Block, ChunkSizeX>, ChunkSizeY>, ChunkSizeZ>* m_ChunkContents;
 
 	private :
 		// each chunk will be a 16x16x16 block space. A 3D array
 
-		std::array<std::array<std::array<Block, ChunkSizeX>, ChunkSizeY>, ChunkSizeZ>* m_ChunkContents;
 		ChunkMesh m_ChunkMesh;
 	};
 }

@@ -5,6 +5,7 @@
 #include <array>
 #include <map>
 #include <vector>
+#include <thread>
 
 #define GLEW_STATIC
 #include <GL/glew.h>
@@ -23,6 +24,7 @@
 #include "../Utils/Timer.h"
 #include "../Player/Player.h"
 #include "../Renderer/Renderer.h"
+#include "../Renderer/Renderer2D.h"
 #include "../Application/Events.h"
 #include "WorldGenerator.h"
 
@@ -39,14 +41,28 @@ namespace Minecraft
 		void RenderWorld();
 		void OnEvent(EventSystem::Event e);
 
+		// Gets a world block from the respective chunk. Returns nullptr if invalid
+		Block* GetWorldBlock(const glm::vec3& block_loc);
+
 		Player* p_Player;
 
 	private:
 		void RenderChunkFromMap(int cx, int cz);
 
-		Renderer m_Renderer;
-		std::map<int, std::map<int, Chunk>> m_WorldChunks;
+		Chunk* GetChunkFromMap(int cx, int cz);
+
 		int m_ChunkCount;
+
+		// Renderers
+		Renderer m_Renderer;
+		Renderer2D m_Renderer2D;
+		
+		std::map<int, std::map<int, Chunk>> m_WorldChunks;
 		Skybox m_Skybox;
+		glm::vec3 m_StartRay;
+		glm::vec3 m_EndRay;
+
+		OrthographicCamera m_Camera2D;
+		GLClasses::Texture m_CrosshairTexture;
 	};
 }

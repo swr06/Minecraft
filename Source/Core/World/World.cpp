@@ -2,7 +2,7 @@
 
 namespace Minecraft
 {
-	World::World()
+	World::World() : m_Camera2D(0.0f, 800.0f, 0.0f, 600.0f)
 	{
 		// Generate all the chunks 
 
@@ -18,6 +18,8 @@ namespace Minecraft
 		{
 			for (int j = 0; j < 4; j++)
 			{
+				Timer timer("First Chunk generation");
+
 				m_WorldChunks[i][j].p_Position = glm::vec3(i, 1, j);
 				GenerateChunk(&m_WorldChunks[i][j]);
 			}
@@ -30,13 +32,15 @@ namespace Minecraft
 		{
 			for (int j = 0; j < 4; j++)
 			{
-				Timer timer("Mesh Construction!");
+				Timer timer("First Chunks Construction!");
 
 				m_WorldChunks[i][j].Construct(glm::vec3(i,1,j));
 			}
 		}
 
 		Logger::LogToConsole("Chunk Mesh construction ended");
+
+		m_CrosshairTexture.CreateTexture("Resources/crosshair.png");
 	}
 
 	World::~World()
@@ -70,6 +74,44 @@ namespace Minecraft
 
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 			p_Player->p_Camera.MoveCamera(MoveDirection::Down, camera_speed);
+
+		//////
+
+		// Get the current player's chunk
+		int player_chunk_x = 0;
+		int player_chunk_y = 0;
+		int player_chunk_z = 0;
+
+		player_chunk_x = floor(p_Player->p_Position.x / ChunkSizeX);
+		player_chunk_y = floor(p_Player->p_Position.y / ChunkSizeY);
+		player_chunk_z = floor(p_Player->p_Position.z / ChunkSizeZ);
+
+		// Cast a ray from the player's current position
+
+		glm::vec3 block_pos;
+		glm::vec3 ray_end;
+
+		for (RayCast ray(&p_Player->p_Camera); ray.GetLength() < 6; ray.StepRay(0.05))
+		{
+			ray_end = ray.GetEnd();
+
+			//std::cout << std::endl << "Block Location | X : " << block_pos.x << " | Y : " << block_pos.y << " | Z : " << block_pos.z;
+
+			Block* block = GetWorldBlock(ray_end);
+
+			if (block != nullptr)
+			{
+				block_pos = block->p_Position;
+
+				if (block->p_BlockType != BlockType::Air)
+				{
+					if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT))
+					{
+						std::cout << std::endl << "Block Location | X : " << block_pos.x << " | Y : " << block_pos.y << " | Z : " << block_pos.z;
+					}
+				}
+			}
+		}
 	}
 
 	void World::RenderWorld()
@@ -93,18 +135,54 @@ namespace Minecraft
 				RenderChunkFromMap(i, j);
 			}
 		}
+
+		// Todo : Render crosshair and other 2D elements
 	}
 
 	void World::OnEvent(EventSystem::Event e)
 	{
-		if (e.type == EventSystem::EventTypes::MouseMove)
+		p_Player->OnEvent(e);
+
+		if (e.type == EventSystem::EventTypes::MousePress)
 		{
-			p_Player->p_Camera.UpdateOnMouseMovement(e.mx, e.my);
+	
+		}
+	}
+
+	Block* World::GetWorldBlock(const glm::vec3& block_loc)
+	{
+		int block_chunk_x = static_cast<int>(floor(block_loc.x / ChunkSizeX));
+		int block_chunk_z = static_cast<int>(floor(block_loc.z / ChunkSizeZ));
+		int bx = (int)block_loc.x % ChunkSizeX;
+		int by = (int)block_loc.y % ChunkSizeY;
+		int bz = (int)block_loc.z % ChunkSizeZ;
+
+		Chunk* chunk = GetChunkFromMap(block_chunk_x, block_chunk_z);
+
+		if (bx >= 0 && by >= 0 && bz >= 0 &&
+			bx < ChunkSizeX && bz < ChunkSizeY && bz < ChunkSizeZ)
+		{
+			return &chunk->m_ChunkContents->at(bx).at(by).at(bz);
+		}
+
+		else
+		{
+			return nullptr;
 		}
 	}
 
 	void World::RenderChunkFromMap(int cx, int cz)
 	{
+		m_Renderer.RenderChunk(GetChunkFromMap(cx, cz), &p_Player->p_Camera);
+		return;
+	}
+
+	Chunk* World::GetChunkFromMap(int cx, int cz)
+	{
+		std::stringstream str;
+
+		str << "Chunk Building ! X : " << cx << " | Z : " << cz;
+
 		std::map<int, std::map<int, Chunk>>::iterator chunk_exists_x = m_WorldChunks.find(cx);
 
 		if (chunk_exists_x != m_WorldChunks.end())
@@ -113,28 +191,29 @@ namespace Minecraft
 
 			if (chunk_exists_z != m_WorldChunks.at(cx).end())
 			{
-				// The chunk exists. Render the already generated chunk
-				m_Renderer.RenderChunk(&m_WorldChunks[cx][cz], &p_Player->p_Camera);
-
-				return;
+				// The chunk exists. Return the address of the retrieved chunk
+				return &m_WorldChunks.at(cx).at(cz);
 			}
 
 			else
 			{
+				Timer timer(str.str());
+
 				m_WorldChunks[cx][cz].p_Position = glm::vec3(cx, 1, cz);
 				GenerateChunk(&m_WorldChunks[cx][cz]);
-				m_WorldChunks[cx][cz].Construct(glm::vec3(cx,1,cz));
+				m_WorldChunks[cx][cz].Construct(glm::vec3(cx, 1, cz));
 			}
 		}
 
 		else
 		{
+			Timer timer(str.str());
+
 			m_WorldChunks[cx][cz].p_Position = glm::vec3(cx, 1, cz);
 			GenerateChunk(&m_WorldChunks[cx][cz]);
 			m_WorldChunks[cx][cz].Construct(glm::vec3(cx, 1, cz));
 		}
 
-		m_Renderer.RenderChunk(&m_WorldChunks[cx][cz], &p_Player->p_Camera);
-		return;
+		return &m_WorldChunks.at(cx).at(cz);
 	}
 }

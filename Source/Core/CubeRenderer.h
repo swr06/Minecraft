@@ -13,10 +13,10 @@
 #include "OpenGL Classes/Shader.h"
 #include "OpenGL Classes/Texture.h"
 
-using namespace GLClasses;
-
 namespace Minecraft
 {
+	using namespace GLClasses;
+
 	struct Cube
 	{
 		float length;
@@ -33,9 +33,9 @@ namespace Minecraft
 
 	private :
 
-		VertexBuffer m_VBO;
-		IndexBuffer m_IBO;
-		VertexArray m_VAO;
-		Shader m_DefaultShader;
+		GLClasses::VertexBuffer m_VBO;
+		GLClasses::IndexBuffer m_IBO;
+		GLClasses::VertexArray m_VAO;
+		GLClasses::Shader m_DefaultShader;
 	};
 }

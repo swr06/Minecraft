@@ -11,29 +11,41 @@
 
 namespace Minecraft
 {
-	class RayCaster
+	class RayCast
 	{
-	public :
-		void CastRay(float mx, float my, float window_width, float window_height)
+	public:
+
+		RayCast(FPSCamera* camera)
 		{
-			glm::vec2 mouse_coords = ConvertToNDC(mx, my, window_width, window_height);
-			glm::vec4 clip_coords = glm::vec4(mouse_coords.x, mouse_coords.y, -1.0f, 1.0f);
+			m_RayStart = camera->GetPosition();
+			m_RayEnd = camera->GetPosition();
+			m_Direction = camera->GetFront();
+		}
+
+		void StepRay(float scale)
+		{
+			float yaw = glm::radians(m_Direction.y + 90);
+			float pitch = glm::radians(m_Direction.x);
+
+			m_RayEnd.x -= glm::cos(yaw) * scale;
+			m_RayEnd.z -= glm::sin(yaw) * scale;
+			m_RayEnd.y -= glm::tan(pitch) * scale;
+		}
+
+		inline const glm::vec3& GetEnd() const
+		{
+			return m_RayEnd;
+		}
+
+		float GetLength()
+		{
+			return glm::distance(m_RayStart, m_RayEnd);
 		}
 
 	private:
 
-		glm::vec2 ConvertToNDC(float mx, float my, float ww, float wh)
-		{
-			glm::vec2 ret_val;
-
-			ret_val.x = (2 * mx) / ww - 1.0f;
-			ret_val.y = (2 * my) / wh - 1.0f;
-			ret_val.y = -ret_val.y;
-		
-			return ret_val;
-		}
-
-		glm::vec3 m_Ray;
-		FPSCamera* m_Camera;
+		glm::vec3 m_RayStart;
+		glm::vec3 m_RayEnd;
+		glm::vec3 m_Direction;
 	};
 }

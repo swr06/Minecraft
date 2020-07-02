@@ -101,7 +101,7 @@ namespace Minecraft
         static FastNoise BiomeGenerator(WorldSeed);
         
         WorldGenerator.SetNoiseType(FastNoise::Simplex);
-        BiomeGenerator.SetNoiseType(FastNoise::PerlinFractal);
+        BiomeGenerator.SetNoiseType(FastNoise::Simplex);
 
         float generated_x = 0;
         float generated_y = 0;

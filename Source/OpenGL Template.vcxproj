@@ -184,8 +184,10 @@
     <ClCompile Include="Core\OpenGL Classes\Texture.cpp" />
     <ClCompile Include="Core\OpenGL Classes\VertexArray.cpp" />
     <ClCompile Include="Core\OpenGL Classes\VertexBuffer.cpp" />
+    <ClCompile Include="Core\OrthographicCamera.cpp" />
     <ClCompile Include="Core\Player\Player.cpp" />
     <ClCompile Include="Core\Renderer\Renderer.cpp" />
+    <ClCompile Include="Core\Renderer\Renderer2D.cpp" />
     <ClCompile Include="Core\TextureAtlas.cpp" />
     <ClCompile Include="Core\Utils\Logger.cpp" />
     <ClCompile Include="Core\World\Skybox.cpp" />
@@ -222,8 +224,10 @@
     <ClInclude Include="Core\OpenGL Classes\Texture.h" />
     <ClInclude Include="Core\OpenGL Classes\VertexArray.h" />
     <ClInclude Include="Core\OpenGL Classes\VertexBuffer.h" />
+    <ClInclude Include="Core\OrthographicCamera.h" />
     <ClInclude Include="Core\Player\Player.h" />
     <ClInclude Include="Core\Renderer\Renderer.h" />
+    <ClInclude Include="Core\Renderer\Renderer2D.h" />
     <ClInclude Include="Core\TextureAtlas.h" />
     <ClInclude Include="Core\Utils\Defs.h" />
     <ClInclude Include="Core\Utils\Logger.h" />
@@ -237,6 +241,8 @@
     <ClInclude Include="Core\World\WorldGenerator.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Shaders\2DElementShaderFrag.glsl" />
+    <None Include="Shaders\2DElementShaderVert.glsl" />
     <None Include="Shaders\BlockRendererFrag.glsl" />
     <None Include="Shaders\BlockRendererVertex.glsl" />
     <None Include="Shaders\SkyboxFrag.glsl" />
