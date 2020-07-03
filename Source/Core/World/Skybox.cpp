@@ -80,8 +80,9 @@ namespace Minecraft
         glActiveTexture(GL_TEXTURE0);
         DebugGLFunction(glBindTexture(GL_TEXTURE_CUBE_MAP, m_CubeMap.GetID()));
         DebugGLFunction(glDrawArrays(GL_TRIANGLES, 0, 36));
-        glDepthMask(GL_TRUE);
 
         m_VAO.Unbind();
+
+        glDepthMask(GL_TRUE);
     }
 }

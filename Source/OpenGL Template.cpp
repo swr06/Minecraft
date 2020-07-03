@@ -18,13 +18,13 @@
 
 #include <iostream>
 
+extern Minecraft::Application Minecraft::MinecraftApplication;
+
 int main()
 {
-    Minecraft::Application minecraft;
-
-    while (!glfwWindowShouldClose(minecraft.m_Window))
+    while (!glfwWindowShouldClose(Minecraft::MinecraftApplication.m_Window))
     {
-        minecraft.OnUpdate();
+        Minecraft::MinecraftApplication.OnUpdate();
     }
 
     return 0;

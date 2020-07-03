@@ -36,6 +36,16 @@ namespace Minecraft
 		void SetNearAndFarPlane(float zNear, float zFar);
 		void SetPerspectiveMatrix(float fov, float aspect_ratio, float zNear, float zFar);
 
+		inline float GetYaw()
+		{
+			return _Yaw;
+		}
+
+		inline float GetPitch()
+		{
+			return _Pitch;
+		}
+
 		inline const glm::vec3& GetPosition()
 		{
 			return m_Position;

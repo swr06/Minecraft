@@ -54,8 +54,11 @@ void GLAPIENTRY gl_debug_callback(GLenum source, GLenum type, GLuint id,
 	fprintf(stderr, "debug:%s type: %s, source: %s, message: \"%.*s\"\e[0m\n", sev, type_str, src, length, message);
 }
 
+
 namespace Minecraft
 {
+	Application MinecraftApplication;
+
 	Application::Application()
 	{
         glfwInit();
@@ -110,9 +113,9 @@ namespace Minecraft
 
         // Start rendering
         
-        //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         // Clear the depth and color bit buffer
+
         glClearColor(0.44f, 0.78f, 0.88f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
 
@@ -130,12 +133,16 @@ namespace Minecraft
 
 	void Application::PollEvents()
 	{
-
         for (int i = 0; i < m_EventQueue.size(); i++)
         {
             OnEvent(m_EventQueue[i]);
         }
 
         m_EventQueue.erase(m_EventQueue.begin(), m_EventQueue.end());
+	}
+
+	Application* GetMinecraftApp()
+	{
+		return &MinecraftApplication;
 	}
 }

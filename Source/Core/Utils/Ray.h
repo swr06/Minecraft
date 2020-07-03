@@ -17,19 +17,21 @@ namespace Minecraft
 
 		RayCast(FPSCamera* camera)
 		{
-			m_RayStart = camera->GetPosition();
-			m_RayEnd = camera->GetPosition();
+			glm::vec3 origin = camera->GetPosition();
+
+			m_RayStart = origin;
+			m_RayEnd = origin;
+			m_Yaw = camera->GetYaw();
+			m_Pitch = camera->GetPitch();
+
 			m_Direction = camera->GetFront();
 		}
 
 		void StepRay(float scale)
 		{
-			float yaw = glm::radians(m_Direction.y + 90);
-			float pitch = glm::radians(m_Direction.x);
-
-			m_RayEnd.x -= glm::cos(yaw) * scale;
-			m_RayEnd.z -= glm::sin(yaw) * scale;
-			m_RayEnd.y -= glm::tan(pitch) * scale;
+			m_RayEnd.x -= glm::cos(m_Yaw) * scale;
+			m_RayEnd.z -= glm::sin(m_Yaw) * scale;
+			m_RayEnd.y -= glm::tan(m_Pitch) * scale;
 		}
 
 		inline const glm::vec3& GetEnd() const
@@ -47,5 +49,7 @@ namespace Minecraft
 		glm::vec3 m_RayStart;
 		glm::vec3 m_RayEnd;
 		glm::vec3 m_Direction;
+		float m_Yaw;
+		float m_Pitch;
 	};
 }

@@ -50,6 +50,7 @@ namespace Minecraft
 		void RenderChunkFromMap(int cx, int cz);
 
 		Chunk* GetChunkFromMap(int cx, int cz);
+		bool ChunkInViewFrustum(Chunk* chunk);
 
 		int m_ChunkCount;
 

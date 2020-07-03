@@ -30,6 +30,7 @@ namespace Minecraft
 		}
 
 		void OnUpdate();
+		inline World* GetWorld() { return m_World; }
 
 	private :
 
@@ -40,4 +41,8 @@ namespace Minecraft
 
 		std::vector<EventSystem::Event> m_EventQueue;
 	};
+
+	extern Application MinecraftApplication;
+
+	Application* GetMinecraftApp();
 }

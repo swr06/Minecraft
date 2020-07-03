@@ -34,7 +34,7 @@ namespace Minecraft
 			{
 				Timer timer("First Chunks Construction!");
 
-				m_WorldChunks[i][j].Construct(glm::vec3(i,1,j));
+				m_WorldChunks[i][j].Construct(glm::vec3(i, 1, j));
 			}
 		}
 
@@ -145,7 +145,7 @@ namespace Minecraft
 
 		if (e.type == EventSystem::EventTypes::MousePress)
 		{
-	
+
 		}
 	}
 
