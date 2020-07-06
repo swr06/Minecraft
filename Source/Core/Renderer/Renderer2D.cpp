@@ -21,26 +21,35 @@ namespace Minecraft
     void Renderer2D::RenderQuad(const glm::vec2& position, GLClasses::Texture* texture, OrthographicCamera* camera)
 	{
         glDisable(GL_DEPTH_TEST);
-        glDisable(GL_CULL_FACE);
 
         const std::array<GLfloat, 8> texture_coords = texture->GetTextureCoords();
 
-        float Vertices[] = {
-             800.0f, 600.0f, 0.0f, texture_coords[0], texture_coords[1],
-             800.0f, 0.0f,   0.0f, texture_coords[2], texture_coords[3], 
-             0.0f,   0.0f,   0.0f, texture_coords[4], texture_coords[5], 
-             0.0f,   600.0f, 0.0f, texture_coords[6], texture_coords[7]  
+        float x, y, w, h;
+
+        x = position.x;
+        y = position.y;
+        w = position.x + texture->GetWidth();
+        h = position.y + texture->GetHeight();
+
+        GLfloat Vertices[] = {
+            w, y, 1.0f, texture_coords[0], texture_coords[1],
+            w, h, 1.0f, texture_coords[2], texture_coords[3],
+            x, h, 1.0f, texture_coords[4], texture_coords[5],
+            x, h, 1.0f, texture_coords[4], texture_coords[5],
+            x, y, 1.0f, texture_coords[6], texture_coords[7],
+            w, y, 1.0f, texture_coords[0], texture_coords[1],
         };
 
-        glm::mat4 Model = glm::translate(glm::mat4(1.0f), glm::vec3(position, 0.0f));
-
         m_DefaultShader.Use();
-        m_DefaultShader.SetMatrix4("u_ViewProjection", camera->GetViewProjectionMatrix(), 0);
-        m_DefaultShader.SetMatrix4("u_Model", Model, 0);
+        texture->Bind(1);
+        m_DefaultShader.SetMatrix4("u_Projection", camera->GetProjectionMatrix(), 0);
+        m_DefaultShader.SetMatrix4("u_View", camera->GetViewMatrix(), 0);
+        m_DefaultShader.SetMatrix4("u_Model", glm::mat4(1.0f), 0);
+        m_DefaultShader.SetInteger("u_Texture", 1, 0);
         
         // Draw the 2D quad 
         m_VAO.Bind();
-        m_VBO.BufferData(sizeof(Vertices), Vertices, GL_STATIC_DRAW);
+        m_VBO.BufferData(20 * sizeof(GLfloat), Vertices, GL_STATIC_DRAW);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)0);
         m_VAO.Unbind();
 

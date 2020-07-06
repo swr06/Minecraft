@@ -41,7 +41,7 @@ namespace Minecraft
 			delete m_ChunkContents;
 		}
 
-		void AddBlock(BlockType type, const glm::vec3& position)
+		void SetBlock(BlockType type, const glm::vec3& position)
 		{
 			Block b;
 			b.p_Position = position;
@@ -50,7 +50,7 @@ namespace Minecraft
 			m_ChunkContents->at(position.x).at(position.y).at(position.z) = b;
 		}
 
-		void AddBlock(Block* block)
+		void SetBlock(Block* block)
 		{
 			m_ChunkContents->at(block->p_Position.x).at(block->p_Position.y).at(block->p_Position.z) = *block;
 		}

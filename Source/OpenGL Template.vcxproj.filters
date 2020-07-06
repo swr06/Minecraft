@@ -104,6 +104,9 @@
     <ClCompile Include="Core\OrthographicCamera.cpp">
       <Filter>Internal</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Utils\Physics.cpp">
+      <Filter>Internal\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Dependencies\imgui\stb_truetype.h">
@@ -231,6 +234,9 @@
     </ClInclude>
     <ClInclude Include="Core\OrthographicCamera.h">
       <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Utils\Physics.h">
+      <Filter>Internal\Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

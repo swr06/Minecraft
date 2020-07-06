@@ -1,8 +1,8 @@
 #include <string>
 
-#define ChunkSizeX 32
-#define ChunkSizeY 64
-#define ChunkSizeZ 32
+#define ChunkSizeX 16
+#define ChunkSizeY 96
+#define ChunkSizeZ 16
 #define MaxStructureX 8
 #define MaxStructureY 8
 #define MaxStructureZ 8

@@ -1,6 +1,7 @@
 #include "CubeRenderer.h"
 
-// A basic cube renderer that was used to test
+// A basic cube renderer that was used to test the basic idea
+// This is not used internally
 
 namespace Minecraft
 {

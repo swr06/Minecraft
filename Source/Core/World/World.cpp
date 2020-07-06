@@ -75,8 +75,6 @@ namespace Minecraft
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 			p_Player->p_Camera.MoveCamera(MoveDirection::Down, camera_speed);
 
-		//////
-
 		// Get the current player's chunk
 		int player_chunk_x = 0;
 		int player_chunk_y = 0;
@@ -88,7 +86,7 @@ namespace Minecraft
 
 		// Cast a ray from the player's current position
 
-		glm::vec3 block_pos;
+		glm::vec3 pos;
 		glm::vec3 ray_end;
 
 		for (RayCast ray(&p_Player->p_Camera); ray.GetLength() < 6; ray.StepRay(0.05))
@@ -97,17 +95,31 @@ namespace Minecraft
 
 			//std::cout << std::endl << "Block Location | X : " << block_pos.x << " | Y : " << block_pos.y << " | Z : " << block_pos.z;
 
-			Block* block = GetWorldBlock(ray_end);
+			//ray_end = ray_end / 16.0f;
+			std::pair<Block*, Chunk*> block= GetWorldBlockFromPosition(ray_end);
 
-			if (block != nullptr)
+			if (block.first != nullptr && block.second != nullptr)
 			{
-				block_pos = block->p_Position;
+				pos = ray_end;
 
-				if (block->p_BlockType != BlockType::Air)
+				if (block.first->p_BlockType != BlockType::Air)
 				{
 					if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT))
 					{
-						std::cout << std::endl << "Block Location | X : " << block_pos.x << " | Y : " << block_pos.y << " | Z : " << block_pos.z;
+  						std::cout << std::endl << "Ray End Location | X : " << pos.x << " | Y : " << pos.y << " | Z : " << pos.z;
+						
+						block.second->SetBlock(BlockType::Dirt, block.first->p_Position);
+						block.second->Construct(block.second->p_Position);
+
+						break;
+					}
+
+					else if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT))
+					{
+						block.second->SetBlock(BlockType::Air, block.first->p_Position);
+						block.second->Construct(block.second->p_Position);
+
+						break;
 					}
 				}
 			}
@@ -137,6 +149,9 @@ namespace Minecraft
 		}
 
 		// Todo : Render crosshair and other 2D elements
+		//		  WHY THE FREAKING HELL IS THIS NOT WORKING! THIS IS SO SIMPLE! AAARRRGGHHH! WTF IS IT RENDERING A SINGLE PIXEL AT 0,0
+		// EDIT : KILL ME.
+		m_Renderer2D.RenderQuad(glm::vec3(400.0f, 300.0f, 1.0f), &m_CrosshairTexture, &m_Camera2D);
 	}
 
 	void World::OnEvent(EventSystem::Event e)
@@ -149,26 +164,37 @@ namespace Minecraft
 		}
 	}
 
-	Block* World::GetWorldBlock(const glm::vec3& block_loc)
+	std::pair<Block*, Chunk*> World::GetWorldBlockFromPosition(const glm::vec3& block_loc)
 	{
 		int block_chunk_x = static_cast<int>(floor(block_loc.x / ChunkSizeX));
 		int block_chunk_z = static_cast<int>(floor(block_loc.z / ChunkSizeZ));
-		int bx = (int)block_loc.x % ChunkSizeX;
-		int by = (int)block_loc.y % ChunkSizeY;
-		int bz = (int)block_loc.z % ChunkSizeZ;
+		int bx = (int)(block_loc.x) % ChunkSizeX;
+		int by = (int)(block_loc.y) % ChunkSizeY;
+		int bz = (int)(block_loc.z) % ChunkSizeZ;
+
+		if (bx < 0)
+		{
+			bx = ChunkSizeX + bx;
+		}
+
+		if (by < 0)
+		{
+			by = ChunkSizeY + by;
+		}
+
+		if (bz < 0)
+		{
+			bz = ChunkSizeZ + bz;
+		}
+
+		std::pair<Block*, Chunk*> ret_val = std::pair(nullptr, nullptr);
 
 		Chunk* chunk = GetChunkFromMap(block_chunk_x, block_chunk_z);
 
-		if (bx >= 0 && by >= 0 && bz >= 0 &&
-			bx < ChunkSizeX && bz < ChunkSizeY && bz < ChunkSizeZ)
-		{
-			return &chunk->m_ChunkContents->at(bx).at(by).at(bz);
-		}
-
-		else
-		{
-			return nullptr;
-		}
+		ret_val.first = &chunk->m_ChunkContents->at(bx).at(by).at(bz);
+		ret_val.second = chunk;
+		
+		return ret_val;
 	}
 
 	void World::RenderChunkFromMap(int cx, int cz)

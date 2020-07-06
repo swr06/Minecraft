@@ -2,6 +2,7 @@
 
 namespace Minecraft
 {
+    // Sets the vertical blocks based on the biome
     void SetVerticalBlocks(Chunk* chunk, int x, int z, int y_level, Biome biome)
     {
         if (y_level >= ChunkSizeY)
@@ -15,17 +16,17 @@ namespace Minecraft
             {
                 if (i >= y_level - 1)
                 {
-                    chunk->AddBlock(BlockType::Grass, glm::vec3(x, i, z));
+                    chunk->SetBlock(BlockType::Grass, glm::vec3(x, i, z));
                 }
 
                 else if (i >= y_level - 5)
                 {
-                    chunk->AddBlock(BlockType::Dirt, glm::vec3(x, i, z));
+                    chunk->SetBlock(BlockType::Dirt, glm::vec3(x, i, z));
                 }
 
                 else
                 {
-                    chunk->AddBlock(BlockType::Stone, glm::vec3(x, i, z));
+                    chunk->SetBlock(BlockType::Stone, glm::vec3(x, i, z));
                 }
             }
 
@@ -33,12 +34,12 @@ namespace Minecraft
             {
                 if (i >= y_level - 6)
                 {
-                    chunk->AddBlock(BlockType::Sand, glm::vec3(x, i, z));
+                    chunk->SetBlock(BlockType::Sand, glm::vec3(x, i, z));
                 }
 
                 else
                 {
-                    chunk->AddBlock(BlockType::Stone, glm::vec3(x, i, z));
+                    chunk->SetBlock(BlockType::Stone, glm::vec3(x, i, z));
                 }
             }
         }
@@ -60,7 +61,7 @@ namespace Minecraft
                         {
                             block.p_BlockType = structure->p_Structure->at(sx).at(sy).at(sz).p_BlockType;
                             block.p_Position = glm::vec3(i, j, k);
-                            chunk->AddBlock(&block);
+                            chunk->SetBlock(&block);
                         }
                     }
                 }
@@ -76,19 +77,14 @@ namespace Minecraft
         const float desert = 0.6f;
         const float ocean = 0.6f;
 
-        if (chunk_noise < grass_land)
+        if (chunk_noise <= 0)
         {
             return Biome::Grassland;
         }
 
-        else if (chunk_noise > 0 && chunk_noise < desert)
+        else if (chunk_noise > 0)
         {
             return Biome::Desert;
-        }
-
-        else
-        {
-            return Biome::Grassland;
         }
     }
 
@@ -98,6 +94,7 @@ namespace Minecraft
         static unsigned int WorldSeed = 1569;
         static Random WorldTreeGenerator(WorldSeed);
         static FastNoise WorldGenerator(WorldSeed);
+        static FastNoise WorldGeneratorMultiply_1(WorldSeed);
         static FastNoise BiomeGenerator(WorldSeed);
         
         WorldGenerator.SetNoiseType(FastNoise::Simplex);
@@ -121,7 +118,8 @@ namespace Minecraft
         {
             for (int y = 0; y < ChunkSizeY; y++)
             {
-                HeightMap[x][y] = WorldGenerator.GetNoise(x + chunk->p_Position.x * ChunkSizeX, y + chunk->p_Position.z * ChunkSizeZ);
+                HeightMap[x][y] = WorldGenerator.GetNoise(x + chunk->p_Position.x * ChunkSizeX, y + chunk->p_Position.z * ChunkSizeZ) *
+                    WorldGeneratorMultiply_1.GetNoise((x + chunk->p_Position.x * ChunkSizeX) + 4, (y + chunk->p_Position.z * ChunkSizeZ) + 8) ;
             }
         }
 

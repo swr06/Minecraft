@@ -42,7 +42,7 @@ namespace Minecraft
 		void OnEvent(EventSystem::Event e);
 
 		// Gets a world block from the respective chunk. Returns nullptr if invalid
-		Block* GetWorldBlock(const glm::vec3& block_loc);
+		std::pair<Block*, Chunk*> GetWorldBlockFromPosition(const glm::vec3& block_loc);
 
 		Player* p_Player;
 
