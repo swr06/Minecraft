@@ -14,6 +14,7 @@ namespace Minecraft
 	class Frustum
 	{
 		Frustum(FPSCamera* camera);
+		void UpdateCameraFrustum();
 
 	private : 
 
@@ -21,6 +22,14 @@ namespace Minecraft
 		float m_NearPlane;
 		float m_FarPlane;
 		float m_Aspect;
+
+		float m_NearWidth;
+		float m_NearHeight;
+		float m_FarWidth;
+		float m_FarHeight;
+
+		float m_Tangent;
+
 		glm::vec3 m_Position;
 		glm::vec3 m_Direction;
 	};

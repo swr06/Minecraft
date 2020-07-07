@@ -18,7 +18,7 @@ namespace Minecraft
 		_Yaw = 0.0f;
 
 		m_ViewMatrix = glm::lookAt(m_Position, m_Front + m_Position, m_Up);
-		m_ProjectionMatrix = glm::perspective(fov, aspect, zNear, zFar);
+		m_ProjectionMatrix = glm::perspective(glm::radians(fov), aspect, zNear, zFar);
 		m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
 	}
 
