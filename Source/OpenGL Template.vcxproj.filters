@@ -107,6 +107,12 @@
     <ClCompile Include="Core\Utils\Physics.cpp">
       <Filter>Internal\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="Core\ChunkFileHandler.cpp">
+      <Filter>Internal\Chunk</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Maths\Frustum.cpp">
+      <Filter>Internal\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Dependencies\imgui\stb_truetype.h">
@@ -238,6 +244,12 @@
     <ClInclude Include="Core\Utils\Physics.h">
       <Filter>Internal\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Core\ChunkFileHandler.h">
+      <Filter>Internal\Chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Maths\Frustum.h">
+      <Filter>Internal\Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Dependencies">
@@ -305,6 +317,12 @@
     </Filter>
     <Filter Include="Internal\Skybox">
       <UniqueIdentifier>{65474e96-753d-4358-9f25-642d54d4bd3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Internal\Physics">
+      <UniqueIdentifier>{a37e5093-e52b-4953-8458-6a5d0f6ae54a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Internal\Math">
+      <UniqueIdentifier>{e9806a0b-d67c-4859-a06b-24ff5602385b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

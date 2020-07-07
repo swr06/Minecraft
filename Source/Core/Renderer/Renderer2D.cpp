@@ -4,13 +4,13 @@ namespace Minecraft
 {
     Renderer2D::Renderer2D() : m_VBO(GL_ARRAY_BUFFER)
     {
-        GLuint index_buffer[6] = { 0,1,2,2,3,0 };
+        GLuint index_buffer[6] = { 0,1,3,1,2,3 };
 
         m_VAO.Bind();
         m_VBO.Bind();
         m_IBO.Bind();
         m_VBO.VertexAttribPointer(0, 3, GL_FLOAT, 0, 5 * sizeof(GLfloat), (void*)0);
-        m_VBO.VertexAttribPointer(0, 2, GL_FLOAT, 0, 5 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+        m_VBO.VertexAttribPointer(1, 2, GL_FLOAT, 0, 5 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
         m_IBO.BufferData(6 * sizeof(GLuint), index_buffer, GL_STATIC_DRAW);
         m_VAO.Unbind();
 
@@ -35,9 +35,7 @@ namespace Minecraft
             w, y, 1.0f, texture_coords[0], texture_coords[1],
             w, h, 1.0f, texture_coords[2], texture_coords[3],
             x, h, 1.0f, texture_coords[4], texture_coords[5],
-            x, h, 1.0f, texture_coords[4], texture_coords[5],
             x, y, 1.0f, texture_coords[6], texture_coords[7],
-            w, y, 1.0f, texture_coords[0], texture_coords[1],
         };
 
         m_DefaultShader.Use();

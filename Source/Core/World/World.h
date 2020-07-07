@@ -1,5 +1,8 @@
 #pragma once
 
+// Use legacy "unsafe" functions
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <iostream>
 #include <string>
 #include <array>
@@ -26,6 +29,7 @@
 #include "../Renderer/Renderer.h"
 #include "../Renderer/Renderer2D.h"
 #include "../Application/Events.h"
+#include "../ChunkFileHandler.h"
 #include "WorldGenerator.h"
 
 namespace Minecraft
@@ -46,13 +50,15 @@ namespace Minecraft
 
 		Player* p_Player;
 
+
 	private:
 		void RenderChunkFromMap(int cx, int cz);
+		void UnloadFarChunks();
 
 		Chunk* GetChunkFromMap(int cx, int cz);
 		bool ChunkInViewFrustum(Chunk* chunk);
 
-		int m_ChunkCount;
+		uint32_t m_ChunkCount;
 
 		// Renderers
 		Renderer m_Renderer;

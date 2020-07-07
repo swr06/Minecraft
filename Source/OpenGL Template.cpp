@@ -18,6 +18,7 @@
 
 #include <iostream>
 
+// Uses the already declared application variable
 extern Minecraft::Application Minecraft::MinecraftApplication;
 
 int main()

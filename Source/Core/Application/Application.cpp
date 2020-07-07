@@ -98,6 +98,9 @@ namespace Minecraft
         glEnable(GL_DEPTH_TEST);
         glDepthMask(GL_TRUE);
 
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA ,GL_ONE_MINUS_SRC_ALPHA);
+
         m_World = new World;
 
         EventSystem::InitEventSystem(m_Window, &m_EventQueue);
@@ -111,9 +114,6 @@ namespace Minecraft
         // Update the world
         m_World->OnUpdate(m_Window);
 
-        // Start rendering
-        
-		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         // Clear the depth and color bit buffer
 
         glClearColor(0.44f, 0.78f, 0.88f, 1.0f);

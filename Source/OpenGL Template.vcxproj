@@ -167,6 +167,7 @@
     <ClCompile Include="Core\Camera.cpp" />
     <ClCompile Include="Core\Chunk.cpp" />
     <ClCompile Include="Core\ChunkMesh.cpp" />
+    <ClCompile Include="Core\ChunkFileHandler.cpp" />
     <ClCompile Include="Core\CubeRenderer.cpp" />
     <ClCompile Include="Core\Dependencies\imgui\imgui.cpp" />
     <ClCompile Include="Core\Dependencies\imgui\imgui_demo.cpp" />
@@ -174,6 +175,7 @@
     <ClCompile Include="Core\Dependencies\imgui\imgui_impl_glfw_gl3.cpp" />
     <ClCompile Include="Core\Dependencies\imgui\main.cpp" />
     <ClCompile Include="Core\FpsCamera.cpp" />
+    <ClCompile Include="Core\Maths\Frustum.cpp" />
     <ClCompile Include="Core\Noise\FastNoise.cpp" />
     <ClCompile Include="Core\OpenGL Classes\CubeTextureMap.cpp" />
     <ClCompile Include="Core\OpenGL Classes\Fps.cpp" />
@@ -206,6 +208,7 @@
     <ClInclude Include="Core\Camera.h" />
     <ClInclude Include="Core\Chunk.h" />
     <ClInclude Include="Core\ChunkMesh.h" />
+    <ClInclude Include="Core\ChunkFileHandler.h" />
     <ClInclude Include="Core\CubeRenderer.h" />
     <ClInclude Include="Core\Dependencies\imgui\imconfig.h" />
     <ClInclude Include="Core\Dependencies\imgui\imgui.h" />
@@ -215,6 +218,7 @@
     <ClInclude Include="Core\Dependencies\imgui\stb_textedit.h" />
     <ClInclude Include="Core\Dependencies\imgui\stb_truetype.h" />
     <ClInclude Include="Core\FpsCamera.h" />
+    <ClInclude Include="Core\Maths\Frustum.h" />
     <ClInclude Include="Core\Noise\FastNoise.h" />
     <ClInclude Include="Core\OpenGL Classes\CubeTextureMap.h" />
     <ClInclude Include="Core\OpenGL Classes\Fps.h" />

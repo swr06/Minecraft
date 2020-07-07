@@ -22,6 +22,7 @@ namespace Minecraft
 
 				m_WorldChunks[i][j].p_Position = glm::vec3(i, 1, j);
 				GenerateChunk(&m_WorldChunks[i][j]);
+				m_ChunkCount++;
 			}
 		}
 
@@ -148,10 +149,7 @@ namespace Minecraft
 			}
 		}
 
-		// Todo : Render crosshair and other 2D elements
-		//		  WHY THE FREAKING HELL IS THIS NOT WORKING! THIS IS SO SIMPLE! AAARRRGGHHH! WTF IS IT RENDERING A SINGLE PIXEL AT 0,0
-		// EDIT : KILL ME.
-		m_Renderer2D.RenderQuad(glm::vec3(400.0f, 300.0f, 1.0f), &m_CrosshairTexture, &m_Camera2D);
+		m_Renderer2D.RenderQuad(glm::vec3(400.0f - (m_CrosshairTexture.GetWidth() / 2), 300.0f - (m_CrosshairTexture.GetHeight() / 2), 1.0f), &m_CrosshairTexture, &m_Camera2D);
 	}
 
 	void World::OnEvent(EventSystem::Event e)
@@ -203,6 +201,12 @@ namespace Minecraft
 		return;
 	}
 
+	void World::UnloadFarChunks()
+	{
+
+		return;
+	}
+
 	Chunk* World::GetChunkFromMap(int cx, int cz)
 	{
 		std::stringstream str;
@@ -228,6 +232,7 @@ namespace Minecraft
 				m_WorldChunks[cx][cz].p_Position = glm::vec3(cx, 1, cz);
 				GenerateChunk(&m_WorldChunks[cx][cz]);
 				m_WorldChunks[cx][cz].Construct(glm::vec3(cx, 1, cz));
+				m_ChunkCount++;
 			}
 		}
 
@@ -238,6 +243,7 @@ namespace Minecraft
 			m_WorldChunks[cx][cz].p_Position = glm::vec3(cx, 1, cz);
 			GenerateChunk(&m_WorldChunks[cx][cz]);
 			m_WorldChunks[cx][cz].Construct(glm::vec3(cx, 1, cz));
+			m_ChunkCount++;
 		}
 
 		return &m_WorldChunks.at(cx).at(cz);

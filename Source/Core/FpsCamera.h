@@ -6,7 +6,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-// The FPS Camera that is used internally
+// The FPS Camera that is used for the player's movement, frustum culling
 
 namespace Minecraft
 {
@@ -89,6 +89,21 @@ namespace Minecraft
 		inline const glm::vec3 GetRight()
 		{
 			return glm::normalize(glm::cross(m_Front, m_Up));
+		}
+
+		inline float GetAspect()
+		{
+			return m_Aspect;
+		}
+
+		inline float GetNearPlane()
+		{
+			return m_zNear;
+		}
+
+		inline float GetFarPlane()
+		{
+			return m_zFar;
 		}
 
 		void MoveCamera(MoveDirection dir, float speed);
