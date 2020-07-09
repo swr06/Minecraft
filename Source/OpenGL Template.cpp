@@ -23,6 +23,8 @@ extern Minecraft::Application Minecraft::MinecraftApplication;
 
 int main()
 {
+    // The main game loop
+
     while (!glfwWindowShouldClose(Minecraft::MinecraftApplication.m_Window))
     {
         Minecraft::MinecraftApplication.OnUpdate();

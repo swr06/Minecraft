@@ -9,6 +9,8 @@
 
 #include "../FpsCamera.h"
 
+// HIGHLY WIP 
+
 namespace Minecraft
 {
 	class Frustum

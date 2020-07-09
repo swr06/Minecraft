@@ -50,6 +50,7 @@ namespace Minecraft
 		m_Vertices.clear();
 	}
 
+	// Construct mesh using greedy meshing for maximum performance
 	void ChunkMesh::ConstructMesh(std::array<std::array<std::array<Block, ChunkSizeX>, ChunkSizeY>, ChunkSizeZ>* Chunk, const glm::vec3& chunk_pos)
 	{
 		glm::vec3 world_position;

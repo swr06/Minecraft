@@ -76,55 +76,49 @@ namespace Minecraft
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 			p_Player->p_Camera.MoveCamera(MoveDirection::Down, camera_speed);
 
-		// Get the current player's chunk
-		int player_chunk_x = 0;
-		int player_chunk_y = 0;
-		int player_chunk_z = 0;
+		RayCast ray(&p_Player->p_Camera);
+		glm::vec3 last_pos;
 
-		player_chunk_x = floor(p_Player->p_Position.x / ChunkSizeX);
-		player_chunk_y = floor(p_Player->p_Position.y / ChunkSizeY);
-		player_chunk_z = floor(p_Player->p_Position.z / ChunkSizeZ);
-
-		// Cast a ray from the player's current position
-
-		glm::vec3 pos;
-		glm::vec3 ray_end;
-
-		for (RayCast ray(&p_Player->p_Camera); ray.GetLength() < 6; ray.StepRay(0.05))
+		for (; ray.GetLength() < 16; ray.StepRay(0.05))
 		{
-			ray_end = ray.GetEnd();
-
-			//std::cout << std::endl << "Block Location | X : " << block_pos.x << " | Y : " << block_pos.y << " | Z : " << block_pos.z;
-
-			//ray_end = ray_end / 16.0f;
-			std::pair<Block*, Chunk*> block= GetWorldBlockFromPosition(ray_end);
-
-			if (block.first != nullptr && block.second != nullptr)
+			if (GetWorldBlockTypeFromPosition(ray.GetEnd()) != BlockType::Air)
 			{
-				pos = ray_end;
+				glm::vec3 ray_end = ray.GetEnd();
 
-				if (block.first->p_BlockType != BlockType::Air)
+				if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT))
 				{
-					if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT))
-					{
-  						std::cout << std::endl << "Ray End Location | X : " << pos.x << " | Y : " << pos.y << " | Z : " << pos.z;
-						
-						block.second->SetBlock(BlockType::Dirt, block.first->p_Position);
-						block.second->Construct(block.second->p_Position);
+					std::pair<Block*, Chunk*> block = GetWorldBlockFromPosition(ray_end);
 
-						break;
-					}
+					glm::vec3 block_pos = block.first->p_Position;
+					
+					SetWorldBlockFromPosition(BlockType::Dirt, ray_end);
+					block.second->m_ChunkContents->at(block_pos.x).at(block_pos.y).at(block_pos.z).p_BlockType = BlockType::Dirt;
+					block.second->Construct(block.second->p_Position);
 
-					else if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT))
-					{
-						block.second->SetBlock(BlockType::Air, block.first->p_Position);
-						block.second->Construct(block.second->p_Position);
+					std::cout << "\nRAY HIT! X : " << ray_end.x << "  Y : " << ray_end.y << "   Z : " << ray_end.z;
+					std::cout << "\nBLOCK POS! X : " << block.first->p_Position.x << "  Y : " << block.first->p_Position.y << "   Z : " << block.first->p_Position.z;
+					std::cout << "\nPLAYER POSITION! X : " << p_Player->p_Position.x << "  Y : " << p_Player->p_Position.y << "   Z : " << p_Player->p_Position.z;
 
-						break;
-					}
+					break;
 				}
+
+				if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT))
+				{
+					SetWorldBlockFromPosition(BlockType::Air, ray_end);
+					std::pair<Block*, Chunk*> block = GetWorldBlockFromPosition(ray_end);
+					block.second->Construct(block.second->p_Position);
+
+					std::cout << "\nRAY HIT! X : " << ray_end.x << "  Y : " << ray_end.y << "   Z : " << ray_end.z;
+					std::cout << "\nBLOCK POS! X : " << block.first->p_Position.x << "  Y : " << block.first->p_Position.y << "   Z : " << block.first->p_Position.z;
+					std::cout << "\nPLAYER POSITION! X : " << p_Player->p_Position.x << "  Y : " << p_Player->p_Position.y << "   Z : " << p_Player->p_Position.z;
+
+					break;
+				}
+
+				last_pos = ray.GetEnd();
 			}
 		}
+
 	}
 
 	void World::RenderWorld()
@@ -136,7 +130,6 @@ namespace Minecraft
 		m_Skybox.RenderSkybox(&p_Player->p_Camera);
 
 		player_chunk_x = floor(p_Player->p_Position.x / ChunkSizeX);
-		player_chunk_y = floor(p_Player->p_Position.y / ChunkSizeY);
 		player_chunk_z = floor(p_Player->p_Position.z / ChunkSizeZ);
 
 		int render_distance_x = 2, render_distance_z = 2;
@@ -164,35 +157,37 @@ namespace Minecraft
 
 	std::pair<Block*, Chunk*> World::GetWorldBlockFromPosition(const glm::vec3& block_loc)
 	{
-		int block_chunk_x = static_cast<int>(floor(block_loc.x / ChunkSizeX));
-		int block_chunk_z = static_cast<int>(floor(block_loc.z / ChunkSizeZ));
-		int bx = (int)(block_loc.x) % ChunkSizeX;
-		int by = (int)(block_loc.y) % ChunkSizeY;
-		int bz = (int)(block_loc.z) % ChunkSizeZ;
-
-		if (bx < 0)
-		{
-			bx = ChunkSizeX + bx;
-		}
-
-		if (by < 0)
-		{
-			by = ChunkSizeY + by;
-		}
-
-		if (bz < 0)
-		{
-			bz = ChunkSizeZ + bz;
-		}
-
-		std::pair<Block*, Chunk*> ret_val = std::pair(nullptr, nullptr);
+		int block_chunk_x = (int)(block_loc.x / ChunkSizeX);
+		int block_chunk_z = (int)(block_loc.z / ChunkSizeZ);
+		int bx = ((int)block_loc.x % ChunkSizeX + ChunkSizeX) % ChunkSizeX;
+		int by = ((int)block_loc.y % ChunkSizeY + ChunkSizeY) % ChunkSizeY;
+		int bz = ((int)block_loc.z % ChunkSizeZ + ChunkSizeZ) % ChunkSizeZ;
 
 		Chunk* chunk = GetChunkFromMap(block_chunk_x, block_chunk_z);
 
-		ret_val.first = &chunk->m_ChunkContents->at(bx).at(by).at(bz);
-		ret_val.second = chunk;
-		
-		return ret_val;
+		return { &chunk->m_ChunkContents->at(bx).at(by).at(bz), chunk };
+	}
+
+	void World::SetWorldBlockFromPosition(BlockType type, const glm::vec3& block_loc)
+	{
+		int block_chunk_x = (int)(block_loc.x / ChunkSizeX);
+		int block_chunk_z = (int)(block_loc.z / ChunkSizeZ);
+		int bx = ((int)block_loc.x % ChunkSizeX + ChunkSizeX) % ChunkSizeX;
+		int by = ((int)block_loc.y % ChunkSizeY + ChunkSizeY) % ChunkSizeY;
+		int bz = ((int)block_loc.z % ChunkSizeZ + ChunkSizeZ) % ChunkSizeZ;
+
+		GetChunkFromMap(block_chunk_x, block_chunk_z)->SetBlock(type, glm::vec3(bx, by, bz));
+	}
+
+	BlockType World::GetWorldBlockTypeFromPosition(const glm::vec3& block_loc)
+	{
+		int block_chunk_x = (int)(block_loc.x / ChunkSizeX);
+		int block_chunk_z = (int)(block_loc.z / ChunkSizeZ);
+		int bx = ((int)block_loc.x % ChunkSizeX + ChunkSizeX) % ChunkSizeX;
+		int by = ((int)block_loc.y % ChunkSizeY + ChunkSizeY) % ChunkSizeY;
+		int bz = ((int)block_loc.z % ChunkSizeZ + ChunkSizeZ) % ChunkSizeZ;
+
+		return GetChunkFromMap(block_chunk_x, block_chunk_z)->m_ChunkContents->at(bx).at(by).at(bz).p_BlockType;
 	}
 
 	void World::RenderChunkFromMap(int cx, int cz)
