@@ -111,10 +111,13 @@
       <Filter>Internal\Chunk</Filter>
     </ClCompile>
     <ClCompile Include="Core\Maths\Frustum.cpp">
-      <Filter>Internal\Math</Filter>
+      <Filter>Internal\Math\Frustum Culling</Filter>
     </ClCompile>
     <ClCompile Include="Core\Maths\Plane.cpp">
-      <Filter>Internal\Math</Filter>
+      <Filter>Internal\Math\Frustum Culling</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Utils\Raycast.cpp">
+      <Filter>Internal\Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -250,11 +253,14 @@
     <ClInclude Include="Core\ChunkFileHandler.h">
       <Filter>Internal\Chunk</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Maths\Frustum.h">
-      <Filter>Internal\Math</Filter>
+    <ClInclude Include="Core\Utils\Raycast.h">
+      <Filter>Internal\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Core\Maths\Plane.h">
-      <Filter>Internal\Math</Filter>
+      <Filter>Internal\Math\Frustum Culling</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Maths\Frustum.h">
+      <Filter>Internal\Math\Frustum Culling</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -329,6 +335,9 @@
     </Filter>
     <Filter Include="Internal\Simplex Noise">
       <UniqueIdentifier>{568f3f65-7797-48f9-9c06-5464507871dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Internal\Math\Frustum Culling">
+      <UniqueIdentifier>{3e20a2c4-ffc8-4bbe-87d3-1f604c87f735}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

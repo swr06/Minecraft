@@ -15,9 +15,11 @@
 
 #include <GLFW/glfw3.h>
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+//#include <glm/glm.hpp>
+//#include <glm/gtc/matrix_transform.hpp>
+//#include <glm/gtc/type_ptr.hpp>
+
+#include "../Utils/Raycast.h"
 
 #include "Skybox.h"
 #include "../Chunk.h"
@@ -31,6 +33,8 @@
 #include "../Application/Events.h"
 #include "../ChunkFileHandler.h"
 #include "WorldGenerator.h"
+
+// TODO : Include ray cast class
 
 namespace Minecraft
 {

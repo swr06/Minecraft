@@ -21,6 +21,7 @@ namespace Minecraft
 	namespace ChunkFileHandler
 	{
 		// Reads or writes a chunk to a file with a unique filename
+		// Uses C style file handling because it's slightly faster than the C++ counterpart
 
 		bool UnloadChunk(Chunk* chunk);
 		bool LoadChunk(Chunk* chunk);

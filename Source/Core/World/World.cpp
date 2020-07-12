@@ -76,49 +76,14 @@ namespace Minecraft
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 			p_Player->p_Camera.MoveCamera(MoveDirection::Down, camera_speed);
 
-		RayCast ray(&p_Player->p_Camera);
-		glm::vec3 last_pos;
+		// Get position relative to camera's direction
+		float block_dist = 4;
 
-		for (; ray.GetLength() < 16; ray.StepRay(0.05))
-		{
-			if (GetWorldBlockTypeFromPosition(ray.GetEnd()) != BlockType::Air)
-			{
-				glm::vec3 ray_end = ray.GetEnd();
+		std::vector<glm::vec3> traversed_voxels = FastVoxelTraversal(p_Player->p_Camera.GetPosition(), 
+			(p_Player->p_Camera.GetPosition() + p_Player->p_Camera.GetFront()) * block_dist);
 
-				if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT))
-				{
-					std::pair<Block*, Chunk*> block = GetWorldBlockFromPosition(ray_end);
-
-					glm::vec3 block_pos = block.first->p_Position;
-					
-					SetWorldBlockFromPosition(BlockType::Dirt, ray_end);
-					block.second->m_ChunkContents->at(block_pos.x).at(block_pos.y).at(block_pos.z).p_BlockType = BlockType::Dirt;
-					block.second->Construct(block.second->p_Position);
-
-					std::cout << "\nRAY HIT! X : " << ray_end.x << "  Y : " << ray_end.y << "   Z : " << ray_end.z;
-					std::cout << "\nBLOCK POS! X : " << block.first->p_Position.x << "  Y : " << block.first->p_Position.y << "   Z : " << block.first->p_Position.z;
-					std::cout << "\nPLAYER POSITION! X : " << p_Player->p_Position.x << "  Y : " << p_Player->p_Position.y << "   Z : " << p_Player->p_Position.z;
-
-					break;
-				}
-
-				if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT))
-				{
-					SetWorldBlockFromPosition(BlockType::Air, ray_end);
-					std::pair<Block*, Chunk*> block = GetWorldBlockFromPosition(ray_end);
-					block.second->Construct(block.second->p_Position);
-
-					std::cout << "\nRAY HIT! X : " << ray_end.x << "  Y : " << ray_end.y << "   Z : " << ray_end.z;
-					std::cout << "\nBLOCK POS! X : " << block.first->p_Position.x << "  Y : " << block.first->p_Position.y << "   Z : " << block.first->p_Position.z;
-					std::cout << "\nPLAYER POSITION! X : " << p_Player->p_Position.x << "  Y : " << p_Player->p_Position.y << "   Z : " << p_Player->p_Position.z;
-
-					break;
-				}
-
-				last_pos = ray.GetEnd();
-			}
-		}
-
+		int ref = traversed_voxels.size() - 3;
+		std::cout << std::endl << " X : " << traversed_voxels[ref].x << "  Y : " << traversed_voxels[ref].y << "  Z : " << traversed_voxels[ref].z;
 	}
 
 	void World::RenderWorld()

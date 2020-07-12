@@ -194,6 +194,7 @@
     <ClCompile Include="Core\TextureAtlas.cpp" />
     <ClCompile Include="Core\Utils\Logger.cpp" />
     <ClCompile Include="Core\Utils\Physics.cpp" />
+    <ClCompile Include="Core\Utils\Raycast.cpp" />
     <ClCompile Include="Core\World\Skybox.cpp" />
     <ClCompile Include="Core\World\Structures\WorldStructures.cpp" />
     <ClCompile Include="Core\World\World.cpp" />
@@ -241,6 +242,7 @@
     <ClInclude Include="Core\Utils\Physics.h" />
     <ClInclude Include="Core\Utils\Random.h" />
     <ClInclude Include="Core\Utils\Ray.h" />
+    <ClInclude Include="Core\Utils\Raycast.h" />
     <ClInclude Include="Core\Utils\Timer.h" />
     <ClInclude Include="Core\Utils\Vertex.h" />
     <ClInclude Include="Core\World\Skybox.h" />
