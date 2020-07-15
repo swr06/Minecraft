@@ -70,7 +70,7 @@ namespace Minecraft
 		Renderer m_Renderer;
 		Renderer2D m_Renderer2D;
 		
-		std::map<int, std::map<int, Chunk>> m_WorldChunks;
+		std::map<std::pair<int, int>, Chunk> m_WorldChunks;
 		Skybox m_Skybox;
 		glm::vec3 m_StartRay;
 		glm::vec3 m_EndRay;
