@@ -135,7 +135,6 @@ namespace Minecraft
 			}
 		}
 
-
 		m_Renderer2D.RenderQuad(glm::vec3(400.0f - (m_CrosshairTexture.GetWidth() / 2), 300.0f - (m_CrosshairTexture.GetHeight() / 2), 1.0f), &m_CrosshairTexture, &m_Camera2D);
 	}
 
@@ -151,8 +150,8 @@ namespace Minecraft
 
 	std::pair<Block*, Chunk*> World::GetWorldBlockFromPosition(const glm::vec3& block_loc)
 	{
-		int block_chunk_x = (int)(block_loc.x / ChunkSizeX);
-		int block_chunk_z = (int)(block_loc.z / ChunkSizeZ);
+		int block_chunk_x = floor(block_loc.x / ChunkSizeX);
+		int block_chunk_z = floor(block_loc.z / ChunkSizeZ);
 		int bx = ((int)block_loc.x % ChunkSizeX + ChunkSizeX) % ChunkSizeX;
 		int by = block_loc.y;
 		int bz = ((int)block_loc.z % ChunkSizeZ + ChunkSizeZ) % ChunkSizeZ;
@@ -164,8 +163,8 @@ namespace Minecraft
 
 	void World::SetWorldBlockFromPosition(BlockType type, const glm::vec3& block_loc)
 	{
-		int block_chunk_x = (int)(block_loc.x / ChunkSizeX);
-		int block_chunk_z = (int)(block_loc.z / ChunkSizeZ);
+		int block_chunk_x = floor(block_loc.x / ChunkSizeX);
+		int block_chunk_z = floor(block_loc.z / ChunkSizeZ);
 		int bx = ((int)block_loc.x % ChunkSizeX + ChunkSizeX) % ChunkSizeX;
 		int by = block_loc.y;
 		int bz = ((int)block_loc.z % ChunkSizeZ + ChunkSizeZ) % ChunkSizeZ;
@@ -175,8 +174,8 @@ namespace Minecraft
 
 	BlockType World::GetWorldBlockTypeFromPosition(const glm::vec3& block_loc)
 	{
-		int block_chunk_x = (int)(block_loc.x / ChunkSizeX);
-		int block_chunk_z = (int)(block_loc.z / ChunkSizeZ);
+		int block_chunk_x = floor(block_loc.x / ChunkSizeX);
+		int block_chunk_z = floor(block_loc.z / ChunkSizeZ);
 		int bx = ((int)block_loc.x % ChunkSizeX + ChunkSizeX) % ChunkSizeX;
 		int by = block_loc.y;
 		int bz = ((int)block_loc.z % ChunkSizeZ + ChunkSizeZ) % ChunkSizeZ;
