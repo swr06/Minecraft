@@ -67,9 +67,9 @@ namespace Minecraft
 						// To fix chunk edge mesh building issues, both faces are added if it is in the edge
 
 						world_position = Chunk->at(x).at(y).at(z).p_Position;
-						
+
 						world_position.x = chunk_pos.x * ChunkSizeX + Chunk->at(x).at(y).at(z).p_Position.x;
-						world_position.y = chunk_pos.y * ChunkSizeY + Chunk->at(x).at(y).at(z).p_Position.y;
+						world_position.y = 0 * ChunkSizeY + Chunk->at(x).at(y).at(z).p_Position.y;
 						world_position.z = chunk_pos.z * ChunkSizeZ + Chunk->at(x).at(y).at(z).p_Position.z;
 
 						if (z <= 0)

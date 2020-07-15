@@ -117,8 +117,10 @@ namespace Minecraft
         // Clear the depth and color bit buffer
 
         glClearColor(0.44f, 0.78f, 0.88f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
+        glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_DEPTH_BUFFER_BIT);
 
+		// Render the world
         m_World->RenderWorld();
 
         GLClasses::DisplayFrameRate(m_Window, "Minecraft Clone V0.01 ");

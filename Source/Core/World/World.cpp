@@ -2,6 +2,12 @@
 
 namespace Minecraft
 {
+	static void PrintVec3(const glm::vec3& val)
+	{
+		std::cout << std::endl << "X : " << val.x << " Y : " << val.y << " Z : " << val.z;
+		return;
+	}
+
 	World::World() : m_Camera2D(0.0f, 800.0f, 0.0f, 600.0f)
 	{
 		// Generate all the chunks 
@@ -9,8 +15,8 @@ namespace Minecraft
 		p_Player = new Player;
 
 		// Set the players position
-		p_Player->p_Camera.SetPosition(glm::vec3(2 * 16, 10 * 16, 2 * 16));
-		p_Player->p_Position = glm::vec3(2 * 16, 2 * 16, 2 * 16);
+		p_Player->p_Camera.SetPosition(glm::vec3(0, 4, 0));
+		//p_Player->p_Position = glm::vec3(2 * 16, 2 * 16, 2 * 16);
 
 		Logger::LogToConsole("World Generation Began");
 
@@ -77,13 +83,33 @@ namespace Minecraft
 			p_Player->p_Camera.MoveCamera(MoveDirection::Down, camera_speed);
 
 		// Get position relative to camera's direction
-		float block_dist = 4;
+		float block_dist = 1.0f;
 
 		std::vector<glm::vec3> traversed_voxels = FastVoxelTraversal(p_Player->p_Camera.GetPosition(), 
 			(p_Player->p_Camera.GetPosition() + p_Player->p_Camera.GetFront()) * block_dist);
 
-		int ref = traversed_voxels.size() - 3;
-		std::cout << std::endl << " X : " << traversed_voxels[ref].x << "  Y : " << traversed_voxels[ref].y << "  Z : " << traversed_voxels[ref].z;
+		//for (int i = 0; i < traversed_voxels.size() ; i++)
+		//{
+		//	std::pair<Block*, Chunk*> block = GetWorldBlockFromPosition(traversed_voxels[i]);
+
+		//	if (block.first->p_BlockType != BlockType::Air && glfwGetMouseButton(window ,GLFW_MOUSE_BUTTON_LEFT))
+		//	{
+		//		PrintVec3(traversed_voxels[i]);
+		//		PrintVec3(block.first->p_Position);
+		//		block.second->SetBlock(BlockType::Dirt, block.first->p_Position);
+		//		block.second->Construct(block.second->p_Position);
+
+		//		break;
+		//	}
+
+		//	else if (block.first->p_BlockType != BlockType::Air && glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT))
+		//	{
+		//		block.second->SetBlock(BlockType::Air, block.first->p_Position);
+		//		block.second->Construct(block.second->p_Position);
+
+		//		break;
+		//	}
+		//}
 	}
 
 	void World::RenderWorld()
@@ -125,7 +151,7 @@ namespace Minecraft
 		int block_chunk_x = (int)(block_loc.x / ChunkSizeX);
 		int block_chunk_z = (int)(block_loc.z / ChunkSizeZ);
 		int bx = ((int)block_loc.x % ChunkSizeX + ChunkSizeX) % ChunkSizeX;
-		int by = ((int)block_loc.y % ChunkSizeY + ChunkSizeY) % ChunkSizeY;
+		int by = block_loc.y;
 		int bz = ((int)block_loc.z % ChunkSizeZ + ChunkSizeZ) % ChunkSizeZ;
 
 		Chunk* chunk = GetChunkFromMap(block_chunk_x, block_chunk_z);
