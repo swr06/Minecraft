@@ -55,9 +55,9 @@ namespace Minecraft
 			m_ChunkContents->at(block->p_Position.x).at(block->p_Position.y).at(block->p_Position.z) = *block;
 		}
 
-		void Construct(const glm::vec3& pos)
+		void Construct()
 		{
-			m_ChunkMesh.ConstructMesh(m_ChunkContents, pos);
+			m_ChunkMesh.ConstructMesh(m_ChunkContents, p_Position);
 		}
 
 		ChunkMesh* GetChunkMesh()

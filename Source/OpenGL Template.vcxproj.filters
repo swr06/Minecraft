@@ -238,9 +238,6 @@
     <ClInclude Include="Core\World\Skybox.h">
       <Filter>Internal\Skybox</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Utils\Ray.h">
-      <Filter>Internal\Utils</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Renderer\Renderer2D.h">
       <Filter>Internal\Rendering</Filter>
     </ClInclude>
@@ -261,6 +258,9 @@
     </ClInclude>
     <ClInclude Include="Core\Maths\Frustum.h">
       <Filter>Internal\Math\Frustum Culling</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Utils\Ray.h">
+      <Filter>Internal\Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -32,6 +32,7 @@
 #include "../Renderer/Renderer2D.h"
 #include "../Application/Events.h"
 #include "../ChunkFileHandler.h"
+#include "../Utils/Ray.h"
 #include "WorldGenerator.h"
 
 // TODO : Include ray cast class

@@ -10,5 +10,5 @@
 
 namespace Minecraft
 {
-    std::vector<glm::vec3> FastVoxelTraversal(glm::vec3 ray_start, glm::vec3 ray_end);
+    void FastVoxelTraversal(glm::vec3 ray_start, glm::vec3 ray_end, std::vector<glm::vec3>& visited_voxels);
 }

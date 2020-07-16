@@ -5,7 +5,6 @@
 
 #include "../FpsCamera.h"
 #include "../Block.h"
-#include "../Utils/Ray.h"
 #include "../Application/Events.h"
 
 namespace Minecraft
@@ -16,7 +15,7 @@ namespace Minecraft
 	{
 	public : 
 
-		Player() : p_Camera(70.0f, 800/600, 0.1, 100.0f), p_RayCast(&p_Camera)
+		Player() : p_Camera(70.0f, 800/600, 0.1, 100.0f)
 		{
 
 		}
@@ -26,7 +25,6 @@ namespace Minecraft
 
 		FPSCamera p_Camera;
 		glm::vec3 p_Position;
-		RayCast p_RayCast;
 		World* p_World;
 	};
 }

@@ -40,7 +40,7 @@ namespace Minecraft
 			{
 				Timer timer("First Chunks Construction!");
 
-				m_WorldChunks[std::pair<int, int>(i, j)].Construct(glm::vec3(i, 1, j));
+				m_WorldChunks[std::pair<int, int>(i, j)].Construct();
 			}
 		}
 
@@ -81,13 +81,15 @@ namespace Minecraft
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 			p_Player->p_Camera.MoveCamera(MoveDirection::Down, camera_speed);
 
+		float block_dist = 16.0f;
+		static float block_delta = glfwGetTime();
+
 		// Get position relative to camera's direction
-		float block_dist = 50.0f;
+		std::vector<glm::vec3> traversed_voxels;
+		FastVoxelTraversal(p_Player->p_Camera.GetPosition(),
+			p_Player->p_Camera.GetPosition() + p_Player->p_Camera.GetFront() * block_dist, traversed_voxels);
 
-		std::vector<glm::vec3> traversed_voxels = FastVoxelTraversal(p_Player->p_Camera.GetPosition(), 
-			p_Player->p_Camera.GetPosition() + p_Player->p_Camera.GetFront() * block_dist);
-
-		for (int i = 0; i < traversed_voxels.size() ; i++)
+		for (int i = 0; i < traversed_voxels.size(); i++)
 		{
 			// Check if the traversed voxel is valid
 			if (traversed_voxels[i].y < ChunkSizeY && traversed_voxels[i].y >= 0)
@@ -97,20 +99,46 @@ namespace Minecraft
 				if (block.first->p_BlockType != BlockType::Air && glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT))
 				{
 					block.second->SetBlock(BlockType::Dirt, block.first->p_Position);
-					block.second->Construct(block.second->p_Position);
+					block.second->Construct();
 
 					break;
 				}
 
-				else if (block.first->p_BlockType != BlockType::Air && glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT))
+				else if (block.first->p_BlockType != BlockType::Air &&
+					glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT))
 				{
 					block.second->SetBlock(BlockType::Air, block.first->p_Position);
-					block.second->Construct(block.second->p_Position);
+					block.second->Construct();
 
 					break;
 				}
 			}
 		}
+
+		/*for (RayCast ray(&p_Player->p_Camera); ray.GetLength() < 100; ray.StepRay(0.05f))
+		{
+			if (ray.GetEnd().y < ChunkSizeY && ray.GetEnd().y >= 0)
+			{
+				std::pair<Block*, Chunk*> block = GetWorldBlockFromPosition(ray.GetEnd());
+
+				if (block.first->p_BlockType != BlockType::Air && glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT))
+				{
+					block.second->SetBlock(BlockType::Dirt, block.first->p_Position);
+					block.second->Construct();
+
+					break;
+				}
+
+				else if (block.first->p_BlockType != BlockType::Air &&
+					glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT))
+				{
+					block.second->SetBlock(BlockType::Air, block.first->p_Position);
+					block.second->Construct();
+
+					break;
+				}
+			}
+		}*/
 	}
 
 	void World::RenderWorld()
@@ -124,8 +152,10 @@ namespace Minecraft
 		player_chunk_x = floor(p_Player->p_Position.x / ChunkSizeX);
 		player_chunk_z = floor(p_Player->p_Position.z / ChunkSizeZ);
 
-		int render_distance_x = 3, render_distance_z = 3;
+		int render_distance_x = 2, render_distance_z = 2;
 		int chunks_rendered = 0;
+
+		// Render chunks according to render distance
 		for (int i = player_chunk_x - render_distance_x; i < player_chunk_x + render_distance_x; i++)
 		{
 			for (int j = player_chunk_z - render_distance_z; j < player_chunk_z + render_distance_z; j++)
@@ -150,11 +180,11 @@ namespace Minecraft
 
 	std::pair<Block*, Chunk*> World::GetWorldBlockFromPosition(const glm::vec3& block_loc)
 	{
-		int block_chunk_x = floor(block_loc.x / ChunkSizeX);
-		int block_chunk_z = floor(block_loc.z / ChunkSizeZ);
-		int bx = ((int)block_loc.x % ChunkSizeX + ChunkSizeX) % ChunkSizeX;
-		int by = block_loc.y;
-		int bz = ((int)block_loc.z % ChunkSizeZ + ChunkSizeZ) % ChunkSizeZ;
+		int block_chunk_x = static_cast<int>(floor(block_loc.x / ChunkSizeX));
+		int block_chunk_z = static_cast<int>(floor(block_loc.z / ChunkSizeZ));
+		int bx = block_loc.x - (block_chunk_x * ChunkSizeX);
+		int by = static_cast<int>(floor(block_loc.y));
+		int bz = block_loc.z - (block_chunk_z * ChunkSizeZ);
 
 		Chunk* chunk = GetChunkFromMap(block_chunk_x, block_chunk_z);
 
@@ -165,9 +195,9 @@ namespace Minecraft
 	{
 		int block_chunk_x = floor(block_loc.x / ChunkSizeX);
 		int block_chunk_z = floor(block_loc.z / ChunkSizeZ);
-		int bx = ((int)block_loc.x % ChunkSizeX + ChunkSizeX) % ChunkSizeX;
-		int by = block_loc.y;
-		int bz = ((int)block_loc.z % ChunkSizeZ + ChunkSizeZ) % ChunkSizeZ;
+		int bx = ((int)floor(block_loc.x) % ChunkSizeX + ChunkSizeX) % ChunkSizeX;
+		int by = (int)floor(block_loc.y);
+		int bz = ((int)floor(block_loc.z) % ChunkSizeZ + ChunkSizeZ) % ChunkSizeZ;
 
 		GetChunkFromMap(block_chunk_x, block_chunk_z)->SetBlock(type, glm::vec3(bx, by, bz));
 	}
@@ -176,9 +206,9 @@ namespace Minecraft
 	{
 		int block_chunk_x = floor(block_loc.x / ChunkSizeX);
 		int block_chunk_z = floor(block_loc.z / ChunkSizeZ);
-		int bx = ((int)block_loc.x % ChunkSizeX + ChunkSizeX) % ChunkSizeX;
-		int by = block_loc.y;
-		int bz = ((int)block_loc.z % ChunkSizeZ + ChunkSizeZ) % ChunkSizeZ;
+		int bx = ((int)floor(block_loc.x) % ChunkSizeX + ChunkSizeX) % ChunkSizeX;
+		int by = (int)floor(block_loc.y);
+		int bz = ((int)floor(block_loc.z) % ChunkSizeZ + ChunkSizeZ) % ChunkSizeZ;
 
 		return GetChunkFromMap(block_chunk_x, block_chunk_z)->m_ChunkContents->at(bx).at(by).at(bz).p_BlockType;
 	}
@@ -191,7 +221,7 @@ namespace Minecraft
 
 	void World::UnloadFarChunks()
 	{
-
+		// TODO : Unload chunks into a binary file
 		return;
 	}
 
@@ -201,7 +231,7 @@ namespace Minecraft
 
 		str << "Chunk Building ! X : " << cx << " | Z : " << cz;
 
-		std::map<std::pair<int, int>, Chunk>::iterator chunk_exists = m_WorldChunks.find(std::pair<int,int>(cx, cz));
+		std::map<std::pair<int, int>, Chunk>::iterator chunk_exists = m_WorldChunks.find(std::pair<int, int>(cx, cz));
 
 		if (chunk_exists == m_WorldChunks.end())
 		{
@@ -209,7 +239,7 @@ namespace Minecraft
 
 			m_WorldChunks[std::pair<int, int>(cx, cz)].p_Position = glm::vec3(cx, 1, cz);
 			GenerateChunk(&m_WorldChunks[std::pair<int, int>(cx, cz)]);
-			m_WorldChunks[std::pair<int, int>(cx, cz)].Construct(glm::vec3(cx, 1, cz));
+			m_WorldChunks[std::pair<int, int>(cx, cz)].Construct();
 			m_ChunkCount++;
 		}
 

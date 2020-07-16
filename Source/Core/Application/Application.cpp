@@ -57,13 +57,14 @@ void GLAPIENTRY gl_debug_callback(GLenum source, GLenum type, GLuint id,
 
 namespace Minecraft
 {
+	static bool ShouldCull = true;
 	Application MinecraftApplication;
 
 	Application::Application()
 	{
         glfwInit();
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, GL_VERSION_MAJOR);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, GL_VERSION_MINOR);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
         m_Window = glfwCreateWindow(800, 600, "Minecraft V0.01", NULL, NULL);
@@ -77,7 +78,7 @@ namespace Minecraft
         glfwMakeContextCurrent(m_Window);
 
         // Turn on V-Sync
-        glfwSwapInterval(1);
+        //glfwSwapInterval(1);
 
         glewInit();
 
@@ -97,9 +98,13 @@ namespace Minecraft
         // Turn on depth 
         glEnable(GL_DEPTH_TEST);
         glDepthMask(GL_TRUE);
-
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA ,GL_ONE_MINUS_SRC_ALPHA);
+
+		glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+		if (glfwRawMouseMotionSupported())
+			glfwSetInputMode(m_Window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
 
         m_World = new World;
 
@@ -113,8 +118,13 @@ namespace Minecraft
 
         // Update the world
         m_World->OnUpdate(m_Window);
+		
+		glEnable(GL_DEPTH_TEST);
+		glDepthMask(GL_TRUE);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-        // Clear the depth and color bit buffer
+		// Clear the depth and color bit buffer
 
         glClearColor(0.44f, 0.78f, 0.88f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);

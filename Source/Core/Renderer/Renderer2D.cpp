@@ -21,6 +21,7 @@ namespace Minecraft
     void Renderer2D::RenderQuad(const glm::vec2& position, GLClasses::Texture* texture, OrthographicCamera* camera)
 	{
         glDisable(GL_DEPTH_TEST);
+        glDisable(GL_CULL_FACE);
 
         const std::array<GLfloat, 8> texture_coords = texture->GetTextureCoords();
 

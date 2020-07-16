@@ -4,10 +4,8 @@ namespace Minecraft
 {
     static float _bin_size = 1.0f;
 
-    std::vector<glm::vec3> FastVoxelTraversal(glm::vec3 ray_start, glm::vec3 ray_end)
+    void FastVoxelTraversal(glm::vec3 ray_start, glm::vec3 ray_end, std::vector<glm::vec3> &visited_voxels)
     {
-        std::vector<glm::vec3> visited_voxels;
-
         // This id of the first/current voxel hit by the ray.
         // Using floor (round down) is actually very important,
         // the implicit int-casting will round up for negative numbers.
@@ -24,6 +22,7 @@ namespace Minecraft
 
         // Compute normalized ray direction.
         glm::vec3 ray = ray_end - ray_start;
+        ray = glm::normalize(ray);
         //ray.normalize();
 
         // In which direction the voxel ids are incremented.
@@ -100,7 +99,7 @@ namespace Minecraft
             visited_voxels.push_back(current_voxel);
         }
 
-        return visited_voxels;
+        return;
     }
 
 }
