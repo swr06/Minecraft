@@ -259,9 +259,6 @@
     <ClInclude Include="Core\Maths\Frustum.h">
       <Filter>Internal\Math\Frustum Culling</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Utils\Ray.h">
-      <Filter>Internal\Utils</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Dependencies">

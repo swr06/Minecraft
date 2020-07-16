@@ -7,6 +7,9 @@
 
 #include <vector>
 #include <iostream>
+#include <algorithm>
+
+#include "../Block.h"
 
 namespace Minecraft
 {

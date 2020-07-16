@@ -14,35 +14,35 @@ namespace Minecraft
 
 		// Set the values of the 2D planes
 
-		m_ForwardFace[0] = glm::vec4(-0.5f, -0.5f, 0.5f, 1.0f);
-		m_ForwardFace[1] = glm::vec4(0.5f, -0.5f, 0.5f, 1.0f);
-		m_ForwardFace[2] = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
-		m_ForwardFace[3] = glm::vec4(-0.5f, 0.5f, 0.5f, 1.0f);
+		m_ForwardFace[0] = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
+		m_ForwardFace[1] = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f);
+		m_ForwardFace[2] = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+		m_ForwardFace[3] = glm::vec4(0.0f, 1.0f, 1.0f, 1.0f);
 
-		m_BackFace[0] = glm::vec4(-0.5f, -0.5f, -0.5f, 1.0f);
-		m_BackFace[1] = glm::vec4(0.5f, -0.5f, -0.5f, 1.0f);
-		m_BackFace[2] = glm::vec4(0.5f, 0.5f, -0.5f, 1.0f);
-		m_BackFace[3] = glm::vec4(-0.5f, 0.5f, -0.5f, 1.0f);
+		m_BackFace[0] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+		m_BackFace[1] = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+		m_BackFace[2] = glm::vec4(1.0f, 1.0f, 0.0f, 1.0f);
+		m_BackFace[3] = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
 
-		m_TopFace[0] = glm::vec4(-0.5f, 0.5f, -0.5f, 1.0f);
-		m_TopFace[1] = glm::vec4(0.5f, 0.5f, -0.5f, 1.0f);
-		m_TopFace[2] = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
-		m_TopFace[3] = glm::vec4(-0.5f, 0.5f, 0.5f, 1.0f);
+		m_TopFace[0] = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
+		m_TopFace[1] = glm::vec4(1.0f, 1.0f, 0.0f, 1.0f);
+		m_TopFace[2] = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+		m_TopFace[3] = glm::vec4(0.0f, 1.0f, 1.0f, 1.0f);
 
-		m_BottomFace[0] = glm::vec4(-0.5f, -0.5f, -0.5f, 1.0f);
-		m_BottomFace[1] = glm::vec4(0.5f, -0.5f, -0.5f, 1.0f);
-		m_BottomFace[2] = glm::vec4(0.5f, -0.5f, 0.5f, 1.0f);
-		m_BottomFace[3] = glm::vec4(-0.5f, -0.5f, 0.5f, 1.0f);
+		m_BottomFace[0] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+		m_BottomFace[1] = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+		m_BottomFace[2] = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f);
+		m_BottomFace[3] = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
 		
-		m_LeftFace[0] = glm::vec4(-0.5f, 0.5f, 0.5f, 1.0f);
-		m_LeftFace[1] = glm::vec4(-0.5f, 0.5f, -0.5f, 1.0f);
-		m_LeftFace[2] = glm::vec4(-0.5f, -0.5f, -0.5f, 1.0f);
-		m_LeftFace[3] = glm::vec4(-0.5f, -0.5f, 0.5f, 1.0f);
+		m_LeftFace[0] = glm::vec4(0.0f, 1.0f, 1.0f, 1.0f);
+		m_LeftFace[1] = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
+		m_LeftFace[2] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+		m_LeftFace[3] = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
 
-		m_RightFace[0] = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
-		m_RightFace[1] = glm::vec4(0.5f, 0.5f, -0.5f, 1.0f);
-		m_RightFace[2] = glm::vec4(0.5f, -0.5f, -0.5f, 1.0f);
-		m_RightFace[3] = glm::vec4(0.5f, -0.5f, 0.5f, 1.0f);
+		m_RightFace[0] = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+		m_RightFace[1] = glm::vec4(1.0f, 1.0f, 0.0f, 1.0f);
+		m_RightFace[2] = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+		m_RightFace[3] = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f);
 	}
 
 	ChunkMesh::~ChunkMesh()

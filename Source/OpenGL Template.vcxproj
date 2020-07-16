@@ -241,7 +241,6 @@
     <ClInclude Include="Core\Utils\Logger.h" />
     <ClInclude Include="Core\Utils\Physics.h" />
     <ClInclude Include="Core\Utils\Random.h" />
-    <ClInclude Include="Core\Utils\Ray.h" />
     <ClInclude Include="Core\Utils\Raycast.h" />
     <ClInclude Include="Core\Utils\Timer.h" />
     <ClInclude Include="Core\Utils\Vertex.h" />

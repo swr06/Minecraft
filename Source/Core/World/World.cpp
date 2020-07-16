@@ -84,61 +84,47 @@ namespace Minecraft
 		float block_dist = 16.0f;
 		static float block_delta = glfwGetTime();
 
-		// Get position relative to camera's direction
-		std::vector<glm::vec3> traversed_voxels;
-		FastVoxelTraversal(p_Player->p_Camera.GetPosition(),
-			p_Player->p_Camera.GetPosition() + p_Player->p_Camera.GetFront() * block_dist, traversed_voxels);
+		//// Get position relative to camera's direction
+		//std::vector<glm::vec3> traversed_voxels;
+		//FastVoxelTraversal(p_Player->p_Camera.GetPosition(),
+		//	p_Player->p_Camera.GetPosition() + p_Player->p_Camera.GetFront() * block_dist, traversed_voxels);
 
-		for (int i = 0; i < traversed_voxels.size(); i++)
+		//for (int i = 0; i < traversed_voxels.size(); i++)
+		//{
+		//	// Check if the traversed voxel is valid
+		//	if (traversed_voxels[i].y < ChunkSizeY && traversed_voxels[i].y >= 0)
+		//	{
+		//		std::pair<Block*, Chunk*> block = GetWorldBlockFromPosition(traversed_voxels[i]);
+
+		//		if (block.first->p_BlockType != BlockType::Air && glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT))
+		//		{
+		//			block.second->SetBlock(BlockType::Dirt, block.first->p_Position);
+		//			block.second->Construct();
+
+		//			break;
+		//		}
+
+		//		else if (block.first->p_BlockType != BlockType::Air &&
+		//			glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT))
+		//		{
+		//			block.second->SetBlock(BlockType::Air, block.first->p_Position);
+		//			block.second->Construct();
+
+		//			break;
+		//		}
+		//	}
+		//}
+
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT))
 		{
-			// Check if the traversed voxel is valid
-			if (traversed_voxels[i].y < ChunkSizeY && traversed_voxels[i].y >= 0)
-			{
-				std::pair<Block*, Chunk*> block = GetWorldBlockFromPosition(traversed_voxels[i]);
-
-				if (block.first->p_BlockType != BlockType::Air && glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT))
-				{
-					block.second->SetBlock(BlockType::Dirt, block.first->p_Position);
-					block.second->Construct();
-
-					break;
-				}
-
-				else if (block.first->p_BlockType != BlockType::Air &&
-					glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT))
-				{
-					block.second->SetBlock(BlockType::Air, block.first->p_Position);
-					block.second->Construct();
-
-					break;
-				}
-			}
+			RayCast(true);
 		}
 
-		/*for (RayCast ray(&p_Player->p_Camera); ray.GetLength() < 100; ray.StepRay(0.05f))
+		else if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT))
 		{
-			if (ray.GetEnd().y < ChunkSizeY && ray.GetEnd().y >= 0)
-			{
-				std::pair<Block*, Chunk*> block = GetWorldBlockFromPosition(ray.GetEnd());
+			RayCast(false);
+		}
 
-				if (block.first->p_BlockType != BlockType::Air && glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT))
-				{
-					block.second->SetBlock(BlockType::Dirt, block.first->p_Position);
-					block.second->Construct();
-
-					break;
-				}
-
-				else if (block.first->p_BlockType != BlockType::Air &&
-					glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT))
-				{
-					block.second->SetBlock(BlockType::Air, block.first->p_Position);
-					block.second->Construct();
-
-					break;
-				}
-			}
-		}*/
 	}
 
 	void World::RenderWorld()
@@ -166,6 +152,7 @@ namespace Minecraft
 		}
 
 		m_Renderer2D.RenderQuad(glm::vec3(400.0f - (m_CrosshairTexture.GetWidth() / 2), 300.0f - (m_CrosshairTexture.GetHeight() / 2), 1.0f), &m_CrosshairTexture, &m_Camera2D);
+
 	}
 
 	void World::OnEvent(EventSystem::Event e)
@@ -223,6 +210,80 @@ namespace Minecraft
 	{
 		// TODO : Unload chunks into a binary file
 		return;
+	}
+
+	void World::RayCast(bool place)
+	{
+		glm::vec3 position = p_Player->p_Position;
+		const glm::vec3& direction = p_Player->p_Camera.GetFront();
+		int max = 32;
+
+		glm::ivec3 blockPos;
+		glm::vec3 sign;
+
+		for (int i = 0; i < 3; ++i)
+			sign[i] = direction[i] > 0;
+
+		for (int i = 0; i < max; ++i)
+		{
+			glm::vec3 tvec = (floor(position + sign) - position) / direction;
+			float t = std::min(tvec.x, std::min(tvec.y, tvec.z));
+
+			position += direction * (t + 0.001f);
+
+			if (position.y >= 0 && position.y < ChunkSizeY)
+			{ 
+				std::pair<Block*, Chunk*> ray_hitblock = GetWorldBlockFromPosition(glm::vec3(
+					floor(position.x),
+					floor(position.y),
+					floor(position.z)
+				));
+
+				Block* ray_block = ray_hitblock.first;
+				Chunk* ray_chunk = ray_hitblock.second;
+
+				if (ray_block != nullptr && ray_block->p_BlockType != BlockType::Air)
+				{
+					glm::vec3 normal;
+
+					for (int i = 0; i < 3; ++i)
+					{
+						normal[i] = (t == tvec[i]);
+
+						if (sign[i])
+						{
+							normal[i] = -normal[i];
+						}
+					}
+
+					//position += normal;
+
+					std::pair<Block*, Chunk*> edit_block;
+
+					// Find what block to edit based on the direction of the face
+						
+					if (normal == glm::vec3(0.0f, 1.0f, 0.0f))
+					{
+						// The normal was on top
+						edit_block = GetWorldBlockFromPosition(glm::vec3(floor(position.x), floor(position.y + 1), floor(position.z)));
+					}
+
+					if (place)
+					{
+						ray_block->p_BlockType = BlockType::Dirt;
+					}
+
+					else
+					{
+						ray_block->p_BlockType = BlockType::Air;
+					}
+
+					ray_chunk->Construct();
+
+					return;
+				}
+			}
+		}
 	}
 
 	Chunk* World::GetChunkFromMap(int cx, int cz)

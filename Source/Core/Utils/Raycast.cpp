@@ -23,7 +23,6 @@ namespace Minecraft
         // Compute normalized ray direction.
         glm::vec3 ray = ray_end - ray_start;
         ray = glm::normalize(ray);
-        //ray.normalize();
 
         // In which direction the voxel ids are incremented.
         double stepX = (ray[0] >= 0) ? 1 : -1; // correct
@@ -101,5 +100,4 @@ namespace Minecraft
 
         return;
     }
-
 }

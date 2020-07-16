@@ -61,6 +61,7 @@ namespace Minecraft
 	private:
 		void RenderChunkFromMap(int cx, int cz);
 		void UnloadFarChunks();
+		void RayCast(bool place);
 
 		Chunk* GetChunkFromMap(int cx, int cz);
 		bool ChunkInViewFrustum(Chunk* chunk);
