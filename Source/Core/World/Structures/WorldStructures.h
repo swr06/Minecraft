@@ -38,7 +38,6 @@ namespace Minecraft
 					for (int k = 0; k < MaxStructureZ; k++)
 					{
 						b.p_BlockType = BlockType::Air;
-						b.p_Position = glm::vec3(i, j, k);
 
 						p_Structure->at(i).at(j).at(k) = b;
 					}
@@ -60,7 +59,6 @@ namespace Minecraft
 		{
 			Block b;
 
-			b.p_Position = glm::vec3(x, y, z);
 			b.p_BlockType = type;
 			p_Structure->at(x).at(y).at(z) = b;
 		}

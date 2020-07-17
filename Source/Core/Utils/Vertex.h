@@ -6,6 +6,6 @@ namespace Minecraft
 	{
 		glm::vec3 position;
 		glm::vec2 texture_coords;
-		float lighting_level; 
+		GLfloat lighting_level; 
 	};
 }

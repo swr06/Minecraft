@@ -44,15 +44,9 @@ namespace Minecraft
 		void SetBlock(BlockType type, const glm::vec3& position)
 		{
 			Block b;
-			b.p_Position = position;
 			b.p_BlockType = type;
 
 			m_ChunkContents->at(position.x).at(position.y).at(position.z) = b;
-		}
-
-		void SetBlock(Block* block)
-		{
-			m_ChunkContents->at(block->p_Position.x).at(block->p_Position.y).at(block->p_Position.z) = *block;
 		}
 
 		void Construct()

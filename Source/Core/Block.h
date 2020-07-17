@@ -28,6 +28,5 @@ namespace Minecraft
 	struct Block
 	{
 		BlockType p_BlockType;
-		glm::vec3 p_Position;
 	};
 }
