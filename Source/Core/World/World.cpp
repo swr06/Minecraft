@@ -165,37 +165,46 @@ namespace Minecraft
 		}
 	}
 
-	std::pair<Block*, Chunk*> World::GetWorldBlockFromPosition(const glm::vec3& block_loc)
+	std::pair<Block*, Chunk*> World::GetWorldBlockFromPosition(const glm::vec3& pos)
 	{
-		int block_chunk_x = static_cast<int>(floor(block_loc.x / ChunkSizeX));
-		int block_chunk_z = static_cast<int>(floor(block_loc.z / ChunkSizeZ));
-		int bx = block_loc.x - (block_chunk_x * ChunkSizeX);
-		int by = static_cast<int>(floor(block_loc.y));
-		int bz = block_loc.z - (block_chunk_z * ChunkSizeZ);
+		int block_chunk_x = static_cast<int>(floor(pos.x / ChunkSizeX));
+		int block_chunk_z = static_cast<int>(floor(pos.z / ChunkSizeZ));
+		int bx = pos.x - (block_chunk_x * ChunkSizeX);
+		int by = static_cast<int>(floor(pos.y));
+		int bz = pos.z - (block_chunk_z * ChunkSizeZ);
 
 		Chunk* chunk = GetChunkFromMap(block_chunk_x, block_chunk_z);
 
 		return { &chunk->m_ChunkContents->at(bx).at(by).at(bz), chunk };
 	}
 
-	void World::SetWorldBlockFromPosition(BlockType type, const glm::vec3& block_loc)
+	void World::SetWorldBlockFromPosition(BlockType type, const glm::vec3& pos)
 	{
-		int block_chunk_x = floor(block_loc.x / ChunkSizeX);
-		int block_chunk_z = floor(block_loc.z / ChunkSizeZ);
-		int bx = ((int)floor(block_loc.x) % ChunkSizeX + ChunkSizeX) % ChunkSizeX;
-		int by = (int)floor(block_loc.y);
-		int bz = ((int)floor(block_loc.z) % ChunkSizeZ + ChunkSizeZ) % ChunkSizeZ;
+		int block_chunk_x = static_cast<int>(floor(pos.x / ChunkSizeX));
+		int block_chunk_z = static_cast<int>(floor(pos.z / ChunkSizeZ));
+		int bx = pos.x - (block_chunk_x * ChunkSizeX);
+		int by = static_cast<int>(floor(pos.y));
+		int bz = pos.z - (block_chunk_z * ChunkSizeZ);
 
 		GetChunkFromMap(block_chunk_x, block_chunk_z)->SetBlock(type, glm::vec3(bx, by, bz));
 	}
 
-	BlockType World::GetWorldBlockTypeFromPosition(const glm::vec3& block_loc)
+	std::pair<Block*, Chunk*> World::GetWorldBlock(const glm::vec3& block_loc)
 	{
-		int block_chunk_x = floor(block_loc.x / ChunkSizeX);
-		int block_chunk_z = floor(block_loc.z / ChunkSizeZ);
-		int bx = ((int)floor(block_loc.x) % ChunkSizeX + ChunkSizeX) % ChunkSizeX;
-		int by = (int)floor(block_loc.y);
-		int bz = ((int)floor(block_loc.z) % ChunkSizeZ + ChunkSizeZ) % ChunkSizeZ;
+		int block_chunk_x = static_cast<int>(floor(block_loc.x / ChunkSizeX));
+		int block_chunk_z = static_cast<int>(floor(block_loc.z / ChunkSizeZ));
+
+		Chunk* chunk = GetChunkFromMap(block_chunk_x, block_chunk_z);
+		return { &chunk->m_ChunkContents->at(block_loc.x).at(block_loc.y).at(block_loc.z), chunk };
+	}
+
+	BlockType World::GetWorldBlockTypeFromPosition(const glm::vec3& pos)
+	{
+		int block_chunk_x = static_cast<int>(floor(pos.x / ChunkSizeX));
+		int block_chunk_z = static_cast<int>(floor(pos.z / ChunkSizeZ));
+		int bx = pos.x - (block_chunk_x * ChunkSizeX);
+		int by = static_cast<int>(floor(pos.y));
+		int bz = pos.z - (block_chunk_z * ChunkSizeZ);
 
 		return GetChunkFromMap(block_chunk_x, block_chunk_z)->m_ChunkContents->at(bx).at(by).at(bz).p_BlockType;
 	}
@@ -264,21 +273,25 @@ namespace Minecraft
 						
 					if (normal == glm::vec3(0.0f, 1.0f, 0.0f))
 					{
-						// The normal was on top
-						edit_block = GetWorldBlockFromPosition(glm::vec3(floor(position.x), floor(position.y + 1), floor(position.z)));
-					}
-
-					if (place)
-					{
-						ray_block->p_BlockType = BlockType::Dirt;
+						edit_block = GetWorldBlockFromPosition(glm::vec3(position.x, position.y, position.z));
 					}
 
 					else
 					{
-						ray_block->p_BlockType = BlockType::Air;
+						edit_block = GetWorldBlockFromPosition(glm::vec3(position.x, position.y, position.z));
 					}
 
-					ray_chunk->Construct();
+					if (place)
+					{
+						edit_block.first->p_BlockType = BlockType::Dirt;
+					}
+
+					else
+					{
+						edit_block.first->p_BlockType = BlockType::Air;
+					}
+
+					edit_block.second->Construct();
 
 					return;
 				}
