@@ -225,7 +225,7 @@ namespace Minecraft
 	{
 		glm::vec3 position = p_Player->p_Position;
 		const glm::vec3& direction = p_Player->p_Camera.GetFront();
-		int max = 32;
+		int max = 50; // block reach
 
 		glm::ivec3 blockPos;
 		glm::vec3 sign;
@@ -265,21 +265,14 @@ namespace Minecraft
 						}
 					}
 
-					//position += normal;
+					if (place)
+					{
+						position = position + normal;
+					}
 
 					std::pair<Block*, Chunk*> edit_block;
 
-					// Find what block to edit based on the direction of the face
-						
-					if (normal == glm::vec3(0.0f, 1.0f, 0.0f))
-					{
-						edit_block = GetWorldBlockFromPosition(glm::vec3(position.x, position.y, position.z));
-					}
-
-					else
-					{
-						edit_block = GetWorldBlockFromPosition(glm::vec3(position.x, position.y, position.z));
-					}
+					edit_block = GetWorldBlockFromPosition(glm::vec3(position.x, position.y, position.z));
 
 					if (place)
 					{
