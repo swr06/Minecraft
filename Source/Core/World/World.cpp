@@ -276,10 +276,10 @@ namespace Minecraft
 
 					std::pair<Block*, Chunk*> edit_block;
 
-					edit_block = GetWorldBlockFromPosition(glm::vec3(position.x, position.y, position.z));
-
 					if (position.y >= 0 && position.y < ChunkSizeY)
 					{
+						edit_block = GetWorldBlockFromPosition(glm::vec3(position.x, position.y, position.z));
+
 						if (place)
 						{
 							edit_block.first->p_BlockType = BlockType::Dirt;
