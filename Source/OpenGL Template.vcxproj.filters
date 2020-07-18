@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="OpenGL Template.cpp" />
     <ClCompile Include="Core\Dependencies\imgui\imgui.cpp">
       <Filter>Dependencies\Imgui</Filter>
     </ClCompile>
@@ -39,86 +38,90 @@
       <Filter>Abstract OpenGL\Vertex Buffer</Filter>
     </ClCompile>
     <ClCompile Include="Core\CubeRenderer.cpp">
-      <Filter>Internal</Filter>
+      <Filter>Minecraft</Filter>
     </ClCompile>
     <ClCompile Include="Core\Camera.cpp">
-      <Filter>Internal</Filter>
+      <Filter>Minecraft</Filter>
     </ClCompile>
     <ClCompile Include="Core\FpsCamera.cpp">
-      <Filter>Internal</Filter>
+      <Filter>Minecraft</Filter>
     </ClCompile>
     <ClCompile Include="Core\Block.cpp">
-      <Filter>Internal\Block</Filter>
+      <Filter>Minecraft\Block</Filter>
     </ClCompile>
     <ClCompile Include="Core\Chunk.cpp">
-      <Filter>Internal\Chunk</Filter>
+      <Filter>Minecraft\Chunk</Filter>
     </ClCompile>
     <ClCompile Include="Core\ChunkMesh.cpp">
-      <Filter>Internal\Chunk</Filter>
+      <Filter>Minecraft\Chunk</Filter>
     </ClCompile>
     <ClCompile Include="Core\World\World.cpp">
-      <Filter>Internal\World</Filter>
+      <Filter>Minecraft\World</Filter>
     </ClCompile>
     <ClCompile Include="Core\Renderer\Renderer.cpp">
-      <Filter>Internal\Rendering</Filter>
+      <Filter>Minecraft\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Core\OpenGL Classes\GLDebug.cpp">
       <Filter>Abstract OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="Core\Player\Player.cpp">
-      <Filter>Internal\Player</Filter>
+      <Filter>Minecraft\Player</Filter>
     </ClCompile>
     <ClCompile Include="Core\Application\Application.cpp">
-      <Filter>Internal\Application</Filter>
+      <Filter>Minecraft\Application</Filter>
     </ClCompile>
     <ClCompile Include="Core\Application\Events.cpp">
-      <Filter>Internal\Application</Filter>
+      <Filter>Minecraft\Application</Filter>
     </ClCompile>
     <ClCompile Include="Core\BlockTextureManager.cpp">
-      <Filter>Internal\Block</Filter>
+      <Filter>Minecraft\Block</Filter>
     </ClCompile>
     <ClCompile Include="Core\TextureAtlas.cpp">
-      <Filter>Internal</Filter>
+      <Filter>Minecraft</Filter>
     </ClCompile>
     <ClCompile Include="Core\World\WorldGenerator.cpp">
-      <Filter>Internal\World</Filter>
+      <Filter>Minecraft\World</Filter>
     </ClCompile>
     <ClCompile Include="Core\Utils\Logger.cpp">
-      <Filter>Internal\Utils</Filter>
+      <Filter>Minecraft\Utils</Filter>
     </ClCompile>
     <ClCompile Include="Core\Noise\FastNoise.cpp">
-      <Filter>Internal\Simplex Noise</Filter>
+      <Filter>Minecraft\Simplex Noise</Filter>
     </ClCompile>
     <ClCompile Include="Core\World\Structures\WorldStructures.cpp">
-      <Filter>Internal\World\Structures</Filter>
+      <Filter>Minecraft\World\Structures</Filter>
     </ClCompile>
     <ClCompile Include="Core\OpenGL Classes\CubeTextureMap.cpp">
       <Filter>Abstract OpenGL\Texturing</Filter>
     </ClCompile>
     <ClCompile Include="Core\World\Skybox.cpp">
-      <Filter>Internal\Skybox</Filter>
+      <Filter>Minecraft\Skybox</Filter>
     </ClCompile>
     <ClCompile Include="Core\Renderer\Renderer2D.cpp">
-      <Filter>Internal\Rendering</Filter>
+      <Filter>Minecraft\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Core\OrthographicCamera.cpp">
-      <Filter>Internal</Filter>
+      <Filter>Minecraft</Filter>
     </ClCompile>
     <ClCompile Include="Core\Utils\Physics.cpp">
-      <Filter>Internal\Utils</Filter>
+      <Filter>Minecraft\Utils</Filter>
     </ClCompile>
     <ClCompile Include="Core\ChunkFileHandler.cpp">
-      <Filter>Internal\Chunk</Filter>
+      <Filter>Minecraft\Chunk</Filter>
     </ClCompile>
     <ClCompile Include="Core\Maths\Frustum.cpp">
-      <Filter>Internal\Math\Frustum Culling</Filter>
+      <Filter>Minecraft\Math\Frustum Culling</Filter>
     </ClCompile>
     <ClCompile Include="Core\Maths\Plane.cpp">
-      <Filter>Internal\Math\Frustum Culling</Filter>
+      <Filter>Minecraft\Math\Frustum Culling</Filter>
     </ClCompile>
     <ClCompile Include="Core\Utils\Raycast.cpp">
-      <Filter>Internal\Utils</Filter>
+      <Filter>Minecraft\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Physics\AABB.cpp">
+      <Filter>Minecraft\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Minecraft.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Dependencies\imgui\stb_truetype.h">
@@ -164,100 +167,103 @@
       <Filter>Abstract OpenGL\Vertex Buffer</Filter>
     </ClInclude>
     <ClInclude Include="Core\CubeRenderer.h">
-      <Filter>Internal</Filter>
+      <Filter>Minecraft</Filter>
     </ClInclude>
     <ClInclude Include="Core\Camera.h">
-      <Filter>Internal</Filter>
+      <Filter>Minecraft</Filter>
     </ClInclude>
     <ClInclude Include="Core\FpsCamera.h">
-      <Filter>Internal</Filter>
+      <Filter>Minecraft</Filter>
     </ClInclude>
     <ClInclude Include="Core\Block.h">
-      <Filter>Internal\Block</Filter>
+      <Filter>Minecraft\Block</Filter>
     </ClInclude>
     <ClInclude Include="Core\Chunk.h">
-      <Filter>Internal\Chunk</Filter>
+      <Filter>Minecraft\Chunk</Filter>
     </ClInclude>
     <ClInclude Include="Core\ChunkMesh.h">
-      <Filter>Internal\Chunk</Filter>
+      <Filter>Minecraft\Chunk</Filter>
     </ClInclude>
     <ClInclude Include="Core\Utils\Defs.h">
-      <Filter>Internal\Utils</Filter>
+      <Filter>Minecraft\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Core\World\World.h">
-      <Filter>Internal\World</Filter>
+      <Filter>Minecraft\World</Filter>
     </ClInclude>
     <ClInclude Include="Core\Utils\Vertex.h">
-      <Filter>Internal\Utils</Filter>
+      <Filter>Minecraft\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Core\Renderer\Renderer.h">
-      <Filter>Internal\Rendering</Filter>
+      <Filter>Minecraft\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Core\OpenGL Classes\GLDebug.h">
       <Filter>Abstract OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="Core\Player\Player.h">
-      <Filter>Internal\Player</Filter>
+      <Filter>Minecraft\Player</Filter>
     </ClInclude>
     <ClInclude Include="Core\Application\Application.h">
-      <Filter>Internal\Application</Filter>
+      <Filter>Minecraft\Application</Filter>
     </ClInclude>
     <ClInclude Include="Core\Application\Events.h">
-      <Filter>Internal\Application</Filter>
+      <Filter>Minecraft\Application</Filter>
     </ClInclude>
     <ClInclude Include="Core\Application\EventStructs.h">
-      <Filter>Internal\Application</Filter>
+      <Filter>Minecraft\Application</Filter>
     </ClInclude>
     <ClInclude Include="Core\BlockTextureManager.h">
-      <Filter>Internal\Block</Filter>
+      <Filter>Minecraft\Block</Filter>
     </ClInclude>
     <ClInclude Include="Core\TextureAtlas.h">
-      <Filter>Internal</Filter>
+      <Filter>Minecraft</Filter>
     </ClInclude>
     <ClInclude Include="Core\World\WorldGenerator.h">
-      <Filter>Internal\World</Filter>
+      <Filter>Minecraft\World</Filter>
     </ClInclude>
     <ClInclude Include="Core\Utils\Logger.h">
-      <Filter>Internal\Utils</Filter>
+      <Filter>Minecraft\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Core\Utils\Timer.h">
-      <Filter>Internal\Utils</Filter>
+      <Filter>Minecraft\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Core\Noise\FastNoise.h">
-      <Filter>Internal\Simplex Noise</Filter>
+      <Filter>Minecraft\Simplex Noise</Filter>
     </ClInclude>
     <ClInclude Include="Core\Utils\Random.h">
-      <Filter>Internal\Utils</Filter>
+      <Filter>Minecraft\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Core\World\Structures\WorldStructures.h">
-      <Filter>Internal\World\Structures</Filter>
+      <Filter>Minecraft\World\Structures</Filter>
     </ClInclude>
     <ClInclude Include="Core\OpenGL Classes\CubeTextureMap.h">
       <Filter>Abstract OpenGL\Texturing</Filter>
     </ClInclude>
     <ClInclude Include="Core\World\Skybox.h">
-      <Filter>Internal\Skybox</Filter>
+      <Filter>Minecraft\Skybox</Filter>
     </ClInclude>
     <ClInclude Include="Core\Renderer\Renderer2D.h">
-      <Filter>Internal\Rendering</Filter>
+      <Filter>Minecraft\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Core\OrthographicCamera.h">
-      <Filter>Internal</Filter>
+      <Filter>Minecraft</Filter>
     </ClInclude>
     <ClInclude Include="Core\Utils\Physics.h">
-      <Filter>Internal\Utils</Filter>
+      <Filter>Minecraft\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Core\ChunkFileHandler.h">
-      <Filter>Internal\Chunk</Filter>
+      <Filter>Minecraft\Chunk</Filter>
     </ClInclude>
     <ClInclude Include="Core\Utils\Raycast.h">
-      <Filter>Internal\Utils</Filter>
+      <Filter>Minecraft\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Core\Maths\Plane.h">
-      <Filter>Internal\Math\Frustum Culling</Filter>
+      <Filter>Minecraft\Math\Frustum Culling</Filter>
     </ClInclude>
     <ClInclude Include="Core\Maths\Frustum.h">
-      <Filter>Internal\Math\Frustum Culling</Filter>
+      <Filter>Minecraft\Math\Frustum Culling</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Physics\AABB.h">
+      <Filter>Minecraft\Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -294,47 +300,50 @@
     <Filter Include="Abstract OpenGL\Shader">
       <UniqueIdentifier>{7ddfb443-2f34-4080-8310-0e48373ee1cf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Internal">
+    <Filter Include="Minecraft">
       <UniqueIdentifier>{0b8f253f-73e4-44c1-a840-8b5e5905774c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Internal\Block">
+    <Filter Include="Minecraft\Block">
       <UniqueIdentifier>{539441b8-cb3a-47fa-b810-104a12cf1091}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Internal\Chunk">
+    <Filter Include="Minecraft\Chunk">
       <UniqueIdentifier>{f63d2a17-9615-4960-8fc0-6b6e83ec71f0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Internal\Rendering">
+    <Filter Include="Minecraft\Rendering">
       <UniqueIdentifier>{3ffab1c5-ab31-4678-aae2-e73a22397650}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Internal\World">
+    <Filter Include="Minecraft\World">
       <UniqueIdentifier>{235eebda-c213-44ae-ab0b-ceda491018dc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Internal\Utils">
-      <UniqueIdentifier>{21e7ff03-94c0-4836-9070-73c92bcbae57}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Internal\Player">
-      <UniqueIdentifier>{07e18ff2-e23f-497e-b545-e74041d5ca14}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Internal\Application">
-      <UniqueIdentifier>{3e73c252-ec64-4600-af77-57acbeeb5b04}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Internal\World\Structures">
+    <Filter Include="Minecraft\World\Structures">
       <UniqueIdentifier>{e79fa21c-b3ea-4d8e-883e-fda50bda6a49}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Internal\Skybox">
+    <Filter Include="Minecraft\Utils">
+      <UniqueIdentifier>{21e7ff03-94c0-4836-9070-73c92bcbae57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Minecraft\Player">
+      <UniqueIdentifier>{07e18ff2-e23f-497e-b545-e74041d5ca14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Minecraft\Application">
+      <UniqueIdentifier>{3e73c252-ec64-4600-af77-57acbeeb5b04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Minecraft\Skybox">
       <UniqueIdentifier>{65474e96-753d-4358-9f25-642d54d4bd3c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Internal\Physics">
+    <Filter Include="Minecraft\Physics">
       <UniqueIdentifier>{a37e5093-e52b-4953-8458-6a5d0f6ae54a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Internal\Math">
+    <Filter Include="Minecraft\Math">
       <UniqueIdentifier>{e9806a0b-d67c-4859-a06b-24ff5602385b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Internal\Simplex Noise">
+    <Filter Include="Minecraft\Math\Frustum Culling">
+      <UniqueIdentifier>{3e20a2c4-ffc8-4bbe-87d3-1f604c87f735}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Minecraft\Simplex Noise">
       <UniqueIdentifier>{568f3f65-7797-48f9-9c06-5464507871dd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Internal\Math\Frustum Culling">
-      <UniqueIdentifier>{3e20a2c4-ffc8-4bbe-87d3-1f604c87f735}</UniqueIdentifier>
+    <Filter Include="Minecraft\Gameplay">
+      <UniqueIdentifier>{05e3cda0-424a-47c9-8b36-3e60a9932cb0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

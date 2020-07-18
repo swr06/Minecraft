@@ -82,6 +82,12 @@ namespace Minecraft
 
         glewInit();
 
+		char* renderer = (char*)glGetString(GL_RENDERER);
+		char* vendor = (char*)glGetString(GL_VENDOR);
+		char* version = (char*)glGetString(GL_VERSION);
+
+		Logger::LogOpenGLInit(renderer, vendor, version);
+
         // Lock the cursor to the window
         glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
@@ -133,7 +139,7 @@ namespace Minecraft
 		// Render the world
         m_World->RenderWorld();
 
-        GLClasses::DisplayFrameRate(m_Window, "Minecraft Clone V0.01 ");
+        GLClasses::DisplayFrameRate(m_Window, "Minecraft Clone V0.01 By Samuel Rasquinha");
         glfwSwapBuffers(m_Window);
         glfwPollEvents();
 	}

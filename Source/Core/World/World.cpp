@@ -278,17 +278,20 @@ namespace Minecraft
 
 					edit_block = GetWorldBlockFromPosition(glm::vec3(position.x, position.y, position.z));
 
-					if (place)
+					if (position.y >= 0 && position.y < ChunkSizeY)
 					{
-						edit_block.first->p_BlockType = BlockType::Dirt;
-					}
+						if (place)
+						{
+							edit_block.first->p_BlockType = BlockType::Dirt;
+						}
 
-					else
-					{
-						edit_block.first->p_BlockType = BlockType::Air;
-					}
+						else
+						{
+							edit_block.first->p_BlockType = BlockType::Air;
+						}
 
-					edit_block.second->Construct();
+						edit_block.second->Construct();
+					}
 
 					return;
 				}
