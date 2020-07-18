@@ -47,6 +47,7 @@ namespace Minecraft
 		Logger::LogToConsole("Chunk Mesh construction ended");
 
 		m_CrosshairTexture.CreateTexture("Resources/crosshair.png");
+		m_CurrentFrame = 0;
 	}
 
 	World::~World()
@@ -57,6 +58,9 @@ namespace Minecraft
 	void World::OnUpdate(GLFWwindow* window)
 	{
 		p_Player->OnUpdate();
+
+		// Increase the frame count 
+		m_CurrentFrame++;
 
 		const float camera_speed = 0.35f;
 
@@ -115,12 +119,12 @@ namespace Minecraft
 		//	}
 		//}
 
-		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT))
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) && m_CurrentFrame % 10 == 0)
 		{
 			RayCast(true);
 		}
 
-		else if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT))
+		else if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) && m_CurrentFrame % 10 == 0)
 		{
 			RayCast(false);
 		}

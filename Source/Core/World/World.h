@@ -80,5 +80,6 @@ namespace Minecraft
 
 		OrthographicCamera m_Camera2D;
 		GLClasses::Texture m_CrosshairTexture;
+		long long m_CurrentFrame;
 	};
 }
