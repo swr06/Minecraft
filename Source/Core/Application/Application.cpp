@@ -65,9 +65,10 @@ namespace Minecraft
         glfwInit();
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, GL_VERSION_MAJOR);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, GL_VERSION_MINOR);
+        glfwWindowHint(GLFW_MAXIMIZED, GLFW_FALSE);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-		m_Window = glfwCreateWindow(DEFAULT_WINDOW_X, DEFAULT_WINDOW_Y, "Minecraft V0.01 By Samuel Rasquinha", NULL, NULL);
+		m_Window = glfwCreateWindow(DEFAULT_WINDOW_X, DEFAULT_WINDOW_Y, "A Tiny Minecraft V0.01 By Samuel Rasquinha", NULL, NULL);
 
         if (m_Window == NULL)
         {
@@ -116,6 +117,10 @@ namespace Minecraft
         m_World = new World;
 
         EventSystem::InitEventSystem(m_Window, &m_EventQueue);
+
+		// Resize window to the maximized view
+
+		glfwMaximizeWindow(m_Window);
 	}
 
 	void Application::OnUpdate()
@@ -140,7 +145,7 @@ namespace Minecraft
 		// Render the world
         m_World->RenderWorld();
 
-        GLClasses::DisplayFrameRate(m_Window, "Minecraft Clone V0.01 By Samuel Rasquinha");
+        GLClasses::DisplayFrameRate(m_Window, "A Tiny Minecraft Clone V0.01 By Samuel Rasquinha");
         glfwSwapBuffers(m_Window);
         glfwPollEvents();
 	}
