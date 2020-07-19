@@ -256,6 +256,8 @@
     <None Include="Shaders\2DElementShaderVert.glsl" />
     <None Include="Shaders\BlockRendererFrag.glsl" />
     <None Include="Shaders\BlockRendererVertex.glsl" />
+    <None Include="Shaders\CubeRendererFrag.glsl" />
+    <None Include="Shaders\CubeRendererVert.glsl" />
     <None Include="Shaders\SkyboxFrag.glsl" />
     <None Include="Shaders\SkyboxVertex.glsl" />
   </ItemGroup>

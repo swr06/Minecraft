@@ -365,6 +365,12 @@
     <None Include="Shaders\2DElementShaderVert.glsl">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="Shaders\CubeRendererFrag.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\CubeRendererVert.glsl">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\block_atlas.png">

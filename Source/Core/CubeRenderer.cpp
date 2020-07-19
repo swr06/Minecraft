@@ -7,7 +7,7 @@ namespace Minecraft
 {
 	CubeRenderer::CubeRenderer() : m_VBO(GL_ARRAY_BUFFER)
 	{
-        m_DefaultShader.CreateShaderProgramFromFile("Shaders/vertex.glsl", "Shaders/fragment.glsl");
+        m_DefaultShader.CreateShaderProgramFromFile("Shaders/CubeRendererVert.glsl", "Shaders/CubeRendererFrag.glsl");
         m_DefaultShader.CompileShaders();
 
         float vertices[] = {
