@@ -8,7 +8,7 @@ namespace Minecraft
 		return;
 	}
 
-	World::World() : m_Camera2D(0.0f, 800.0f, 0.0f, 600.0f)
+	World::World() : m_Camera2D(0.0f, (float)DEFAULT_WINDOW_X, 0.0f, (float)DEFAULT_WINDOW_Y)
 	{
 		// Generate all the chunks 
 
@@ -47,6 +47,7 @@ namespace Minecraft
 		Logger::LogToConsole("Chunk Mesh construction ended");
 
 		m_CrosshairTexture.CreateTexture("Resources/crosshair.png");
+		m_CrosshairPosition = std::pair<float, float>((float)DEFAULT_WINDOW_X / 2, (float)DEFAULT_WINDOW_Y / 2);
 		m_CurrentFrame = 0;
 	}
 
@@ -63,9 +64,6 @@ namespace Minecraft
 		m_CurrentFrame++;
 
 		const float camera_speed = 0.35f;
-
-		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
 		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 			p_Player->p_Camera.MoveCamera(MoveDirection::Front, camera_speed);
@@ -88,12 +86,12 @@ namespace Minecraft
 		float block_dist = 16.0f;
 		static float block_delta = glfwGetTime();
 
-		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) && m_CurrentFrame % 10 == 0)
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) && m_CurrentFrame % 10 == 0)
 		{
 			RayCast(true);
 		}
 
-		else if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) && m_CurrentFrame % 10 == 0)
+		else if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) && m_CurrentFrame % 10 == 0)
 		{
 			RayCast(false);
 		}
@@ -127,7 +125,9 @@ namespace Minecraft
 			}
 		}
 
-		m_Renderer2D.RenderQuad(glm::vec3(400.0f - (m_CrosshairTexture.GetWidth() / 2), 300.0f - (m_CrosshairTexture.GetHeight() / 2), 1.0f), &m_CrosshairTexture, &m_Camera2D);
+		m_Renderer2D.RenderQuad(glm::vec3(m_CrosshairPosition.first - (m_CrosshairTexture.GetWidth() / 2)
+			, m_CrosshairPosition.second - (m_CrosshairTexture.GetHeight() / 2), 1.0f)
+			, &m_CrosshairTexture, &m_Camera2D);
 
 	}
 
@@ -135,9 +135,12 @@ namespace Minecraft
 	{
 		p_Player->OnEvent(e);
 
-		if (e.type == EventSystem::EventTypes::MousePress)
+		if (e.type == EventSystem::EventTypes::WindowResize)
 		{
-
+			float aspect = (float)e.wx / (float)e.wy;
+			p_Player->p_Camera.SetAspect(aspect);
+			m_Camera2D.SetProjection((float)0, (float)e.wx, (float)0, (float)e.wy);
+			m_CrosshairPosition = std::pair <float,float> (e.wx / 2, e.wy / 2);
 		}
 	}
 

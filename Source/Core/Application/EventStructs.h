@@ -20,6 +20,7 @@ namespace Minecraft
 		{
 			EventTypes type; // The type of event that has occured 
 
+			GLFWwindow* window; // THe window in which the event occured
 			int key; // The key that was pressed or released
 			int button; // The mouse button that was pressed
 			int mods; // The modifiers that were pressed with the key such as (CTRL, ALT. etc)

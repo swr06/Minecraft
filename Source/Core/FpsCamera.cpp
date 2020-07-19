@@ -133,7 +133,7 @@ namespace Minecraft
 		switch (dir)
 		{
 			case MoveDirection::Front:
-				ChangePosition(GetFront() * camera_speed);
+				ChangePosition(glm::vec3(GetFront().x * camera_speed, 0.0f, GetFront().z * camera_speed));
 				break;
 
 			case MoveDirection::Back:	

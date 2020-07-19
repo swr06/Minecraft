@@ -40,6 +40,7 @@ namespace Minecraft
 		World* m_World;
 
 		std::vector<EventSystem::Event> m_EventQueue;
+		bool m_CursorLocked;
 	};
 
 	extern Application MinecraftApplication;

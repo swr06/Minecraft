@@ -45,6 +45,7 @@ namespace Minecraft
 					break;
 			}
 
+			e.window = window;
 			e.key = key;
 			e.mods = mods;
 
@@ -70,6 +71,7 @@ namespace Minecraft
 					break;
 			}
 
+			e.window = window;
 			e.button = button;
 			e.mods = mods;
 
@@ -81,6 +83,7 @@ namespace Minecraft
 			Event e;
 
 			e.type = EventTypes::MouseScroll;
+			e.window = window;
 			e.msx = xoffset;
 			e.msy = yoffset;
 			EventQueue->push_back(e);
@@ -91,6 +94,7 @@ namespace Minecraft
 			Event e;
 
 			e.type = EventTypes::MouseMove;
+			e.window = window;
 			e.mx = xpos;
 			e.my = ypos;
 
@@ -104,6 +108,7 @@ namespace Minecraft
 			e.type = EventTypes::WindowResize;
 			e.wx = width;
 			e.wy = height;
+			e.window = window;
 
 			EventQueue->push_back(e);
 		}

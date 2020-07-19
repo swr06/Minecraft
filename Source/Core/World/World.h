@@ -69,6 +69,7 @@ namespace Minecraft
 		bool ChunkInViewFrustum(Chunk* chunk);
 
 		uint32_t m_ChunkCount;
+		std::pair<float, float> m_CrosshairPosition;
 
 		// Renderers
 		Renderer m_Renderer;

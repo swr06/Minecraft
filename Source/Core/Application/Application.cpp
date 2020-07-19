@@ -67,7 +67,7 @@ namespace Minecraft
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, GL_VERSION_MINOR);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-        m_Window = glfwCreateWindow(800, 600, "Minecraft V0.01", NULL, NULL);
+		m_Window = glfwCreateWindow(DEFAULT_WINDOW_X, DEFAULT_WINDOW_Y, "Minecraft V0.01 By Samuel Rasquinha", NULL, NULL);
 
         if (m_Window == NULL)
         {
@@ -108,6 +108,7 @@ namespace Minecraft
 		glBlendFunc(GL_SRC_ALPHA ,GL_ONE_MINUS_SRC_ALPHA);
 
 		glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		m_CursorLocked = true;
 
 		if (glfwRawMouseMotionSupported())
 			glfwSetInputMode(m_Window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
@@ -146,6 +147,40 @@ namespace Minecraft
 
 	void Application::OnEvent(EventSystem::Event e)
 	{
+		switch (e.type)
+		{
+			case EventSystem::EventTypes::WindowResize : 
+			{
+				glViewport(0, 0, e.wx, e.wy);
+
+				break;
+			}
+
+			case EventSystem::EventTypes::KeyPress :
+			{
+				if (e.key == GLFW_KEY_F1)
+				{
+					glfwSetWindowShouldClose(m_Window, true);
+				}
+
+				else if (e.key == GLFW_KEY_ESCAPE)
+				{
+					// If the cursor is locked, release it. else lock it back
+					if (m_CursorLocked == true)
+					{
+						glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+						m_CursorLocked = false;
+					}
+
+					else if (m_CursorLocked == false)
+					{
+						glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+						m_CursorLocked = true;
+					}
+				}
+			}
+		}
+
         m_World->OnEvent(e);
 	}
 

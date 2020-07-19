@@ -9,6 +9,9 @@
 #define ChunkID int;
 #define CoordType int;
 
+#define DEFAULT_WINDOW_X 1280
+#define DEFAULT_WINDOW_Y 800
+
 // For windowing and context creation
 
 #define GL_VERSION_MAJOR 4
