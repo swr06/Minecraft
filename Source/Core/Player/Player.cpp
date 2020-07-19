@@ -5,11 +5,15 @@ namespace Minecraft
 	void Player::OnUpdate()
 	{
 		p_Position = p_Camera.GetPosition();
+
+		// Update the AABB mask
+		p_PlayerAABB.x = p_Position.x;
+		p_PlayerAABB.y = p_Position.y;
+		p_PlayerAABB.z = p_Position.z;
 	}
 
 	void Player::OnEvent(EventSystem::Event e)
 	{
-
 		if (e.type == EventSystem::EventTypes::MouseScroll)
 		{
 			if (e.msy > 0.0f)

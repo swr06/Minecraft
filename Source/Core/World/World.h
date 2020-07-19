@@ -33,6 +33,7 @@
 #include "../Application/Events.h"
 #include "../ChunkFileHandler.h"
 #include "../Utils/Ray.h"
+#include "../Physics/AABB.h"
 #include "WorldGenerator.h"
 
 // TODO : Include ray cast class

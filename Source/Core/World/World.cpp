@@ -88,37 +88,6 @@ namespace Minecraft
 		float block_dist = 16.0f;
 		static float block_delta = glfwGetTime();
 
-		//// Get position relative to camera's direction
-		//std::vector<glm::vec3> traversed_voxels;
-		//FastVoxelTraversal(p_Player->p_Camera.GetPosition(),
-		//	p_Player->p_Camera.GetPosition() + p_Player->p_Camera.GetFront() * block_dist, traversed_voxels);
-
-		//for (int i = 0; i < traversed_voxels.size(); i++)
-		//{
-		//	// Check if the traversed voxel is valid
-		//	if (traversed_voxels[i].y < ChunkSizeY && traversed_voxels[i].y >= 0)
-		//	{
-		//		std::pair<Block*, Chunk*> block = GetWorldBlockFromPosition(traversed_voxels[i]);
-
-		//		if (block.first->p_BlockType != BlockType::Air && glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT))
-		//		{
-		//			block.second->SetBlock(BlockType::Dirt, block.first->p_Position);
-		//			block.second->Construct();
-
-		//			break;
-		//		}
-
-		//		else if (block.first->p_BlockType != BlockType::Air &&
-		//			glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT))
-		//		{
-		//			block.second->SetBlock(BlockType::Air, block.first->p_Position);
-		//			block.second->Construct();
-
-		//			break;
-		//		}
-		//	}
-		//}
-
 		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) && m_CurrentFrame % 10 == 0)
 		{
 			RayCast(true);
@@ -129,6 +98,7 @@ namespace Minecraft
 			RayCast(false);
 		}
 
+		// Collision testing
 	}
 
 	void World::RenderWorld()
@@ -210,7 +180,7 @@ namespace Minecraft
 		int by = static_cast<int>(floor(pos.y));
 		int bz = pos.z - (block_chunk_z * ChunkSizeZ);
 
-		return GetChunkFromMap(block_chunk_x, block_chunk_z)->m_ChunkContents->at(bx).at(by).at(bz).p_BlockType;
+		return static_cast<BlockType>(GetChunkFromMap(block_chunk_x, block_chunk_z)->m_ChunkContents->at(bx).at(by).at(bz).p_BlockType);
 	}
 
 	void World::RenderChunkFromMap(int cx, int cz)

@@ -59,7 +59,7 @@ namespace Minecraft
                     {
                         if (structure->p_Structure->at(sx).at(sy).at(sz).p_BlockType != BlockType::Air)
                         {
-                            chunk->SetBlock(structure->p_Structure->at(sx).at(sy).at(sz).p_BlockType, glm::vec3(i, j, k));
+                            chunk->SetBlock(static_cast<BlockType>(structure->p_Structure->at(sx).at(sy).at(sz).p_BlockType), glm::vec3(i, j, k));
                         }
                     }
                 }

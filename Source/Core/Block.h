@@ -27,6 +27,6 @@ namespace Minecraft
 
 	struct Block
 	{
-		BlockType p_BlockType;
+		std::uint8_t p_BlockType;
 	};
 }

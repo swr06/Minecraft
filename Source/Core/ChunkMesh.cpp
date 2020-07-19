@@ -37,12 +37,14 @@ namespace Minecraft
 			delete[] IndexBuffer;
 		}
 
+		int stride = (6 * sizeof(GLfloat));
+
 		p_VAO.Bind();
 		p_VBO.Bind();
 		StaticIBO.Bind();
-		p_VBO.VertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-		p_VBO.VertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-		p_VBO.VertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(5 * sizeof(float)));
+		p_VBO.VertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, (void*)0);
+		p_VBO.VertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, stride, (void*)(3 * sizeof(float)));
+		p_VBO.VertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, stride, (void*)(5 * sizeof(float)));
 		p_VAO.Unbind();
 
 		// Set the values of the 2D planes
@@ -105,15 +107,15 @@ namespace Minecraft
 
 						if (z <= 0)
 						{
-							AddFace(BlockFaceType::backward, world_position, Chunk->at(x).at(y).at(z).p_BlockType);
-							AddFace(BlockFaceType::front, world_position, Chunk->at(x).at(y).at(z).p_BlockType);
+							AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(Chunk->at(x).at(y).at(z).p_BlockType));
+							AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(Chunk->at(x).at(y).at(z).p_BlockType));
 
 						}
 
 						else if (z >= ChunkSizeZ - 1)
 						{
-							AddFace(BlockFaceType::front, world_position, Chunk->at(x).at(y).at(z).p_BlockType);
-							AddFace(BlockFaceType::backward, world_position, Chunk->at(x).at(y).at(z).p_BlockType);
+							AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(Chunk->at(x).at(y).at(z).p_BlockType));
+							AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(Chunk->at(x).at(y).at(z).p_BlockType));
 						}
 
 						else
@@ -121,27 +123,27 @@ namespace Minecraft
 							//If the forward block is an air block, add the forward face to the mesh
 							if (Chunk->at(x).at(y).at(z + 1).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::front, world_position, Chunk->at(x).at(y).at(z).p_BlockType);
+								AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(Chunk->at(x).at(y).at(z).p_BlockType));
 							}
 
 							// If the back (-forward) block is an air block, add the back face to the mesh
 							if (Chunk->at(x).at(y).at(z - 1).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::backward, world_position, Chunk->at(x).at(y).at(z).p_BlockType);
+								AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(Chunk->at(x).at(y).at(z).p_BlockType));
 							}
 						}
 
 						if (x <= 0)
 						{
-							AddFace(BlockFaceType::left, world_position, Chunk->at(x).at(y).at(z).p_BlockType);
-							AddFace(BlockFaceType::right, world_position, Chunk->at(x).at(y).at(z).p_BlockType);
+							AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(Chunk->at(x).at(y).at(z).p_BlockType));
+							AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(Chunk->at(x).at(y).at(z).p_BlockType));
 
 						}
 
 						else if (x >= ChunkSizeX - 1)
 						{
-							AddFace(BlockFaceType::right, world_position, Chunk->at(x).at(y).at(z).p_BlockType);
-							AddFace(BlockFaceType::left, world_position, Chunk->at(x).at(y).at(z).p_BlockType);
+							AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(Chunk->at(x).at(y).at(z).p_BlockType));
+							AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(Chunk->at(x).at(y).at(z).p_BlockType));
 
 						}
 
@@ -150,27 +152,27 @@ namespace Minecraft
 							// If the next block is an air block, add the right face to the mesh
 							if (Chunk->at(x + 1).at(y).at(z).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::right, world_position, Chunk->at(x).at(y).at(z).p_BlockType);
+								AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(Chunk->at(x).at(y).at(z).p_BlockType));
 							}
 
 							// If the previous block is an air block, add the left face to the mesh
 							if (Chunk->at(x - 1).at(y).at(z).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::left, world_position, Chunk->at(x).at(y).at(z).p_BlockType);
+								AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(Chunk->at(x).at(y).at(z).p_BlockType));
 							}
 						}
 
 						if (y <= 0)
 						{
-							AddFace(BlockFaceType::bottom, world_position, Chunk->at(x).at(y).at(z).p_BlockType);
-							AddFace(BlockFaceType::top, world_position, Chunk->at(x).at(y).at(z).p_BlockType);
+							AddFace(BlockFaceType::bottom, world_position, static_cast<BlockType>(Chunk->at(x).at(y).at(z).p_BlockType));
+							AddFace(BlockFaceType::top, world_position, static_cast<BlockType>(Chunk->at(x).at(y).at(z).p_BlockType));
 
 						}
 
 						else if (y >= ChunkSizeY - 1)
 						{
-							AddFace(BlockFaceType::top, world_position, Chunk->at(x).at(y).at(z).p_BlockType);
-							AddFace(BlockFaceType::bottom, world_position, Chunk->at(x).at(y).at(z).p_BlockType);
+							AddFace(BlockFaceType::top, world_position, static_cast<BlockType>(Chunk->at(x).at(y).at(z).p_BlockType));
+							AddFace(BlockFaceType::bottom, world_position, static_cast<BlockType>(Chunk->at(x).at(y).at(z).p_BlockType));
 						}
 
 						else
@@ -178,13 +180,13 @@ namespace Minecraft
 							// If the top block is an air block, add the top face to the mesh
 							if (Chunk->at(x).at(y - 1).at(z).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::bottom, world_position, Chunk->at(x).at(y).at(z).p_BlockType);
+								AddFace(BlockFaceType::bottom, world_position, static_cast<BlockType>(Chunk->at(x).at(y).at(z).p_BlockType));
 							}
 
 							// If the bottom block is an air block, add the top face to the mesh
 							if (Chunk->at(x).at(y + 1).at(z).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::top, world_position, Chunk->at(x).at(y).at(z).p_BlockType);
+								AddFace(BlockFaceType::top, world_position, static_cast<BlockType>(Chunk->at(x).at(y).at(z).p_BlockType));
 							}
 						}
 					}
@@ -207,7 +209,7 @@ namespace Minecraft
 
 		// Order
 		// Top, bottom, front, back, left, right
-		const float lighting_levels[6] = { 1.0f, 0.2f, 0.6f, 0.7f, 0.6f, 0.7f };
+		static const GLfloat lighting_levels[6] = { 1.0f, 0.2f, 0.6f, 0.7f, 0.6f, 0.7f };
 
 		switch (face_type)
 		{
