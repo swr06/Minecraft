@@ -83,19 +83,6 @@ namespace Minecraft
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 			p_Player->p_Camera.MoveCamera(MoveDirection::Down, camera_speed);
 
-		float block_dist = 16.0f;
-		static float block_delta = glfwGetTime();
-
-		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) && m_CurrentFrame % 10 == 0)
-		{
-			RayCast(true);
-		}
-
-		else if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) && m_CurrentFrame % 10 == 0)
-		{
-			RayCast(false);
-		}
-
 		// Collision testing
 
 		int collision_test_x = 2;
@@ -171,6 +158,24 @@ namespace Minecraft
 			p_Player->p_Camera.SetAspect(aspect);
 			m_Camera2D.SetProjection((float)0, (float)e.wx, (float)0, (float)e.wy);
 			m_CrosshairPosition = std::pair <float,float> (e.wx / 2, e.wy / 2);
+		}
+
+		if (e.type == EventSystem::EventTypes::MousePress)
+		{
+			switch (e.button)
+			{
+				case GLFW_MOUSE_BUTTON_LEFT :
+				{
+					RayCast(false);
+					break;
+				}
+
+				case GLFW_MOUSE_BUTTON_RIGHT:
+				{
+					RayCast(true);
+					break;
+				}
+			}
 		}
 	}
 
