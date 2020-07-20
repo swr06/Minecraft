@@ -137,7 +137,7 @@ namespace Minecraft
 				break;
 
 			case MoveDirection::Back:	
-				ChangePosition(-(GetFront() * camera_speed));
+				ChangePosition(-(glm::vec3(GetFront().x * camera_speed, 0.0f, GetFront().z * camera_speed)));
 				break;
 
 			case MoveDirection::Left : 

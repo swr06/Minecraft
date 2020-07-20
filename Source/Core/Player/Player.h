@@ -21,9 +21,9 @@ namespace Minecraft
 			p_PlayerAABB.x = 0;
 			p_PlayerAABB.y = 0;
 			p_PlayerAABB.z = 0;
-			p_PlayerAABB.width = 16;
-			p_PlayerAABB.height = 32;
-			p_PlayerAABB.depth = 16;
+			p_PlayerAABB.width = 1;
+			p_PlayerAABB.height = 1;
+			p_PlayerAABB.depth = 1;
 		}
 
 		void OnUpdate();

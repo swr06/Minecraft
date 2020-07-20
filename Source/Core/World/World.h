@@ -56,6 +56,7 @@ namespace Minecraft
 		void SetWorldBlockFromPosition(BlockType type, const glm::vec3& pos);
 		std::pair<Block*, Chunk*> GetWorldBlock(const glm::vec3& block_loc);
 		BlockType GetWorldBlockTypeFromPosition(const glm::vec3& pos);
+		glm::vec3 ConvertPositionToWorldBlockPosition(const glm::vec3& pos);
 
 		Player* p_Player;
 

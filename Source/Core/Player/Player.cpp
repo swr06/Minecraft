@@ -6,7 +6,7 @@ namespace Minecraft
 	{
 		p_Position = p_Camera.GetPosition();
 
-		// Update the AABB mask
+		// Update the AABB collision mask
 		p_PlayerAABB.x = p_Position.x;
 		p_PlayerAABB.y = p_Position.y;
 		p_PlayerAABB.z = p_Position.z;

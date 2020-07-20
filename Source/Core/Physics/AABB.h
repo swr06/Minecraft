@@ -15,4 +15,7 @@ namespace Minecraft
 		float height;
 		float depth;
 	};
+
+	bool TestAABBCollision(const AABB& box1, const AABB& box2);
+
 }

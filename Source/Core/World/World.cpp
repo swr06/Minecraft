@@ -98,6 +98,36 @@ namespace Minecraft
 
 		// Collision testing
 
+		int collision_test_x = 2;
+		int collision_test_y = 2;
+		int collision_test_z = 2;
+		int chunks_rendered = 0;
+
+		auto player_pos_info = GetWorldBlockFromPosition(p_Player->p_Position);
+		glm::vec3 player_world_block = ConvertPositionToWorldBlockPosition(p_Player->p_Position);
+
+		for (int i = player_world_block.x - collision_test_x; i < player_world_block.x + collision_test_x; i++)
+		{
+			for (int j = player_world_block.y - collision_test_y; j < player_world_block.y + collision_test_y; j++)
+			{
+				for (int k = player_world_block.z - collision_test_z; k < player_world_block.z + collision_test_z; k++)
+				{
+					AABB block_mask;
+
+					block_mask.x = i;
+					block_mask.y = j;
+					block_mask.z = k;
+					block_mask.width = 1;
+					block_mask.height = 1;
+					block_mask.depth = 1;
+
+					if (TestAABBCollision(p_Player->p_PlayerAABB, block_mask))
+					{
+						Logger::LogToConsole("Collision occured!");
+					}
+				}
+			}
+		}
 
 	}
 
@@ -144,6 +174,7 @@ namespace Minecraft
 		}
 	}
 
+	// Gets a block from position
 	std::pair<Block*, Chunk*> World::GetWorldBlockFromPosition(const glm::vec3& pos)
 	{
 		int block_chunk_x = static_cast<int>(floor(pos.x / ChunkSizeX));
@@ -157,6 +188,7 @@ namespace Minecraft
 		return { &chunk->m_ChunkContents->at(bx).at(by).at(bz), chunk };
 	}
 
+	// Sets a world block from position
 	void World::SetWorldBlockFromPosition(BlockType type, const glm::vec3& pos)
 	{
 		int block_chunk_x = static_cast<int>(floor(pos.x / ChunkSizeX));
@@ -168,6 +200,7 @@ namespace Minecraft
 		GetChunkFromMap(block_chunk_x, block_chunk_z)->SetBlock(type, glm::vec3(bx, by, bz));
 	}
 
+	// Returns the chunk* and block* from BLOCK position
 	std::pair<Block*, Chunk*> World::GetWorldBlock(const glm::vec3& block_loc)
 	{
 		int block_chunk_x = static_cast<int>(floor(block_loc.x / ChunkSizeX));
@@ -177,6 +210,7 @@ namespace Minecraft
 		return { &chunk->m_ChunkContents->at(block_loc.x).at(block_loc.y).at(block_loc.z), chunk };
 	}
 
+	// Returns the type of block at a position
 	BlockType World::GetWorldBlockTypeFromPosition(const glm::vec3& pos)
 	{
 		int block_chunk_x = static_cast<int>(floor(pos.x / ChunkSizeX));
@@ -186,6 +220,21 @@ namespace Minecraft
 		int bz = pos.z - (block_chunk_z * ChunkSizeZ);
 
 		return static_cast<BlockType>(GetChunkFromMap(block_chunk_x, block_chunk_z)->m_ChunkContents->at(bx).at(by).at(bz).p_BlockType);
+	}
+
+	// Converts world pixel coordinates to world block position
+	glm::vec3 World::ConvertPositionToWorldBlockPosition(const glm::vec3& pos)
+	{
+		int block_chunk_x = static_cast<int>(floor(pos.x / ChunkSizeX));
+		int block_chunk_z = static_cast<int>(floor(pos.z / ChunkSizeZ));
+		int bx = pos.x - (block_chunk_x * ChunkSizeX);
+		int by = static_cast<int>(floor(pos.y));
+		int bz = pos.z - (block_chunk_z * ChunkSizeZ);
+
+		bx += block_chunk_x * ChunkSizeX;
+		bz += block_chunk_z * ChunkSizeY;
+
+		return glm::vec3(bx, by, bz);
 	}
 
 	void World::RenderChunkFromMap(int cx, int cz)

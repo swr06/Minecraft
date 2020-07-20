@@ -90,7 +90,7 @@ namespace Minecraft
     {
         static Random SeedEngine;
         static unsigned int WorldSeed = 1569;
-        static Random WorldTreeGenerator(WorldSeed);
+        Random WorldTreeGenerator(chunk->p_Position.x * chunk->p_Position.y * chunk->p_Position.z);
         static FastNoise WorldGenerator(WorldSeed);
         static FastNoise WorldGeneratorMultiply_1(WorldSeed);
         static FastNoise BiomeGenerator(WorldSeed);
