@@ -86,7 +86,7 @@ namespace Minecraft
 	}
 
 	// Construct mesh using greedy meshing for maximum performance
-	void ChunkMesh::ConstructMesh(ChunkDateType ChunkData, const glm::vec3& chunk_pos)
+	void ChunkMesh::ConstructMesh(ChunkDataTypePtr ChunkData, const glm::vec3& chunk_pos)
 	{
 		glm::vec3 world_position;
 		m_Vertices.clear();

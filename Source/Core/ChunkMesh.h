@@ -22,7 +22,7 @@
 
 namespace Minecraft
 {
-	typedef std::array<std::array<std::array<Block, ChunkSizeX>, ChunkSizeY>, ChunkSizeZ>*  ChunkDateType ;
+	typedef std::array<std::array<std::array<Block, ChunkSizeX>, ChunkSizeY>, ChunkSizeZ>* ChunkDataTypePtr;
 
 	class ChunkMesh
 	{
@@ -31,7 +31,7 @@ namespace Minecraft
 		ChunkMesh();
 		~ChunkMesh();
 
-		void ConstructMesh(ChunkDateType ChunkData, const glm::vec3& chunk_pos);
+		void ConstructMesh(ChunkDataTypePtr ChunkData, const glm::vec3& chunk_pos);
 		
 		std::uint32_t p_VerticesCount;
 		GLClasses::VertexBuffer p_VBO;

@@ -17,7 +17,7 @@ namespace Minecraft
 	{
 	public : 
 
-		Chunk()
+		Chunk(const glm::vec3 chunk_position) : p_Position(chunk_position)
 		{
 			// Initialize all the blocks in the chunk to be air blocks
 
@@ -59,7 +59,7 @@ namespace Minecraft
 			return &m_ChunkMesh;
 		}
 
-		glm::vec3 p_Position;
+		const glm::vec3 p_Position;
 		std::array<std::array<std::array<Block, ChunkSizeX>, ChunkSizeY>, ChunkSizeZ>* m_ChunkContents;
 
 	private :

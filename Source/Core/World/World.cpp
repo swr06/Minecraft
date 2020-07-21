@@ -24,9 +24,8 @@ namespace Minecraft
 			for (int j = 0; j < 4; j++)
 			{
 				Timer timer("First Chunk generation");
-
-				m_WorldChunks[std::pair<int, int>(i, j)].p_Position = glm::vec3(i, 1, j);
-				GenerateChunk(&m_WorldChunks[std::pair<int, int>(i, j)]);
+				m_WorldChunks.emplace(std::pair<int, int>(i, j), *(new Chunk(glm::vec3(i, 1, j))));
+				GenerateChunk(&m_WorldChunks.at(std::pair<int, int>(i, j)));
 				m_ChunkCount++;
 			}
 		}
@@ -40,7 +39,7 @@ namespace Minecraft
 			{
 				Timer timer("First Chunks Construction!");
 
-				m_WorldChunks[std::pair<int, int>(i, j)].Construct();
+				m_WorldChunks.at(std::pair<int, int>(i, j)).Construct();
 			}
 		}
 
@@ -85,7 +84,7 @@ namespace Minecraft
 
 		// Collision testing
 
-		int collision_test_x = 2;
+		/*int collision_test_x = 2;
 		int collision_test_y = 2;
 		int collision_test_z = 2;
 		int chunks_rendered = 0;
@@ -114,7 +113,7 @@ namespace Minecraft
 					}
 				}
 			}
-		}
+		}*/
 
 	}
 
@@ -340,9 +339,9 @@ namespace Minecraft
 		{
 			Timer timer(str.str());
 
-			m_WorldChunks[std::pair<int, int>(cx, cz)].p_Position = glm::vec3(cx, 1, cz);
-			GenerateChunk(&m_WorldChunks[std::pair<int, int>(cx, cz)]);
-			m_WorldChunks[std::pair<int, int>(cx, cz)].Construct();
+			m_WorldChunks.emplace(std::pair<int, int>(cx, cz), *(new Chunk(glm::vec3(cx, 1, cz))));
+			GenerateChunk(&m_WorldChunks.at(std::pair<int, int>(cx, cz)));
+			m_WorldChunks.at(std::pair<int, int>(cx, cz)).Construct();
 			m_ChunkCount++;
 		}
 
