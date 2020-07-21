@@ -15,7 +15,7 @@ namespace Minecraft
 
 			GLuint* IndexBuffer = nullptr;
 
-			int index_size = ChunkSizeX * ChunkSizeY * ChunkSizeZ * 6;
+			int index_size = CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z * 6;
 			int index_offset = 0;
 
 			IndexBuffer = new GLuint[index_size * 6];
@@ -91,19 +91,19 @@ namespace Minecraft
 		glm::vec3 world_position;
 		m_Vertices.clear();
 
-		for (int x = 0; x < ChunkSizeX; x++)
+		for (int x = 0; x < CHUNK_SIZE_X; x++)
 		{
-			for (int y = 0; y < ChunkSizeY; y++)
+			for (int y = 0; y < CHUNK_SIZE_Y; y++)
 			{
-				for (int z = 0; z < ChunkSizeZ; z++)
+				for (int z = 0; z < CHUNK_SIZE_Z; z++)
 				{
 					if (ChunkData->at(x).at(y).at(z).p_BlockType != BlockType::Air)
 					{
 						// To fix chunk edge mesh building issues, both faces are added if it is in the edge
 
-						world_position.x = chunk_pos.x * ChunkSizeX + x;
-						world_position.y = 0 * ChunkSizeY + y;
-						world_position.z = chunk_pos.z * ChunkSizeZ + z;
+						world_position.x = chunk_pos.x * CHUNK_SIZE_X + x;
+						world_position.y = 0 * CHUNK_SIZE_Y + y;
+						world_position.z = chunk_pos.z * CHUNK_SIZE_Z + z;
 
 						if (z <= 0)
 						{
@@ -112,7 +112,7 @@ namespace Minecraft
 
 						}
 
-						else if (z >= ChunkSizeZ - 1)
+						else if (z >= CHUNK_SIZE_Z - 1)
 						{
 							AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
 							AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
@@ -140,7 +140,7 @@ namespace Minecraft
 
 						}
 
-						else if (x >= ChunkSizeX - 1)
+						else if (x >= CHUNK_SIZE_X - 1)
 						{
 							AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
 							AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
@@ -169,7 +169,7 @@ namespace Minecraft
 
 						}
 
-						else if (y >= ChunkSizeY - 1)
+						else if (y >= CHUNK_SIZE_Y - 1)
 						{
 							AddFace(BlockFaceType::top, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
 							AddFace(BlockFaceType::bottom, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));

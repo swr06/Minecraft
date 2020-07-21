@@ -21,13 +21,13 @@ namespace Minecraft
 		{
 			// Initialize all the blocks in the chunk to be air blocks
 
-			m_ChunkContents = new std::array<std::array<std::array<Block, ChunkSizeX>, ChunkSizeY>, ChunkSizeZ>;
+			m_ChunkContents = new std::array<std::array<std::array<Block, CHUNK_SIZE_X>, CHUNK_SIZE_Y>, CHUNK_SIZE_Z>;
 
-			for (int i = 0; i < ChunkSizeX; i++)
+			for (int i = 0; i < CHUNK_SIZE_X; i++)
 			{
-				for (int j = 0; j < ChunkSizeY; j++)
+				for (int j = 0; j < CHUNK_SIZE_Y; j++)
 				{
-					for (int k = 0; k < ChunkSizeZ; k++)
+					for (int k = 0; k < CHUNK_SIZE_Z; k++)
 					{
 						m_ChunkContents->at(i).at(j).at(k).p_BlockType = BlockType::Air;
 					}
@@ -60,7 +60,7 @@ namespace Minecraft
 		}
 
 		const glm::vec3 p_Position;
-		std::array<std::array<std::array<Block, ChunkSizeX>, ChunkSizeY>, ChunkSizeZ>* m_ChunkContents;
+		std::array<std::array<std::array<Block, CHUNK_SIZE_X>, CHUNK_SIZE_Y>, CHUNK_SIZE_Z>* m_ChunkContents;
 
 	private :
 		// each chunk will be a 16x16x16 block space. A 3D array

@@ -15,7 +15,7 @@ namespace Minecraft
 		p_Player = new Player;
 
 		// Set the players position
-		p_Player->p_Camera.SetPosition(glm::vec3(0, (ChunkSizeY - MaxStructureY) - 2, 0));
+		p_Player->p_Camera.SetPosition(glm::vec3(0, (CHUNK_SIZE_Y - MaxStructureY) - 2, 0));
 
 		Logger::LogToConsole("World Generation Began");
 
@@ -125,8 +125,8 @@ namespace Minecraft
 
 		m_Skybox.RenderSkybox(&p_Player->p_Camera);
 
-		player_chunk_x = floor(p_Player->p_Position.x / ChunkSizeX);
-		player_chunk_z = floor(p_Player->p_Position.z / ChunkSizeZ);
+		player_chunk_x = floor(p_Player->p_Position.x / CHUNK_SIZE_X);
+		player_chunk_z = floor(p_Player->p_Position.z / CHUNK_SIZE_Z);
 
 		int render_distance_x = 2, render_distance_z = 2;
 		int chunks_rendered = 0;
@@ -181,11 +181,11 @@ namespace Minecraft
 	// Gets a block from position
 	std::pair<Block*, Chunk*> World::GetWorldBlockFromPosition(const glm::vec3& pos)
 	{
-		int block_chunk_x = static_cast<int>(floor(pos.x / ChunkSizeX));
-		int block_chunk_z = static_cast<int>(floor(pos.z / ChunkSizeZ));
-		int bx = pos.x - (block_chunk_x * ChunkSizeX);
+		int block_chunk_x = static_cast<int>(floor(pos.x / CHUNK_SIZE_X));
+		int block_chunk_z = static_cast<int>(floor(pos.z / CHUNK_SIZE_Z));
+		int bx = pos.x - (block_chunk_x * CHUNK_SIZE_X);
 		int by = static_cast<int>(floor(pos.y));
-		int bz = pos.z - (block_chunk_z * ChunkSizeZ);
+		int bz = pos.z - (block_chunk_z * CHUNK_SIZE_Z);
 
 		Chunk* chunk = GetChunkFromMap(block_chunk_x, block_chunk_z);
 
@@ -195,11 +195,11 @@ namespace Minecraft
 	// Sets a world block from position
 	void World::SetWorldBlockFromPosition(BlockType type, const glm::vec3& pos)
 	{
-		int block_chunk_x = static_cast<int>(floor(pos.x / ChunkSizeX));
-		int block_chunk_z = static_cast<int>(floor(pos.z / ChunkSizeZ));
-		int bx = pos.x - (block_chunk_x * ChunkSizeX);
+		int block_chunk_x = static_cast<int>(floor(pos.x / CHUNK_SIZE_X));
+		int block_chunk_z = static_cast<int>(floor(pos.z / CHUNK_SIZE_Z));
+		int bx = pos.x - (block_chunk_x * CHUNK_SIZE_X);
 		int by = static_cast<int>(floor(pos.y));
-		int bz = pos.z - (block_chunk_z * ChunkSizeZ);
+		int bz = pos.z - (block_chunk_z * CHUNK_SIZE_Z);
 
 		GetChunkFromMap(block_chunk_x, block_chunk_z)->SetBlock(type, glm::vec3(bx, by, bz));
 	}
@@ -207,8 +207,8 @@ namespace Minecraft
 	// Returns the chunk* and block* from BLOCK position
 	std::pair<Block*, Chunk*> World::GetWorldBlock(const glm::vec3& block_loc)
 	{
-		int block_chunk_x = static_cast<int>(floor(block_loc.x / ChunkSizeX));
-		int block_chunk_z = static_cast<int>(floor(block_loc.z / ChunkSizeZ));
+		int block_chunk_x = static_cast<int>(floor(block_loc.x / CHUNK_SIZE_X));
+		int block_chunk_z = static_cast<int>(floor(block_loc.z / CHUNK_SIZE_Z));
 
 		Chunk* chunk = GetChunkFromMap(block_chunk_x, block_chunk_z);
 		return { &chunk->m_ChunkContents->at(block_loc.x).at(block_loc.y).at(block_loc.z), chunk };
@@ -217,11 +217,11 @@ namespace Minecraft
 	// Returns the type of block at a position
 	BlockType World::GetWorldBlockTypeFromPosition(const glm::vec3& pos)
 	{
-		int block_chunk_x = static_cast<int>(floor(pos.x / ChunkSizeX));
-		int block_chunk_z = static_cast<int>(floor(pos.z / ChunkSizeZ));
-		int bx = pos.x - (block_chunk_x * ChunkSizeX);
+		int block_chunk_x = static_cast<int>(floor(pos.x / CHUNK_SIZE_X));
+		int block_chunk_z = static_cast<int>(floor(pos.z / CHUNK_SIZE_Z));
+		int bx = pos.x - (block_chunk_x * CHUNK_SIZE_X);
 		int by = static_cast<int>(floor(pos.y));
-		int bz = pos.z - (block_chunk_z * ChunkSizeZ);
+		int bz = pos.z - (block_chunk_z * CHUNK_SIZE_Z);
 
 		return static_cast<BlockType>(GetChunkFromMap(block_chunk_x, block_chunk_z)->m_ChunkContents->at(bx).at(by).at(bz).p_BlockType);
 	}
@@ -229,14 +229,14 @@ namespace Minecraft
 	// Converts world pixel coordinates to world block position
 	glm::vec3 World::ConvertPositionToWorldBlockPosition(const glm::vec3& pos)
 	{
-		int block_chunk_x = static_cast<int>(floor(pos.x / ChunkSizeX));
-		int block_chunk_z = static_cast<int>(floor(pos.z / ChunkSizeZ));
-		int bx = pos.x - (block_chunk_x * ChunkSizeX);
+		int block_chunk_x = static_cast<int>(floor(pos.x / CHUNK_SIZE_X));
+		int block_chunk_z = static_cast<int>(floor(pos.z / CHUNK_SIZE_Z));
+		int bx = pos.x - (block_chunk_x * CHUNK_SIZE_X);
 		int by = static_cast<int>(floor(pos.y));
-		int bz = pos.z - (block_chunk_z * ChunkSizeZ);
+		int bz = pos.z - (block_chunk_z * CHUNK_SIZE_Z);
 
-		bx += block_chunk_x * ChunkSizeX;
-		bz += block_chunk_z * ChunkSizeY;
+		bx += block_chunk_x * CHUNK_SIZE_X;
+		bz += block_chunk_z * CHUNK_SIZE_Y;
 
 		return glm::vec3(bx, by, bz);
 	}
@@ -272,7 +272,7 @@ namespace Minecraft
 
 			position += direction * (t + 0.001f);
 
-			if (position.y >= 0 && position.y < ChunkSizeY)
+			if (position.y >= 0 && position.y < CHUNK_SIZE_Y)
 			{ 
 				std::pair<Block*, Chunk*> ray_hitblock = GetWorldBlockFromPosition(glm::vec3(
 					floor(position.x),
@@ -304,7 +304,7 @@ namespace Minecraft
 
 					std::pair<Block*, Chunk*> edit_block;
 
-					if (position.y >= 0 && position.y < ChunkSizeY)
+					if (position.y >= 0 && position.y < CHUNK_SIZE_Y)
 					{
 						edit_block = GetWorldBlockFromPosition(glm::vec3(position.x, position.y, position.z));
 

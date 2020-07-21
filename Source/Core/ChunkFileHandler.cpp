@@ -40,11 +40,11 @@ namespace Minecraft
 				return false;
 			}
 
-			for (int i = 0; i < ChunkSizeX; i++)
+			for (int i = 0; i < CHUNK_SIZE_X; i++)
 			{
-				for (int j = 0; j < ChunkSizeY; j++)
+				for (int j = 0; j < CHUNK_SIZE_Y; j++)
 				{
-					fwrite(&chunk->m_ChunkContents->at(i).at(j), sizeof(Block), ChunkSizeZ, outfile);
+					fwrite(&chunk->m_ChunkContents->at(i).at(j), sizeof(Block), CHUNK_SIZE_Z, outfile);
 				}
 			}
 
@@ -68,11 +68,11 @@ namespace Minecraft
 				return false;
 			}
 
-			for (int i = 0; i < ChunkSizeX; i++)
+			for (int i = 0; i < CHUNK_SIZE_X; i++)
 			{
-				for (int j = 0; j < ChunkSizeY; j++)
+				for (int j = 0; j < CHUNK_SIZE_Y; j++)
 				{
-					fread(&chunk->m_ChunkContents->at(i).at(j), sizeof(Block), ChunkSizeZ, infile);
+					fread(&chunk->m_ChunkContents->at(i).at(j), sizeof(Block), CHUNK_SIZE_Z, infile);
 				}
 			}
 

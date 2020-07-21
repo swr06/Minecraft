@@ -22,7 +22,7 @@
 
 namespace Minecraft
 {
-	typedef std::array<std::array<std::array<Block, ChunkSizeX>, ChunkSizeY>, ChunkSizeZ>* ChunkDataTypePtr;
+	typedef std::array<std::array<std::array<Block, CHUNK_SIZE_X>, CHUNK_SIZE_Y>, CHUNK_SIZE_Z>* ChunkDataTypePtr;
 
 	class ChunkMesh
 	{

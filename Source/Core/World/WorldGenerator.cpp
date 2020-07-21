@@ -5,9 +5,9 @@ namespace Minecraft
     // Sets the vertical blocks based on the biome
     void SetVerticalBlocks(Chunk* chunk, int x, int z, int y_level, Biome biome)
     {
-        if (y_level >= ChunkSizeY)
+        if (y_level >= CHUNK_SIZE_Y)
         {
-            y_level = ChunkSizeY - 1;
+            y_level = CHUNK_SIZE_Y - 1;
         }
 
         for (int i = 0; i < y_level; i++)
@@ -55,7 +55,7 @@ namespace Minecraft
             {
                 for (int k = z, sz = 0; k < z + MaxStructureZ; k++, sz++)
                 {
-                    if (i < ChunkSizeX && j < ChunkSizeY && k < ChunkSizeZ && sx < MaxStructureX && sy < MaxStructureY && sz < MaxStructureZ)
+                    if (i < CHUNK_SIZE_X && j < CHUNK_SIZE_Y && k < CHUNK_SIZE_Z && sx < MaxStructureX && sy < MaxStructureY && sz < MaxStructureZ)
                     {
                         if (structure->p_Structure->at(sx).at(sy).at(sz).p_BlockType != BlockType::Air)
                         {
@@ -106,24 +106,24 @@ namespace Minecraft
         static CactusStructure WorldStructureCactus;
         WorldStructure* Structure;
 
-        static float HeightMap[ChunkSizeX][ChunkSizeY]; // 2D heightmap to create terrain
+        static float HeightMap[CHUNK_SIZE_X][CHUNK_SIZE_Y]; // 2D heightmap to create terrain
 
         Biome chunk_biome;
 
-        chunk_biome = GetBiome(BiomeGenerator.GetNoise(chunk->p_Position.x * ChunkSizeX, chunk->p_Position.y * ChunkSizeY, chunk->p_Position.z * ChunkSizeZ));
+        chunk_biome = GetBiome(BiomeGenerator.GetNoise(chunk->p_Position.x * CHUNK_SIZE_X, chunk->p_Position.y * CHUNK_SIZE_Y, chunk->p_Position.z * CHUNK_SIZE_Z));
 
-        for (int x = 0; x < ChunkSizeX; x++)
+        for (int x = 0; x < CHUNK_SIZE_X; x++)
         {
-            for (int y = 0; y < ChunkSizeY; y++)
+            for (int y = 0; y < CHUNK_SIZE_Y; y++)
             {
-                HeightMap[x][y] = WorldGenerator.GetNoise(x + chunk->p_Position.x * ChunkSizeX, y + chunk->p_Position.z * ChunkSizeZ) *
-                    WorldGeneratorMultiply_1.GetNoise((x + chunk->p_Position.x * ChunkSizeX) + 4, (y + chunk->p_Position.z * ChunkSizeZ) + 8) ;
+                HeightMap[x][y] = WorldGenerator.GetNoise(x + chunk->p_Position.x * CHUNK_SIZE_X, y + chunk->p_Position.z * CHUNK_SIZE_Z) *
+                    WorldGeneratorMultiply_1.GetNoise((x + chunk->p_Position.x * CHUNK_SIZE_X) + 4, (y + chunk->p_Position.z * CHUNK_SIZE_Z) + 8) ;
             }
         }
 
-        for (int x = 0; x < ChunkSizeX; x++)
+        for (int x = 0; x < CHUNK_SIZE_X; x++)
         {
-            for (int z = 0; z < ChunkSizeZ; z++)
+            for (int z = 0; z < CHUNK_SIZE_Z; z++)
             {
                 generated_x = x;
                 generated_z = z;
@@ -132,21 +132,21 @@ namespace Minecraft
                 {
                     case Biome::Grassland :
                     {
-                        generated_y = (HeightMap[x][z] / 2 + 1.0) * (ChunkSizeY - 32);
+                        generated_y = (HeightMap[x][z] / 2 + 1.0) * (CHUNK_SIZE_Y - 32);
                         Structure = &WorldStructureTree;
                         break;
                     }
 
                     case Biome::Desert : 
                     {
-                        generated_y = (HeightMap[x][z] / 2 + 1.0) * (ChunkSizeY - 32);
+                        generated_y = (HeightMap[x][z] / 2 + 1.0) * (CHUNK_SIZE_Y - 32);
                         Structure = &WorldStructureCactus;
                         break;
                     }
 
                     default :
                     {
-                        generated_y = (HeightMap[x][z] / 2 + 1.0) * (ChunkSizeY - 32);
+                        generated_y = (HeightMap[x][z] / 2 + 1.0) * (CHUNK_SIZE_Y - 32);
                         Structure = nullptr;
                         break;
                     }
@@ -155,9 +155,9 @@ namespace Minecraft
                 SetVerticalBlocks(chunk, generated_x, generated_z, generated_y, chunk_biome);
                 
                 if (WorldTreeGenerator.UnsignedInt(75) == 7 &&
-                    generated_x + MaxStructureX < ChunkSizeX && 
-                    generated_y + MaxStructureY < ChunkSizeY &&
-                    generated_z + MaxStructureZ < ChunkSizeZ &&
+                    generated_x + MaxStructureX < CHUNK_SIZE_X && 
+                    generated_y + MaxStructureY < CHUNK_SIZE_Y &&
+                    generated_z + MaxStructureZ < CHUNK_SIZE_Z &&
                     Structure != nullptr)
                 {
                      FillInWorldStructure(chunk, Structure, generated_x, generated_y - 1, generated_z);
