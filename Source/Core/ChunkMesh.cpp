@@ -110,20 +110,28 @@ namespace Minecraft
 						world_position.y = 0 * CHUNK_SIZE_Y + y;
 						world_position.z = chunk_pos.z * CHUNK_SIZE_Z + z;
 
-						if (z <= 0)
+						if (z == 0)
 						{
 							if (BackwardChunkData->at(x).at(y).at(CHUNK_SIZE_Z - 1).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
 								AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
+							}
+
+							else if (ChunkData->at(x).at(y).at(1).p_BlockType == BlockType::Air)
+							{
+								AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
 							}
 						}
 
-						else if (z >= CHUNK_SIZE_Z - 1)
+						else if (z == CHUNK_SIZE_Z - 1)
 						{
 							if (ForwardChunkData->at(x).at(y).at(0).p_BlockType == BlockType::Air)
 							{
 								AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
+							}
+
+							else if (ChunkData->at(x).at(y).at(CHUNK_SIZE_Z - 2).p_BlockType == BlockType::Air)
+							{
 								AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
 							}
 						}
@@ -148,6 +156,10 @@ namespace Minecraft
 							if (LeftChunkData->at(CHUNK_SIZE_X - 1).at(y).at(z).p_BlockType == BlockType::Air)
 							{
 								AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
+							}
+
+							else if (ChunkData->at(1).at(y).at(z).p_BlockType == BlockType::Air)
+							{
 								AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
 							}
 						}
@@ -156,8 +168,12 @@ namespace Minecraft
 						{
 							if (RightChunkData->at(0).at(y).at(z).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
 								AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
+							}
+
+							else if (ChunkData->at(CHUNK_SIZE_X - 2).at(y).at(z).p_BlockType == BlockType::Air)
+							{
+								AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
 							}
 						}
 
