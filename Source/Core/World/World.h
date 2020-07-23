@@ -57,6 +57,8 @@ namespace Minecraft
 		std::pair<Block*, Chunk*> GetWorldBlock(const glm::vec3& block_loc);
 		BlockType GetWorldBlockTypeFromPosition(const glm::vec3& pos);
 		glm::vec3 ConvertPositionToWorldBlockPosition(const glm::vec3& pos);
+		bool ChunkExistsInMap(int cx, int cz);
+		Chunk* RetrieveChunkFromMap(int cx, int cz);
 
 		Player* p_Player;
 

@@ -24,6 +24,9 @@ namespace Minecraft
 {
 	typedef std::array<std::array<std::array<Block, CHUNK_SIZE_X>, CHUNK_SIZE_Y>, CHUNK_SIZE_Z>* ChunkDataTypePtr;
 
+	// Forward declarations
+	ChunkDataTypePtr _GetChunkDataForMeshing(int cx, int cz);
+
 	class ChunkMesh
 	{
 	public : 

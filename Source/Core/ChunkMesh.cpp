@@ -91,6 +91,11 @@ namespace Minecraft
 		glm::vec3 world_position;
 		m_Vertices.clear();
 
+		ChunkDataTypePtr ForwardChunkData = _GetChunkDataForMeshing(static_cast<int>(chunk_pos.x), static_cast<int>(chunk_pos.z + 1));
+		ChunkDataTypePtr BackwardChunkData = _GetChunkDataForMeshing(static_cast<int>(chunk_pos.x), static_cast<int>(chunk_pos.z - 1));
+		ChunkDataTypePtr RightChunkData = _GetChunkDataForMeshing(static_cast<int>(chunk_pos.x + 1), static_cast<int>(chunk_pos.z));
+		ChunkDataTypePtr LeftChunkData = _GetChunkDataForMeshing(static_cast<int>(chunk_pos.x - 1), static_cast<int>(chunk_pos.z));
+
 		for (int x = 0; x < CHUNK_SIZE_X; x++)
 		{
 			for (int y = 0; y < CHUNK_SIZE_Y; y++)
@@ -109,7 +114,6 @@ namespace Minecraft
 						{
 							AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
 							AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
-
 						}
 
 						else if (z >= CHUNK_SIZE_Z - 1)
@@ -165,14 +169,12 @@ namespace Minecraft
 						if (y <= 0)
 						{
 							AddFace(BlockFaceType::bottom, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
-							AddFace(BlockFaceType::top, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
 
 						}
 
 						else if (y >= CHUNK_SIZE_Y - 1)
 						{
 							AddFace(BlockFaceType::top, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
-							AddFace(BlockFaceType::bottom, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
 						}
 
 						else

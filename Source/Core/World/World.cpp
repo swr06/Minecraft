@@ -17,33 +17,7 @@ namespace Minecraft
 		// Set the players position
 		p_Player->p_Camera.SetPosition(glm::vec3(0, (CHUNK_SIZE_Y - MaxStructureY) - 2, 0));
 
-		Logger::LogToConsole("World Generation Began");
-
-		for (int i = 0; i < 4; i++)
-		{
-			for (int j = 0; j < 4; j++)
-			{
-				Timer timer("First Chunk generation");
-				m_WorldChunks.emplace(std::pair<int, int>(i, j), *(new Chunk(glm::vec3(i, 1, j))));
-				GenerateChunk(&m_WorldChunks.at(std::pair<int, int>(i, j)));
-				m_ChunkCount++;
-			}
-		}
-
-		Logger::LogToConsole("World Generation Ended");
-		Logger::LogToConsole("Chunk Mesh construction began");
-
-		for (int i = 0; i < 4; i++)
-		{
-			for (int j = 0; j < 4; j++)
-			{
-				Timer timer("First Chunks Construction!");
-
-				m_WorldChunks.at(std::pair<int, int>(i, j)).Construct();
-			}
-		}
-
-		Logger::LogToConsole("Chunk Mesh construction ended");
+		Logger::LogToConsole("The World was Constructed!");
 
 		m_CrosshairTexture.CreateTexture("Resources/crosshair.png");
 		m_CrosshairPosition = std::pair<float, float>((float)DEFAULT_WINDOW_X / 2, (float)DEFAULT_WINDOW_Y / 2);
@@ -129,9 +103,43 @@ namespace Minecraft
 		player_chunk_z = floor(p_Player->p_Position.z / CHUNK_SIZE_Z);
 
 		int render_distance_x = 2, render_distance_z = 2;
-		int chunks_rendered = 0;
+		std::uint32_t chunks_rendered = 0;
+
+		int build_distance_x = render_distance_x + 1;
+		int build_distance_z = render_distance_z + 1;
+
+		std::vector<Chunk*> construct_chunks; // The chunks that need to be constructed
+
+		/* 
+		build_distance_x and build_distance_z is the build distance. It is needed to build 1 chunk 
+		more than what is required in order for the meshing process to work properly
+		
+		For this it is required to first generate all the chunks that are needed to be generated. 
+		Only after all the chunks are generated, the mesh building process with start
+		*/
+
+
+		for (int i = player_chunk_x - build_distance_x; i < player_chunk_x + build_distance_x; i++)
+		{
+			for (int j = player_chunk_z - build_distance_z; j < player_chunk_z + build_distance_z; j++)
+			{
+				if (ChunkExistsInMap(i, j) == false)
+				{
+					Chunk* chunk = GetChunkFromMap(i,j);
+					GenerateChunk(chunk);
+					construct_chunks.push_back(chunk);
+				}
+			}
+		}
+	
+		for (int i = 0; i < construct_chunks.size(); i++)
+		{
+			ChunkMesh* mesh = construct_chunks[i]->GetChunkMesh();
+			mesh->ConstructMesh(construct_chunks[i]->m_ChunkContents, construct_chunks[i]->p_Position);
+		}
 
 		// Render chunks according to render distance
+
 		for (int i = player_chunk_x - render_distance_x; i < player_chunk_x + render_distance_x; i++)
 		{
 			for (int j = player_chunk_z - render_distance_z; j < player_chunk_z + render_distance_z; j++)
@@ -327,6 +335,24 @@ namespace Minecraft
 		}
 	}
 
+	bool World::ChunkExistsInMap(int cx, int cz)
+	{
+		std::map<std::pair<int, int>, Chunk>::iterator chunk_exists = m_WorldChunks.find(std::pair<int, int>(cx, cz));
+
+		if (chunk_exists == m_WorldChunks.end())
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	Chunk* World::RetrieveChunkFromMap(int cx, int cz)
+	{
+		return &m_WorldChunks.at(std::pair<int, int>(cx, cz));
+	}
+
+	// Emplaces a chunk in the map
 	Chunk* World::GetChunkFromMap(int cx, int cz)
 	{
 		std::stringstream str;
@@ -340,8 +366,6 @@ namespace Minecraft
 			Timer timer(str.str());
 
 			m_WorldChunks.emplace(std::pair<int, int>(cx, cz), *(new Chunk(glm::vec3(cx, 1, cz))));
-			GenerateChunk(&m_WorldChunks.at(std::pair<int, int>(cx, cz)));
-			m_WorldChunks.at(std::pair<int, int>(cx, cz)).Construct();
 			m_ChunkCount++;
 		}
 

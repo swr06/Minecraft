@@ -21,6 +21,20 @@
 // Uses the already declared application variable
 extern Minecraft::Application Minecraft::MinecraftApplication;
 
+namespace Minecraft
+{
+    ChunkDataTypePtr _GetChunkDataForMeshing (int cx, int cz)
+    {
+        if (MinecraftApplication.GetWorld() && MinecraftApplication.GetWorld()->ChunkExistsInMap(cx, cz))
+        {
+            Chunk* chunk = MinecraftApplication.GetWorld()->RetrieveChunkFromMap(cx, cz);
+            return chunk->m_ChunkContents;
+        }
+
+        return nullptr;
+    }
+}
+
 int main()
 {
     // The main game loop
