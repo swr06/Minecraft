@@ -105,10 +105,8 @@ namespace Minecraft
 		int render_distance_x = 2, render_distance_z = 2;
 		std::uint32_t chunks_rendered = 0;
 
-		int build_distance_x = render_distance_x + 1;
-		int build_distance_z = render_distance_z + 1;
-
-		std::vector<Chunk*> construct_chunks; // The chunks that need to be constructed
+		int build_distance_x = render_distance_x + 2;
+		int build_distance_z = render_distance_z + 2;
 
 		/* 
 		build_distance_x and build_distance_z is the build distance. It is needed to build 1 chunk 
@@ -118,7 +116,6 @@ namespace Minecraft
 		Only after all the chunks are generated, the mesh building process with start
 		*/
 
-
 		for (int i = player_chunk_x - build_distance_x; i < player_chunk_x + build_distance_x; i++)
 		{
 			for (int j = player_chunk_z - build_distance_z; j < player_chunk_z + build_distance_z; j++)
@@ -127,15 +124,9 @@ namespace Minecraft
 				{
 					Chunk* chunk = GetChunkFromMap(i,j);
 					GenerateChunk(chunk);
-					construct_chunks.push_back(chunk);
+					chunk->p_MeshState = ChunkMeshState::Unbuilt;
 				}
 			}
-		}
-	
-		for (int i = 0; i < construct_chunks.size(); i++)
-		{
-			ChunkMesh* mesh = construct_chunks[i]->GetChunkMesh();
-			mesh->ConstructMesh(construct_chunks[i]->m_ChunkContents, construct_chunks[i]->p_Position);
 		}
 
 		// Render chunks according to render distance
@@ -144,6 +135,23 @@ namespace Minecraft
 		{
 			for (int j = player_chunk_z - render_distance_z; j < player_chunk_z + render_distance_z; j++)
 			{
+				// Construct the chunks if the mesh isn't built
+
+				Chunk* chunk = RetrieveChunkFromMap(i, j);
+
+				if (chunk->p_MeshState == ChunkMeshState::Unbuilt)
+				{
+					ChunkMesh* mesh = chunk->GetChunkMesh();
+ 					mesh->ConstructMesh(chunk->m_ChunkContents, chunk->p_Position);
+					chunk->p_MeshState = ChunkMeshState::Built;
+				}
+
+				else if (chunk->p_MeshState == ChunkMeshState::Edited)
+				{
+					UpdateSurroundingChunks(i, j);
+				}
+
+				// Render the chunks
 				chunks_rendered++;
 				RenderChunkFromMap(i, j);
 			}
@@ -251,7 +259,7 @@ namespace Minecraft
 
 	void World::RenderChunkFromMap(int cx, int cz)
 	{
-		m_Renderer.RenderChunk(GetChunkFromMap(cx, cz), &p_Player->p_Camera);
+		m_Renderer.RenderChunk(RetrieveChunkFromMap(cx, cz), &p_Player->p_Camera);
 		return;
 	}
 
@@ -326,13 +334,45 @@ namespace Minecraft
 							edit_block.first->p_BlockType = BlockType::Air;
 						}
 
-						edit_block.second->Construct();
+						edit_block.second->p_MeshState = ChunkMeshState::Edited;
 					}
 
 					return;
 				}
 			}
 		}
+	}
+
+	// Updates all the chunks to the right, left, front and back of a supplied chunk
+	void World::UpdateSurroundingChunks(int cx, int cz)
+	{
+		Chunk* chunk;
+		ChunkMesh* mesh;
+
+		chunk = RetrieveChunkFromMap(cx, cz);
+		mesh = chunk->GetChunkMesh();
+		mesh->ConstructMesh(chunk->m_ChunkContents, chunk->p_Position);
+		chunk->p_MeshState = ChunkMeshState::Built;
+
+		chunk = RetrieveChunkFromMap(cx + 1, cz);
+		mesh = chunk->GetChunkMesh();
+		mesh->ConstructMesh(chunk->m_ChunkContents, chunk->p_Position);
+		chunk->p_MeshState = ChunkMeshState::Built;
+
+		chunk = RetrieveChunkFromMap(cx - 1, cz);
+		mesh = chunk->GetChunkMesh();
+		mesh->ConstructMesh(chunk->m_ChunkContents, chunk->p_Position);
+		chunk->p_MeshState = ChunkMeshState::Built;
+
+		chunk = RetrieveChunkFromMap(cx, cz + 1);
+		mesh = chunk->GetChunkMesh();
+		mesh->ConstructMesh(chunk->m_ChunkContents, chunk->p_Position);
+		chunk->p_MeshState = ChunkMeshState::Built;
+
+		chunk = RetrieveChunkFromMap(cx, cz - 1);
+		mesh = chunk->GetChunkMesh();
+		mesh->ConstructMesh(chunk->m_ChunkContents, chunk->p_Position);
+		chunk->p_MeshState = ChunkMeshState::Built;
 	}
 
 	bool World::ChunkExistsInMap(int cx, int cz)

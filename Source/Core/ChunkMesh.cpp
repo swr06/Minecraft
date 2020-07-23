@@ -112,14 +112,20 @@ namespace Minecraft
 
 						if (z <= 0)
 						{
-							AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
-							AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
+							if (BackwardChunkData->at(x).at(y).at(CHUNK_SIZE_Z - 1).p_BlockType == BlockType::Air)
+							{
+								AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
+								AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
+							}
 						}
 
 						else if (z >= CHUNK_SIZE_Z - 1)
 						{
-							AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
-							AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
+							if (ForwardChunkData->at(x).at(y).at(0).p_BlockType == BlockType::Air)
+							{
+								AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
+								AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
+							}
 						}
 
 						else
@@ -139,16 +145,20 @@ namespace Minecraft
 
 						if (x <= 0)
 						{
-							AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
-							AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
-
+							if (LeftChunkData->at(CHUNK_SIZE_X - 1).at(y).at(z).p_BlockType == BlockType::Air)
+							{
+								AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
+								AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
+							}
 						}
 
 						else if (x >= CHUNK_SIZE_X - 1)
 						{
-							AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
-							AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
-
+							if (RightChunkData->at(0).at(y).at(z).p_BlockType == BlockType::Air)
+							{
+								AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
+								AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
+							}
 						}
 
 						else
@@ -168,8 +178,10 @@ namespace Minecraft
 
 						if (y <= 0)
 						{
-							AddFace(BlockFaceType::bottom, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
-
+							if (ChunkData->at(x).at(y + 1).at(z).p_BlockType == BlockType::Air)
+							{
+								AddFace(BlockFaceType::bottom, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
+							}
 						}
 
 						else if (y >= CHUNK_SIZE_Y - 1)

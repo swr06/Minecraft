@@ -13,6 +13,14 @@
 
 namespace Minecraft
 {
+	enum ChunkMeshState : std::uint8_t
+	{
+		Built = 0,
+		Unbuilt,
+		Edited,
+		error
+	};
+
 	class Chunk
 	{
 	public : 
@@ -61,6 +69,7 @@ namespace Minecraft
 
 		const glm::vec3 p_Position;
 		std::array<std::array<std::array<Block, CHUNK_SIZE_X>, CHUNK_SIZE_Y>, CHUNK_SIZE_Z>* m_ChunkContents;
+		ChunkMeshState p_MeshState = ChunkMeshState::Unbuilt;
 
 	private :
 		// each chunk will be a 16x16x16 block space. A 3D array
