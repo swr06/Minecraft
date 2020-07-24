@@ -58,35 +58,7 @@ namespace Minecraft
 
 		// Collision testing
 
-		/*int collision_test_x = 2;
-		int collision_test_y = 2;
-		int collision_test_z = 2;
-
-		auto player_pos_info = GetWorldBlockFromPosition(p_Player->p_Position);
-		glm::vec3 player_world_block = ConvertPositionToWorldBlockPosition(p_Player->p_Position);
 		
-		for (int i = player_world_block.x - collision_test_x; i < player_world_block.x + collision_test_x; i++)
-		{
-			for (int j = player_world_block.y - collision_test_y; j < player_world_block.y + collision_test_y; j++)
-			{
-				for (int k = player_world_block.z - collision_test_z; k < player_world_block.z + collision_test_z; k++)
-				{
-					AABB block_mask;
-
-					block_mask.x = i;
-					block_mask.y = j;
-					block_mask.z = k;
-					block_mask.width = 1;
-					block_mask.height = 1;
-					block_mask.depth = 1;
-
-					if (TestAABBCollision(p_Player->p_PlayerAABB, block_mask))
-					{
-						Logger::LogToConsole("Collision occured!");
-					}
-				}
-			}
-		}*/
 	}
 
 	void World::RenderWorld()

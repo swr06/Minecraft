@@ -122,6 +122,12 @@
       <Filter>Minecraft\Physics</Filter>
     </ClCompile>
     <ClCompile Include="Minecraft.cpp" />
+    <ClCompile Include="Core\Clouds\Cloud.cpp">
+      <Filter>Minecraft\Clouds</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Clouds\CloudGenerator.cpp">
+      <Filter>Minecraft\Clouds</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Dependencies\imgui\stb_truetype.h">
@@ -265,6 +271,12 @@
     <ClInclude Include="Core\Physics\AABB.h">
       <Filter>Minecraft\Physics</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Clouds\Cloud.h">
+      <Filter>Minecraft\Clouds</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Clouds\CloudGenerator.h">
+      <Filter>Minecraft\Clouds</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Dependencies">
@@ -344,6 +356,9 @@
     </Filter>
     <Filter Include="Minecraft\Gameplay">
       <UniqueIdentifier>{05e3cda0-424a-47c9-8b36-3e60a9932cb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Minecraft\Clouds">
+      <UniqueIdentifier>{5db0b6e5-9576-4633-bd15-9a41793390f2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

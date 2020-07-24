@@ -168,6 +168,8 @@
     <ClCompile Include="Core\Chunk.cpp" />
     <ClCompile Include="Core\ChunkMesh.cpp" />
     <ClCompile Include="Core\ChunkFileHandler.cpp" />
+    <ClCompile Include="Core\Clouds\Cloud.cpp" />
+    <ClCompile Include="Core\Clouds\CloudGenerator.cpp" />
     <ClCompile Include="Core\CubeRenderer.cpp" />
     <ClCompile Include="Core\Dependencies\imgui\imgui.cpp" />
     <ClCompile Include="Core\Dependencies\imgui\imgui_demo.cpp" />
@@ -212,6 +214,8 @@
     <ClInclude Include="Core\Chunk.h" />
     <ClInclude Include="Core\ChunkMesh.h" />
     <ClInclude Include="Core\ChunkFileHandler.h" />
+    <ClInclude Include="Core\Clouds\Cloud.h" />
+    <ClInclude Include="Core\Clouds\CloudGenerator.h" />
     <ClInclude Include="Core\CubeRenderer.h" />
     <ClInclude Include="Core\Dependencies\imgui\imconfig.h" />
     <ClInclude Include="Core\Dependencies\imgui\imgui.h" />
