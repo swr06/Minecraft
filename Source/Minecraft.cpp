@@ -21,8 +21,14 @@
 // Uses the already declared application variable
 extern Minecraft::Application Minecraft::MinecraftApplication;
 
+// Forward declarations
 namespace Minecraft
 {
+    /*
+    This function is used by the chunk mesher to get the data of the neighbouring chunks
+    */
+
+
     ChunkDataTypePtr _GetChunkDataForMeshing (int cx, int cz)
     {
         if (MinecraftApplication.GetWorld() && MinecraftApplication.GetWorld()->ChunkExistsInMap(cx, cz))

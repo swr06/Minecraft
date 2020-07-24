@@ -61,11 +61,10 @@ namespace Minecraft
 		/*int collision_test_x = 2;
 		int collision_test_y = 2;
 		int collision_test_z = 2;
-		int chunks_rendered = 0;
 
 		auto player_pos_info = GetWorldBlockFromPosition(p_Player->p_Position);
 		glm::vec3 player_world_block = ConvertPositionToWorldBlockPosition(p_Player->p_Position);
-
+		
 		for (int i = player_world_block.x - collision_test_x; i < player_world_block.x + collision_test_x; i++)
 		{
 			for (int j = player_world_block.y - collision_test_y; j < player_world_block.y + collision_test_y; j++)
@@ -88,7 +87,6 @@ namespace Minecraft
 				}
 			}
 		}*/
-
 	}
 
 	void World::RenderWorld()

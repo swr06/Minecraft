@@ -1,7 +1,7 @@
 #include <string>
 
 #define CHUNK_SIZE_X 16
-#define CHUNK_SIZE_Y 96
+#define CHUNK_SIZE_Y 128
 #define CHUNK_SIZE_Z 16
 #define MaxStructureX 8
 #define MaxStructureY 8

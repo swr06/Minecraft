@@ -8,7 +8,7 @@ namespace Minecraft
 
 		m_DefaultShader.CreateShaderProgramFromFile("Shaders/BlockRendererVertex.glsl", "Shaders/BlockRendererFrag.glsl");
 		m_DefaultShader.CompileShaders();
-		m_BlockAtlas.CreateTexture("Resources/block_atlas.png");
+		m_BlockAtlas.CreateTexture("Resources/BlockAtlasHighDef.png");
 	}
 
 	void Renderer::RenderChunk(Chunk* chunk, FPSCamera* camera)
