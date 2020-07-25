@@ -17,7 +17,6 @@
 #include "../OpenGL Classes/Shader.h"
 #include "../OpenGL Classes/Texture.h"
 
-#include "../Utils/Vertex.h"
 #include "../FpsCamera.h"
 
 namespace Minecraft
@@ -33,13 +32,15 @@ namespace Minecraft
 	class CloudManager
 	{
 	public :
-		CloudManager(FPSCamera* camera);
+		CloudManager();
 		~CloudManager();
 
 		void Update(double time, long long frame);
-		void RenderClouds();
+		void RenderClouds(FPSCamera* camera);
 
 	private:
+
+		void GenerateClouds();
 
 		struct CloudVertex
 		{
@@ -47,18 +48,20 @@ namespace Minecraft
 			glm::vec2 texture_coords;
 		};
 
-
-		void AddCloudFace(const glm::vec3& position);
+		void AddCloudFace(const glm::vec2& position);
 
 		// The maximum amount of cloud chunks that can be there on the screen
-		std::array<std::vector<Vertex>, 16> m_CloudVertices;
+		std::vector<CloudVertex> m_CloudVertices;
 
 		// OpenGL specific objects
 		GLClasses::VertexBuffer m_VBO;
 		GLClasses::VertexArray m_VAO;
-		glm::vec4 m_Faces[4];
+		glm::vec4 m_BottomFaceCoordinates[4];
 
-		glm::mat4 m_ModelMatrix;
+		glm::vec4 m_PositionOffset;
+
+		GLClasses::Shader m_CloudShader;
+		GLClasses::Texture m_CloudTexture;
 	};
 
 }

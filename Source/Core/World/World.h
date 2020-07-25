@@ -10,15 +10,6 @@
 #include <vector>
 #include <thread>
 
-#define GLEW_STATIC
-#include <GL/glew.h>
-
-#include <GLFW/glfw3.h>
-
-//#include <glm/glm.hpp>
-//#include <glm/gtc/matrix_transform.hpp>
-//#include <glm/gtc/type_ptr.hpp>
-
 #include "../Utils/Raycast.h"
 
 #include "Skybox.h"
@@ -34,6 +25,8 @@
 #include "../ChunkFileHandler.h"
 #include "../Utils/Ray.h"
 #include "../Physics/AABB.h"
+#include "../Clouds/Cloud.h"
+#include "../CubeRenderer.h"
 #include "WorldGenerator.h"
 
 // TODO : Include ray cast class
@@ -78,6 +71,7 @@ namespace Minecraft
 		// Renderers
 		Renderer m_Renderer;
 		Renderer2D m_Renderer2D;
+		CubeRenderer m_CubeRenderer;
 		
 		std::map<std::pair<int, int>, Chunk> m_WorldChunks;
 		Skybox m_Skybox;
@@ -85,6 +79,7 @@ namespace Minecraft
 		glm::vec3 m_EndRay;
 
 		OrthographicCamera m_Camera2D;
+		CloudManager m_CloudManager;
 		GLClasses::Texture m_CrosshairTexture;
 		long long m_CurrentFrame;
 	};

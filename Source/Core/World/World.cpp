@@ -58,7 +58,7 @@ namespace Minecraft
 
 		// Collision testing
 
-		
+		m_CloudManager.Update(glfwGetTime(), m_CurrentFrame);
 	}
 
 	void World::RenderWorld()
@@ -101,6 +101,8 @@ namespace Minecraft
 
 		// Render chunks according to render distance
 
+		m_Renderer.StartChunkRendering(&p_Player->p_Camera);
+
 		for (int i = player_chunk_x - render_distance_x; i < player_chunk_x + render_distance_x; i++)
 		{
 			for (int j = player_chunk_z - render_distance_z; j < player_chunk_z + render_distance_z; j++)
@@ -126,6 +128,11 @@ namespace Minecraft
 				RenderChunkFromMap(i, j);
 			}
 		}
+
+		m_Renderer.EndChunkRendering();
+
+		// Render the clouds
+		m_CloudManager.RenderClouds(&p_Player->p_Camera);
 
 		m_Renderer2D.RenderQuad(glm::vec3(m_CrosshairPosition.first - (m_CrosshairTexture.GetWidth() / 2)
 			, m_CrosshairPosition.second - (m_CrosshairTexture.GetHeight() / 2), 1.0f)
@@ -229,7 +236,7 @@ namespace Minecraft
 
 	void World::RenderChunkFromMap(int cx, int cz)
 	{
-		m_Renderer.RenderChunk(RetrieveChunkFromMap(cx, cz), &p_Player->p_Camera);
+		m_Renderer.RenderChunk(RetrieveChunkFromMap(cx, cz));
 		return;
 	}
 

@@ -1,5 +1,8 @@
 #include <iostream>
 
+#define GLEW_STATIC
+#include <GL/glew.h>
+
 #include "../OpenGL Classes/VertexBuffer.h"
 #include "../OpenGL Classes/VertexArray.h"
 #include "../OpenGL Classes/Shader.h"
@@ -16,7 +19,9 @@ namespace Minecraft
 	public : 
 
 		Renderer();
-		void RenderChunk(Chunk* chunk, FPSCamera* camera);
+		void RenderChunk(Chunk* chunk);
+		void StartChunkRendering(FPSCamera* camera);
+		void EndChunkRendering();
 
 	private: 
 		GLClasses::VertexBuffer m_VBO;
