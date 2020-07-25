@@ -277,6 +277,9 @@
     <ClInclude Include="Core\Clouds\CloudGenerator.h">
       <Filter>Minecraft\Clouds</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Utils\Enums.h">
+      <Filter>Minecraft\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Dependencies">
@@ -384,6 +387,12 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\CubeRendererVert.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\CloudShaderFrag.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\CloudShaderVert.glsl">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

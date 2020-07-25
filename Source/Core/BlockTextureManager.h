@@ -6,18 +6,9 @@
 #include <array>
 #include "Block.h"
 #include "TextureAtlas.h"
+#include "Utils/Enums.h"
 
 namespace Minecraft
 {
-	enum BlockFaceType
-	{
-		top = 0,
-		bottom,
-		left,
-		right,
-		front,
-		backward
-	};
-
 	const std::array<GLfloat, 8>& GetBlockTexture(BlockType block_type, BlockFaceType face_type);
 }

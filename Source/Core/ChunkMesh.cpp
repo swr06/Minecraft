@@ -351,10 +351,9 @@ namespace Minecraft
 			}
 		}
 
-		// For now, set generic texture coordinates
+		// Get required texture coordinates
 
-		//std::array<GLfloat, 8> TextureCoordinates = { 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f };
-		std::array<GLfloat, 8> TextureCoordinates = GetBlockTexture(type, face_type);
+		const std::array<GLfloat, 8>& TextureCoordinates = GetBlockTexture(type, face_type);
 
 		v1.texture_coords = glm::vec2(TextureCoordinates[0], TextureCoordinates[1]);
 		v2.texture_coords = glm::vec2(TextureCoordinates[2], TextureCoordinates[3]);

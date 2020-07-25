@@ -244,6 +244,7 @@
     <ClInclude Include="Core\Renderer\Renderer2D.h" />
     <ClInclude Include="Core\TextureAtlas.h" />
     <ClInclude Include="Core\Utils\Defs.h" />
+    <ClInclude Include="Core\Utils\Enums.h" />
     <ClInclude Include="Core\Utils\Logger.h" />
     <ClInclude Include="Core\Utils\Physics.h" />
     <ClInclude Include="Core\Utils\Random.h" />
@@ -260,6 +261,8 @@
     <None Include="Shaders\2DElementShaderVert.glsl" />
     <None Include="Shaders\BlockRendererFrag.glsl" />
     <None Include="Shaders\BlockRendererVertex.glsl" />
+    <None Include="Shaders\CloudShaderFrag.glsl" />
+    <None Include="Shaders\CloudShaderVert.glsl" />
     <None Include="Shaders\CubeRendererFrag.glsl" />
     <None Include="Shaders\CubeRendererVert.glsl" />
     <None Include="Shaders\SkyboxFrag.glsl" />
