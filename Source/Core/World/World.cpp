@@ -67,7 +67,13 @@ namespace Minecraft
 		int player_chunk_y = 0;
 		int player_chunk_z = 0;
 
+		glDisable(GL_CULL_FACE);
 		m_Skybox.RenderSkybox(&p_Player->p_Camera);
+
+		// Enable face culling
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_FRONT);
+		glFrontFace(GL_CCW);
 
 		player_chunk_x = floor(p_Player->p_Position.x / CHUNK_SIZE_X);
 		player_chunk_z = floor(p_Player->p_Position.z / CHUNK_SIZE_Z);
@@ -131,8 +137,12 @@ namespace Minecraft
 
 		m_Renderer.EndChunkRendering();
 
+		glDisable(GL_CULL_FACE);
+
 		// Render the clouds
 		m_CloudManager.RenderClouds(&p_Player->p_Camera);
+
+		glDisable(GL_DEPTH_TEST);
 
 		m_Renderer2D.RenderQuad(glm::vec3(m_CrosshairPosition.first - (m_CrosshairTexture.GetWidth() / 2)
 			, m_CrosshairPosition.second - (m_CrosshairTexture.GetHeight() / 2), 1.0f)
@@ -311,6 +321,7 @@ namespace Minecraft
 							edit_block.first->p_BlockType = BlockType::Air;
 						}
 
+						PrintVec3(normal);
 						edit_block.second->p_MeshState = ChunkMeshState::Edited;
 					}
 

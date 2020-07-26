@@ -7,16 +7,25 @@
 #include <string>
 #include <array>
 #include <chrono>
+#include <tuple>
 
 namespace GLClasses
 {
 	using namespace std;
 
+	struct ExtractedImageData
+	{
+		unsigned char* image_data;
+		int width;
+		int height;
+		int channels;
+	};
+
 	class Texture
 	{
 	public:
 
-		Texture(string path, GLint internalformat = GL_RGBA, GLenum type = GL_TEXTURE_2D,
+		Texture(string path, GLenum type = GL_TEXTURE_2D,
 			GLenum min_filter = GL_NEAREST, GLenum mag_filter = GL_NEAREST,
 			GLenum texwrap_s = GL_REPEAT, GLenum texwrap_t = GL_REPEAT,
 			array<GLfloat, 8> TextureCoords = { 1.0f, 1.0f,  1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f }
@@ -50,7 +59,7 @@ namespace GLClasses
 			}
 		}
 
-		void CreateTexture(string path, GLint internalformat = GL_RGBA, GLenum type = GL_TEXTURE_2D,
+		void CreateTexture(string path, GLenum type = GL_TEXTURE_2D,
 			GLenum min_filter = GL_NEAREST, GLenum mag_filter = GL_NEAREST,
 			GLenum texwrap_s = GL_REPEAT, GLenum texwrap_t = GL_REPEAT, array<GLfloat, 8> TextureCoords = { 1.0f, 1.0f,  1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f }, bool clean_up = true);
 
@@ -101,10 +110,12 @@ namespace GLClasses
 		int m_width;
 		int m_height;
 		int m_BPP;
-		GLint m_intformat;
+		GLenum m_intformat;
 		GLuint* m_Texture;
 		GLenum m_type;
 		string m_path;
 		array<GLfloat, 8> m_TextureCoords;
 	};
+
+	ExtractedImageData ExtractTextureData(const std::string& path);
 }

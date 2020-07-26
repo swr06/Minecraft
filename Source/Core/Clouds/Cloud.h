@@ -17,6 +17,8 @@
 #include "../OpenGL Classes/Shader.h"
 #include "../OpenGL Classes/Texture.h"
 
+#include "CloudGenerator.h"
+
 #include "../FpsCamera.h"
 
 namespace Minecraft
@@ -62,6 +64,7 @@ namespace Minecraft
 
 		GLClasses::Shader m_CloudShader;
 		GLClasses::Texture m_CloudTexture;
+		CloudGenerator m_CloudGenerator;
 	};
 
 }

@@ -131,6 +131,7 @@ namespace Minecraft
         // Update the world
         m_World->OnUpdate(m_Window);
 		
+		// Enable depth testing and blending
 		glEnable(GL_DEPTH_TEST);
 		glDepthMask(GL_TRUE);
 		glEnable(GL_BLEND);

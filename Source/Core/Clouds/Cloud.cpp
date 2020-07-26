@@ -2,7 +2,7 @@
 
 namespace Minecraft
 {
-	CloudManager::CloudManager() : m_VBO(GL_ARRAY_BUFFER)
+	CloudManager::CloudManager() : m_VBO(GL_ARRAY_BUFFER), m_CloudGenerator("Resources/Maps/CloudMap.png")
 	{
 		static bool IndexBufferInitialized = false;
 
@@ -15,7 +15,7 @@ namespace Minecraft
 
 			GLuint* IndexBuffer = nullptr;
 
-			int index_size = 100000; //// TODO!! THIS VALUE SHOULD BE CHANGED!!! 
+			int index_size = 256 * 256 * 6; //// TODO!! THIS VALUE SHOULD BE CHANGED!!! 
 			int index_offset = 0;
 
 			IndexBuffer = new GLuint[index_size * 6];
@@ -77,7 +77,7 @@ namespace Minecraft
 		delta_time = delta_time * 0.1f;
 
 		// Move the clouds by the delta time or a particular velocity
-		m_PositionOffset += glm::vec4(0.0f, 0.0f, 0.01f, 0.0f);
+		m_PositionOffset += glm::vec4(0.0f, 0.0f, 0.05f, 0.0f);
 
 		previous_time = time;
 	}
@@ -97,11 +97,14 @@ namespace Minecraft
 
 	void CloudManager::GenerateClouds()
 	{
-		for (int i = 0; i < 32; i++)
+		for (int i = 0; i < 16; i++)
 		{
-			for (int j = 0; j < 32; j++)
+			for (int j = 0; j < 16; j++)
 			{
-				AddCloudFace(glm::vec2(i, j));
+				//if (m_CloudGenerator.ShouldCloudExistAtCoord(glm::ivec2(i, j)))
+				{
+					AddCloudFace(glm::vec2(i, j));
+				}
 			}
 		}
 

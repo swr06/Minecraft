@@ -68,7 +68,7 @@ namespace Minecraft
 		m_BottomFace[1] = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
 		m_BottomFace[2] = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f);
 		m_BottomFace[3] = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
-		
+
 		m_LeftFace[0] = glm::vec4(0.0f, 1.0f, 1.0f, 1.0f);
 		m_LeftFace[1] = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
 		m_LeftFace[2] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
@@ -245,120 +245,140 @@ namespace Minecraft
 
 		Vertex v1, v2, v3, v4, v5, v6;
 
+		// To fix a face culling issue. I inverted the vertices for the left, front and bottom face so the winding order will be correct
+		bool reverse_texture_coordinates = false;
+
 		// Order
 		// Top, bottom, front, back, left, right
 		static const GLfloat lighting_levels[6] = { 1.0f, 0.2f, 0.6f, 0.7f, 0.6f, 0.7f };
 
 		switch (face_type)
 		{
-			case BlockFaceType::top :
-			{
-				v1.position = translation * m_TopFace[0];
-				v2.position = translation * m_TopFace[1];
-				v3.position = translation * m_TopFace[2];
-				v4.position = translation * m_TopFace[3];
-				
-				// Set the lighting level for the vertex
-				v1.lighting_level = lighting_levels[0];
-				v2.lighting_level = lighting_levels[0];
-				v3.lighting_level = lighting_levels[0];
-				v4.lighting_level = lighting_levels[0];
+		case BlockFaceType::top:
+		{
+			v1.position = translation * m_TopFace[0];
+			v2.position = translation * m_TopFace[1];
+			v3.position = translation * m_TopFace[2];
+			v4.position = translation * m_TopFace[3];
 
-				break;
-			}
+			// Set the lighting level for the vertex
+			v1.lighting_level = lighting_levels[0];
+			v2.lighting_level = lighting_levels[0];
+			v3.lighting_level = lighting_levels[0];
+			v4.lighting_level = lighting_levels[0];
 
-			case BlockFaceType::bottom:
-			{
-				v1.position = translation * m_BottomFace[0];
-				v2.position = translation * m_BottomFace[1];
-				v3.position = translation * m_BottomFace[2];
-				v4.position = translation * m_BottomFace[3];
+			break;
+		}
 
-				// Set the lighting level for the vertex
-				v1.lighting_level = lighting_levels[1];
-				v2.lighting_level = lighting_levels[1];
-				v3.lighting_level = lighting_levels[1];
-				v4.lighting_level = lighting_levels[1];
+		case BlockFaceType::bottom:
+		{
+			v1.position = translation * m_BottomFace[3];
+			v2.position = translation * m_BottomFace[2];
+			v3.position = translation * m_BottomFace[1];
+			v4.position = translation * m_BottomFace[0];
 
-				break;
-			}
+			// Set the lighting level for the vertex
+			v1.lighting_level = lighting_levels[1];
+			v2.lighting_level = lighting_levels[1];
+			v3.lighting_level = lighting_levels[1];
+			v4.lighting_level = lighting_levels[1];
 
-			case BlockFaceType::front:
-			{
-				v1.position = translation * m_ForwardFace[0];
-				v2.position = translation * m_ForwardFace[1];
-				v3.position = translation * m_ForwardFace[2];
-				v4.position = translation * m_ForwardFace[3];
+			reverse_texture_coordinates = true;
 
-				// Set the lighting level for the vertex
-				v1.lighting_level = lighting_levels[2];
-				v2.lighting_level = lighting_levels[2];
-				v3.lighting_level = lighting_levels[2];
-				v4.lighting_level = lighting_levels[2];
+			break;
+		}
 
-				break;
-			}
+		case BlockFaceType::front:
+		{
+			v1.position = translation * m_ForwardFace[3];
+			v2.position = translation * m_ForwardFace[2];
+			v3.position = translation * m_ForwardFace[1];
+			v4.position = translation * m_ForwardFace[0];
 
-			case BlockFaceType::backward :
-			{
-				v1.position = translation * m_BackFace[0];
-				v2.position = translation * m_BackFace[1];
-				v3.position = translation * m_BackFace[2];
-				v4.position = translation * m_BackFace[3];
+			// Set the lighting level for the vertex
+			v1.lighting_level = lighting_levels[2];
+			v2.lighting_level = lighting_levels[2];
+			v3.lighting_level = lighting_levels[2];
+			v4.lighting_level = lighting_levels[2];
 
-				v1.lighting_level = lighting_levels[3];
-				v2.lighting_level = lighting_levels[3];
-				v3.lighting_level = lighting_levels[3];
-				v4.lighting_level = lighting_levels[3];
+			reverse_texture_coordinates = true;
 
-				break;
-			}
+			break;
+		}
 
-			case BlockFaceType::left :
-			{
-				v1.position = translation * m_LeftFace[0];
-				v2.position = translation * m_LeftFace[1];
-				v3.position = translation * m_LeftFace[2];
-				v4.position = translation * m_LeftFace[3];
+		case BlockFaceType::backward:
+		{
+			v1.position = translation * m_BackFace[0];
+			v2.position = translation * m_BackFace[1];
+			v3.position = translation * m_BackFace[2];
+			v4.position = translation * m_BackFace[3];
 
-				v1.lighting_level = lighting_levels[4];
-				v2.lighting_level = lighting_levels[4];
-				v3.lighting_level = lighting_levels[4];
-				v4.lighting_level = lighting_levels[4];
+			v1.lighting_level = lighting_levels[3];
+			v2.lighting_level = lighting_levels[3];
+			v3.lighting_level = lighting_levels[3];
+			v4.lighting_level = lighting_levels[3];
 
-				break;
-			}
+			break;
+		}
 
-			case BlockFaceType::right :
-			{
-				v1.position = translation * m_RightFace[0];
-				v2.position = translation * m_RightFace[1];
-				v3.position = translation * m_RightFace[2];
-				v4.position = translation * m_RightFace[3];
+		case BlockFaceType::left:
+		{
+			v1.position = translation * m_LeftFace[3];
+			v2.position = translation * m_LeftFace[2];
+			v3.position = translation * m_LeftFace[1];
+			v4.position = translation * m_LeftFace[0];
 
-				v1.lighting_level = lighting_levels[5];
-				v2.lighting_level = lighting_levels[5];
-				v3.lighting_level = lighting_levels[5];
-				v4.lighting_level = lighting_levels[5];
+			v1.lighting_level = lighting_levels[4];
+			v2.lighting_level = lighting_levels[4];
+			v3.lighting_level = lighting_levels[4];
+			v4.lighting_level = lighting_levels[4];
 
-				break;
-			}
+			reverse_texture_coordinates = true;
 
-			default :
-			{
-				// Todo : Throw an error here
-				break;
-			}
+			break;
+		}
+
+		case BlockFaceType::right:
+		{
+			v1.position = translation * m_RightFace[0];
+			v2.position = translation * m_RightFace[1];
+			v3.position = translation * m_RightFace[2];
+			v4.position = translation * m_RightFace[3];
+
+			v1.lighting_level = lighting_levels[5];
+			v2.lighting_level = lighting_levels[5];
+			v3.lighting_level = lighting_levels[5];
+			v4.lighting_level = lighting_levels[5];
+
+			break;
+		}
+
+		default:
+		{
+			// Todo : Throw an error here
+			break;
+		}
 		}
 
 		// Get required texture coordinates
 
 		const std::array<GLfloat, 8>& TextureCoordinates = GetBlockTexture(type, face_type);
 
-		v1.texture_coords = glm::vec2(TextureCoordinates[0], TextureCoordinates[1]);
-		v2.texture_coords = glm::vec2(TextureCoordinates[2], TextureCoordinates[3]);
-		v3.texture_coords = glm::vec2(TextureCoordinates[4], TextureCoordinates[5]);
-		v4.texture_coords = glm::vec2(TextureCoordinates[6], TextureCoordinates[7]);
+		if (reverse_texture_coordinates)
+		{
+			v1.texture_coords = glm::vec2(TextureCoordinates[6], TextureCoordinates[7]);
+			v2.texture_coords = glm::vec2(TextureCoordinates[4], TextureCoordinates[5]);
+			v3.texture_coords = glm::vec2(TextureCoordinates[2], TextureCoordinates[3]);
+			v4.texture_coords = glm::vec2(TextureCoordinates[0], TextureCoordinates[1]);
+		}
+
+		else
+		{
+			v1.texture_coords = glm::vec2(TextureCoordinates[0], TextureCoordinates[1]);
+			v2.texture_coords = glm::vec2(TextureCoordinates[2], TextureCoordinates[3]);
+			v3.texture_coords = glm::vec2(TextureCoordinates[4], TextureCoordinates[5]);
+			v4.texture_coords = glm::vec2(TextureCoordinates[6], TextureCoordinates[7]);
+		}
 
 		// Push the vertices to the buffer
 		m_Vertices.push_back(v1);
