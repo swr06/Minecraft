@@ -17,7 +17,7 @@ namespace Minecraft
 		uint8_t b = (uint8_t)m_MapData.image_data[element + 2];
 		uint8_t a = (uint8_t)m_MapData.image_data[element + 3];
 
-		if (a == 0)
+		if (r == 0 && g == 0 && b == 0)
 		{
 			return false;
 		}

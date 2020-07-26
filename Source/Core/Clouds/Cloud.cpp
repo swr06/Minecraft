@@ -15,7 +15,7 @@ namespace Minecraft
 
 			GLuint* IndexBuffer = nullptr;
 
-			int index_size = 256 * 256 * 6; //// TODO!! THIS VALUE SHOULD BE CHANGED!!! 
+			int index_size = 256 * 256 * 256 ; 
 			int index_offset = 0;
 
 			IndexBuffer = new GLuint[index_size * 6];
@@ -97,11 +97,11 @@ namespace Minecraft
 
 	void CloudManager::GenerateClouds()
 	{
-		for (int i = 0; i < 16; i++)
+		for (int i = 0; i < 256; i++)
 		{
-			for (int j = 0; j < 16; j++)
+			for (int j = 0; j < 256; j++)
 			{
-				//if (m_CloudGenerator.ShouldCloudExistAtCoord(glm::ivec2(i, j)))
+				if (m_CloudGenerator.ShouldCloudExistAtCoord(glm::ivec2(i, j)))
 				{
 					AddCloudFace(glm::vec2(i, j));
 				}

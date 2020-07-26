@@ -190,7 +190,7 @@ namespace Minecraft
 		int by = static_cast<int>(floor(pos.y));
 		int bz = pos.z - (block_chunk_z * CHUNK_SIZE_Z);
 
-		Chunk* chunk = GetChunkFromMap(block_chunk_x, block_chunk_z);
+		Chunk* chunk = RetrieveChunkFromMap(block_chunk_x, block_chunk_z);
 
 		return { &chunk->m_ChunkContents->at(bx).at(by).at(bz), chunk };
 	}
@@ -204,7 +204,7 @@ namespace Minecraft
 		int by = static_cast<int>(floor(pos.y));
 		int bz = pos.z - (block_chunk_z * CHUNK_SIZE_Z);
 
-		GetChunkFromMap(block_chunk_x, block_chunk_z)->SetBlock(type, glm::vec3(bx, by, bz));
+		RetrieveChunkFromMap(block_chunk_x, block_chunk_z)->SetBlock(type, glm::vec3(bx, by, bz));
 	}
 
 	// Returns the chunk* and block* from BLOCK position
@@ -213,7 +213,7 @@ namespace Minecraft
 		int block_chunk_x = static_cast<int>(floor(block_loc.x / CHUNK_SIZE_X));
 		int block_chunk_z = static_cast<int>(floor(block_loc.z / CHUNK_SIZE_Z));
 
-		Chunk* chunk = GetChunkFromMap(block_chunk_x, block_chunk_z);
+		Chunk* chunk = RetrieveChunkFromMap(block_chunk_x, block_chunk_z);
 		return { &chunk->m_ChunkContents->at(block_loc.x).at(block_loc.y).at(block_loc.z), chunk };
 	}
 
@@ -226,7 +226,7 @@ namespace Minecraft
 		int by = static_cast<int>(floor(pos.y));
 		int bz = pos.z - (block_chunk_z * CHUNK_SIZE_Z);
 
-		return static_cast<BlockType>(GetChunkFromMap(block_chunk_x, block_chunk_z)->m_ChunkContents->at(bx).at(by).at(bz).p_BlockType);
+		return static_cast<BlockType>(RetrieveChunkFromMap(block_chunk_x, block_chunk_z)->m_ChunkContents->at(bx).at(by).at(bz).p_BlockType);
 	}
 
 	// Converts world pixel coordinates to world block position
