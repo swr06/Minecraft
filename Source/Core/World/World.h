@@ -60,6 +60,7 @@ namespace Minecraft
 		void RenderChunkFromMap(int cx, int cz);
 		void UnloadFarChunks();
 		void RayCast(bool place);
+		void DoCollisionTests();
 		void UpdateSurroundingChunks(int cx, int cz);
 
 		Chunk* GetChunkFromMap(int cx, int cz);

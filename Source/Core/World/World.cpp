@@ -140,7 +140,7 @@ namespace Minecraft
 		glDisable(GL_CULL_FACE);
 
 		// Render the clouds
-		m_CloudManager.RenderClouds(&p_Player->p_Camera);
+		m_CloudManager.RenderClouds(&p_Player->p_Camera, p_Player->p_Position);
 
 		glDisable(GL_DEPTH_TEST);
 
@@ -329,6 +329,10 @@ namespace Minecraft
 				}
 			}
 		}
+	}
+
+	void World::DoCollisionTests()
+	{
 	}
 
 	// Updates all the chunks to the right, left, front and back of a supplied chunk

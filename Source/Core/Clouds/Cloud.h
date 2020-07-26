@@ -18,6 +18,7 @@
 #include "../OpenGL Classes/Texture.h"
 
 #include "CloudGenerator.h"
+#include "../Utils/Defs.h"
 
 #include "../FpsCamera.h"
 
@@ -38,7 +39,7 @@ namespace Minecraft
 		~CloudManager();
 
 		void Update(double time, long long frame);
-		void RenderClouds(FPSCamera* camera);
+		void RenderClouds(FPSCamera* camera, const glm::vec3& player_position);
 
 	private:
 

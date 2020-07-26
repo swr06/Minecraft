@@ -82,7 +82,7 @@ namespace Minecraft
 		previous_time = time;
 	}
 
-	void CloudManager::RenderClouds(FPSCamera* camera)
+	void CloudManager::RenderClouds(FPSCamera* camera, const glm::vec3& player_position)
 	{
 		m_CloudShader.Use();
 		m_CloudTexture.Bind(0);
@@ -104,6 +104,9 @@ namespace Minecraft
 				if (m_CloudGenerator.ShouldCloudExistAtCoord(glm::ivec2(i, j)))
 				{
 					AddCloudFace(glm::vec2(i, j));
+					AddCloudFace(glm::vec2(i - 1, j));
+					AddCloudFace(glm::vec2(i, j - 1));
+					AddCloudFace(glm::vec2(i - 1, j - 1));
 				}
 			}
 		}
@@ -113,7 +116,7 @@ namespace Minecraft
 
 	void CloudManager::AddCloudFace(const glm::vec2& position)
 	{
-		glm::vec3 pos = glm::vec3(position.x, 128, position.y);
+		glm::vec3 pos = glm::vec3(position.x, CHUNK_SIZE_Y + 32, position.y);
 		std::array<GLfloat, 8> texture_coordinates = { 1.0f, 1.0f,  1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f };;
 
 		CloudVertex v1, v2, v3, v4;
