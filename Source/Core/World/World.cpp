@@ -31,30 +31,12 @@ namespace Minecraft
 
 	void World::OnUpdate(GLFWwindow* window)
 	{
-		p_Player->OnUpdate();
+		p_Player->OnUpdate(window);
 
 		// Increase the frame count 
 		m_CurrentFrame++;
 
 		const float camera_speed = 0.35f;
-
-		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-			p_Player->p_Camera.MoveCamera(MoveDirection::Front, camera_speed);
-
-		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-			p_Player->p_Camera.MoveCamera(MoveDirection::Back, camera_speed);
-
-		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-			p_Player->p_Camera.MoveCamera(MoveDirection::Left, camera_speed);
-
-		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-			p_Player->p_Camera.MoveCamera(MoveDirection::Right, camera_speed);
-
-		if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
-			p_Player->p_Camera.MoveCamera(MoveDirection::Up, camera_speed);
-
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-			p_Player->p_Camera.MoveCamera(MoveDirection::Down, camera_speed);
 
 		// Collision testing
 
@@ -148,6 +130,8 @@ namespace Minecraft
 			, m_CrosshairPosition.second - (m_CrosshairTexture.GetHeight() / 2), 1.0f)
 			, &m_CrosshairTexture, &m_Camera2D);
 
+		// Do collision tests after all rendering is complete
+		DoCollisionTests();
 	}
 
 	void World::OnEvent(EventSystem::Event e)
@@ -208,7 +192,7 @@ namespace Minecraft
 	}
 
 	// Returns the chunk* and block* from BLOCK position
-	std::pair<Block*, Chunk*> World::GetWorldBlock(const glm::vec3& block_loc)
+	std::pair<Block*, Chunk*> World::GetBlock(const glm::vec3& block_loc)
 	{
 		int block_chunk_x = static_cast<int>(floor(block_loc.x / CHUNK_SIZE_X));
 		int block_chunk_z = static_cast<int>(floor(block_loc.z / CHUNK_SIZE_Z));
@@ -321,7 +305,6 @@ namespace Minecraft
 							edit_block.first->p_BlockType = BlockType::Air;
 						}
 
-						PrintVec3(normal);
 						edit_block.second->p_MeshState = ChunkMeshState::Edited;
 					}
 
@@ -333,6 +316,34 @@ namespace Minecraft
 
 	void World::DoCollisionTests()
 	{
+		/*int collision_test_x = 2;
+		int collision_test_y = 2;
+		int collision_test_z = 2;
+		auto player_pos_info = GetWorldBlockFromPosition(p_Player->p_Position);
+
+		glm::vec3 player_world_block = ConvertPositionToWorldBlockPosition(p_Player->p_Position);
+
+		for (int i = player_world_block.x - collision_test_x; i < player_world_block.x + collision_test_x; i++)
+		{
+			for (int j = player_world_block.y - collision_test_y; j < player_world_block.y + collision_test_y; j++)
+			{
+				for (int k = player_world_block.z - collision_test_z; k < player_world_block.z + collision_test_z; k++)
+				{
+					AABB block_mask;
+					block_mask.x = i;
+					block_mask.y = j;
+					block_mask.z = k;
+					block_mask.width = 1;
+					block_mask.height = 1;
+					block_mask.depth = 1;
+					if (TestAABBCollision(p_Player->p_PlayerAABB, block_mask))
+					{
+						Logger::LogToConsole("Collision occured!");
+					}
+				}
+			}
+		}*/
+
 	}
 
 	// Updates all the chunks to the right, left, front and back of a supplied chunk

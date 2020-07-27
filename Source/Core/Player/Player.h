@@ -11,27 +11,27 @@
 namespace Minecraft
 {
 	class World;
+	
+	Block* GetWorldBlock(const glm::vec3& block_pos);
 
 	class Player
 	{
 	public : 
 
-		Player() : p_Camera(70.0f, 800 / 600, 0.1, 100.0f)
+		Player() : p_Camera(70.0f, 800 / 600, 0.1, 100.0f), p_PlayerAABB(glm::vec3(-0.25f, -1.5f, -0.25f), glm::vec3(0.25f, 0.25f, 0.25f))
 		{
-			p_PlayerAABB.x = 0;
-			p_PlayerAABB.y = 0;
-			p_PlayerAABB.z = 0;
-			p_PlayerAABB.width = 1;
-			p_PlayerAABB.height = 1;
-			p_PlayerAABB.depth = 1;
+
 		}
 
-		void OnUpdate();
+		void OnUpdate(GLFWwindow* window);
 		void OnEvent(EventSystem::Event e);
 
 		FPSCamera p_Camera;
 		glm::vec3 p_Position;
 		World* p_World;
 		AABB p_PlayerAABB;
+
+	private : 
+		bool TestBlockCollision(const glm::vec3& position);
 	};
 }

@@ -2,21 +2,30 @@
 
 namespace Minecraft
 {
-	bool TestAABBCollision(const AABB& box1, const AABB& box2)
+	AABB::AABB(const glm::vec3& min, const glm::vec3& max)
+		: m_Min(min), m_Max(max)
 	{
-		if (box1.x < box2.x + box2.width &&
-			box1.x + box1.width > box2.x &&
-			box1.y < box2.y + box2.height &&
-			box1.y + box1.height > box2.y &&
-			box1.z < box2.z + box2.depth &&
-			box1.z + box1.depth > box2.z)
-		{
-			return true;
-		}
+	}
 
-		else
-		{
-			return false;
-		}
+	bool AABB::IsPointInsideAABB(const glm::vec3& position, const glm::vec3& point) const
+	{
+		glm::vec3 oneMin = GetRelativeMinimum(position),
+			oneMax = GetRelativeMaximum(position);
+
+		return (point.x >= oneMin.x && point.x <= oneMax.x)
+			&& (point.y >= oneMin.y && point.y <= oneMax.y)
+			&& (point.z >= oneMin.z && point.z <= oneMax.z);
+	}
+
+	bool AABB::Intersects(const AABB& aabb, const glm::vec3& positionOne, const glm::vec3& positionTwo) const
+	{
+		glm::vec3 oneMin = GetRelativeMinimum(positionOne),
+			oneMax = GetRelativeMaximum(positionOne),
+			twoMin = aabb.GetRelativeMinimum(positionTwo),
+			twoMax = aabb.GetRelativeMaximum(positionTwo);
+
+		return (oneMin.x <= twoMax.x && oneMax.x >= twoMin.x)
+			&& (oneMin.y <= twoMax.y && oneMax.y >= twoMin.y)
+			&& (oneMin.z <= twoMax.z && oneMax.z >= twoMin.z);
 	}
 }

@@ -10,16 +10,6 @@
 
 namespace Minecraft
 {
-	enum MoveDirection
-	{
-		Up,
-		Down,
-		Left,
-		Right,
-		Front,
-		Back
-	};
-
 	class FPSCamera
 	{
 	public : 
@@ -105,8 +95,6 @@ namespace Minecraft
 		{
 			return m_zFar;
 		}
-
-		void MoveCamera(MoveDirection dir, float speed);
 
 	private : 
 

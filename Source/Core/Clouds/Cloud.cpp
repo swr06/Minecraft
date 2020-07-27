@@ -97,9 +97,11 @@ namespace Minecraft
 
 	void CloudManager::GenerateClouds()
 	{
-		for (int i = 0; i < 256; i++)
+		int sx = -128, sy = -128;
+
+		for (int i = sx; i < sx + 256; i++)
 		{
-			for (int j = 0; j < 256; j++)
+			for (int j = sy; j < sy + 256; j++)
 			{
 				if (m_CloudGenerator.ShouldCloudExistAtCoord(glm::ivec2(i, j)))
 				{
@@ -137,4 +139,4 @@ namespace Minecraft
 		m_CloudVertices.push_back(v3);
 		m_CloudVertices.push_back(v4);
 	}
-}
+}   

@@ -47,7 +47,7 @@ namespace Minecraft
 		// Gets a world block from the respective chunk. Returns nullptr if invalid
 		std::pair<Block*, Chunk*> GetWorldBlockFromPosition(const glm::vec3& pos);
 		void SetWorldBlockFromPosition(BlockType type, const glm::vec3& pos);
-		std::pair<Block*, Chunk*> GetWorldBlock(const glm::vec3& block_loc);
+		std::pair<Block*, Chunk*> GetBlock(const glm::vec3& block_loc);
 		BlockType GetWorldBlockTypeFromPosition(const glm::vec3& pos);
 		glm::vec3 ConvertPositionToWorldBlockPosition(const glm::vec3& pos);
 		bool ChunkExistsInMap(int cx, int cz);

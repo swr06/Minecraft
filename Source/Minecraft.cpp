@@ -38,6 +38,12 @@ namespace Minecraft
 
         return nullptr;
     }
+
+    Block* GetWorldBlock(const glm::vec3& block_pos)
+    {
+        std::pair<Block*, Chunk*> block = MinecraftApplication.GetWorld()->GetBlock(block_pos);
+        return block.first;
+    }
 }
 
 int main()
