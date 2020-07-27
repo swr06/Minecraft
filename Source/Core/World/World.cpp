@@ -2,6 +2,8 @@
 
 namespace Minecraft
 {
+	int render_distance_x = 2, render_distance_z = 2;
+
 	static void PrintVec3(const glm::vec3& val)
 	{
 		std::cout << std::endl << "X : " << val.x << " Y : " << val.y << " Z : " << val.z;
@@ -31,12 +33,39 @@ namespace Minecraft
 
 	void World::OnUpdate(GLFWwindow* window)
 	{
+		int player_chunk_x = (int) floor(p_Player->p_Position.x / CHUNK_SIZE_X);
+		int player_chunk_z = (int)floor(p_Player->p_Position.z / CHUNK_SIZE_Z);
+
+		std::uint32_t chunks_rendered = 0;
+
+		int build_distance_x = render_distance_x + 2;
+		int build_distance_z = render_distance_z + 2;
+
+		/*
+		build_distance_x and build_distance_z is the build distance. It is needed to build 1 chunk
+		more than what is required in order for the meshing process to work properly
+
+		For this it is required to first generate all the chunks that are needed to be generated.
+		Only after all the chunks are generated, the mesh building process with start
+		*/
+
+		for (int i = player_chunk_x - build_distance_x; i < player_chunk_x + build_distance_x; i++)
+		{
+			for (int j = player_chunk_z - build_distance_z; j < player_chunk_z + build_distance_z; j++)
+			{
+				if (ChunkExistsInMap(i, j) == false)
+				{
+					Chunk* chunk = GetChunkFromMap(i, j);
+					GenerateChunk(chunk);
+					chunk->p_MeshState = ChunkMeshState::Unbuilt;
+				}
+			}
+		}
+
 		p_Player->OnUpdate(window);
 
 		// Increase the frame count 
 		m_CurrentFrame++;
-
-		const float camera_speed = 0.35f;
 
 		// Collision testing
 
@@ -57,36 +86,11 @@ namespace Minecraft
 		glCullFace(GL_FRONT);
 		glFrontFace(GL_CCW);
 
-		player_chunk_x = floor(p_Player->p_Position.x / CHUNK_SIZE_X);
-		player_chunk_z = floor(p_Player->p_Position.z / CHUNK_SIZE_Z);
-
-		int render_distance_x = 2, render_distance_z = 2;
-		std::uint32_t chunks_rendered = 0;
-
-		int build_distance_x = render_distance_x + 2;
-		int build_distance_z = render_distance_z + 2;
-
-		/* 
-		build_distance_x and build_distance_z is the build distance. It is needed to build 1 chunk 
-		more than what is required in order for the meshing process to work properly
+		// Determine the player's current chunk
+		player_chunk_x = (int)floor(p_Player->p_Position.x / CHUNK_SIZE_X);
+		player_chunk_z = (int)floor(p_Player->p_Position.z / CHUNK_SIZE_Z);
+		uint32_t chunks_rendered = 0;
 		
-		For this it is required to first generate all the chunks that are needed to be generated. 
-		Only after all the chunks are generated, the mesh building process with start
-		*/
-
-		for (int i = player_chunk_x - build_distance_x; i < player_chunk_x + build_distance_x; i++)
-		{
-			for (int j = player_chunk_z - build_distance_z; j < player_chunk_z + build_distance_z; j++)
-			{
-				if (ChunkExistsInMap(i, j) == false)
-				{
-					Chunk* chunk = GetChunkFromMap(i,j);
-					GenerateChunk(chunk);
-					chunk->p_MeshState = ChunkMeshState::Unbuilt;
-				}
-			}
-		}
-
 		// Render chunks according to render distance
 
 		m_Renderer.StartChunkRendering(&p_Player->p_Camera);
@@ -166,7 +170,7 @@ namespace Minecraft
 	}
 
 	// Gets a block from position
-	std::pair<Block*, Chunk*> World::GetWorldBlockFromPosition(const glm::vec3& pos)
+	std::pair<Block*, Chunk*> World::GetBlockFromPosition(const glm::vec3& pos)
 	{
 		int block_chunk_x = static_cast<int>(floor(pos.x / CHUNK_SIZE_X));
 		int block_chunk_z = static_cast<int>(floor(pos.z / CHUNK_SIZE_Z));
@@ -180,7 +184,7 @@ namespace Minecraft
 	}
 
 	// Sets a world block from position
-	void World::SetWorldBlockFromPosition(BlockType type, const glm::vec3& pos)
+	void World::SetBlockFromPosition(BlockType type, const glm::vec3& pos)
 	{
 		int block_chunk_x = static_cast<int>(floor(pos.x / CHUNK_SIZE_X));
 		int block_chunk_z = static_cast<int>(floor(pos.z / CHUNK_SIZE_Z));
@@ -202,7 +206,7 @@ namespace Minecraft
 	}
 
 	// Returns the type of block at a position
-	BlockType World::GetWorldBlockTypeFromPosition(const glm::vec3& pos)
+	BlockType World::GetBlockTypeFromPosition(const glm::vec3& pos)
 	{
 		int block_chunk_x = static_cast<int>(floor(pos.x / CHUNK_SIZE_X));
 		int block_chunk_z = static_cast<int>(floor(pos.z / CHUNK_SIZE_Z));
@@ -261,7 +265,7 @@ namespace Minecraft
 
 			if (position.y >= 0 && position.y < CHUNK_SIZE_Y)
 			{ 
-				std::pair<Block*, Chunk*> ray_hitblock = GetWorldBlockFromPosition(glm::vec3(
+				std::pair<Block*, Chunk*> ray_hitblock = GetBlockFromPosition(glm::vec3(
 					floor(position.x),
 					floor(position.y),
 					floor(position.z)
@@ -293,7 +297,7 @@ namespace Minecraft
 
 					if (position.y >= 0 && position.y < CHUNK_SIZE_Y)
 					{
-						edit_block = GetWorldBlockFromPosition(glm::vec3(position.x, position.y, position.z));
+						edit_block = GetBlockFromPosition(glm::vec3(position.x, position.y, position.z));
 
 						if (place)
 						{
@@ -319,7 +323,7 @@ namespace Minecraft
 		/*int collision_test_x = 2;
 		int collision_test_y = 2;
 		int collision_test_z = 2;
-		auto player_pos_info = GetWorldBlockFromPosition(p_Player->p_Position);
+		auto player_pos_info = GetBlockFromPosition(p_Player->p_Position);
 
 		glm::vec3 player_world_block = ConvertPositionToWorldBlockPosition(p_Player->p_Position);
 
