@@ -74,10 +74,10 @@ namespace Minecraft
 	{
 		static double previous_time = 0.0f;
 		double delta_time = time - previous_time;
-		delta_time = delta_time * 0.1f;
+		delta_time = delta_time * 0.01f;
 
 		// Move the clouds by the delta time or a particular velocity
-		m_PositionOffset += glm::vec4(0.0f, 0.0f, 0.05f, 0.0f);
+		m_PositionOffset += glm::vec4(0.0f, 0.0f, 0.009f, 0.0f);
 
 		previous_time = time;
 	}

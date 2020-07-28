@@ -167,7 +167,6 @@
     <ClCompile Include="Core\Camera.cpp" />
     <ClCompile Include="Core\Chunk.cpp" />
     <ClCompile Include="Core\ChunkMesh.cpp" />
-    <ClCompile Include="Core\ChunkFileHandler.cpp" />
     <ClCompile Include="Core\Clouds\Cloud.cpp" />
     <ClCompile Include="Core\Clouds\CloudGenerator.cpp" />
     <ClCompile Include="Core\CubeRenderer.cpp" />
@@ -181,6 +180,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Core\File Handling\ChunkFileHandler.cpp" />
+    <ClCompile Include="Core\File Handling\WorldFileHandler.cpp" />
     <ClCompile Include="Core\FpsCamera.cpp" />
     <ClCompile Include="Core\Maths\Frustum.cpp" />
     <ClCompile Include="Core\Maths\Plane.cpp" />
@@ -218,7 +219,6 @@
     <ClInclude Include="Core\Camera.h" />
     <ClInclude Include="Core\Chunk.h" />
     <ClInclude Include="Core\ChunkMesh.h" />
-    <ClInclude Include="Core\ChunkFileHandler.h" />
     <ClInclude Include="Core\Clouds\Cloud.h" />
     <ClInclude Include="Core\Clouds\CloudGenerator.h" />
     <ClInclude Include="Core\CubeRenderer.h" />
@@ -230,6 +230,8 @@
     <ClInclude Include="Core\Dependencies\imgui\imstb_rectpack.h" />
     <ClInclude Include="Core\Dependencies\imgui\imstb_textedit.h" />
     <ClInclude Include="Core\Dependencies\imgui\imstb_truetype.h" />
+    <ClInclude Include="Core\File Handling\ChunkFileHandler.h" />
+    <ClInclude Include="Core\File Handling\WorldFileHandler.h" />
     <ClInclude Include="Core\FpsCamera.h" />
     <ClInclude Include="Core\Maths\Frustum.h" />
     <ClInclude Include="Core\Maths\Plane.h" />

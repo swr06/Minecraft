@@ -25,6 +25,7 @@ namespace Minecraft
 
 		void OnUpdate(GLFWwindow* window);
 		void OnEvent(EventSystem::Event e);
+		bool TestBlockCollision(const glm::vec3& position);
 
 		FPSCamera p_Camera;
 		glm::vec3 p_Position;
@@ -32,6 +33,7 @@ namespace Minecraft
 		AABB p_PlayerAABB;
 
 	private : 
-		bool TestBlockCollision(const glm::vec3& position);
+
+
 	};
 }

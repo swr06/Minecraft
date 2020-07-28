@@ -22,7 +22,6 @@
 #include "../Renderer/Renderer.h"
 #include "../Renderer/Renderer2D.h"
 #include "../Application/Events.h"
-#include "../ChunkFileHandler.h"
 #include "../Utils/Ray.h"
 #include "../Physics/AABB.h"
 #include "../Clouds/Cloud.h"

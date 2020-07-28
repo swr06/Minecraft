@@ -21,6 +21,14 @@ namespace Minecraft
 		error
 	};
 
+	enum ChunkState
+	{
+		Ungenerated,
+		Generated,
+		Changed,
+		undefined
+	};
+
 	class Chunk
 	{
 	public : 
@@ -70,6 +78,7 @@ namespace Minecraft
 		const glm::vec3 p_Position;
 		std::array<std::array<std::array<Block, CHUNK_SIZE_X>, CHUNK_SIZE_Y>, CHUNK_SIZE_Z>* m_ChunkContents;
 		ChunkMeshState p_MeshState = ChunkMeshState::Unbuilt;
+		ChunkState p_ChunkState = ChunkState::Ungenerated;
 
 	private :
 		// each chunk will be a 16x16x16 block space. A 3D array

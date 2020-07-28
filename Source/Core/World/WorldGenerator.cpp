@@ -94,6 +94,9 @@ namespace Minecraft
         static FastNoise WorldGenerator(WorldSeed);
         static FastNoise WorldGeneratorMultiply_1(WorldSeed);
         static FastNoise BiomeGenerator(WorldSeed);
+
+        // Set the chunk state
+        chunk->p_ChunkState = ChunkState::Generated;
         
         WorldGenerator.SetNoiseType(FastNoise::Simplex);
         BiomeGenerator.SetNoiseType(FastNoise::Simplex);

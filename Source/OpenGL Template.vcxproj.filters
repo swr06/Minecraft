@@ -88,9 +88,6 @@
     <ClCompile Include="Core\Utils\Physics.cpp">
       <Filter>Minecraft\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="Core\ChunkFileHandler.cpp">
-      <Filter>Minecraft\Chunk</Filter>
-    </ClCompile>
     <ClCompile Include="Core\Maths\Frustum.cpp">
       <Filter>Minecraft\Math\Frustum Culling</Filter>
     </ClCompile>
@@ -133,6 +130,12 @@
     </ClCompile>
     <ClCompile Include="Core\Dependencies\imgui\main.cpp">
       <Filter>Dependencies\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\File Handling\ChunkFileHandler.cpp">
+      <Filter>Minecraft\Saving and Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\File Handling\WorldFileHandler.cpp">
+      <Filter>Minecraft\Saving and Loading</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -238,9 +241,6 @@
     <ClInclude Include="Core\Utils\Physics.h">
       <Filter>Minecraft\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Core\ChunkFileHandler.h">
-      <Filter>Minecraft\Chunk</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Utils\Raycast.h">
       <Filter>Minecraft\Utils</Filter>
     </ClInclude>
@@ -288,6 +288,12 @@
     </ClInclude>
     <ClInclude Include="Core\Dependencies\imgui\imgui_impl_opengl3.h">
       <Filter>Dependencies\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\File Handling\ChunkFileHandler.h">
+      <Filter>Minecraft\Saving and Loading</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\File Handling\WorldFileHandler.h">
+      <Filter>Minecraft\Saving and Loading</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -374,6 +380,9 @@
     </Filter>
     <Filter Include="Abstract OpenGL\Texturing\stb_image">
       <UniqueIdentifier>{a41eb0ef-7a9a-4fde-804e-17290c3d80a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Minecraft\Saving and Loading">
+      <UniqueIdentifier>{ded19b04-3225-4429-ac74-37d5cc9c83dc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
