@@ -4,42 +4,63 @@ namespace Minecraft
 {
 	void Player::OnUpdate(GLFWwindow* window)
 	{
+		static FPSCamera cam(45, 1336/768, 0.0f, 99.0f);
 		bool do_collision_check = false;
-		float camera_speed = 0.34;
+		const float camera_speed = 0.25;
+
+		glm::vec3 prev_pos = p_Camera.GetPosition();
 
 		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-			p_Camera.ChangePosition(glm::vec3(p_Camera.GetFront().x * camera_speed, 0.0f, p_Camera.GetFront().z * camera_speed));
+		{
+			cam = p_Camera;
+			cam.ChangePosition(glm::vec3(cam.GetFront().x * camera_speed, 0.0f, cam.GetFront().z * camera_speed));
 			do_collision_check = true;
+		}
 
 		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-			p_Camera.ChangePosition(-(glm::vec3(p_Camera.GetFront().x * camera_speed, 0.0f, p_Camera.GetFront().z * camera_speed)));
+		{
+			cam = p_Camera;
+			cam.ChangePosition(-(glm::vec3(cam.GetFront().x * camera_speed, 0.0f, cam.GetFront().z * camera_speed)));
 			do_collision_check = true;
+		}
 			
 		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-			p_Camera.ChangePosition(-(p_Camera.GetRight() * camera_speed));
+		{
+			cam = p_Camera;
+			cam.ChangePosition(-(cam.GetRight() * camera_speed));
 			do_collision_check = true;
+		}
 
 		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-			p_Camera.ChangePosition(p_Camera.GetRight() * camera_speed);
+		{
+			cam = p_Camera;
+			cam.ChangePosition(cam.GetRight() * camera_speed);
 			do_collision_check = true;
+		}
 
 		if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
-			p_Camera.ChangePosition(p_Camera.GetUp() * camera_speed);
+		{
+			cam = p_Camera;
+			cam.ChangePosition(cam.GetUp() * camera_speed);
 			do_collision_check = true;
+		}
 
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-			p_Camera.ChangePosition(-(p_Camera.GetUp() * camera_speed));
+		{
+			cam = p_Camera;
+			cam.ChangePosition(-(cam.GetUp() * camera_speed));
 			do_collision_check = true;
-		
+		}
 
 		if (do_collision_check)
 		{
-			if (TestBlockCollision(p_Camera.GetPosition()) == true)
+			if (TestBlockCollision(cam.GetPosition()) == false)
 			{
-				p_Camera.SetPosition(p_Position);
+				p_Camera = cam;
 			}
 		}
 
+		// Update the player's position
 		p_Position = p_Camera.GetPosition();
 	}
 
@@ -69,7 +90,8 @@ namespace Minecraft
 		glm::vec3 blockMin = p_PlayerAABB.GetRelativeMinimum(position);
 		glm::vec3 blockMax = p_PlayerAABB.GetRelativeMaximum(position);
 
-		if (position.y < CHUNK_SIZE_Y && blockMin.y < CHUNK_SIZE_Y && blockMax.y < CHUNK_SIZE_Y)
+		if (position.y < CHUNK_SIZE_Y && blockMin.y < CHUNK_SIZE_Y && blockMax.y < CHUNK_SIZE_Y &&
+			position.y >= 0 && blockMin.y >= 0 && blockMax.y >= 0)
 		{
 			blockMin = glm::vec3(floor(blockMin.x), floor(blockMin.y), floor(blockMin.z));
 			blockMax = glm::vec3(floor(blockMax.x), floor(blockMax.y), floor(blockMax.z));
