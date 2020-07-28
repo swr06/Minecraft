@@ -1,24 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Core\Dependencies\imgui\imgui.cpp">
-      <Filter>Dependencies\Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Dependencies\imgui\imgui_demo.cpp">
-      <Filter>Dependencies\Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Dependencies\imgui\imgui_draw.cpp">
-      <Filter>Dependencies\Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Dependencies\imgui\imgui_impl_glfw_gl3.cpp">
-      <Filter>Dependencies\Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Dependencies\imgui\main.cpp">
-      <Filter>Dependencies\Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\OpenGL Classes\stb_image.cpp">
-      <Filter>Dependencies\Imgui</Filter>
-    </ClCompile>
     <ClCompile Include="Core\OpenGL Classes\Fps.cpp">
       <Filter>Abstract OpenGL\FPS</Filter>
     </ClCompile>
@@ -128,32 +110,11 @@
     <ClCompile Include="Core\Clouds\CloudGenerator.cpp">
       <Filter>Minecraft\Clouds</Filter>
     </ClCompile>
+    <ClCompile Include="Core\OpenGL Classes\stb_image.cpp">
+      <Filter>Abstract OpenGL\Texturing\stb_image</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Core\Dependencies\imgui\stb_truetype.h">
-      <Filter>Dependencies\Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Dependencies\imgui\imconfig.h">
-      <Filter>Dependencies\Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Dependencies\imgui\imgui.h">
-      <Filter>Dependencies\Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Dependencies\imgui\imgui_impl_glfw_gl3.h">
-      <Filter>Dependencies\Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Dependencies\imgui\imgui_internal.h">
-      <Filter>Dependencies\Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\OpenGL Classes\stb_image.h">
-      <Filter>Dependencies\Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Dependencies\imgui\stb_rect_pack.h">
-      <Filter>Dependencies\Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Dependencies\imgui\stb_textedit.h">
-      <Filter>Dependencies\Imgui</Filter>
-    </ClInclude>
     <ClInclude Include="Core\OpenGL Classes\Fps.h">
       <Filter>Abstract OpenGL\FPS</Filter>
     </ClInclude>
@@ -280,6 +241,9 @@
     <ClInclude Include="Core\Utils\Enums.h">
       <Filter>Minecraft\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Core\OpenGL Classes\stb_image.h">
+      <Filter>Abstract OpenGL\Texturing\stb_image</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Dependencies">
@@ -290,9 +254,6 @@
     </Filter>
     <Filter Include="Shaders">
       <UniqueIdentifier>{f8191836-fbd8-4d79-819a-b6a561058afa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Dependencies\Imgui">
-      <UniqueIdentifier>{a8561fbb-0a88-489b-b9f2-fb69a0aac2ed}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resources">
       <UniqueIdentifier>{af69efa1-10d3-4bcc-8099-85542c221f8e}</UniqueIdentifier>
@@ -362,6 +323,12 @@
     </Filter>
     <Filter Include="Minecraft\Clouds">
       <UniqueIdentifier>{5db0b6e5-9576-4633-bd15-9a41793390f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dependencies\Imgui">
+      <UniqueIdentifier>{16c3fee6-7dc3-4a4a-9cd5-0d706ae97834}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Abstract OpenGL\Texturing\stb_image">
+      <UniqueIdentifier>{a41eb0ef-7a9a-4fde-804e-17290c3d80a8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
