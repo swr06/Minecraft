@@ -43,7 +43,10 @@ namespace Minecraft
 			{
 				for (int j = 0; j < CHUNK_SIZE_Y; j++)
 				{
-					fwrite(&chunk->m_ChunkContents->at(i).at(j), sizeof(Block), CHUNK_SIZE_Z, outfile);
+					for (int k = 0; k < CHUNK_SIZE_Z; k++)
+					{
+						fwrite(&chunk->m_ChunkContents->at(i).at(j).at(k), sizeof(Block), 1, outfile);
+					}
 				}
 			}
 
@@ -71,7 +74,10 @@ namespace Minecraft
 			{
 				for (int j = 0; j < CHUNK_SIZE_Y; j++)
 				{
-					fread(&chunk->m_ChunkContents->at(i).at(j), sizeof(Block), CHUNK_SIZE_Z, infile);
+					for (int k = 0; k < CHUNK_SIZE_Z; k++)
+					{
+						fread(&chunk->m_ChunkContents->at(i).at(j).at(k), sizeof(Block), 1, infile);
+					}
 				}
 			}
 
