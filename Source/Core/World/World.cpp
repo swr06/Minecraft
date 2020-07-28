@@ -56,7 +56,7 @@ namespace Minecraft
 			{
 				if (ChunkExistsInMap(i, j) == false)
 				{
-					Chunk* chunk = GetChunkFromMap(i, j);
+					Chunk* chunk = EmplaceChunkInMap(i, j);
 					GenerateChunk(chunk);
 					chunk->p_MeshState = ChunkMeshState::Unbuilt;
 				}
@@ -377,7 +377,7 @@ namespace Minecraft
 	}
 
 	// Emplaces a chunk in the map
-	Chunk* World::GetChunkFromMap(int cx, int cz)
+	Chunk* World::EmplaceChunkInMap(int cx, int cz)
 	{
 		std::stringstream str;
 

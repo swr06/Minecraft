@@ -54,7 +54,12 @@ namespace Minecraft
 
 		Player* p_Player;
 
+		std::map<std::pair<int, int>, Chunk>* GetWorldData()
+		{
+			return &m_WorldChunks;
+		}
 
+		Chunk* EmplaceChunkInMap(int cx, int cz);
 	private:
 		void RenderChunkFromMap(int cx, int cz);
 		void UnloadFarChunks();
@@ -62,7 +67,7 @@ namespace Minecraft
 		void DoCollisionTests();
 		void UpdateSurroundingChunks(int cx, int cz);
 
-		Chunk* GetChunkFromMap(int cx, int cz);
+	
 		bool ChunkInViewFrustum(Chunk* chunk);
 
 		uint32_t m_ChunkCount;

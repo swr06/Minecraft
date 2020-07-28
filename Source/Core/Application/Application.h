@@ -14,7 +14,7 @@
 #include "../OpenGL Classes/Fps.h"
 
 #include "Events.h"
-#include "../World/World.h"
+#include "../File Handling/WorldFileHandler.h"
 #include "../World/Skybox.h"
 #include "../Block.h"
 #include "../Chunk.h"

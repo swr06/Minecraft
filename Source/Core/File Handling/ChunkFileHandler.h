@@ -11,10 +11,10 @@
 #include <string>
 #include <sstream>
 
-#include "Chunk.h"
-#include "Utils/Logger.h"
-#include "Utils/Defs.h"
-#include "Block.h"
+#include "../Chunk.h"
+#include "../Utils/Logger.h"
+#include "../Utils/Defs.h"
+#include "../Block.h"
 
 namespace Minecraft
 {
@@ -23,7 +23,7 @@ namespace Minecraft
 		// Reads or writes a chunk to a file with a unique filename
 		// Uses C style file handling because it's slightly faster than the C++ counterpart
 
-		bool UnloadChunk(Chunk* chunk);
-		bool LoadChunk(Chunk* chunk);
+		bool WriteChunk(Chunk* chunk, const std::string& dir);
+		bool ReadChunk(Chunk* chunk, const std::string& dir);
 	}
 }

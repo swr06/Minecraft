@@ -137,7 +137,8 @@ namespace Minecraft
 		if (glfwRawMouseMotionSupported())
 			glfwSetInputMode(m_Window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
 
-        m_World = new World;
+        //m_World = new World;
+		m_World = WorldFileHandler::LoadWorld("WORLD_1");
 
         EventSystem::InitEventSystem(m_Window, &m_EventQueue);
 
@@ -148,6 +149,8 @@ namespace Minecraft
 
 	Application::~Application()
 	{
+		WorldFileHandler::SaveWorld("Samuel's World", m_World);
+
 		if (ShouldInitializeImgui)
 		{
 			ImGui_ImplOpenGL3_Shutdown();

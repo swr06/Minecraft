@@ -4,7 +4,6 @@ namespace Minecraft
 {
 	namespace ChunkFileHandler
 	{
-		const std::string dir = "ChunkData/";
 
 		void ExtendString(std::string& str, int ex_amt, std::string& ex_c)
 		{
@@ -16,7 +15,7 @@ namespace Minecraft
 			}
 		}
 
-		std::string GenerateFileName(const glm::vec2& position)
+		std::string GenerateFileName(const glm::vec2& position, const std::string& dir)
 		{
 			std::stringstream s;
 			
@@ -24,11 +23,11 @@ namespace Minecraft
 			return s.str();
 		}
 
-		bool UnloadChunk(Chunk* chunk)
+		bool WriteChunk(Chunk* chunk, const std::string& dir)
 		{
 			FILE* outfile;
 			std::stringstream s;
-			std::string file_name = GenerateFileName(glm::vec2(chunk->p_Position.x, chunk->p_Position.y));
+			std::string file_name = GenerateFileName(glm::vec2(chunk->p_Position.x, chunk->p_Position.y), dir);
 
 			outfile = fopen(file_name.c_str(), "w+");
 
@@ -52,11 +51,11 @@ namespace Minecraft
 			return true;
 		}
 
-		bool LoadChunk(Chunk* chunk)
+		bool ReadChunk(Chunk* chunk, const std::string& dir)
 		{
 			FILE* infile;
 			std::stringstream s;
-			std::string file_name = GenerateFileName(glm::vec2(chunk->p_Position.x, chunk->p_Position.y));
+			std::string file_name = dir;
 
 			infile = fopen(file_name.c_str(), "r");
 

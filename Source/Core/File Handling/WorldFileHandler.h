@@ -11,7 +11,7 @@ namespace Minecraft
 {
 	namespace WorldFileHandler
 	{
-		bool SaveWorld(const std::string& world_name);
+		bool SaveWorld(const std::string& world_name, World* world);
 		World* LoadWorld(const std::string& world_name);
 	}
 }
