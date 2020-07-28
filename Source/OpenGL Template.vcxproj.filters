@@ -113,6 +113,18 @@
     <ClCompile Include="Core\OpenGL Classes\stb_image.cpp">
       <Filter>Abstract OpenGL\Texturing\stb_image</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Dependencies\imgui\imgui.cpp">
+      <Filter>Dependencies\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Dependencies\imgui\imgui_demo.cpp">
+      <Filter>Dependencies\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Dependencies\imgui\imgui_draw.cpp">
+      <Filter>Dependencies\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Dependencies\imgui\imgui_widgets.cpp">
+      <Filter>Dependencies\Imgui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\OpenGL Classes\Fps.h">
@@ -243,6 +255,24 @@
     </ClInclude>
     <ClInclude Include="Core\OpenGL Classes\stb_image.h">
       <Filter>Abstract OpenGL\Texturing\stb_image</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Dependencies\imgui\imconfig.h">
+      <Filter>Dependencies\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Dependencies\imgui\imgui.h">
+      <Filter>Dependencies\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Dependencies\imgui\imgui_internal.h">
+      <Filter>Dependencies\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Dependencies\imgui\imstb_rectpack.h">
+      <Filter>Dependencies\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Dependencies\imgui\imstb_textedit.h">
+      <Filter>Dependencies\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Dependencies\imgui\imstb_truetype.h">
+      <Filter>Dependencies\Imgui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

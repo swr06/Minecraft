@@ -171,6 +171,10 @@
     <ClCompile Include="Core\Clouds\Cloud.cpp" />
     <ClCompile Include="Core\Clouds\CloudGenerator.cpp" />
     <ClCompile Include="Core\CubeRenderer.cpp" />
+    <ClCompile Include="Core\Dependencies\imgui\imgui.cpp" />
+    <ClCompile Include="Core\Dependencies\imgui\imgui_demo.cpp" />
+    <ClCompile Include="Core\Dependencies\imgui\imgui_draw.cpp" />
+    <ClCompile Include="Core\Dependencies\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Core\FpsCamera.cpp" />
     <ClCompile Include="Core\Maths\Frustum.cpp" />
     <ClCompile Include="Core\Maths\Plane.cpp" />
@@ -212,6 +216,12 @@
     <ClInclude Include="Core\Clouds\Cloud.h" />
     <ClInclude Include="Core\Clouds\CloudGenerator.h" />
     <ClInclude Include="Core\CubeRenderer.h" />
+    <ClInclude Include="Core\Dependencies\imgui\imconfig.h" />
+    <ClInclude Include="Core\Dependencies\imgui\imgui.h" />
+    <ClInclude Include="Core\Dependencies\imgui\imgui_internal.h" />
+    <ClInclude Include="Core\Dependencies\imgui\imstb_rectpack.h" />
+    <ClInclude Include="Core\Dependencies\imgui\imstb_textedit.h" />
+    <ClInclude Include="Core\Dependencies\imgui\imstb_truetype.h" />
     <ClInclude Include="Core\FpsCamera.h" />
     <ClInclude Include="Core\Maths\Frustum.h" />
     <ClInclude Include="Core\Maths\Plane.h" />
