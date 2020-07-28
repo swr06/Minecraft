@@ -4,50 +4,42 @@ namespace Minecraft
 {
 	void Player::OnUpdate(GLFWwindow* window)
 	{
-		static FPSCamera cam(45, 1336/768, 0.0f, 99.0f);
+		FPSCamera cam = p_Camera;
 		bool do_collision_check = false;
 		const float camera_speed = 0.25;
 
-		glm::vec3 prev_pos = p_Camera.GetPosition();
-
 		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		{
-			cam = p_Camera;
 			cam.ChangePosition(glm::vec3(cam.GetFront().x * camera_speed, 0.0f, cam.GetFront().z * camera_speed));
 			do_collision_check = true;
 		}
 
 		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 		{
-			cam = p_Camera;
 			cam.ChangePosition(-(glm::vec3(cam.GetFront().x * camera_speed, 0.0f, cam.GetFront().z * camera_speed)));
 			do_collision_check = true;
 		}
 			
 		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 		{
-			cam = p_Camera;
 			cam.ChangePosition(-(cam.GetRight() * camera_speed));
 			do_collision_check = true;
 		}
 
 		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		{
-			cam = p_Camera;
 			cam.ChangePosition(cam.GetRight() * camera_speed);
 			do_collision_check = true;
 		}
 
 		if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
 		{
-			cam = p_Camera;
 			cam.ChangePosition(cam.GetUp() * camera_speed);
 			do_collision_check = true;
 		}
 
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 		{
-			cam = p_Camera;
 			cam.ChangePosition(-(cam.GetUp() * camera_speed));
 			do_collision_check = true;
 		}
