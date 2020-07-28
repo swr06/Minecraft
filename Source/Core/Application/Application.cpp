@@ -57,11 +57,22 @@ void GLAPIENTRY gl_debug_callback(GLenum source, GLenum type, GLuint id,
 
 namespace Minecraft
 {
-	static bool ShouldCull = true;
+	static const constexpr bool ShouldInitializeImgui = false;
+	static const constexpr bool ShouldCull = true;
+
 	Application MinecraftApplication;
+
+	static void glfwErrorCallback(int error, const char* description)
+	{
+		fprintf(stderr, "GLFW ERROR!   %d: %s\n", error, description);
+	}
 
 	Application::Application()
 	{
+		const char* glsl_version = static_cast<const char*>("#version 130");
+
+		glfwSetErrorCallback(glfwErrorCallback);
+
         glfwInit();
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, GL_VERSION_MAJOR);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, GL_VERSION_MINOR);
@@ -102,6 +113,18 @@ namespace Minecraft
 			glDebugMessageCallback(gl_debug_callback, nullptr);
 #endif
 
+		// Setting up imgui context
+		if (ShouldInitializeImgui)
+		{
+			IMGUI_CHECKVERSION();
+			ImGui::CreateContext();
+			ImGuiIO& io = ImGui::GetIO(); (void)io;
+			ImGui::StyleColorsDark();
+
+			ImGui_ImplGlfw_InitForOpenGL(m_Window, true);
+			ImGui_ImplOpenGL3_Init(glsl_version);
+		}
+
         // Turn on depth 
         glEnable(GL_DEPTH_TEST);
         glDepthMask(GL_TRUE);
@@ -123,8 +146,29 @@ namespace Minecraft
 		glfwMaximizeWindow(m_Window);
 	}
 
+	Application::~Application()
+	{
+		if (ShouldInitializeImgui)
+		{
+			ImGui_ImplOpenGL3_Shutdown();
+			ImGui_ImplGlfw_Shutdown();
+			ImGui::DestroyContext();
+		}
+
+		glfwDestroyWindow(m_Window);
+
+		delete m_World;
+	}
+
 	void Application::OnUpdate()
 	{
+		if (ShouldInitializeImgui)
+		{
+			ImGui_ImplOpenGL3_NewFrame();
+			ImGui_ImplGlfw_NewFrame();
+			ImGui::NewFrame();
+		}
+
         // Poll the events
         PollEvents();
 
@@ -146,9 +190,22 @@ namespace Minecraft
 		// Render the world
         m_World->RenderWorld();
 
-        GLClasses::DisplayFrameRate(m_Window, "A Tiny Minecraft Clone V0.01 By Samuel Rasquinha");
+		if (ShouldInitializeImgui)
+		{
+			OnImGuiRender();
+			ImGui::Render();
+			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+		}
+
+		// Render imgui and swap the buffers after rendering ui components, world etc..
+		GLClasses::DisplayFrameRate(m_Window, "A Tiny Minecraft Clone V0.01 By Samuel Rasquinha");
         glfwSwapBuffers(m_Window);
         glfwPollEvents();
+	}
+
+	void Application::OnImGuiRender()
+	{
+		ImGui::ShowDemoWindow();
 	}
 
 	void Application::OnEvent(EventSystem::Event e)

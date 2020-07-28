@@ -2,8 +2,12 @@
 
 #define GLEW_STATIC
 #include <GL/glew.h>
-
 #include <GLFW/glfw3.h>
+
+// Include imgui
+#include "../Dependencies/imgui/imgui.h"
+#include "../Dependencies/imgui/imgui_impl_glfw.h"
+#include "../Dependencies/imgui/imgui_impl_opengl3.h"
 
 #include <iostream>
 
@@ -24,16 +28,14 @@ namespace Minecraft
 		GLFWwindow* m_Window;
 
 		Application();
-		~Application()
-		{
-			delete m_World;
-		}
+		~Application();
 
 		void OnUpdate();
 		inline World* GetWorld() { return m_World; }
 
 	private :
 
+		void OnImGuiRender();
 		void OnEvent(EventSystem::Event e);
 		void PollEvents();
 

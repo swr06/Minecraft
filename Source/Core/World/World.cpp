@@ -37,6 +37,7 @@ namespace Minecraft
 		int player_chunk_z = (int)floor(p_Player->p_Position.z / CHUNK_SIZE_Z);
 
 		std::uint32_t chunks_rendered = 0;
+		std::stringstream str;
 
 		int build_distance_x = render_distance_x + 2;
 		int build_distance_z = render_distance_z + 2;
@@ -356,11 +357,6 @@ namespace Minecraft
 		Chunk* chunk;
 		ChunkMesh* mesh;
 
-		chunk = RetrieveChunkFromMap(cx, cz);
-		mesh = chunk->GetChunkMesh();
-		mesh->ConstructMesh(chunk->m_ChunkContents, chunk->p_Position);
-		chunk->p_MeshState = ChunkMeshState::Built;
-
 		chunk = RetrieveChunkFromMap(cx + 1, cz);
 		mesh = chunk->GetChunkMesh();
 		mesh->ConstructMesh(chunk->m_ChunkContents, chunk->p_Position);
@@ -377,6 +373,11 @@ namespace Minecraft
 		chunk->p_MeshState = ChunkMeshState::Built;
 
 		chunk = RetrieveChunkFromMap(cx, cz - 1);
+		mesh = chunk->GetChunkMesh();
+		mesh->ConstructMesh(chunk->m_ChunkContents, chunk->p_Position);
+		chunk->p_MeshState = ChunkMeshState::Built;
+
+		chunk = RetrieveChunkFromMap(cx, cz);
 		mesh = chunk->GetChunkMesh();
 		mesh->ConstructMesh(chunk->m_ChunkContents, chunk->p_Position);
 		chunk->p_MeshState = ChunkMeshState::Built;

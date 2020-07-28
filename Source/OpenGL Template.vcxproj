@@ -126,7 +126,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Core\Dependencies\GLEW\include;$(SolutionDir)Core\Dependencies\GLFW\include;$(SolutionDir)Core\Dependencies\glm</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -174,7 +174,13 @@
     <ClCompile Include="Core\Dependencies\imgui\imgui.cpp" />
     <ClCompile Include="Core\Dependencies\imgui\imgui_demo.cpp" />
     <ClCompile Include="Core\Dependencies\imgui\imgui_draw.cpp" />
+    <ClCompile Include="Core\Dependencies\imgui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="Core\Dependencies\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="Core\Dependencies\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="Core\Dependencies\imgui\main.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Core\FpsCamera.cpp" />
     <ClCompile Include="Core\Maths\Frustum.cpp" />
     <ClCompile Include="Core\Maths\Plane.cpp" />
@@ -218,6 +224,8 @@
     <ClInclude Include="Core\CubeRenderer.h" />
     <ClInclude Include="Core\Dependencies\imgui\imconfig.h" />
     <ClInclude Include="Core\Dependencies\imgui\imgui.h" />
+    <ClInclude Include="Core\Dependencies\imgui\imgui_impl_glfw.h" />
+    <ClInclude Include="Core\Dependencies\imgui\imgui_impl_opengl3.h" />
     <ClInclude Include="Core\Dependencies\imgui\imgui_internal.h" />
     <ClInclude Include="Core\Dependencies\imgui\imstb_rectpack.h" />
     <ClInclude Include="Core\Dependencies\imgui\imstb_textedit.h" />

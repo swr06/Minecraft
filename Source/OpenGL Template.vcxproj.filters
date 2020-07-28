@@ -125,6 +125,15 @@
     <ClCompile Include="Core\Dependencies\imgui\imgui_widgets.cpp">
       <Filter>Dependencies\Imgui</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Dependencies\imgui\imgui_impl_glfw.cpp">
+      <Filter>Dependencies\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Dependencies\imgui\imgui_impl_opengl3.cpp">
+      <Filter>Dependencies\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Dependencies\imgui\main.cpp">
+      <Filter>Dependencies\Imgui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\OpenGL Classes\Fps.h">
@@ -272,6 +281,12 @@
       <Filter>Dependencies\Imgui</Filter>
     </ClInclude>
     <ClInclude Include="Core\Dependencies\imgui\imstb_truetype.h">
+      <Filter>Dependencies\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Dependencies\imgui\imgui_impl_glfw.h">
+      <Filter>Dependencies\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Dependencies\imgui\imgui_impl_opengl3.h">
       <Filter>Dependencies\Imgui</Filter>
     </ClInclude>
   </ItemGroup>
