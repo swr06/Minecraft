@@ -10,13 +10,16 @@ namespace Minecraft
 
 		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		{
-			cam.ChangePosition(glm::vec3(cam.GetFront().x * camera_speed, 0.0f, cam.GetFront().z * camera_speed));
+			// Take the cross product of the camera's right and up.
+			glm::vec3 front = -glm::cross(p_Camera.GetRight(), p_Camera.GetUp());
+			cam.ChangePosition(front * camera_speed);
 			do_collision_check = true;
 		}
 
 		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 		{
-			cam.ChangePosition(-(glm::vec3(cam.GetFront().x * camera_speed, 0.0f, cam.GetFront().z * camera_speed)));
+			glm::vec3 back = glm::cross(p_Camera.GetRight(), p_Camera.GetUp());
+			cam.ChangePosition(back * camera_speed);
 			do_collision_check = true;
 		}
 			
