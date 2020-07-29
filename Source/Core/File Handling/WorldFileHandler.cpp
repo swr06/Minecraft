@@ -30,7 +30,7 @@ namespace Minecraft
             const string save_dir = "Saves/";
             stringstream cdata_dir_s; // chunk data directory
             stringstream dir_s;
-            std::map<std::pair<int, int>, Chunk>* world_data = world->GetWorldData();
+            const std::map<std::pair<int,int>, Chunk>& world_data = world->GetWorldData();
 
             dir_s << save_dir << world_name << "/";
             cdata_dir_s << save_dir << world_name << "/chunks/";
@@ -42,9 +42,12 @@ namespace Minecraft
             std::filesystem::create_directories(cdata_dir_s.str());
 
             // Write the chunks
-            for (auto e = world_data->begin(); e != world_data->end(); e++)
+            for (auto e = world_data.begin() ; e != world_data.end() ; e++)
             {
-                ChunkFileHandler::WriteChunk(&e->second, cdata_dir_s.str());
+                if (e->second.p_ChunkState == ChunkState::Changed)
+                {
+                    ChunkFileHandler::WriteChunk((Chunk*)&e->second, cdata_dir_s.str());
+                }
             }
 
             // Writing the player data
@@ -83,7 +86,7 @@ namespace Minecraft
             player_file_dir << dir_s.str() << "player.bin";
             
             // iterate through all the files in the chunk directory and read the binary data  
-            for (const auto& entry : std::filesystem::directory_iterator(cdata_dir_s.str()))
+            for (auto entry : std::filesystem::directory_iterator(cdata_dir_s.str()))
             {
                 std::pair<int, int> chunk_loc = ParseChunkFilename(entry.path().filename().string());
                 Chunk* chunk = world->EmplaceChunkInMap(chunk_loc.first, chunk_loc.second);

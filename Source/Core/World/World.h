@@ -54,9 +54,9 @@ namespace Minecraft
 
 		Player* p_Player;
 
-		std::map<std::pair<int, int>, Chunk>* GetWorldData()
+		const std::map<std::pair<int, int>, Chunk>& GetWorldData()
 		{
-			return &m_WorldChunks;
+			return m_WorldChunks;
 		}
 
 		Chunk* EmplaceChunkInMap(int cx, int cz);

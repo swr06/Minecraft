@@ -39,16 +39,7 @@ namespace Minecraft
 				return false;
 			}
 
-			for (int i = 0; i < CHUNK_SIZE_X; i++)
-			{
-				for (int j = 0; j < CHUNK_SIZE_Y; j++)
-				{
-					for (int k = 0; k < CHUNK_SIZE_Z; k++)
-					{
-						fwrite(&chunk->m_ChunkContents->at(i).at(j).at(k), sizeof(Block), 1, outfile);
-					}
-				}
-			}
+			fwrite(chunk->m_ChunkContents, sizeof(Block), CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z, outfile);
 
 			fclose(outfile);
 			return true;
@@ -70,16 +61,7 @@ namespace Minecraft
 				return false;
 			}
 
-			for (int i = 0; i < CHUNK_SIZE_X; i++)
-			{
-				for (int j = 0; j < CHUNK_SIZE_Y; j++)
-				{
-					for (int k = 0; k < CHUNK_SIZE_Z; k++)
-					{
-						fread(&chunk->m_ChunkContents->at(i).at(j).at(k), sizeof(Block), 1, infile);
-					}
-				}
-			}
+			fread(chunk->m_ChunkContents, sizeof(Block), CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z, infile);
 
 			fclose(infile);
 			return true;

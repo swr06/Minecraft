@@ -137,13 +137,25 @@ namespace Minecraft
 		if (glfwRawMouseMotionSupported())
 			glfwSetInputMode(m_Window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
 
-        m_World = new World;
-		//m_World = WorldFileHandler::LoadWorld("WORLD_1");
+		bool load_world = false;
+
+		std::cout << "\nDo you want to load the saved world ? (1/0) : ";
+		std::cin >> load_world;
+		std::cout << "\n";
+
+		if (load_world)
+		{
+			m_World = WorldFileHandler::LoadWorld("WORLD_1");
+		}
+
+		else
+		{
+			m_World = new World;
+		}
 
         EventSystem::InitEventSystem(m_Window, &m_EventQueue);
 
 		// Resize window to the maximized view
-
 		glfwMaximizeWindow(m_Window);
 	}
 
