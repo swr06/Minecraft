@@ -389,7 +389,7 @@ namespace Minecraft
 		{
 			Timer timer(str.str());
 
-			m_WorldChunks.emplace(std::pair<int, int>(cx, cz), *(new Chunk(glm::vec3(cx, 1, cz))));
+			m_WorldChunks.emplace(std::pair<int, int>(cx, cz), glm::vec3(cx, 0, cz));
 			m_ChunkCount++;
 		}
 

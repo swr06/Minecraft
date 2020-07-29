@@ -156,6 +156,15 @@ namespace Minecraft
 			ImGui::DestroyContext();
 		}
 
+		bool save_world = false;
+		std::cout << "\n\n\n" << "Do you want to save your world ? (0/1) : "; 
+		std::cin >> save_world;
+
+		if (save_world)
+		{
+			WorldFileHandler::SaveWorld("WORLD_1", m_World);
+		}
+
 		glfwDestroyWindow(m_Window);
 
 		delete m_World;
