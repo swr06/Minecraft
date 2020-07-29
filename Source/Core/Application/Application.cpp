@@ -146,6 +146,12 @@ namespace Minecraft
 		if (load_world)
 		{
 			m_World = WorldFileHandler::LoadWorld("WORLD_1");
+
+			if (!m_World)
+			{
+				Logger::LogToConsole("Failed to load the world! reverting to generating a new world.");
+				m_World = new World;
+			}
 		}
 
 		else

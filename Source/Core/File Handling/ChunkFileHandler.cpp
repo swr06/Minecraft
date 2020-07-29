@@ -27,7 +27,7 @@ namespace Minecraft
 		{
 			FILE* outfile;
 			std::stringstream s;
-			std::string file_name = GenerateFileName(glm::vec2(chunk->p_Position.x, chunk->p_Position.y), dir);
+			std::string file_name = GenerateFileName(glm::vec2(chunk->p_Position.x, chunk->p_Position.z), dir);
 
 			outfile = fopen(file_name.c_str(), "w+");
 
@@ -39,7 +39,7 @@ namespace Minecraft
 				return false;
 			}
 
-			fwrite(chunk->m_ChunkContents, sizeof(Block), CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z, outfile);
+			fwrite(&chunk->p_ChunkContents, sizeof(Block), CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z, outfile);
 
 			fclose(outfile);
 			return true;
@@ -61,7 +61,7 @@ namespace Minecraft
 				return false;
 			}
 
-			fread(chunk->m_ChunkContents, sizeof(Block), CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z, infile);
+			fread(&chunk->p_ChunkContents, sizeof(Block), CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z, infile);
 
 			fclose(infile);
 			return true;

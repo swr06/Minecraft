@@ -73,31 +73,65 @@ namespace Minecraft
 
         World* LoadWorld(const std::string& world_name)
         {
-            World* world = new World;
             Player* player = new Player;
             stringstream cdata_dir_s; // chunk data directory
-            stringstream player_file_dir;
+            stringstream player_file_pth;
             stringstream dir_s; // world directory
 
             const string save_dir = "Saves/";
 
             dir_s << save_dir << world_name << "/";
             cdata_dir_s << save_dir << world_name << "/chunks/";
-            player_file_dir << dir_s.str() << "player.bin";
+            player_file_pth << dir_s.str() << "player.bin";
             
-            // iterate through all the files in the chunk directory and read the binary data  
-            for (auto entry : std::filesystem::directory_iterator(cdata_dir_s.str()))
+            if (std::filesystem::is_directory(dir_s.str()) && std::filesystem::is_directory(cdata_dir_s.str()))
             {
-                std::pair<int, int> chunk_loc = ParseChunkFilename(entry.path().filename().string());
-                Chunk* chunk = world->EmplaceChunkInMap(chunk_loc.first, chunk_loc.second);
-                ChunkFileHandler::ReadChunk(chunk, entry.path().string());
+                World* world = new World;
+
+                // iterate through all the files in the chunk directory and read the binary data  
+                for (auto entry : std::filesystem::directory_iterator(cdata_dir_s.str()))
+                {
+                    std::pair<int, int> chunk_loc = ParseChunkFilename(entry.path().filename().string());
+                    Chunk* chunk = world->EmplaceChunkInMap(chunk_loc.first, chunk_loc.second);
+                    ChunkFileHandler::ReadChunk(chunk, entry.path().string());
+                }
+
+                // set the player data
+
+                FILE* player_data_file;
+                PlayerData player_data = { world->p_Player->p_Camera, world->p_Player->p_Position };
+
+                if (std::filesystem::exists(player_file_pth.str()))
+                {
+                    player_data_file = fopen(player_file_pth.str().c_str(), "r");
+                    fread(&player_data, sizeof(PlayerData), 1, player_data_file);
+                    fclose(player_data_file);
+                }
+
+                else
+                {
+                    stringstream s;
+                    s << "Couldn't load player data from world dir ! PATH : " << player_file_pth.str() << "  IS INVALID!";
+
+                    Logger::LogToConsole(s.str());
+                }
+
+                // Set the player data
+                world->p_Player->p_Camera = player_data.camera;
+                world->p_Player->p_Position = player_data.position;
+
+                return world;
             }
 
-            // set the player data
+            else
+            {
+                std::stringstream s;
 
-            PlayerData player_data = { world->p_Player->p_Camera, world->p_Player->p_Position };
+                s << "WORLD LOADING FAILED! PATH : " << dir_s.str() << "  IS INVALID!";
+                Logger::LogToConsole(s.str());
 
-            return world;
+                return nullptr;
+            }
         }
     }
 }

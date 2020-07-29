@@ -33,7 +33,7 @@ namespace Minecraft
         if (MinecraftApplication.GetWorld() && MinecraftApplication.GetWorld()->ChunkExistsInMap(cx, cz))
         {
             Chunk* chunk = MinecraftApplication.GetWorld()->RetrieveChunkFromMap(cx, cz);
-            return chunk->m_ChunkContents;
+            return &chunk->p_ChunkContents;
         }
 
         return nullptr;

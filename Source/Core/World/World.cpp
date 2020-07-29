@@ -107,7 +107,7 @@ namespace Minecraft
 				if (chunk->p_MeshState == ChunkMeshState::Unbuilt)
 				{
 					ChunkMesh* mesh = chunk->GetChunkMesh();
- 					mesh->ConstructMesh(chunk->m_ChunkContents, chunk->p_Position);
+ 					mesh->ConstructMesh(&chunk->p_ChunkContents, chunk->p_Position);
 					chunk->p_MeshState = ChunkMeshState::Built;
 				}
 
@@ -181,7 +181,7 @@ namespace Minecraft
 
 		Chunk* chunk = RetrieveChunkFromMap(block_chunk_x, block_chunk_z);
 
-		return { &chunk->m_ChunkContents->at(bx).at(by).at(bz), chunk };
+		return { &chunk->p_ChunkContents.at(bx).at(by).at(bz), chunk };
 	}
 
 	// Sets a world block from position
@@ -203,7 +203,7 @@ namespace Minecraft
 		int block_chunk_z = static_cast<int>(floor(block_loc.z / CHUNK_SIZE_Z));
 
 		Chunk* chunk = RetrieveChunkFromMap(block_chunk_x, block_chunk_z);
-		return { &chunk->m_ChunkContents->at(block_loc.x).at(block_loc.y).at(block_loc.z), chunk };
+		return { &chunk->p_ChunkContents.at(block_loc.x).at(block_loc.y).at(block_loc.z), chunk };
 	}
 
 	// Returns the type of block at a position
@@ -215,7 +215,7 @@ namespace Minecraft
 		int by = static_cast<int>(floor(pos.y));
 		int bz = pos.z - (block_chunk_z * CHUNK_SIZE_Z);
 
-		return static_cast<BlockType>(RetrieveChunkFromMap(block_chunk_x, block_chunk_z)->m_ChunkContents->at(bx).at(by).at(bz).p_BlockType);
+		return static_cast<BlockType>(RetrieveChunkFromMap(block_chunk_x, block_chunk_z)->p_ChunkContents.at(bx).at(by).at(bz).p_BlockType);
 	}
 
 	// Converts world pixel coordinates to world block position
@@ -335,27 +335,27 @@ namespace Minecraft
 
 		chunk = RetrieveChunkFromMap(cx + 1, cz);
 		mesh = chunk->GetChunkMesh();
-		mesh->ConstructMesh(chunk->m_ChunkContents, chunk->p_Position);
+		mesh->ConstructMesh(&chunk->p_ChunkContents, chunk->p_Position);
 		chunk->p_MeshState = ChunkMeshState::Built;
 
 		chunk = RetrieveChunkFromMap(cx - 1, cz);
 		mesh = chunk->GetChunkMesh();
-		mesh->ConstructMesh(chunk->m_ChunkContents, chunk->p_Position);
+		mesh->ConstructMesh(&chunk->p_ChunkContents, chunk->p_Position);
 		chunk->p_MeshState = ChunkMeshState::Built;
 
 		chunk = RetrieveChunkFromMap(cx, cz + 1);
 		mesh = chunk->GetChunkMesh();
-		mesh->ConstructMesh(chunk->m_ChunkContents, chunk->p_Position);
+		mesh->ConstructMesh(&chunk->p_ChunkContents, chunk->p_Position);
 		chunk->p_MeshState = ChunkMeshState::Built;
 
 		chunk = RetrieveChunkFromMap(cx, cz - 1);
 		mesh = chunk->GetChunkMesh();
-		mesh->ConstructMesh(chunk->m_ChunkContents, chunk->p_Position);
+		mesh->ConstructMesh(&chunk->p_ChunkContents, chunk->p_Position);
 		chunk->p_MeshState = ChunkMeshState::Built;
 
 		chunk = RetrieveChunkFromMap(cx, cz);
 		mesh = chunk->GetChunkMesh();
-		mesh->ConstructMesh(chunk->m_ChunkContents, chunk->p_Position);
+		mesh->ConstructMesh(&chunk->p_ChunkContents, chunk->p_Position);
 		chunk->p_MeshState = ChunkMeshState::Built;
 	}
 
