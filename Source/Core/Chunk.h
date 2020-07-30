@@ -37,17 +37,7 @@ namespace Minecraft
 		{
 			// Initialize all the blocks in the chunk to be air blocks
 
-			for (int i = 0; i < CHUNK_SIZE_X; i++)
-			{
-				for (int j = 0; j < CHUNK_SIZE_Y; j++)
-				{
-					for (int k = 0; k < CHUNK_SIZE_Z; k++)
-					{
-						p_ChunkContents.at(i).at(j).at(k).p_BlockType = BlockType::Air;
-					}
-				}
-			}
-
+			memset(&p_ChunkContents, BlockType::Air, CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z);
 		}
 
 		~Chunk()

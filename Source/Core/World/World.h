@@ -88,5 +88,6 @@ namespace Minecraft
 		GLClasses::Texture m_CrosshairTexture;
 		std::uint8_t m_CurrentHeldBlock = 0;
 		long long m_CurrentFrame;
+		int m_WorldSeed = 1569;
 	};
 }

@@ -86,10 +86,9 @@ namespace Minecraft
         }
     }
 
-    void GenerateChunk(Chunk* chunk)
+    void GenerateChunk(Chunk* chunk, const int WorldSeed)
     {
         static Random SeedEngine;
-        static unsigned int WorldSeed = 1569;
         static Random WorldTreeGenerator(WorldSeed);
         static FastNoise WorldGenerator(WorldSeed);
         static FastNoise WorldGeneratorMultiply_1(WorldSeed);

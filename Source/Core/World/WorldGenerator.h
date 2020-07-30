@@ -27,6 +27,6 @@ namespace Minecraft
 		Jungle
 	};
 
-	void GenerateChunk(Chunk* chunk);
+	void GenerateChunk(Chunk* chunk, const int WorldSeed);
 
 }

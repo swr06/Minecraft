@@ -57,7 +57,7 @@ namespace Minecraft
             stringstream player_data_file_dir;
             
             player_data_file_dir << dir_s.str() << "player.bin";
-            FILE* player_data_file = fopen(player_data_file_dir.str().c_str(), "w+");
+            FILE* player_data_file = fopen(player_data_file_dir.str().c_str(), "wb+");
             
             if (!player_data_file)
             {
@@ -67,6 +67,9 @@ namespace Minecraft
             
             fwrite((void*)&player_data, sizeof(PlayerData), 1, player_data_file);
             fclose(player_data_file);
+
+            // A file that has the seed of the world etc..
+            FILE* world_data_file;
 
             return true;
         }
@@ -103,7 +106,7 @@ namespace Minecraft
 
                 if (std::filesystem::exists(player_file_pth.str()))
                 {
-                    player_data_file = fopen(player_file_pth.str().c_str(), "r");
+                    player_data_file = fopen(player_file_pth.str().c_str(), "rb");
                     fread(&player_data, sizeof(PlayerData), 1, player_data_file);
                     fclose(player_data_file);
                 }

@@ -57,7 +57,7 @@ namespace Minecraft
 				if (ChunkExistsInMap(i, j) == false)
 				{
 					Chunk* chunk = EmplaceChunkInMap(i, j);
-					GenerateChunk(chunk);
+					GenerateChunk(chunk, m_WorldSeed);
 					chunk->p_MeshState = ChunkMeshState::Unbuilt;
 				}
 			}
