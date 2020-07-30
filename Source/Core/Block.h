@@ -12,16 +12,36 @@ namespace Minecraft
 {
 	class Chunk;
 
-	enum BlockType
+	enum BlockType : std::uint8_t
 	{
 		Grass = 0,
 		Dirt,
 		Stone,
-		Leaf,
-		Wood,
+		Cobblestone,
+		StoneBricks,
+		CarvedStone,
+		OakLeaves,
+		SpruceLeaves,
+		OakLog,
 		Cactus,
 		Sand,
-		Water,
+		OakPlanks,
+		AcaciaPlanks,
+		DarkOakPlanks,
+		Bricks,
+		GlassWhite,
+		Lamp_On,
+		Lamp_Off,
+		WoolRed,
+		WoolGreen,
+		WoolBlue,
+		WoolYellow,
+
+		// Liquid or gas blocks
+		Water, // To add
+		Lava, // To add
+		Snow, // To add
+		Slime, // To add
 		Air
 	};
 
