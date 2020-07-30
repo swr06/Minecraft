@@ -8,7 +8,8 @@ namespace Minecraft
 		static std::array<GLfloat, 8> DirtBlockTexture[4];
 		static std::array<GLfloat, 8> StoneBlockTexture;
 		static std::array<GLfloat, 8> CobblestoneBlockTexture;
-		static std::array<GLfloat, 8> LeafBlockTexture;
+		static std::array<GLfloat, 8> OakLeafBlockTexture;
+		static std::array<GLfloat, 8> SpruceBlockTexture;
 		static std::array<GLfloat, 8> SandBlockTexture;
 		static std::array<GLfloat, 8> CactusBlockTexture[3];
 		static std::array<GLfloat, 8> WoodBlockTexture[2];
@@ -27,12 +28,12 @@ namespace Minecraft
 			CobblestoneBlockTexture = BlockTextureAtlas.Sample(glm::vec2(5, 5), glm::vec2(6, 6));
 			WoodBlockTexture[0] = BlockTextureAtlas.Sample(glm::vec2(6, 6), glm::vec2(7, 7));
 			WoodBlockTexture[1] = BlockTextureAtlas.Sample(glm::vec2(7, 7), glm::vec2(8, 8));
-			LeafBlockTexture = BlockTextureAtlas.Sample(glm::vec2(8, 8), glm::vec2(9, 9));
-			SandBlockTexture = BlockTextureAtlas.Sample(glm::vec2(9, 9), glm::vec2(10, 10));
-			CactusBlockTexture[0] = BlockTextureAtlas.Sample(glm::vec2(10, 10), glm::vec2(11, 11));
-			CactusBlockTexture[2] = BlockTextureAtlas.Sample(glm::vec2(11, 11), glm::vec2(12, 12));
-			CactusBlockTexture[1] = BlockTextureAtlas.Sample(glm::vec2(12, 12), glm::vec2(13, 13));
-			WoodPlankTexture = BlockTextureAtlas.Sample(glm::vec2(13, 13), glm::vec2(14, 14));
+			OakLeafBlockTexture = BlockTextureAtlas.Sample(glm::vec2(8, 8), glm::vec2(9, 9));
+			SpruceBlockTexture = BlockTextureAtlas.Sample(glm::vec2(9, 9), glm::vec2(10, 10));
+			SandBlockTexture = BlockTextureAtlas.Sample(glm::vec2(10, 10), glm::vec2(11, 11));
+			CactusBlockTexture[0] = BlockTextureAtlas.Sample(glm::vec2(11, 11), glm::vec2(12, 12));
+			CactusBlockTexture[2] = BlockTextureAtlas.Sample(glm::vec2(12, 12), glm::vec2(13, 13));
+			CactusBlockTexture[1] = BlockTextureAtlas.Sample(glm::vec2(13, 13), glm::vec2(14, 14));
 		}
 
 		switch (block_type)
@@ -93,7 +94,7 @@ namespace Minecraft
 
 		case BlockType::Leaf:
 		{
-			return LeafBlockTexture;
+			return OakLeafBlockTexture;
 			break;
 		}
 

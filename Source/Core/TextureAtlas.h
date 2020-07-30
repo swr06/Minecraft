@@ -52,12 +52,12 @@ namespace GLClasses
 			y2 = y2 / m_Atlas->GetHeight();
 
 			TextureCoordinates[0] = x2;
-			TextureCoordinates[1] = y2;
-			TextureCoordinates[2] = x2;
+			TextureCoordinates[1] = y1;
+			TextureCoordinates[2] = x1;
 			TextureCoordinates[3] = y1;
 			TextureCoordinates[4] = x1;
-			TextureCoordinates[5] = y1;
-			TextureCoordinates[6] = x1;
+			TextureCoordinates[5] = y2;
+			TextureCoordinates[6] = x2;
 			TextureCoordinates[7] = y2;
 
 			return TextureCoordinates;

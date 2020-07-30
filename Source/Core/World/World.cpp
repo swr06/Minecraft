@@ -371,6 +371,7 @@ namespace Minecraft
 		return true;
 	}
 
+	// Gets an existing chunk from the map
 	Chunk* World::RetrieveChunkFromMap(int cx, int cz)
 	{
 		return &m_WorldChunks.at(std::pair<int, int>(cx, cz));

@@ -139,13 +139,17 @@ namespace Minecraft
 
 		bool load_world = false;
 
-		std::cout << "\nDo you want to load the saved world ? (1/0) : ";
+		std::cout << "\nDo you want to load a saved world ? (1/0) : ";
 		std::cin >> load_world;
 		std::cout << "\n";
 
 		if (load_world)
 		{
-			m_World = WorldFileHandler::LoadWorld("WORLD_1");
+			std::string world_name;
+			std::cout << "Please enter the name of the saved world : ";
+			std::cin >> world_name;
+
+			m_World = WorldFileHandler::LoadWorld(world_name);
 
 			if (!m_World)
 			{
@@ -180,7 +184,10 @@ namespace Minecraft
 
 		if (save_world)
 		{
-			WorldFileHandler::SaveWorld("WORLD_1", m_World);
+			std::string world_name;
+			std::cout << "\nPlease enter the name of your world : ";
+			std::cin >> world_name;
+			WorldFileHandler::SaveWorld(world_name, m_World);
 		}
 
 		glfwDestroyWindow(m_Window);

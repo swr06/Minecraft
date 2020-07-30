@@ -1,3 +1,9 @@
+/*
+Name : Samuel Wesley Rasquinha
+Email : samuelrasquinha@gmail.com
+Github : @swr06
+*/
+
 #define GLEW_STATIC
 #include <GL/glew.h>
 
