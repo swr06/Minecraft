@@ -151,7 +151,17 @@ namespace Minecraft
 			m_CrosshairPosition = std::pair <float,float> (e.wx / 2, e.wy / 2);
 		}
 
-		if (e.type == EventSystem::EventTypes::MousePress)
+		if (e.type == EventSystem::EventTypes::KeyPress && e.key == GLFW_KEY_Q)
+		{
+			m_CurrentHeldBlock++;
+
+			if (m_CurrentHeldBlock == BlockType::WoolYellow + 1)
+			{
+				m_CurrentHeldBlock = 0;
+			}
+		}
+
+		else if (e.type == EventSystem::EventTypes::MousePress)
 		{
 			switch (e.button)
 			{
@@ -303,7 +313,7 @@ namespace Minecraft
 
 						if (place)
 						{
-							edit_block.first->p_BlockType = BlockType::Dirt;
+							edit_block.first->p_BlockType = static_cast<BlockType>(m_CurrentHeldBlock);
 						}
 
 						else

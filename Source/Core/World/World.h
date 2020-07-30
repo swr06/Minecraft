@@ -86,6 +86,7 @@ namespace Minecraft
 		OrthographicCamera m_Camera2D;
 		CloudManager m_CloudManager;
 		GLClasses::Texture m_CrosshairTexture;
+		std::uint8_t m_CurrentHeldBlock = 0;
 		long long m_CurrentFrame;
 	};
 }

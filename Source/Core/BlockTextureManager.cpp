@@ -39,6 +39,7 @@ namespace Minecraft
 
 		// Transparent blocks
 		static std::array<GLfloat, 8> GlassWhiteTexture;
+		static std::array<GLfloat, 8> UndefinedTexture;
 
 		/// ///
 
@@ -74,6 +75,7 @@ namespace Minecraft
 			WoolGreenTexture = BlockTextureAtlas.Sample(glm::vec2(24, 24), glm::vec2(25, 25));
 			WoolBlueTexture = BlockTextureAtlas.Sample(glm::vec2(25, 25), glm::vec2(26, 26));
 			WoolYellowTexture = BlockTextureAtlas.Sample(glm::vec2(26, 26), glm::vec2(27, 27));
+			UndefinedTexture = BlockTextureAtlas.Sample(glm::vec2(27, 27), glm::vec2(28, 28));
 		}
 
 		switch (block_type)
@@ -123,6 +125,12 @@ namespace Minecraft
 		case BlockType::Stone:
 		{
 			return StoneBlockTexture;
+			break;
+		}
+
+		case BlockType::Cobblestone : 
+		{
+			return CobblestoneBlockTexture;
 			break;
 		}
 
@@ -259,6 +267,12 @@ namespace Minecraft
 		case BlockType::WoolYellow:
 		{
 			return WoolYellowTexture;
+			break;
+		}
+
+		default : 
+		{
+			return UndefinedTexture;
 			break;
 		}
 		}

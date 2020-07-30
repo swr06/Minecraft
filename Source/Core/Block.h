@@ -42,7 +42,9 @@ namespace Minecraft
 		Lava, // To add
 		Snow, // To add
 		Slime, // To add
-		Air
+		Air,
+
+		UnknownBlockType
 	};
 
 	struct Block
