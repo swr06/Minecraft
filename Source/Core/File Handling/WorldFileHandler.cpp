@@ -40,11 +40,30 @@ namespace Minecraft
             dir_s << save_dir << world_name << "/";
             cdata_dir_s << save_dir << world_name << "/chunks/";
 
-            // Delete the previous world data
-            std::filesystem::remove_all(dir_s.str());
+            // If the directory already exists check if the two worlds is compatible 
+            if (!std::filesystem::exists(dir_s.str()))
+            {
+                // Create the new folder
+                std::filesystem::create_directories(cdata_dir_s.str());
+            }
 
-            // Create the new folder
-            std::filesystem::create_directories(cdata_dir_s.str());
+            else
+            {
+                std::stringstream existing_world_file_s;
+                existing_world_file_s << dir_s.str() << "world.bin";
+
+                FILE* existing_world_file = fopen(existing_world_file_s.str().c_str(), "rb");
+                WorldData previous_save_data;
+
+                fread(&previous_save_data, sizeof(WorldData), 1, existing_world_file);
+                fclose(existing_world_file);
+
+                if (previous_save_data.seed != world->GetSeed())
+                {
+                    Logger::LogToConsole("There is another incompatible world with the same name! World cannot be saved!");
+                    return false;
+                }
+            }
 
             // Write the chunks
             for (auto e = world_data.begin() ; e != world_data.end() ; e++)
@@ -80,7 +99,7 @@ namespace Minecraft
 
             world_data_file_pth << dir_s.str() << "world.bin";
             world_data_file = fopen(world_data_file_pth.str().c_str(), "wb+");
-            
+
             if (!world_data_file)
             {
                 Logger::LogToConsole("WORLD SAVING ERROR!   |   UNABLE TO OPEN WORLD DATA FILE TO WRITE!");

@@ -61,6 +61,9 @@ int main()
         Minecraft::MinecraftApplication.OnUpdate();
     }
 
+    std::cin.get();
+    std::cin.get();
+
     return 0;
 }
 
