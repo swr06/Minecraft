@@ -2,7 +2,7 @@
 
 namespace Minecraft
 {
-	int render_distance_x = 2, render_distance_z = 2;
+	int render_distance_x = 4, render_distance_z = 4;
 
 	static void PrintVec3(const glm::vec3& val)
 	{
@@ -10,7 +10,7 @@ namespace Minecraft
 		return;
 	}
 
-	World::World() : m_Camera2D(0.0f, (float)DEFAULT_WINDOW_X, 0.0f, (float)DEFAULT_WINDOW_Y)
+	World::World(int seed) : m_Camera2D(0.0f, (float)DEFAULT_WINDOW_X, 0.0f, (float)DEFAULT_WINDOW_Y), m_WorldSeed(seed)
 	{
 		// Generate all the chunks 
 
@@ -39,11 +39,11 @@ namespace Minecraft
 		std::uint32_t chunks_rendered = 0;
 		std::stringstream str;
 
-		int build_distance_x = render_distance_x + 2;
-		int build_distance_z = render_distance_z + 2;
+		int build_distance_x = render_distance_x + 4;
+		int build_distance_z = render_distance_z + 4;
 
 		/*
-		build_distance_x and build_distance_z is the build distance. It is needed to build 1 chunk
+		build_distance_x and build_distance_z is the build distance. It is needed to build `x` chunk
 		more than what is required in order for the meshing process to work properly
 
 		For this it is required to first generate all the chunks that are needed to be generated.
@@ -405,5 +405,10 @@ namespace Minecraft
 		}
 
 		return &m_WorldChunks.at(std::pair<int, int>(cx, cz));
+	}
+
+	int World::GetSeed()
+	{
+		return m_WorldSeed;
 	}
 }

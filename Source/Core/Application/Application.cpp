@@ -138,6 +138,7 @@ namespace Minecraft
 			glfwSetInputMode(m_Window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
 
 		bool load_world = false;
+		int seed;
 
 		std::cout << "\nDo you want to load a saved world ? (1/0) : ";
 		std::cin >> load_world;
@@ -154,13 +155,18 @@ namespace Minecraft
 			if (!m_World)
 			{
 				Logger::LogToConsole("Failed to load the world! reverting to generating a new world.");
-				m_World = new World;
+				std::cout << "Enter the seed (int) : ";
+				std::cin >> seed;
+				m_World = new World(seed);
 			}
 		}
 
 		else
 		{
-			m_World = new World;
+			std::cout << "Enter the seed (int) : ";
+			std::cin >> seed;
+
+			m_World = new World(seed);
 		}
 
         EventSystem::InitEventSystem(m_Window, &m_EventQueue);
@@ -179,7 +185,7 @@ namespace Minecraft
 		}
 
 		bool save_world = false;
-		std::cout << "\n\n\n" << "Do you want to save your world ? (0/1) : "; 
+		std::cout << "\n\n\n" << "Do you want to save your world ? (1/0) : "; 
 		std::cin >> save_world;
 
 		if (save_world)

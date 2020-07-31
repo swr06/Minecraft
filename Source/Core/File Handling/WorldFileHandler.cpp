@@ -10,6 +10,11 @@ namespace Minecraft
             glm::vec3 position;
         };
 
+        struct WorldData
+        {
+            int seed;
+        };
+
         // takes in a string such as "-1, 2" and outputs an std::pair<int,int>
         std::pair<int, int> ParseChunkFilename(const std::string& str)
         {
@@ -61,7 +66,7 @@ namespace Minecraft
             
             if (!player_data_file)
             {
-                Logger::LogToConsole("WORLD SAVING ERROR!   |   UNABLE TO OPEN PLAYER DATA FILE!");
+                Logger::LogToConsole("WORLD SAVING ERROR!   |   UNABLE TO OPEN PLAYER DATA FILE TO WRITE!");
                 return false;
             }
             
@@ -70,6 +75,20 @@ namespace Minecraft
 
             // A file that has the seed of the world etc..
             FILE* world_data_file;
+            WorldData world_data_w = { world->GetSeed() }; // the world data to write in the world.bin file
+            stringstream world_data_file_pth;
+
+            world_data_file_pth << dir_s.str() << "world.bin";
+            world_data_file = fopen(world_data_file_pth.str().c_str(), "wb+");
+            
+            if (!world_data_file)
+            {
+                Logger::LogToConsole("WORLD SAVING ERROR!   |   UNABLE TO OPEN WORLD DATA FILE TO WRITE!");
+                return false;
+            }
+
+            fwrite(&world_data_w, sizeof(WorldData), 1, world_data_file);
+            fclose(world_data_file);
 
             return true;
         }
@@ -79,6 +98,7 @@ namespace Minecraft
             Player* player = new Player;
             stringstream cdata_dir_s; // chunk data directory
             stringstream player_file_pth;
+            stringstream world_file_pth;
             stringstream dir_s; // world directory
 
             const string save_dir = "Saves/";
@@ -86,10 +106,17 @@ namespace Minecraft
             dir_s << save_dir << world_name << "/";
             cdata_dir_s << save_dir << world_name << "/chunks/";
             player_file_pth << dir_s.str() << "player.bin";
+            world_file_pth << dir_s.str() << "world.bin";
+
+            FILE* world_file = fopen(world_file_pth.str().c_str(), "rb");
             
-            if (std::filesystem::is_directory(dir_s.str()) && std::filesystem::is_directory(cdata_dir_s.str()))
+            if (std::filesystem::is_directory(dir_s.str()) && std::filesystem::is_directory(cdata_dir_s.str()) && world_file_pth)
             {
-                World* world = new World;
+                WorldData world_data;
+                fread(&world_data, sizeof(WorldData), 1, world_file);
+                fclose(world_file);
+
+                World* world = new World(world_data.seed);
 
                 // iterate through all the files in the chunk directory and read the binary data  
                 for (auto entry : std::filesystem::directory_iterator(cdata_dir_s.str()))

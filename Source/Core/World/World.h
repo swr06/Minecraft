@@ -34,9 +34,9 @@ namespace Minecraft
 {
 	class World
 	{
-	public : 
+	public:
 
-		World();
+		World(int seed);
 		~World();
 
 		void OnUpdate(GLFWwindow* window);
@@ -60,6 +60,8 @@ namespace Minecraft
 		}
 
 		Chunk* EmplaceChunkInMap(int cx, int cz);
+		int GetSeed();
+
 	private:
 		void RenderChunkFromMap(int cx, int cz);
 		void UnloadFarChunks();
@@ -67,7 +69,7 @@ namespace Minecraft
 		void DoCollisionTests();
 		void UpdateSurroundingChunks(int cx, int cz);
 
-	
+
 		bool ChunkInViewFrustum(Chunk* chunk);
 
 		uint32_t m_ChunkCount;
@@ -77,7 +79,7 @@ namespace Minecraft
 		Renderer m_Renderer;
 		Renderer2D m_Renderer2D;
 		CubeRenderer m_CubeRenderer;
-		
+
 		std::map<std::pair<int, int>, Chunk> m_WorldChunks;
 		Skybox m_Skybox;
 		glm::vec3 m_StartRay;
@@ -88,6 +90,6 @@ namespace Minecraft
 		GLClasses::Texture m_CrosshairTexture;
 		std::uint8_t m_CurrentHeldBlock = 0;
 		long long m_CurrentFrame;
-		int m_WorldSeed = 1569;
+		const int m_WorldSeed;
 	};
 }
