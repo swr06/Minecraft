@@ -1,31 +1,41 @@
 #version 330 core
-out vec4 FragColor;
-  
-uniform vec3 u_ObjectColor;
-uniform vec3 u_DiffuseLightColor;
-uniform vec3 u_DiffuseLightPosition;
-uniform vec3 u_ViewerPosition;
+out vec4 o_Color;
 
-in vec3 v_Normal;
-in vec3 v_FragPos;
+in vec3 v_Normal;  
+in vec3 v_FragPos;  
+  
+uniform vec3 u_LightPos; 
+uniform vec3 u_ViewPos; 
+uniform vec3 u_LightColor;
+uniform vec3 u_ObjectColor;
 
 void main()
 {
-    const float ambient_strength = 0.2f;
-    const float specular_strength = 0.5f;
+    // ambient
+    const float ambient_strength = 0.1;
+    const float specular_strength = 0.6;
+    const float specular_component = 4;
 
-    vec3 normal = normalize(v_Normal);
-    vec3 light_dir = normalize(u_DiffuseLightPosition - v_FragPos);
-    vec3 ambient = u_DiffuseLightColor * ambient_strength;
+    vec3 ambient = ambient_strength * u_LightColor;
+  
+    vec3 norm = normalize(v_Normal);
+    vec3 light_dir = normalize(u_LightPos - v_FragPos);
+    float diff = max(dot(norm, light_dir), 0.0);
+    vec3 diffuse = diff * u_LightColor;
+   
+    vec3 view_dir = normalize(u_ViewPos - v_FragPos);
 
-    vec3 view_direction = normalize(u_ViewerPosition - v_FragPos);
-    vec3 reflect_direction = reflect(-light_dir, normal);
-    float spec = pow(max(dot(view_direction, reflect_direction), 0.0), 1.0f);
-    vec3 specular = specular_strength * spec * u_DiffuseLightColor;  
+    // Normal lighting (Phong)
+    //vec3 reflect_dir = reflect(-light_dir, norm);  
+    //float spec = pow(max(dot(view_dir, reflect_dir), 0.0), specular_component);
 
-    float diff = max(dot(normal, light_dir), 0.0f);
-    vec3 diffuse = diff * u_DiffuseLightColor;
-    vec3 result = diffuse + ambient + specular;
+    // Uses blinn - phong
+    vec3 halfway_dir = normalize(light_dir + view_dir);  
+    float spec = pow(max(dot(norm, halfway_dir), 0.0), specular_component);
 
-    FragColor = vec4(result * u_ObjectColor, 1.0);
-}
+    vec3 specular = specular_strength * spec * u_LightColor;  
+    vec3 result = (ambient + diffuse + specular) * u_ObjectColor;
+
+    // Output the color
+    o_Color = vec4(result, 1.0);
+} 
