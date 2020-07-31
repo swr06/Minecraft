@@ -275,6 +275,8 @@
     <None Include="Shaders\CloudShaderVert.glsl" />
     <None Include="Shaders\CubeRendererFrag.glsl" />
     <None Include="Shaders\CubeRendererVert.glsl" />
+    <None Include="Shaders\LightingFrag.glsl" />
+    <None Include="Shaders\LightingVert.glsl" />
     <None Include="Shaders\SkyboxFrag.glsl" />
     <None Include="Shaders\SkyboxVertex.glsl" />
   </ItemGroup>

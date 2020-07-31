@@ -425,6 +425,12 @@
     <None Include="Shaders\CloudShaderVert.glsl">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="Shaders\LightingFrag.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\LightingVert.glsl">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\block_atlas.png">
