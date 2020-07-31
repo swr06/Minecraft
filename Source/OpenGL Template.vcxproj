@@ -183,6 +183,7 @@
     <ClCompile Include="Core\File Handling\ChunkFileHandler.cpp" />
     <ClCompile Include="Core\File Handling\WorldFileHandler.cpp" />
     <ClCompile Include="Core\FpsCamera.cpp" />
+    <ClCompile Include="Core\Lighting\PhongLighting.cpp" />
     <ClCompile Include="Core\Maths\Frustum.cpp" />
     <ClCompile Include="Core\Maths\Plane.cpp" />
     <ClCompile Include="Core\Noise\FastNoise.cpp" />
@@ -233,6 +234,7 @@
     <ClInclude Include="Core\File Handling\ChunkFileHandler.h" />
     <ClInclude Include="Core\File Handling\WorldFileHandler.h" />
     <ClInclude Include="Core\FpsCamera.h" />
+    <ClInclude Include="Core\Lighting\PhongLighting.h" />
     <ClInclude Include="Core\Maths\Frustum.h" />
     <ClInclude Include="Core\Maths\Plane.h" />
     <ClInclude Include="Core\Noise\FastNoise.h" />
@@ -278,6 +280,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\block_atlas.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Core\Lighting\Readme.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

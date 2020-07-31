@@ -137,6 +137,9 @@
     <ClCompile Include="Core\File Handling\WorldFileHandler.cpp">
       <Filter>Minecraft\Saving and Loading</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Lighting\PhongLighting.cpp">
+      <Filter>Minecraft\Lighting %28Experimental%29</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\OpenGL Classes\Fps.h">
@@ -295,6 +298,9 @@
     <ClInclude Include="Core\File Handling\WorldFileHandler.h">
       <Filter>Minecraft\Saving and Loading</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Lighting\PhongLighting.h">
+      <Filter>Minecraft\Lighting %28Experimental%29</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Dependencies">
@@ -384,6 +390,9 @@
     <Filter Include="Minecraft\Saving and Loading">
       <UniqueIdentifier>{ded19b04-3225-4429-ac74-37d5cc9c83dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Minecraft\Lighting %28Experimental%29">
+      <UniqueIdentifier>{7d8cbce7-5a69-48b5-97ac-748e728588b5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\BlockRendererFrag.glsl">
@@ -421,5 +430,10 @@
     <Image Include="Resources\block_atlas.png">
       <Filter>Resources</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Core\Lighting\Readme.txt">
+      <Filter>Minecraft\Lighting %28Experimental%29</Filter>
+    </Text>
   </ItemGroup>
 </Project>
