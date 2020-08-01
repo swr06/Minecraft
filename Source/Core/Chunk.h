@@ -35,67 +35,25 @@ namespace Minecraft
 	{
 	public : 
 
-		Chunk(const glm::vec3 chunk_position) : p_Position(chunk_position)
-		{
-			// Initialize all the blocks in the chunk to be air blocks
+		Chunk(const glm::vec3 chunk_position);
+		~Chunk();
 
-			memset(&p_ChunkContents, BlockType::Air, CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z);
-			memset(&p_ChunkLightInformation, 0, CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z);
-		}
+		void SetBlock(BlockType type, const glm::vec3& position);
 
-		~Chunk()
-		{
-			
-		}
+		int GetSunlightAt(int x, int y, int z);
+		int GetTorchLightAt(int x, int y, int z);
 
-		void SetBlock(BlockType type, const glm::vec3& position)
-		{
-			Block b;
-			b.p_BlockType = type;
+		void SetSunlightAt(int x, int y, int z, int light_val);
+		void SetTorchLightAt(int x, int y, int z, int light_val);
 
-			p_ChunkContents.at(position.x).at(position.y).at(position.z) = b;
-		}
+		void Construct();
+		ChunkMesh* GetChunkMesh();
 
-		inline int GetSunlightAt(int x, int y, int z)
-		{
-			 // Shift four bits so you only get the sunlight info
-			 // Then & that which 15 (0xF)
-			return (p_ChunkLightInformation[x][y][z] >> 4) & 0xF;
-		}
-
-		inline int GetTorchLightAt(int x, int y, int z)
-		{
-			return (p_ChunkLightInformation[x][y][z]) & 0xF;
-		}
-
-		inline void SetSunlightAt(int x, int y, int z, int light_val)
-		{
-			p_ChunkLightInformation[x][y][z] = (p_ChunkLightInformation[x][y][z] & 0xF) | (light_val << 4);
-		}
-
-		inline void SetTorchLightAt(int x, int y, int z, int light_val)
-		{
-			p_ChunkLightInformation[x][y][z] = (p_ChunkLightInformation[x][y][z] & 0xF0) | light_val;
-		}
-
-		void Construct()
-		{
-			m_ChunkMesh.ConstructMesh(&p_ChunkContents, p_Position);
-		}
-
-		ChunkMesh* GetChunkMesh()
-		{
-			return &m_ChunkMesh;
-		}
-
-		Block* GetBlock(int x, int y, int z)
-		{
-			return &p_ChunkContents[x][y][z];
-		}
+		Block* GetBlock(int x, int y, int z);
 
 		const glm::vec3 p_Position;
-		ChunkMeshState p_MeshState = ChunkMeshState::Unbuilt;
-		ChunkState p_ChunkState = ChunkState::Ungenerated;
+		ChunkMeshState p_MeshState;
+		ChunkState p_ChunkState;
 		std::array<std::array<std::array<Block, CHUNK_SIZE_X>, CHUNK_SIZE_Y>, CHUNK_SIZE_Z> p_ChunkContents;
 
 		// total : 8 bits
@@ -105,7 +63,6 @@ namespace Minecraft
 
 	private :
 		// each chunk will be a 16x16x16 block space. A 3D array
-
 
 		ChunkMesh m_ChunkMesh;
 	};

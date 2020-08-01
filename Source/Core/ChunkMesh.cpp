@@ -1,4 +1,5 @@
 #include "ChunkMesh.h"
+#include "Chunk.h"
 
 namespace Minecraft
 {
@@ -86,8 +87,9 @@ namespace Minecraft
 	}
 
 	// Construct mesh using greedy meshing for maximum performance
-	void ChunkMesh::ConstructMesh(ChunkDataTypePtr ChunkData, const glm::vec3& chunk_pos)
+	void ChunkMesh::ConstructMesh(Chunk* chunk, const glm::vec3& chunk_pos)
 	{
+		ChunkDataTypePtr ChunkData = &chunk->p_ChunkContents;
 		glm::vec3 world_position;
 		m_Vertices.clear();
 

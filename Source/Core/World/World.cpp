@@ -2,6 +2,7 @@
 
 namespace Minecraft
 {
+	// The amount of chunks that gets rendered around the player
 	int render_distance_x = 4, render_distance_z = 4;
 
 	static void PrintVec3(const glm::vec3& val)
@@ -10,6 +11,7 @@ namespace Minecraft
 		return;
 	}
 
+	// Converts world block coordinates to local block coordinates or chunk coordinates. Used for lighting calculations
 	static glm::ivec3 WorldBlockToLocalBlockCoordinates(const glm::vec3& pos)
 	{
 		int block_chunk_x = static_cast<int>(floor(pos.x / CHUNK_SIZE_X));
@@ -118,9 +120,7 @@ namespace Minecraft
 
 				if (chunk->p_MeshState == ChunkMeshState::Unbuilt)
 				{
-					ChunkMesh* mesh = chunk->GetChunkMesh();
- 					mesh->ConstructMesh(&chunk->p_ChunkContents, chunk->p_Position);
-					chunk->p_MeshState = ChunkMeshState::Built;
+					chunk->Construct();
 				}
 
 				else if (chunk->p_MeshState == ChunkMeshState::Edited)
@@ -343,6 +343,7 @@ namespace Minecraft
 							edit_block.first->p_BlockType = BlockType::Air;
 						}
 
+						// Set the chunk mesh state 
 						edit_block.second->p_MeshState = ChunkMeshState::Edited;
 						edit_block.second->p_ChunkState = ChunkState::Changed;
 					}
@@ -366,29 +367,19 @@ namespace Minecraft
 		ChunkMesh* mesh;
 
 		chunk = RetrieveChunkFromMap(cx + 1, cz);
-		mesh = chunk->GetChunkMesh();
-		mesh->ConstructMesh(&chunk->p_ChunkContents, chunk->p_Position);
-		chunk->p_MeshState = ChunkMeshState::Built;
+		chunk->Construct();
 
 		chunk = RetrieveChunkFromMap(cx - 1, cz);
-		mesh = chunk->GetChunkMesh();
-		mesh->ConstructMesh(&chunk->p_ChunkContents, chunk->p_Position);
-		chunk->p_MeshState = ChunkMeshState::Built;
+		chunk->Construct();
 
 		chunk = RetrieveChunkFromMap(cx, cz + 1);
-		mesh = chunk->GetChunkMesh();
-		mesh->ConstructMesh(&chunk->p_ChunkContents, chunk->p_Position);
-		chunk->p_MeshState = ChunkMeshState::Built;
+		chunk->Construct();
 
 		chunk = RetrieveChunkFromMap(cx, cz - 1);
-		mesh = chunk->GetChunkMesh();
-		mesh->ConstructMesh(&chunk->p_ChunkContents, chunk->p_Position);
-		chunk->p_MeshState = ChunkMeshState::Built;
+		chunk->Construct();
 
 		chunk = RetrieveChunkFromMap(cx, cz);
-		mesh = chunk->GetChunkMesh();
-		mesh->ConstructMesh(&chunk->p_ChunkContents, chunk->p_Position);
-		chunk->p_MeshState = ChunkMeshState::Built;
+		chunk->Construct();
 	}
 
 	void World::UpdateLights()

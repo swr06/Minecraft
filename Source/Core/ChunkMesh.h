@@ -22,6 +22,7 @@
 
 namespace Minecraft
 {
+	class Chunk;
 	typedef std::array<std::array<std::array<Block, CHUNK_SIZE_X>, CHUNK_SIZE_Y>, CHUNK_SIZE_Z>* ChunkDataTypePtr;
 
 	// Forward declarations
@@ -34,7 +35,7 @@ namespace Minecraft
 		ChunkMesh();
 		~ChunkMesh();
 
-		void ConstructMesh(ChunkDataTypePtr ChunkData, const glm::vec3& chunk_pos);
+		void ConstructMesh(Chunk* chunk, const glm::vec3& chunk_pos);
 		
 		std::uint32_t p_VerticesCount;
 		GLClasses::VertexBuffer p_VBO;
