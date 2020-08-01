@@ -68,7 +68,7 @@ namespace Minecraft
 		void RayCast(bool place);
 		void DoCollisionTests();
 		void UpdateSurroundingChunks(int cx, int cz);
-
+		void UpdateLights();
 
 		bool ChunkInViewFrustum(Chunk* chunk);
 
@@ -91,5 +91,8 @@ namespace Minecraft
 		std::uint8_t m_CurrentHeldBlock = 0;
 		long long m_CurrentFrame;
 		const int m_WorldSeed;
+
+		// Lighting
+		std::queue<LightNode> m_LightBFSQueue;
 	};
 }

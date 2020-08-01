@@ -137,7 +137,7 @@
     <ClCompile Include="Core\File Handling\WorldFileHandler.cpp">
       <Filter>Minecraft\Saving and Loading</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Lighting\PhongLighting.cpp">
+    <ClCompile Include="Core\Lighting\Lighting.cpp">
       <Filter>Minecraft\Lighting %28Experimental%29</Filter>
     </ClCompile>
   </ItemGroup>
@@ -298,7 +298,7 @@
     <ClInclude Include="Core\File Handling\WorldFileHandler.h">
       <Filter>Minecraft\Saving and Loading</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Lighting\PhongLighting.h">
+    <ClInclude Include="Core\Lighting\Lighting.h">
       <Filter>Minecraft\Lighting %28Experimental%29</Filter>
     </ClInclude>
   </ItemGroup>

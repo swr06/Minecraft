@@ -43,7 +43,7 @@ namespace Minecraft
 		int build_distance_z = render_distance_z + 4;
 
 		/*
-		build_distance_x and build_distance_z is the build distance. It is needed to build `x` chunk
+		build_distance_x and build_distance_z is the build distance. It is needed to build `x` chunks
 		more than what is required in order for the meshing process to work properly
 
 		For this it is required to first generate all the chunks that are needed to be generated.
@@ -75,6 +75,7 @@ namespace Minecraft
 
 	void World::RenderWorld()
 	{
+		static float ambient = 1.0f;
 		int player_chunk_x = 0;
 		int player_chunk_y = 0;
 		int player_chunk_z = 0;
@@ -94,7 +95,7 @@ namespace Minecraft
 		
 		// Render chunks according to render distance
 
-		m_Renderer.StartChunkRendering(&p_Player->p_Camera);
+		m_Renderer.StartChunkRendering(&p_Player->p_Camera, glm::vec4(ambient, ambient, ambient, 1.0f));
 
 		for (int i = player_chunk_x - render_distance_x; i < player_chunk_x + render_distance_x; i++)
 		{
@@ -367,6 +368,78 @@ namespace Minecraft
 		mesh = chunk->GetChunkMesh();
 		mesh->ConstructMesh(&chunk->p_ChunkContents, chunk->p_Position);
 		chunk->p_MeshState = ChunkMeshState::Built;
+	}
+
+	void World::UpdateLights()
+	{
+		while (!m_LightBFSQueue.empty())
+		{
+			LightNode& node = m_LightBFSQueue.front();
+			glm::vec3 pos = node.p_Position;
+			Chunk* chunk = node.p_Chunk;
+
+			// Pop the element after storing it's data
+			m_LightBFSQueue.pop();
+
+			int light_level = chunk->GetTorchLightAt(pos.x, pos.y, pos.z);
+			int x = floor(pos.x);
+			int y = floor(pos.y);
+			int z = floor(pos.z);
+
+			if (x > 0)
+			{
+				if (chunk->GetBlock(x - 1, y, z)->p_BlockType != BlockType::Air && chunk->GetTorchLightAt(x - 1, y, z) + 2 <= light_level)
+				{
+					chunk->SetTorchLightAt(x - 1, y, z, light_level - 1);
+					m_LightBFSQueue.emplace(glm::vec3(x, y, z), chunk);
+				}
+			}
+
+			if (x < CHUNK_SIZE_X - 1)
+			{
+				if (chunk->GetBlock(x + 1, y, z)->p_BlockType != BlockType::Air && chunk->GetTorchLightAt(x + 1, y, z) + 2 <= light_level)
+				{
+					chunk->SetTorchLightAt(x + 1, y, z, light_level - 1);
+					m_LightBFSQueue.emplace(glm::vec3(x, y, z), chunk);
+				}
+			}
+
+			if (y > 0)
+			{
+				if (chunk->GetBlock(x, y - 1, z)->p_BlockType != BlockType::Air && chunk->GetTorchLightAt(x, y - 1, z) + 2 <= light_level)
+				{
+					chunk->SetTorchLightAt(x, y - 1, z, light_level - 1);
+					m_LightBFSQueue.emplace(glm::vec3(x, y, z), chunk);
+				}
+			}
+
+			if (y < CHUNK_SIZE_Y - 1)
+			{
+				if (chunk->GetBlock(x, y + 1, z)->p_BlockType != BlockType::Air && chunk->GetTorchLightAt(x, y + 1, z) + 2 <= light_level)
+				{
+					chunk->SetTorchLightAt(x, y + 1, z, light_level - 1);
+					m_LightBFSQueue.emplace(glm::vec3(x, y, z), chunk);
+				}
+			}
+
+			if (z > 0)
+			{
+				if (chunk->GetBlock(x, y, z - 1)->p_BlockType != BlockType::Air && chunk->GetTorchLightAt(x, y, z - 1) + 2 <= light_level)
+				{
+					chunk->SetTorchLightAt(x, y, z - 1, light_level - 1);
+					m_LightBFSQueue.emplace(glm::vec3(x, y, z), chunk);
+				}
+			}
+			
+			if (z < CHUNK_SIZE_Z - 1)
+			{
+				if (chunk->GetBlock(x, y, z + 1)->p_BlockType != BlockType::Air && chunk->GetTorchLightAt(x, y, z + 1) + 2 <= light_level)
+				{
+					chunk->SetTorchLightAt(x, y, z + 1, light_level - 1);
+					m_LightBFSQueue.emplace(glm::vec3(x, y, z), chunk);
+				}
+			}	
+		}
 	}
 
 	bool World::ChunkExistsInMap(int cx, int cz)
