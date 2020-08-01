@@ -10,6 +10,17 @@ namespace Minecraft
 		return;
 	}
 
+	static glm::ivec3 WorldBlockToLocalBlockCoordinates(const glm::vec3& pos)
+	{
+		int block_chunk_x = static_cast<int>(floor(pos.x / CHUNK_SIZE_X));
+		int block_chunk_z = static_cast<int>(floor(pos.z / CHUNK_SIZE_Z));
+		int bx = pos.x - (block_chunk_x * CHUNK_SIZE_X);
+		int by = static_cast<int>(floor(pos.y));
+		int bz = pos.z - (block_chunk_z * CHUNK_SIZE_Z);
+
+		return glm::ivec3(bx, by, bz);
+	}
+
 	World::World(int seed) : m_Camera2D(0.0f, (float)DEFAULT_WINDOW_X, 0.0f, (float)DEFAULT_WINDOW_Y), m_WorldSeed(seed)
 	{
 		// Generate all the chunks 
@@ -315,6 +326,16 @@ namespace Minecraft
 						if (place)
 						{
 							edit_block.first->p_BlockType = static_cast<BlockType>(m_CurrentHeldBlock);
+
+							if (static_cast<BlockType>(m_CurrentHeldBlock) == BlockType::Lamp_On)
+							{
+								glm::ivec3 light_block = WorldBlockToLocalBlockCoordinates(position);
+
+								edit_block.second->SetTorchLightAt(light_block.x, light_block.y, light_block.z, 16);
+								
+								// Push it to the light bfs
+								m_LightBFSQueue.push({ glm::vec3(light_block.x, light_block.y, light_block.z), edit_block.second });
+							}
 						}
 
 						else
@@ -391,7 +412,7 @@ namespace Minecraft
 				if (chunk->GetBlock(x - 1, y, z)->p_BlockType != BlockType::Air && chunk->GetTorchLightAt(x - 1, y, z) + 2 <= light_level)
 				{
 					chunk->SetTorchLightAt(x - 1, y, z, light_level - 1);
-					m_LightBFSQueue.emplace(glm::vec3(x, y, z), chunk);
+					m_LightBFSQueue.push({ glm::vec3(x, y, z), chunk });
 				}
 			}
 
@@ -400,7 +421,7 @@ namespace Minecraft
 				if (chunk->GetBlock(x + 1, y, z)->p_BlockType != BlockType::Air && chunk->GetTorchLightAt(x + 1, y, z) + 2 <= light_level)
 				{
 					chunk->SetTorchLightAt(x + 1, y, z, light_level - 1);
-					m_LightBFSQueue.emplace(glm::vec3(x, y, z), chunk);
+					m_LightBFSQueue.push({ glm::vec3(x, y, z), chunk });
 				}
 			}
 
@@ -409,7 +430,7 @@ namespace Minecraft
 				if (chunk->GetBlock(x, y - 1, z)->p_BlockType != BlockType::Air && chunk->GetTorchLightAt(x, y - 1, z) + 2 <= light_level)
 				{
 					chunk->SetTorchLightAt(x, y - 1, z, light_level - 1);
-					m_LightBFSQueue.emplace(glm::vec3(x, y, z), chunk);
+					m_LightBFSQueue.push({ glm::vec3(x, y, z), chunk });
 				}
 			}
 
@@ -418,7 +439,7 @@ namespace Minecraft
 				if (chunk->GetBlock(x, y + 1, z)->p_BlockType != BlockType::Air && chunk->GetTorchLightAt(x, y + 1, z) + 2 <= light_level)
 				{
 					chunk->SetTorchLightAt(x, y + 1, z, light_level - 1);
-					m_LightBFSQueue.emplace(glm::vec3(x, y, z), chunk);
+					m_LightBFSQueue.push({ glm::vec3(x, y, z), chunk });
 				}
 			}
 
@@ -427,7 +448,8 @@ namespace Minecraft
 				if (chunk->GetBlock(x, y, z - 1)->p_BlockType != BlockType::Air && chunk->GetTorchLightAt(x, y, z - 1) + 2 <= light_level)
 				{
 					chunk->SetTorchLightAt(x, y, z - 1, light_level - 1);
-					m_LightBFSQueue.emplace(glm::vec3(x, y, z), chunk);
+					m_LightBFSQueue.push({ glm::vec3(x, y, z), chunk });
+
 				}
 			}
 			
@@ -436,7 +458,7 @@ namespace Minecraft
 				if (chunk->GetBlock(x, y, z + 1)->p_BlockType != BlockType::Air && chunk->GetTorchLightAt(x, y, z + 1) + 2 <= light_level)
 				{
 					chunk->SetTorchLightAt(x, y, z + 1, light_level - 1);
-					m_LightBFSQueue.emplace(glm::vec3(x, y, z), chunk);
+					m_LightBFSQueue.push({ glm::vec3(x, y, z), chunk });
 				}
 			}	
 		}
