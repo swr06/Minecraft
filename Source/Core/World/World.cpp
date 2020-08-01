@@ -335,6 +335,9 @@ namespace Minecraft
 								
 								// Push it to the light bfs
 								m_LightBFSQueue.push({ glm::vec3(light_block.x, light_block.y, light_block.z), edit_block.second });
+								
+								// Do the lighting calculations
+								UpdateLights();
 							}
 						}
 

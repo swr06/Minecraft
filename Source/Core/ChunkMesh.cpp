@@ -90,6 +90,7 @@ namespace Minecraft
 	void ChunkMesh::ConstructMesh(Chunk* chunk, const glm::vec3& chunk_pos)
 	{
 		ChunkDataTypePtr ChunkData = &chunk->p_ChunkContents;
+		
 		glm::vec3 world_position;
 		m_Vertices.clear();
 
@@ -116,14 +117,14 @@ namespace Minecraft
 						{
 							if (BackwardChunkData->at(x).at(y).at(CHUNK_SIZE_Z - 1).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
-								AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
+								AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
+								AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
 							}
 
 							else if (ChunkData->at(x).at(y).at(1).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
-								AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
+								AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
+								AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
 							}
 						}
 
@@ -131,14 +132,14 @@ namespace Minecraft
 						{
 							if (ForwardChunkData->at(x).at(y).at(0).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
-								AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
+								AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
+								AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
 							}
 
 							else if (ChunkData->at(x).at(y).at(CHUNK_SIZE_Z - 2).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
-								AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
+								AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
+								AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
 							}
 						}
 
@@ -147,13 +148,13 @@ namespace Minecraft
 							//If the forward block is an air block, add the forward face to the mesh
 							if (ChunkData->at(x).at(y).at(z + 1).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
+								AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
 							}
 
 							// If the back (-forward) block is an air block, add the back face to the mesh
 							if (ChunkData->at(x).at(y).at(z - 1).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
+								AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
 							}
 						}
 
@@ -161,14 +162,14 @@ namespace Minecraft
 						{
 							if (LeftChunkData->at(CHUNK_SIZE_X - 1).at(y).at(z).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
-								AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
+								AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
+								AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
 							}
 
 							else if (ChunkData->at(1).at(y).at(z).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
-								AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
+								AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
+								AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
 							}
 						}
 
@@ -176,14 +177,14 @@ namespace Minecraft
 						{
 							if (RightChunkData->at(0).at(y).at(z).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
-								AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
+								AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
+								AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
 							}
 
 							else if (ChunkData->at(CHUNK_SIZE_X - 2).at(y).at(z).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
-								AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
+								AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
+								AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
 							}
 						}
 
@@ -192,13 +193,13 @@ namespace Minecraft
 							// If the next block is an air block, add the right face to the mesh
 							if (ChunkData->at(x + 1).at(y).at(z).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
+								AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
 							}
 
 							// If the previous block is an air block, add the left face to the mesh
 							if (ChunkData->at(x - 1).at(y).at(z).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
+								AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
 							}
 						}
 
@@ -206,13 +207,13 @@ namespace Minecraft
 						{
 							if (ChunkData->at(x).at(y + 1).at(z).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::bottom, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
+								AddFace(BlockFaceType::bottom, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
 							}
 						}
 
 						else if (y >= CHUNK_SIZE_Y - 1)
 						{
-							AddFace(BlockFaceType::top, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
+							AddFace(BlockFaceType::top, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
 						}
 
 						else
@@ -220,13 +221,13 @@ namespace Minecraft
 							// If the top block is an air block, add the top face to the mesh
 							if (ChunkData->at(x).at(y - 1).at(z).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::bottom, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
+								AddFace(BlockFaceType::bottom, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
 							}
 
 							// If the bottom block is an air block, add the top face to the mesh
 							if (ChunkData->at(x).at(y + 1).at(z).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::top, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType));
+								AddFace(BlockFaceType::top, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
 							}
 						}
 					}
@@ -241,7 +242,7 @@ namespace Minecraft
 		m_Vertices.clear();
 	}
 
-	void ChunkMesh::AddFace(BlockFaceType face_type, const glm::vec3& position, BlockType type)
+	void ChunkMesh::AddFace(BlockFaceType face_type, const glm::vec3& position, BlockType type, Chunk* chunk)
 	{
 		glm::mat4 translation = glm::translate(glm::mat4(1.0f), position);
 

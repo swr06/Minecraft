@@ -43,7 +43,7 @@ namespace Minecraft
 
 	private : 
 
-		void AddFace(BlockFaceType face_type, const glm::vec3& position, BlockType type);
+		void AddFace(BlockFaceType face_type, const glm::vec3& position, BlockType type, Chunk* chunk);
 		std::vector<Vertex> m_Vertices;
 		glm::vec4 m_TopFace[4];
 		glm::vec4 m_BottomFace[4];
