@@ -137,9 +137,6 @@
     <ClCompile Include="Core\File Handling\WorldFileHandler.cpp">
       <Filter>Minecraft\Saving and Loading</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Lighting\Lighting.cpp">
-      <Filter>Minecraft\Lighting %28Experimental%29</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\OpenGL Classes\Fps.h">
@@ -299,7 +296,7 @@
       <Filter>Minecraft\Saving and Loading</Filter>
     </ClInclude>
     <ClInclude Include="Core\Lighting\Lighting.h">
-      <Filter>Minecraft\Lighting %28Experimental%29</Filter>
+      <Filter>Minecraft\Lighting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -390,7 +387,7 @@
     <Filter Include="Minecraft\Saving and Loading">
       <UniqueIdentifier>{ded19b04-3225-4429-ac74-37d5cc9c83dc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Minecraft\Lighting %28Experimental%29">
+    <Filter Include="Minecraft\Lighting">
       <UniqueIdentifier>{7d8cbce7-5a69-48b5-97ac-748e728588b5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -439,7 +436,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Core\Lighting\Readme.txt">
-      <Filter>Minecraft\Lighting %28Experimental%29</Filter>
+      <Filter>Minecraft\Lighting</Filter>
     </Text>
   </ItemGroup>
 </Project>

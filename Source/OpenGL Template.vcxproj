@@ -183,7 +183,6 @@
     <ClCompile Include="Core\File Handling\ChunkFileHandler.cpp" />
     <ClCompile Include="Core\File Handling\WorldFileHandler.cpp" />
     <ClCompile Include="Core\FpsCamera.cpp" />
-    <ClCompile Include="Core\Lighting\Lighting.cpp" />
     <ClCompile Include="Core\Maths\Frustum.cpp" />
     <ClCompile Include="Core\Maths\Plane.cpp" />
     <ClCompile Include="Core\Noise\FastNoise.cpp" />

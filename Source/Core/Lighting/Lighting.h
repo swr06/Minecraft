@@ -9,6 +9,8 @@ namespace Minecraft
 {
 	class Chunk;
 
+	// LightNode structures for flood fill lighting 
+
 	class LightNode
 	{
 	public :

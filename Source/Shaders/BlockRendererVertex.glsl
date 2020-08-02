@@ -13,7 +13,9 @@ out vec4 v_TintColor;
 
 void main()
 {
-	float lighting_level = a_LightingLevel / 10;
+	float lighting_level = a_LightingLevel ;
+	lighting_level /= 2;
+	lighting_level /= 10;
 
 	if (lighting_level < 0.2)
 	{

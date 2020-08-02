@@ -331,7 +331,7 @@ namespace Minecraft
 							{
 								glm::ivec3 light_block = WorldBlockToLocalBlockCoordinates(position);
 
-								edit_block.second->SetTorchLightAt(light_block.x, light_block.y, light_block.z, 16);
+								edit_block.second->SetTorchLightAt(light_block.x, light_block.y, light_block.z, 32);
 
 								// Push it to the light bfs
 								m_LightBFSQueue.push({ glm::vec3(light_block.x, light_block.y, light_block.z), edit_block.second });
