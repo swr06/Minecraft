@@ -24,5 +24,6 @@ namespace Minecraft
 		glm::vec3 position;
 		glm::vec2 texture_coords;
 		GLfloat lighting_level; 
+		GLfloat block_face_lighting;
 	};
 }

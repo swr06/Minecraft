@@ -38,7 +38,7 @@ namespace Minecraft
 			delete[] IndexBuffer;
 		}
 
-		int stride = (6 * sizeof(GLfloat));
+		int stride = (7 * sizeof(GLfloat));
 
 		p_VAO.Bind();
 		p_VBO.Bind();
@@ -46,6 +46,7 @@ namespace Minecraft
 		p_VBO.VertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, (void*)0);
 		p_VBO.VertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, stride, (void*)(3 * sizeof(float)));
 		p_VBO.VertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, stride, (void*)(5 * sizeof(float)));
+		p_VBO.VertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, stride, (void*)(6 * sizeof(float)));
 		p_VAO.Unbind();
 
 		// Set the values of the 2D planes
@@ -109,6 +110,8 @@ namespace Minecraft
 					{
 						// To fix chunk edge mesh building issues, both faces are added if it is in the edge
 
+						float light_level = chunk->GetTorchLightAt(x, y, z);
+						//float light_level = 1.0f;
 						world_position.x = chunk_pos.x * CHUNK_SIZE_X + x;
 						world_position.y = 0 * CHUNK_SIZE_Y + y;
 						world_position.z = chunk_pos.z * CHUNK_SIZE_Z + z;
@@ -117,14 +120,14 @@ namespace Minecraft
 						{
 							if (BackwardChunkData->at(x).at(y).at(CHUNK_SIZE_Z - 1).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
-								AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
+								AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
 							}
 
 							else if (ChunkData->at(x).at(y).at(1).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
-								AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
+								AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
 							}
 						}
 
@@ -132,14 +135,14 @@ namespace Minecraft
 						{
 							if (ForwardChunkData->at(x).at(y).at(0).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
-								AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
+								AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
 							}
 
 							else if (ChunkData->at(x).at(y).at(CHUNK_SIZE_Z - 2).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
-								AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
+								AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
 							}
 						}
 
@@ -148,13 +151,13 @@ namespace Minecraft
 							//If the forward block is an air block, add the forward face to the mesh
 							if (ChunkData->at(x).at(y).at(z + 1).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
+								AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
 							}
 
 							// If the back (-forward) block is an air block, add the back face to the mesh
 							if (ChunkData->at(x).at(y).at(z - 1).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
+								AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
 							}
 						}
 
@@ -162,14 +165,14 @@ namespace Minecraft
 						{
 							if (LeftChunkData->at(CHUNK_SIZE_X - 1).at(y).at(z).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
-								AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
+								AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
 							}
 
 							else if (ChunkData->at(1).at(y).at(z).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
-								AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
+								AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
 							}
 						}
 
@@ -177,14 +180,14 @@ namespace Minecraft
 						{
 							if (RightChunkData->at(0).at(y).at(z).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
-								AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
+								AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
 							}
 
 							else if (ChunkData->at(CHUNK_SIZE_X - 2).at(y).at(z).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
-								AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
+								AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
 							}
 						}
 
@@ -193,13 +196,13 @@ namespace Minecraft
 							// If the next block is an air block, add the right face to the mesh
 							if (ChunkData->at(x + 1).at(y).at(z).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
+								AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
 							}
 
 							// If the previous block is an air block, add the left face to the mesh
 							if (ChunkData->at(x - 1).at(y).at(z).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
+								AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
 							}
 						}
 
@@ -207,13 +210,13 @@ namespace Minecraft
 						{
 							if (ChunkData->at(x).at(y + 1).at(z).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::bottom, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
+								AddFace(BlockFaceType::bottom, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
 							}
 						}
 
 						else if (y >= CHUNK_SIZE_Y - 1)
 						{
-							AddFace(BlockFaceType::top, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
+							AddFace(BlockFaceType::top, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
 						}
 
 						else
@@ -221,13 +224,13 @@ namespace Minecraft
 							// If the top block is an air block, add the top face to the mesh
 							if (ChunkData->at(x).at(y - 1).at(z).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::bottom, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
+								AddFace(BlockFaceType::bottom, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
 							}
 
 							// If the bottom block is an air block, add the top face to the mesh
 							if (ChunkData->at(x).at(y + 1).at(z).p_BlockType == BlockType::Air)
 							{
-								AddFace(BlockFaceType::top, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), chunk);
+								AddFace(BlockFaceType::top, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
 							}
 						}
 					}
@@ -242,7 +245,7 @@ namespace Minecraft
 		m_Vertices.clear();
 	}
 
-	void ChunkMesh::AddFace(BlockFaceType face_type, const glm::vec3& position, BlockType type, Chunk* chunk)
+	void ChunkMesh::AddFace(BlockFaceType face_type, const glm::vec3& position, BlockType type, float light_level, Chunk* chunk)
 	{
 		glm::mat4 translation = glm::translate(glm::mat4(1.0f), position);
 
@@ -265,10 +268,15 @@ namespace Minecraft
 			v4.position = translation * m_TopFace[3];
 
 			// Set the lighting level for the vertex
-			v1.lighting_level = lighting_levels[0];
-			v2.lighting_level = lighting_levels[0];
-			v3.lighting_level = lighting_levels[0];
-			v4.lighting_level = lighting_levels[0];
+			v1.lighting_level = light_level;
+			v2.lighting_level = light_level;
+			v3.lighting_level = light_level;
+			v4.lighting_level = light_level;
+
+			v1.block_face_lighting = lighting_levels[0];
+			v2.block_face_lighting = lighting_levels[0];
+			v3.block_face_lighting = lighting_levels[0];
+			v4.block_face_lighting = lighting_levels[0];
 
 			break;
 		}
@@ -281,10 +289,15 @@ namespace Minecraft
 			v4.position = translation * m_BottomFace[0];
 
 			// Set the lighting level for the vertex
-			v1.lighting_level = lighting_levels[1];
-			v2.lighting_level = lighting_levels[1];
-			v3.lighting_level = lighting_levels[1];
-			v4.lighting_level = lighting_levels[1];
+			v1.lighting_level = light_level;
+			v2.lighting_level = light_level;
+			v3.lighting_level = light_level;
+			v4.lighting_level = light_level;
+
+			v1.block_face_lighting = lighting_levels[1];
+			v2.block_face_lighting = lighting_levels[1];
+			v3.block_face_lighting = lighting_levels[1];
+			v4.block_face_lighting = lighting_levels[1];
 
 			reverse_texture_coordinates = true;
 
@@ -299,10 +312,15 @@ namespace Minecraft
 			v4.position = translation * m_ForwardFace[0];
 
 			// Set the lighting level for the vertex
-			v1.lighting_level = lighting_levels[2];
-			v2.lighting_level = lighting_levels[2];
-			v3.lighting_level = lighting_levels[2];
-			v4.lighting_level = lighting_levels[2];
+			v1.lighting_level = light_level;
+			v2.lighting_level = light_level;
+			v3.lighting_level = light_level;
+			v4.lighting_level = light_level;
+
+			v1.block_face_lighting = lighting_levels[2];
+			v2.block_face_lighting = lighting_levels[2];
+			v3.block_face_lighting = lighting_levels[2];
+			v4.block_face_lighting = lighting_levels[2];
 
 			reverse_texture_coordinates = true;
 
@@ -316,10 +334,15 @@ namespace Minecraft
 			v3.position = translation * m_BackFace[2];
 			v4.position = translation * m_BackFace[3];
 
-			v1.lighting_level = lighting_levels[3];
-			v2.lighting_level = lighting_levels[3];
-			v3.lighting_level = lighting_levels[3];
-			v4.lighting_level = lighting_levels[3];
+			v1.lighting_level = light_level;
+			v2.lighting_level = light_level;
+			v3.lighting_level = light_level;
+			v4.lighting_level = light_level;
+
+			v1.block_face_lighting = lighting_levels[3];
+			v2.block_face_lighting = lighting_levels[3];
+			v3.block_face_lighting = lighting_levels[3];
+			v4.block_face_lighting = lighting_levels[3];
 
 			break;
 		}
@@ -331,10 +354,15 @@ namespace Minecraft
 			v3.position = translation * m_LeftFace[1];
 			v4.position = translation * m_LeftFace[0];
 
-			v1.lighting_level = lighting_levels[4];
-			v2.lighting_level = lighting_levels[4];
-			v3.lighting_level = lighting_levels[4];
-			v4.lighting_level = lighting_levels[4];
+			v1.lighting_level = light_level;
+			v2.lighting_level = light_level;
+			v3.lighting_level = light_level;
+			v4.lighting_level = light_level;
+
+			v1.block_face_lighting = lighting_levels[4];
+			v2.block_face_lighting = lighting_levels[4];
+			v3.block_face_lighting = lighting_levels[4];
+			v4.block_face_lighting = lighting_levels[4];
 
 			reverse_texture_coordinates = true;
 
@@ -348,10 +376,15 @@ namespace Minecraft
 			v3.position = translation * m_RightFace[2];
 			v4.position = translation * m_RightFace[3];
 
-			v1.lighting_level = lighting_levels[5];
-			v2.lighting_level = lighting_levels[5];
-			v3.lighting_level = lighting_levels[5];
-			v4.lighting_level = lighting_levels[5];
+			v1.lighting_level = light_level;
+			v2.lighting_level = light_level;
+			v3.lighting_level = light_level;
+			v4.lighting_level = light_level;
+
+			v1.block_face_lighting = lighting_levels[5];
+			v2.block_face_lighting = lighting_levels[5];
+			v3.block_face_lighting = lighting_levels[5];
+			v4.block_face_lighting = lighting_levels[5];
 
 			break;
 		}

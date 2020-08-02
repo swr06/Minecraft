@@ -25,24 +25,22 @@ namespace Minecraft
 
 	int Chunk::GetSunlightAt(int x, int y, int z)
 	{
-		// Shift four bits so you only get the sunlight info
-		// Then & that with 15 (0xF)
-		return (p_ChunkLightInformation[x][y][z] >> 4) & 0xF;
+		return p_ChunkLightInformation[x][y][z].x;
 	}
 
 	int Chunk::GetTorchLightAt(int x, int y, int z)
 	{
-		return (p_ChunkLightInformation[x][y][z]) & 0xF;
+		return p_ChunkLightInformation[x][y][z].y;
 	}
 
 	void Chunk::SetSunlightAt(int x, int y, int z, int light_val)
 	{
-		p_ChunkLightInformation[x][y][z] = (p_ChunkLightInformation[x][y][z] & 0xF) | (light_val << 4);
+		p_ChunkLightInformation[x][y][z].x = light_val;
 	}
 
 	void Chunk::SetTorchLightAt(int x, int y, int z, int light_val)
 	{
-		p_ChunkLightInformation[x][y][z] = (p_ChunkLightInformation[x][y][z] & 0xF0) | light_val;
+		p_ChunkLightInformation[x][y][z].y = light_val;
 	}
 
 	void Chunk::Construct()

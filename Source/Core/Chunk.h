@@ -31,6 +31,12 @@ namespace Minecraft
 		undefined
 	};
 
+	struct i8Vec2
+	{
+		std::int8_t x;
+		std::int8_t y;
+	};
+
 	class Chunk
 	{
 	public : 
@@ -59,7 +65,7 @@ namespace Minecraft
 		// total : 8 bits
 		// first 4 bits for torch light
 		// lasr 4 bits for sunling
-		std::array<std::array<std::array<unsigned char, CHUNK_SIZE_X>, CHUNK_SIZE_Y>, CHUNK_SIZE_Z> p_ChunkLightInformation;
+		std::array<std::array<std::array<i8Vec2, CHUNK_SIZE_X>, CHUNK_SIZE_Y>, CHUNK_SIZE_Z> p_ChunkLightInformation;
 
 	private :
 		// each chunk will be a 16x16x16 block space. A 3D array

@@ -88,7 +88,7 @@ namespace Minecraft
 
 	void World::RenderWorld()
 	{
-		static float ambient = 1.0f;
+		static float ambient = 0.5f;
 		int player_chunk_x = 0;
 		int player_chunk_y = 0;
 		int player_chunk_z = 0;
@@ -406,7 +406,7 @@ namespace Minecraft
 				if (chunk->GetBlock(x - 1, y, z)->p_BlockType != BlockType::Air && chunk->GetTorchLightAt(x - 1, y, z) + 2 <= light_level)
 				{
 					chunk->SetTorchLightAt(x - 1, y, z, light_level - 1);
-					m_LightBFSQueue.push({ glm::vec3(x, y, z), chunk });
+					m_LightBFSQueue.push({ glm::vec3(x - 1, y, z), chunk });
 				}
 			}
 
@@ -415,7 +415,7 @@ namespace Minecraft
 				if (chunk->GetBlock(x + 1, y, z)->p_BlockType != BlockType::Air && chunk->GetTorchLightAt(x + 1, y, z) + 2 <= light_level)
 				{
 					chunk->SetTorchLightAt(x + 1, y, z, light_level - 1);
-					m_LightBFSQueue.push({ glm::vec3(x, y, z), chunk });
+					m_LightBFSQueue.push({ glm::vec3(x + 1, y, z), chunk });
 				}
 			}
 
@@ -424,7 +424,7 @@ namespace Minecraft
 				if (chunk->GetBlock(x, y - 1, z)->p_BlockType != BlockType::Air && chunk->GetTorchLightAt(x, y - 1, z) + 2 <= light_level)
 				{
 					chunk->SetTorchLightAt(x, y - 1, z, light_level - 1);
-					m_LightBFSQueue.push({ glm::vec3(x, y, z), chunk });
+					m_LightBFSQueue.push({ glm::vec3(x, y - 1, z), chunk });
 				}
 			}
 
@@ -433,7 +433,7 @@ namespace Minecraft
 				if (chunk->GetBlock(x, y + 1, z)->p_BlockType != BlockType::Air && chunk->GetTorchLightAt(x, y + 1, z) + 2 <= light_level)
 				{
 					chunk->SetTorchLightAt(x, y + 1, z, light_level - 1);
-					m_LightBFSQueue.push({ glm::vec3(x, y, z), chunk });
+					m_LightBFSQueue.push({ glm::vec3(x, y + 1, z), chunk });
 				}
 			}
 
@@ -442,7 +442,7 @@ namespace Minecraft
 				if (chunk->GetBlock(x, y, z - 1)->p_BlockType != BlockType::Air && chunk->GetTorchLightAt(x, y, z - 1) + 2 <= light_level)
 				{
 					chunk->SetTorchLightAt(x, y, z - 1, light_level - 1);
-					m_LightBFSQueue.push({ glm::vec3(x, y, z), chunk });
+					m_LightBFSQueue.push({ glm::vec3(x, y, z - 1), chunk });
 
 				}
 			}
@@ -452,7 +452,7 @@ namespace Minecraft
 				if (chunk->GetBlock(x, y, z + 1)->p_BlockType != BlockType::Air && chunk->GetTorchLightAt(x, y, z + 1) + 2 <= light_level)
 				{
 					chunk->SetTorchLightAt(x, y, z + 1, light_level - 1);
-					m_LightBFSQueue.push({ glm::vec3(x, y, z), chunk });
+					m_LightBFSQueue.push({ glm::vec3(x, y, z + 1), chunk });
 				}
 			}	
 		}
