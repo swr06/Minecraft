@@ -1,3 +1,6 @@
+// Phong lighting shader that was experimental once
+// NOT used in the project
+
 #version 330 core
 out vec4 o_Color;
 
