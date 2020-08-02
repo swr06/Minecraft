@@ -94,5 +94,6 @@ namespace Minecraft
 
 		// Lighting
 		std::queue<LightNode> m_LightBFSQueue;
+		std::queue<LightRemovalNode> m_LightRemovalBFSQueue;
 	};
 }

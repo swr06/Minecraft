@@ -21,4 +21,17 @@ namespace Minecraft
 		glm::vec3 p_Position;
 		Chunk* p_Chunk;
 	};
+
+	class LightRemovalNode
+	{
+	public : 
+		LightRemovalNode(const glm::vec3& position, int light, Chunk* chunk) : p_Position(position), p_LightValue(light), p_Chunk(chunk)
+		{
+			
+		}
+
+		glm::vec3 p_Position;
+		uint8_t p_LightValue;
+		Chunk* p_Chunk;
+	};
 }

@@ -7,7 +7,7 @@ namespace Minecraft
 		// Initialize all the blocks in the chunk to be air blocks
 
 		memset(&p_ChunkContents, BlockType::Air, CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z);
-		memset(&p_ChunkLightInformation, 0, CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z);
+		memset(&p_ChunkLightInformation, 0, (CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z) * 2);
 	}
 
 	Chunk::~Chunk()

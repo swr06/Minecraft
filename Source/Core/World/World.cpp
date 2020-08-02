@@ -46,7 +46,7 @@ namespace Minecraft
 
 	void World::OnUpdate(GLFWwindow* window)
 	{
-		int player_chunk_x = (int) floor(p_Player->p_Position.x / CHUNK_SIZE_X);
+		int player_chunk_x = (int)floor(p_Player->p_Position.x / CHUNK_SIZE_X);
 		int player_chunk_z = (int)floor(p_Player->p_Position.z / CHUNK_SIZE_Z);
 
 		std::uint32_t chunks_rendered = 0;
@@ -105,7 +105,7 @@ namespace Minecraft
 		player_chunk_x = (int)floor(p_Player->p_Position.x / CHUNK_SIZE_X);
 		player_chunk_z = (int)floor(p_Player->p_Position.z / CHUNK_SIZE_Z);
 		uint32_t chunks_rendered = 0;
-		
+
 		// Render chunks according to render distance
 
 		m_Renderer.StartChunkRendering(&p_Player->p_Camera, glm::vec4(ambient, ambient, ambient, 1.0f));
@@ -160,7 +160,7 @@ namespace Minecraft
 			float aspect = (float)e.wx / (float)e.wy;
 			p_Player->p_Camera.SetAspect(aspect);
 			m_Camera2D.SetProjection((float)0, (float)e.wx, (float)0, (float)e.wy);
-			m_CrosshairPosition = std::pair <float,float> (e.wx / 2, e.wy / 2);
+			m_CrosshairPosition = std::pair <float, float>(e.wx / 2, e.wy / 2);
 		}
 
 		if (e.type == EventSystem::EventTypes::KeyPress && e.key == GLFW_KEY_Q)
@@ -177,17 +177,17 @@ namespace Minecraft
 		{
 			switch (e.button)
 			{
-				case GLFW_MOUSE_BUTTON_LEFT :
-				{
-					RayCast(false);
-					break;
-				}
+			case GLFW_MOUSE_BUTTON_LEFT:
+			{
+				RayCast(false);
+				break;
+			}
 
-				case GLFW_MOUSE_BUTTON_RIGHT:
-				{
-					RayCast(true);
-					break;
-				}
+			case GLFW_MOUSE_BUTTON_RIGHT:
+			{
+				RayCast(true);
+				break;
+			}
 			}
 		}
 	}
@@ -287,7 +287,7 @@ namespace Minecraft
 			position += direction * (t + 0.001f);
 
 			if (position.y >= 0 && position.y < CHUNK_SIZE_Y)
-			{ 
+			{
 				std::pair<Block*, Chunk*> ray_hitblock = GetBlockFromPosition(glm::vec3(
 					floor(position.x),
 					floor(position.y),
@@ -332,10 +332,10 @@ namespace Minecraft
 								glm::ivec3 light_block = WorldBlockToLocalBlockCoordinates(position);
 
 								edit_block.second->SetTorchLightAt(light_block.x, light_block.y, light_block.z, 16);
-								
+
 								// Push it to the light bfs
 								m_LightBFSQueue.push({ glm::vec3(light_block.x, light_block.y, light_block.z), edit_block.second });
-								
+
 								// Do the lighting calculations
 								UpdateLights();
 							}
@@ -343,6 +343,19 @@ namespace Minecraft
 
 						else
 						{
+							// If the block was a light block, do the light calculations again and push it to the light removal bfs queue
+							if (edit_block.first->p_BlockType == BlockType::Lamp_On)
+							{
+								glm::ivec3 light_removal_block = WorldBlockToLocalBlockCoordinates(position);
+
+								m_LightRemovalBFSQueue.push({ glm::vec3(light_removal_block.x, light_removal_block.y, light_removal_block.z),
+									edit_block.second->GetTorchLightAt(light_removal_block.x, light_removal_block.y, light_removal_block.z),
+									edit_block.second });
+
+								edit_block.second->SetTorchLightAt(light_removal_block.x, light_removal_block.y, light_removal_block.z, 0);
+								UpdateLights();
+							}
+
 							edit_block.first->p_BlockType = BlockType::Air;
 						}
 
@@ -359,7 +372,7 @@ namespace Minecraft
 
 	void World::DoCollisionTests()
 	{
-		
+
 
 	}
 
@@ -387,6 +400,119 @@ namespace Minecraft
 
 	void World::UpdateLights()
 	{
+		// Light removal bfs queue
+
+		while (m_LightRemovalBFSQueue.empty() == false)
+		{
+			LightRemovalNode& node = m_LightRemovalBFSQueue.front();
+			int x = node.p_Position.x;
+			int y = node.p_Position.y;
+			int z = node.p_Position.z;
+			int light_level = (int)node.p_LightValue;
+			Chunk* chunk = node.p_Chunk;
+
+			// Pop the front element
+			m_LightRemovalBFSQueue.pop();
+
+			if (x > 0)
+			{
+				int neighbor_level = chunk->GetTorchLightAt(x - 1, y, z);
+
+				if (neighbor_level != 0 && neighbor_level < light_level)
+				{
+					chunk->SetTorchLightAt(x - 1, y, z, 0);
+					m_LightRemovalBFSQueue.emplace(glm::vec3(x - 1, y, z), neighbor_level, chunk);
+				}
+
+				else if (neighbor_level >= light_level)
+				{
+					m_LightBFSQueue.emplace(glm::vec3(x - 1, y, z), chunk);
+				}
+			}
+
+			if (x < CHUNK_SIZE_X - 1)
+			{
+				int neighbor_level = chunk->GetTorchLightAt(x + 1, y, z);
+
+				if (neighbor_level != 0 && neighbor_level < light_level)
+				{
+					chunk->SetTorchLightAt(x + 1, y, z, 0);
+					m_LightRemovalBFSQueue.emplace(glm::vec3(x + 1, y, z), neighbor_level, chunk);
+				}
+
+				else if (neighbor_level >= light_level)
+				{
+					m_LightBFSQueue.emplace(glm::vec3(x + 1, y, z), chunk);
+				}
+			}
+
+			if (y > 0)
+			{
+				int neighbor_level = chunk->GetTorchLightAt(x, y - 1, z);
+
+				if (neighbor_level != 0 && neighbor_level < light_level)
+				{
+					chunk->SetTorchLightAt(x, y - 1, z, 0);
+					m_LightRemovalBFSQueue.emplace(glm::vec3(x, y - 1, z), neighbor_level, chunk);
+				}
+
+				else if (neighbor_level >= light_level)
+				{
+					m_LightBFSQueue.emplace(glm::vec3(x, y - 1, z), chunk);
+				}
+			}
+
+			if (y < CHUNK_SIZE_Y - 1)
+			{
+				int neighbor_level = chunk->GetTorchLightAt(x, y + 1, z);
+
+				if (neighbor_level != 0 && neighbor_level < light_level)
+				{
+					chunk->SetTorchLightAt(x, y + 1, z, 0);
+					m_LightRemovalBFSQueue.emplace(glm::vec3(x, y + 1, z), neighbor_level, chunk);
+				}
+
+				else if (neighbor_level >= light_level)
+				{
+					m_LightBFSQueue.emplace(glm::vec3(x, y + 1, z), chunk);
+				}
+			}
+
+			if (z > 0)
+			{
+				int neighbor_level = chunk->GetTorchLightAt(x, y, z - 1);
+
+				if (neighbor_level != 0 && neighbor_level < light_level)
+				{
+					chunk->SetTorchLightAt(x, y, z - 1, 0);
+					m_LightRemovalBFSQueue.emplace(glm::vec3(x, y, z - 1), neighbor_level, chunk);
+				}
+
+				else if (neighbor_level >= light_level)
+				{
+					m_LightBFSQueue.emplace(glm::vec3(x, y, z - 1), chunk);
+				}
+			}
+
+			if (z < CHUNK_SIZE_Z - 1)
+			{
+				int neighbor_level = chunk->GetTorchLightAt(x, y, z + 1);
+
+				if (neighbor_level != 0 && neighbor_level < light_level)
+				{
+					chunk->SetTorchLightAt(x, y, z + 1, 0);
+					m_LightRemovalBFSQueue.emplace(glm::vec3(x, y, z + 1), neighbor_level, chunk);
+				}
+
+				else if (neighbor_level >= light_level)
+				{
+					m_LightBFSQueue.emplace(glm::vec3(x, y, z + 1), chunk);
+				}
+			}
+		}
+
+		// 
+
 		while (!m_LightBFSQueue.empty())
 		{
 			LightNode& node = m_LightBFSQueue.front();
@@ -400,6 +526,12 @@ namespace Minecraft
 			int x = floor(pos.x);
 			int y = floor(pos.y);
 			int z = floor(pos.z);
+
+			glm::vec3 chunk_pos = chunk->p_Position;
+			Chunk* front_chunk = RetrieveChunkFromMap(chunk_pos.x, chunk_pos.z + 1);
+			Chunk* back_chunk = RetrieveChunkFromMap(chunk_pos.x, chunk_pos.z - 1);
+			Chunk* right_chunk = RetrieveChunkFromMap(chunk_pos.x + 1, chunk_pos.z);
+			Chunk* left_chunk = RetrieveChunkFromMap(chunk_pos.x - 1, chunk_pos.z);
 
 			if (x > 0)
 			{
@@ -446,7 +578,7 @@ namespace Minecraft
 
 				}
 			}
-			
+
 			if (z < CHUNK_SIZE_Z - 1)
 			{
 				if (chunk->GetBlock(x, y, z + 1)->p_BlockType != BlockType::Air && chunk->GetTorchLightAt(x, y, z + 1) + 2 <= light_level)
@@ -454,7 +586,7 @@ namespace Minecraft
 					chunk->SetTorchLightAt(x, y, z + 1, light_level - 1);
 					m_LightBFSQueue.push({ glm::vec3(x, y, z + 1), chunk });
 				}
-			}	
+			}
 		}
 	}
 
