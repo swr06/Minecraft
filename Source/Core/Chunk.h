@@ -23,6 +23,12 @@ namespace Minecraft
 		error
 	};
 
+	enum class ChunkLightMapState
+	{
+		ModifiedLightMap = 10,
+		UnmodifiedLightMap
+	};
+
 	enum class ChunkState
 	{
 		Ungenerated = 5,
@@ -61,11 +67,8 @@ namespace Minecraft
 		ChunkMeshState p_MeshState;
 		ChunkState p_ChunkState;
 		std::array<std::array<std::array<Block, CHUNK_SIZE_X>, CHUNK_SIZE_Y>, CHUNK_SIZE_Z> p_ChunkContents;
-
-		// total : 8 bits
-		// first 4 bits for torch light
-		// lasr 4 bits for sunling
 		std::array<std::array<std::array<i8Vec2, CHUNK_SIZE_X>, CHUNK_SIZE_Y>, CHUNK_SIZE_Z> p_ChunkLightInformation;
+		ChunkLightMapState p_LightMapState;
 
 	private :
 		// each chunk will be a 16x16x16 block space. A 3D array

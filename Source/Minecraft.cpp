@@ -1,8 +1,15 @@
 /*
+-- Project -- 
+Title : Tiny Minecraft Clone
+Version : V0.03
+
+-- Dev -- 
 Name : Samuel Wesley Rasquinha
 Email : samuelrasquinha@gmail.com
 Github : @swr06
 */
+
+// If you like this project, please star it on github <3
 
 #define GLEW_STATIC
 #include <GL/glew.h>
@@ -60,9 +67,6 @@ int main()
     {
         Minecraft::MinecraftApplication.OnUpdate();
     }
-
-    std::cin.get();
-    std::cin.get();
 
     return 0;
 }

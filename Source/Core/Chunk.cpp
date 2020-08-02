@@ -2,7 +2,8 @@
 
 namespace Minecraft
 {
-	Chunk::Chunk(const glm::vec3 chunk_position) : p_Position(chunk_position), p_MeshState(ChunkMeshState::Unbuilt), p_ChunkState(ChunkState::Ungenerated)
+	Chunk::Chunk(const glm::vec3 chunk_position) : p_Position(chunk_position), 
+		p_MeshState(ChunkMeshState::Unbuilt), p_ChunkState(ChunkState::Ungenerated), p_LightMapState(ChunkLightMapState::UnmodifiedLightMap)
 	{
 		// Initialize all the blocks in the chunk to be air blocks
 
@@ -36,11 +37,13 @@ namespace Minecraft
 	void Chunk::SetSunlightAt(int x, int y, int z, int light_val)
 	{
 		p_ChunkLightInformation[x][y][z].x = light_val;
+		p_LightMapState = ChunkLightMapState::ModifiedLightMap;
 	}
 
 	void Chunk::SetTorchLightAt(int x, int y, int z, int light_val)
 	{
 		p_ChunkLightInformation[x][y][z].y = light_val;
+		p_LightMapState = ChunkLightMapState::ModifiedLightMap;
 	}
 
 	void Chunk::Construct()

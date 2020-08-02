@@ -68,7 +68,8 @@ namespace Minecraft
             // Write the chunks
             for (auto e = world_data.begin() ; e != world_data.end() ; e++)
             {
-                if (e->second.p_ChunkState == ChunkState::Changed)
+                if (e->second.p_ChunkState == ChunkState::Changed ||
+                    e->second.p_LightMapState == ChunkLightMapState::ModifiedLightMap)
                 {
                     ChunkFileHandler::WriteChunk((Chunk*)&e->second, cdata_dir_s.str());
                 }
