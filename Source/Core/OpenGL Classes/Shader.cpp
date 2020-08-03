@@ -219,7 +219,14 @@ namespace GLClasses
 	{
 		if (Location_map.find(uniform_name) == Location_map.end())
 		{
-			Location_map[uniform_name] = glGetUniformLocation(this->m_Program, uniform_name.c_str()); 
+			GLint loc = glGetUniformLocation(this->m_Program, uniform_name.c_str());
+
+			if (loc == -1)
+			{
+				std::cout << "\nERROR! : UNIFORM NOT FOUND!    |    UNIFORM : " << uniform_name << "  \n\n";
+			}
+
+			Location_map[uniform_name] = loc;
 		}
 
 		return Location_map[uniform_name];

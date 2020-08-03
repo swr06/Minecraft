@@ -171,18 +171,20 @@ namespace Minecraft
 		void GenerateButtonQuad(const glm::vec2& position, const glm::vec2& button_size)
 		{
 			// button_colors[0] is for an unhovered button and button_colors[1] is for an hovered button
-			static glm::vec4 button_colors[2] = { glm::vec4(60 / 255, 170 / 255, 230 / 255, 1.0f), 
-												  glm::vec4(130 / 255, 200 / 255, 237 / 255, 1.0f) };
+			static glm::vec4 button_colors[2] = { glm::vec4(0.23f, 0.66f, 0.97f, 1.0f), 
+												  glm::vec4(0.57f, 0.78f, 0.92f, 1.0f) };
 			GUIVertex v1, v2, v3, v4;
 			float x, y, w, h;
 			glm::vec4 color = button_colors[0];
 
 			// Check if the button is hovered or not
 			double mx = 0, my = 0;
+			int wx, wy;
 
 			glfwGetCursorPos(GUI_Window, &mx, &my);
+			glfwGetFramebufferSize(GUI_Window, &wx, &wy);
 
-			GUI_AABB2D mouse_aabb = { (float)mx, (float)my, 4, 4};
+			GUI_AABB2D mouse_aabb = { (float)mx, (float)wy - my, 4, 4};
 			GUI_AABB2D button_aabb = { position.x, position.y, button_size.x, button_size.y };
 			
 			if (CheckAABBCollision(button_aabb, mouse_aabb))
@@ -226,9 +228,9 @@ namespace Minecraft
 				h = y + glyph_y;
 
 				v1.position = glm::vec2(w, y);
-				v2.position = glm::vec2(w, h);
+				v2.position = glm::vec2(x, y);
 				v3.position = glm::vec2(x, h);
-				v4.position = glm::vec2(x, y);
+				v4.position = glm::vec2(w, h);
 
 				// Write the texture coordinates for each vertex
 				v1.texture_coords = glm::vec2(texture_coordinates[0], texture_coordinates[1]);
@@ -258,13 +260,16 @@ namespace Minecraft
 			glDisable(GL_CULL_FACE);
 			glDisable(GL_DEPTH_TEST);
 
+			int w, h;
+			glfwGetFramebufferSize(GUI_Window, &w, &h);
+			GUI_ProjectionMatrix = glm::ortho(0.0f, (float)w, 0.0f, (float)h);
+
 			GUI_Shader->Use();
 			GUI_Shader->SetMatrix4("u_ProjectionMatrix", GUI_ProjectionMatrix, 0);
 			GUI_VAO->Bind();
 			GUI_VBO->BufferData(GUI_Vertices.size() * sizeof(GUIVertex), &GUI_Vertices.front(), GL_STATIC_DRAW);
 			glDrawElements(GL_TRIANGLES, floor(GUI_Vertices.size() / 4) * 6, GL_UNSIGNED_INT, 0);
 			GUI_VAO->Unbind();
-			glUseProgram(0);
 
 			GUI_TextShader->Use();
 			GUI_FontAtlas->Bind(0);

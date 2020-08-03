@@ -240,7 +240,7 @@ namespace Minecraft
 		}
 
 		// Render button
-		GUI::Button(glm::vec2(200, 200), glm::vec2(200, 200), "TEST");
+		GUI::Button(glm::vec2(200, 200), glm::vec2(200, 50), "test1234");
 		GUI::RenderUI(2, 2);
 
 		// Render imgui and swap the buffers after rendering ui components, world etc..
