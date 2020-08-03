@@ -6,7 +6,7 @@
 #include <iostream>
 #include <string>
 #include <array>
-#include <unordered_map>
+#include <map>
 #include <vector>
 
 /* C Libraries */
@@ -24,6 +24,7 @@
 #include "../OpenGL Classes/VertexBuffer.h"
 #include "../OpenGL Classes/IndexBuffer.h"
 #include "../OpenGL Classes/Shader.h"
+#include "../OpenGL Classes/GLDebug.h"
 
 #include "../TextureAtlas.h"
 
@@ -34,5 +35,6 @@ namespace Minecraft
 		void InitUISystem(GLFWwindow* window);
 		void RenderUI(double ts, long long frame);
 		void UpdateUI(double ts, const glm::vec2& mouse_position, long long frame);
+		bool Button(const glm::vec2& position, const glm::ivec2& button_size, const std::string& label);
 	}
 }

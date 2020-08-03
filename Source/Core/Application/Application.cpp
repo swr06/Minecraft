@@ -169,6 +169,7 @@ namespace Minecraft
 			m_World = new World(seed);
 		}
 
+		GUI::InitUISystem(m_Window);
         EventSystem::InitEventSystem(m_Window, &m_EventQueue);
 
 		// Resize window to the maximized view
@@ -237,6 +238,10 @@ namespace Minecraft
 			ImGui::Render();
 			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		}
+
+		// Render button
+		GUI::Button(glm::vec2(200, 200), glm::vec2(200, 200), "TEST");
+		GUI::RenderUI(2, 2);
 
 		// Render imgui and swap the buffers after rendering ui components, world etc..
 		GLClasses::DisplayFrameRate(m_Window, "A Tiny Minecraft Clone V0.01 By Samuel Rasquinha");

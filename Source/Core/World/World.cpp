@@ -83,7 +83,7 @@ namespace Minecraft
 
 		// Collision testing
 
-		m_CloudManager.Update(glfwGetTime(), m_CurrentFrame);
+		//m_CloudManager.Update(glfwGetTime(), m_CurrentFrame);
 	}
 
 	void World::RenderWorld()
@@ -139,7 +139,7 @@ namespace Minecraft
 		glDisable(GL_CULL_FACE);
 
 		// Render the clouds
-		m_CloudManager.RenderClouds(&p_Player->p_Camera, p_Player->p_Position);
+		//m_CloudManager.RenderClouds(&p_Player->p_Camera, p_Player->p_Position);
 
 		glDisable(GL_DEPTH_TEST);
 

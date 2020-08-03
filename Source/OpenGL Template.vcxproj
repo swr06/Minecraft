@@ -280,6 +280,10 @@
     <None Include="Shaders\LightingVert.glsl" />
     <None Include="Shaders\SkyboxFrag.glsl" />
     <None Include="Shaders\SkyboxVertex.glsl" />
+    <None Include="Shaders\UI\UIElementFrag.glsl" />
+    <None Include="Shaders\UI\UIElementVert.glsl" />
+    <None Include="Shaders\UI\UITextFrag.glsl" />
+    <None Include="Shaders\UI\UITextVert.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\block_atlas.png" />

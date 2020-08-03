@@ -78,7 +78,6 @@ namespace Minecraft
 		// Renderers
 		Renderer m_Renderer;
 		Renderer2D m_Renderer2D;
-		CubeRenderer m_CubeRenderer;
 
 		std::map<std::pair<int, int>, Chunk> m_WorldChunks;
 		Skybox m_Skybox;
@@ -86,7 +85,7 @@ namespace Minecraft
 		glm::vec3 m_EndRay;
 
 		OrthographicCamera m_Camera2D;
-		CloudManager m_CloudManager;
+		//CloudManager m_CloudManager;
 		GLClasses::Texture m_CrosshairTexture;
 		std::uint8_t m_CurrentHeldBlock = 0;
 		long long m_CurrentFrame;

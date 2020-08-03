@@ -19,6 +19,8 @@
 #include "../Block.h"
 #include "../Chunk.h"
 
+#include "../UI/GUI.h"
+
 namespace Minecraft
 {
 	class Application

@@ -399,6 +399,9 @@
     <Filter Include="Minecraft\GUI">
       <UniqueIdentifier>{a37e73f7-8637-461b-bfdf-6cd6591f6a7b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders\UI">
+      <UniqueIdentifier>{44c6560f-7fe9-487d-977c-9170940ee39b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\BlockRendererFrag.glsl">
@@ -436,6 +439,18 @@
     </None>
     <None Include="Shaders\LightingVert.glsl">
       <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\UI\UITextFrag.glsl">
+      <Filter>Shaders\UI</Filter>
+    </None>
+    <None Include="Shaders\UI\UITextVert.glsl">
+      <Filter>Shaders\UI</Filter>
+    </None>
+    <None Include="Shaders\UI\UIElementFrag.glsl">
+      <Filter>Shaders\UI</Filter>
+    </None>
+    <None Include="Shaders\UI\UIElementVert.glsl">
+      <Filter>Shaders\UI</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

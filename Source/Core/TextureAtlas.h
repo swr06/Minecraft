@@ -42,7 +42,7 @@ namespace GLClasses
 			m_TileY = ty;
 		}
 
-		array<GLfloat, 8> Sample(const glm::vec2& start_coords, const glm::vec2& end_coords)
+		std::array<GLfloat, 8> Sample(const glm::vec2& start_coords, const glm::vec2& end_coords)
 		{
 			float width, height;
 			float x2, y2;
