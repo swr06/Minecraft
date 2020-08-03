@@ -30,13 +30,16 @@ namespace Minecraft
 		struct GUI_Button
 		{
 			glm::vec2 position;
+			glm::vec2 size;
 			std::string label;
+			bool clicked;
 		};
 
 		// Vertex buffers
 		static std::vector<GUITextVertex> GUI_TextVertices; // Vertex buffer for glyphs
 		static std::vector<GUIVertex> GUI_Vertices; // Vertex buffer for buttons, windows and other colored quads 
-		
+		static std::vector<GUI_Button> GUI_Buttons; // The gui buttons
+
 		// Rendering and texturing 
 		std::map<char, std::array<GLfloat, 8>>* GUI_TextureCoordinateMap;
 		static GLClasses::Texture* GUI_FontAtlas;
@@ -168,6 +171,16 @@ namespace Minecraft
 			return;
 		}
 
+		GUI_AABB2D GetMouseAABB()
+		{
+			double x, y;
+			int w, h;
+			glfwGetFramebufferSize(GUI_Window, &w, &h);
+			glfwGetCursorPos(GUI_Window, &x, &y);
+
+			return { (float)x, static_cast<float>(h - y), (float)4, (float)4 };
+		}
+
 		void GenerateButtonQuad(const glm::vec2& position, const glm::vec2& button_size)
 		{
 			// button_colors[0] is for an unhovered button and button_colors[1] is for an hovered button
@@ -251,8 +264,26 @@ namespace Minecraft
 		{
 			GenerateGlyphs(glm::vec2(position.x + 4, position.y + 4), label);
 			GenerateButtonQuad(glm::vec2(position.x - 4, position.y - 4), glm::vec2(button_size.x + 10, button_size.y + 10));
-	
+			GUI_Buttons.push_back({position, button_size, label, 0});
+
+			if (glfwGetMouseButton(GUI_Window, GLFW_MOUSE_BUTTON_LEFT))
+			{
+				GUI_AABB2D mouse_aabb = GetMouseAABB();
+				GUI_AABB2D button_aabb = { position.x, position.y,
+						button_size.x, button_size.y };
+
+				if (CheckAABBCollision(mouse_aabb, button_aabb))
+				{
+					return true;
+				}
+			}
+
 			return false;
+		}
+
+		void MouseButtonCallback(int button, int action, int mods)
+		{
+			
 		}
 
 		void RenderUI(double ts, long long frame)

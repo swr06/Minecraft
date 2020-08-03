@@ -240,8 +240,12 @@ namespace Minecraft
 		}
 
 		// Render button
-		GUI::Button(glm::vec2(200, 200), glm::vec2(200, 50), "test1234");
-		GUI::RenderUI(2, 2);
+		if (GUI::Button(glm::vec2(200, 400), glm::vec2(126, 30), "test1234"))
+		{
+			std::cout << "\nPRESSED!";
+		}
+
+		GUI::RenderUI(glfwGetTime(), 0);
 
 		// Render imgui and swap the buffers after rendering ui components, world etc..
 		GLClasses::DisplayFrameRate(m_Window, "A Tiny Minecraft Clone V0.01 By Samuel Rasquinha");
@@ -258,10 +262,21 @@ namespace Minecraft
 	{
 		switch (e.type)
 		{
+			case EventSystem::EventTypes::MousePress :
+			{
+				GUI::MouseButtonCallback(e.button, GLFW_PRESS, e.mods);
+				break;
+			}
+
+			case EventSystem::EventTypes::MouseRelease:
+			{
+				GUI::MouseButtonCallback(e.button, GLFW_RELEASE, e.mods);
+				break;
+			}
+
 			case EventSystem::EventTypes::WindowResize : 
 			{
 				glViewport(0, 0, e.wx, e.wy);
-
 				break;
 			}
 
@@ -287,6 +302,8 @@ namespace Minecraft
 						m_CursorLocked = true;
 					}
 				}
+
+				break;
 			}
 		}
 
