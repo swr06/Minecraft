@@ -137,6 +137,9 @@
     <ClCompile Include="Core\File Handling\WorldFileHandler.cpp">
       <Filter>Minecraft\Saving and Loading</Filter>
     </ClCompile>
+    <ClCompile Include="Core\UI\GUI.cpp">
+      <Filter>Minecraft\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\OpenGL Classes\Fps.h">
@@ -298,6 +301,9 @@
     <ClInclude Include="Core\Lighting\Lighting.h">
       <Filter>Minecraft\Lighting</Filter>
     </ClInclude>
+    <ClInclude Include="Core\UI\GUI.h">
+      <Filter>Minecraft\GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Dependencies">
@@ -389,6 +395,9 @@
     </Filter>
     <Filter Include="Minecraft\Lighting">
       <UniqueIdentifier>{7d8cbce7-5a69-48b5-97ac-748e728588b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Minecraft\GUI">
+      <UniqueIdentifier>{a37e73f7-8637-461b-bfdf-6cd6591f6a7b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
