@@ -91,7 +91,6 @@ namespace Minecraft
 			SetBlock(1, 2, 3, BlockType::OakLeaves);
 			SetBlock(2, 2, 0, BlockType::OakLeaves);
 			SetBlock(2, 2, 1, BlockType::OakLeaves);
-			SetBlock(2, 2, 2, BlockType::OakLeaves);
 			SetBlock(2, 2, 3, BlockType::OakLeaves);
 			SetBlock(3, 2, 0, BlockType::OakLeaves);
 			SetBlock(3, 2, 1, BlockType::OakLeaves);
@@ -112,7 +111,6 @@ namespace Minecraft
 			SetBlock(1, 3, 3, BlockType::OakLeaves);
 			SetBlock(2, 3, 0, BlockType::OakLeaves);
 			SetBlock(2, 3, 1, BlockType::OakLeaves);
-			SetBlock(2, 3, 2, BlockType::OakLeaves);
 			SetBlock(2, 3, 3, BlockType::OakLeaves);
 			SetBlock(3, 3, 0, BlockType::OakLeaves);
 			SetBlock(3, 3, 1, BlockType::OakLeaves);
@@ -132,8 +130,7 @@ namespace Minecraft
 			SetBlock(1, 4, 2, BlockType::OakLeaves);
 			SetBlock(1, 4, 3, BlockType::OakLeaves);
 			SetBlock(2, 4, 0, BlockType::OakLeaves);
-			SetBlock(2, 4, 1, BlockType::OakLeaves);
-			SetBlock(2, 4, 2, BlockType::OakLeaves);
+			SetBlock(2, 4, 1, BlockType::OakLeaves);	
 			SetBlock(2, 4, 3, BlockType::OakLeaves);
 			SetBlock(3, 4, 0, BlockType::OakLeaves);
 			SetBlock(3, 4, 1, BlockType::OakLeaves);

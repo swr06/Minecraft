@@ -241,7 +241,7 @@ namespace Minecraft
 		}
 
 		// Render button
-		if (GUI::Button(glm::vec2(200, 400), glm::vec2(126, 30), "This is a test! $#@#%$!"))
+		if (GUI::Button(glm::vec2(200, 400), "This is a test! $#@#%$!"))
 		{
 			std::cout << "\nPRESSED!";
 		}

@@ -206,7 +206,7 @@ namespace Minecraft
 			GUI_Vertices.push_back(v4);
 		}
 
-		void GenerateGlyphs(const glm::vec2& position, const std::string& text)
+		void GenerateGlyphs(const glm::vec2& position, const std::string& text, float scale)
 		{
 			float x_ = position.x;
 
@@ -244,9 +244,11 @@ namespace Minecraft
 			}
 		}
 
-		bool Button(const glm::vec2& position, const glm::ivec2& button_size, const std::string& label)
+		bool Button(const glm::vec2& position, const std::string& label)
 		{
-			GenerateGlyphs(glm::vec2(position.x + 4, position.y + 4), label);
+			const glm::vec2 button_size = glm::vec2(label.size() * glyph_x + 8, glyph_y + 8);
+
+			GenerateGlyphs(glm::vec2(position.x + 4, position.y + 4), label, 1.0f);
 			GenerateButtonQuad(glm::vec2(position.x - 4, position.y - 4), glm::vec2(button_size.x + 10, button_size.y + 10));
 			GUI_Buttons.push_back({ position, button_size, label, 0 });
 
@@ -265,6 +267,12 @@ namespace Minecraft
 			return false;
 		}
 
+		void Text(glm::vec2& position, const std::string& label)
+		{
+			GenerateGlyphs(glm::vec2(position.x, position.y), label, 1.0f);
+			return;
+		}
+
 		void MouseButtonCallback(int button, int action, int mods)
 		{
 
@@ -279,6 +287,7 @@ namespace Minecraft
 			glfwGetFramebufferSize(GUI_Window, &w, &h);
 			GUI_ProjectionMatrix = glm::ortho(0.0f, (float)w, 0.0f, (float)h);
 
+			// Render the buttons, windows etc..
 			GUI_Shader->Use();
 			GUI_Shader->SetMatrix4("u_ProjectionMatrix", GUI_ProjectionMatrix, 0);
 			GUI_VAO->Bind();
@@ -286,12 +295,13 @@ namespace Minecraft
 			glDrawElements(GL_TRIANGLES, floor(GUI_Vertices.size() / 4) * 6, GL_UNSIGNED_INT, 0);
 			GUI_VAO->Unbind();
 
+			// Render the GUI Text (Glyphs)
 			GUI_TextShader->Use();
 			GUI_FontAtlas->Bind(0);
 			GUI_TextShader->SetMatrix4("u_ProjectionMatrix", GUI_ProjectionMatrix, 0);
 			GUI_TextShader->SetInteger("u_FontTexture", 0, 0);
 			GUI_Text_VAO->Bind();
-			GUI_Text_VBO->BufferData(GUI_TextVertices.size() * sizeof(GUIVertex), &GUI_TextVertices.front(), GL_STATIC_DRAW);
+			GUI_Text_VBO->BufferData(GUI_TextVertices.size() * sizeof(GUITextVertex), &GUI_TextVertices.front(), GL_STATIC_DRAW);
 			glDrawElements(GL_TRIANGLES, floor(GUI_TextVertices.size() / 4) * 6, GL_UNSIGNED_INT, 0);
 			GUI_Text_VAO->Unbind();
 
