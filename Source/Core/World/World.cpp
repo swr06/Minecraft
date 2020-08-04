@@ -331,7 +331,7 @@ namespace Minecraft
 							{
 								glm::ivec3 light_block = WorldBlockToLocalBlockCoordinates(position);
 
-								edit_block.second->SetTorchLightAt(light_block.x, light_block.y, light_block.z, 32);
+								edit_block.second->SetTorchLightAt(light_block.x, light_block.y, light_block.z, 16);
 
 								// Push it to the light bfs
 								m_LightBFSQueue.push({ glm::vec3(light_block.x, light_block.y, light_block.z), edit_block.second });
@@ -416,6 +416,12 @@ namespace Minecraft
 			Chunk* back_chunk = RetrieveChunkFromMap(chunk_pos.x, chunk_pos.z - 1);
 			Chunk* right_chunk = RetrieveChunkFromMap(chunk_pos.x + 1, chunk_pos.z);
 			Chunk* left_chunk = RetrieveChunkFromMap(chunk_pos.x - 1, chunk_pos.z);
+
+			// For lighting on chunk corners
+			Chunk* tr_chunk = RetrieveChunkFromMap(chunk_pos.x + 1, chunk_pos.z + 1); // Top right chunk
+			Chunk* tl_chunk = RetrieveChunkFromMap(chunk_pos.x - 1, chunk_pos.z + 1); // Top left chunk
+			Chunk* br_chunk = RetrieveChunkFromMap(chunk_pos.x + 1, chunk_pos.z - 1); // Bottom right chunk
+			Chunk* bl_chunk = RetrieveChunkFromMap(chunk_pos.x - 1, chunk_pos.z - 1); // Bottom left chunk
 
 			// Pop the front element
 			m_LightRemovalBFSQueue.pop();
@@ -601,6 +607,8 @@ namespace Minecraft
 			Chunk* right_chunk = RetrieveChunkFromMap(chunk_pos.x + 1, chunk_pos.z);
 			Chunk* left_chunk = RetrieveChunkFromMap(chunk_pos.x - 1, chunk_pos.z);
 
+			// For lighting on chunk corners
+
 			if (x > 0)
 			{
 				if (chunk->GetBlock(x - 1, y, z)->p_BlockType != BlockType::Air && chunk->GetTorchLightAt(x - 1, y, z) + 2 <= light_level)
@@ -709,7 +717,8 @@ namespace Minecraft
 	// Gets an existing chunk from the map
 	Chunk* World::RetrieveChunkFromMap(int cx, int cz)
 	{
-		return &m_WorldChunks.at(std::pair<int, int>(cx, cz));
+		Chunk* ret_val = &m_WorldChunks.at(std::pair<int, int>(cx, cz));
+		return ret_val;
 	}
 
 	// Emplaces a chunk in the map

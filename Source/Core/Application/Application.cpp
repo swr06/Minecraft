@@ -197,6 +197,7 @@ namespace Minecraft
 			WorldFileHandler::SaveWorld(world_name, m_World);
 		}
 
+		GUI::CloseUIContext();
 		glfwDestroyWindow(m_Window);
 
 		delete m_World;
@@ -240,7 +241,7 @@ namespace Minecraft
 		}
 
 		// Render button
-		if (GUI::Button(glm::vec2(200, 400), glm::vec2(126, 30), "test1234"))
+		if (GUI::Button(glm::vec2(200, 400), glm::vec2(126, 30), "This is a test! $#@#%$!"))
 		{
 			std::cout << "\nPRESSED!";
 		}

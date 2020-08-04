@@ -67,7 +67,7 @@ namespace Minecraft
 
 			bool collisionX = one_width >= two.x && two_width >= one.x;
 			bool collisionY = one_height >= two.y && two_height >= one.y;
-			
+
 			return collisionX && collisionY;
 		}
 
@@ -92,32 +92,13 @@ namespace Minecraft
 
 			GLClasses::TextureAtlas FontAtlas(GUI_FontAtlas->GetWidth(), GUI_FontAtlas->GetHeight(), glyph_x, glyph_y);
 
-			// Add the texture coordinates for A - Z
-			char curr_char = 'A';
+			std::string FontFormat = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!#$%&\"()*+,-./:;<=>?@";
 
-			for (int i = 0; i < 26; i++)
+			// Generate the texture coordinates for all the symbols
+			for (int i = 0; i < FontFormat.size(); i++)
 			{
-				GUI_TextureCoordinateMap->emplace(curr_char, FontAtlas.Sample(glm::vec2(i, i), glm::vec2(i + 1, i + 1)));
-				curr_char++;
+				GUI_TextureCoordinateMap->emplace(FontFormat.at(i), FontAtlas.Sample(glm::vec2(i, i), glm::vec2(i + 1, i + 1)));
 			}
-
-			curr_char = 'a';
-
-			for (int i = 26; i < 26 * 2; i++)
-			{
-				GUI_TextureCoordinateMap->emplace(curr_char, FontAtlas.Sample(glm::vec2(i, i), glm::vec2(i + 1, i + 1)));
-				curr_char++;
-			}
-
-			curr_char = '0';
-
-			for (int i = 26 * 2; i < (26 * 2) + 10; i++)
-			{
-				GUI_TextureCoordinateMap->emplace(curr_char, FontAtlas.Sample(glm::vec2(i, i), glm::vec2(i + 1, i + 1)));
-				curr_char++;
-			}
-
-			/* ToDo : Generate texture coordinates for other symbols */
 
 			// Generate the index buffer
 
@@ -143,7 +124,7 @@ namespace Minecraft
 			GUI_IBO->BufferData(index_size * 6 * sizeof(GLuint), IndexBuffer, GL_STATIC_DRAW);
 
 			delete[] IndexBuffer;
-			
+
 			// Set up all the opengl objects
 
 			// Text VAO
@@ -153,7 +134,7 @@ namespace Minecraft
 			GUI_Text_VBO->VertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (void*)0);
 			GUI_Text_VBO->VertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (void*)(2 * sizeof(float)));
 			GUI_Text_VAO->Unbind();
-			
+
 			// Button VAO
 			GUI_VAO->Bind();
 			GUI_IBO->Bind();
@@ -184,7 +165,7 @@ namespace Minecraft
 		void GenerateButtonQuad(const glm::vec2& position, const glm::vec2& button_size)
 		{
 			// button_colors[0] is for an unhovered button and button_colors[1] is for an hovered button
-			static glm::vec4 button_colors[2] = { glm::vec4(0.23f, 0.66f, 0.97f, 1.0f), 
+			static glm::vec4 button_colors[2] = { glm::vec4(0.23f, 0.66f, 0.97f, 1.0f),
 												  glm::vec4(0.57f, 0.78f, 0.92f, 1.0f) };
 			GUIVertex v1, v2, v3, v4;
 			float x, y, w, h;
@@ -197,9 +178,9 @@ namespace Minecraft
 			glfwGetCursorPos(GUI_Window, &mx, &my);
 			glfwGetFramebufferSize(GUI_Window, &wx, &wy);
 
-			GUI_AABB2D mouse_aabb = { (float)mx, (float)wy - my, 4, 4};
+			GUI_AABB2D mouse_aabb = { (float)mx, (float)wy - my, 4, 4 };
 			GUI_AABB2D button_aabb = { position.x, position.y, button_size.x, button_size.y };
-			
+
 			if (CheckAABBCollision(button_aabb, mouse_aabb))
 			{
 				color = button_colors[1];
@@ -231,30 +212,33 @@ namespace Minecraft
 
 			for (int i = 0; i < text.size(); i++)
 			{
-				const std::array<GLfloat, 8>& texture_coordinates = GUI_TextureCoordinateMap->at(text.at(i));
-				GUITextVertex v1, v2, v3, v4;
-				float x = 0.0f, y = 0.0f, w = 0.0f, h = 0.0f;
+				if (text.at(i) != ' ')
+				{
+					const std::array<GLfloat, 8>& texture_coordinates = GUI_TextureCoordinateMap->at(text.at(i));
+					GUITextVertex v1, v2, v3, v4;
+					float x = 0.0f, y = 0.0f, w = 0.0f, h = 0.0f;
 
-				x = x_;
-				y = position.y;
-				w = x + glyph_x;
-				h = y + glyph_y;
+					x = x_;
+					y = position.y;
+					w = x + glyph_x;
+					h = y + glyph_y;
 
-				v1.position = glm::vec2(w, y);
-				v2.position = glm::vec2(x, y);
-				v3.position = glm::vec2(x, h);
-				v4.position = glm::vec2(w, h);
+					v1.position = glm::vec2(w, y);
+					v2.position = glm::vec2(x, y);
+					v3.position = glm::vec2(x, h);
+					v4.position = glm::vec2(w, h);
 
-				// Write the texture coordinates for each vertex
-				v1.texture_coords = glm::vec2(texture_coordinates[0], texture_coordinates[1]);
-				v2.texture_coords = glm::vec2(texture_coordinates[2], texture_coordinates[3]);
-				v3.texture_coords = glm::vec2(texture_coordinates[4], texture_coordinates[5]);
-				v4.texture_coords = glm::vec2(texture_coordinates[6], texture_coordinates[7]);
+					// Write the texture coordinates for each vertex
+					v1.texture_coords = glm::vec2(texture_coordinates[0], texture_coordinates[1]);
+					v2.texture_coords = glm::vec2(texture_coordinates[2], texture_coordinates[3]);
+					v3.texture_coords = glm::vec2(texture_coordinates[4], texture_coordinates[5]);
+					v4.texture_coords = glm::vec2(texture_coordinates[6], texture_coordinates[7]);
 
-				GUI_TextVertices.push_back(v1);
-				GUI_TextVertices.push_back(v2);
-				GUI_TextVertices.push_back(v3);
-				GUI_TextVertices.push_back(v4);
+					GUI_TextVertices.push_back(v1);
+					GUI_TextVertices.push_back(v2);
+					GUI_TextVertices.push_back(v3);
+					GUI_TextVertices.push_back(v4);
+				}
 
 				x_ += glyph_x;
 			}
@@ -264,7 +248,7 @@ namespace Minecraft
 		{
 			GenerateGlyphs(glm::vec2(position.x + 4, position.y + 4), label);
 			GenerateButtonQuad(glm::vec2(position.x - 4, position.y - 4), glm::vec2(button_size.x + 10, button_size.y + 10));
-			GUI_Buttons.push_back({position, button_size, label, 0});
+			GUI_Buttons.push_back({ position, button_size, label, 0 });
 
 			if (glfwGetMouseButton(GUI_Window, GLFW_MOUSE_BUTTON_LEFT))
 			{
@@ -283,7 +267,7 @@ namespace Minecraft
 
 		void MouseButtonCallback(int button, int action, int mods)
 		{
-			
+
 		}
 
 		void RenderUI(double ts, long long frame)
@@ -317,7 +301,7 @@ namespace Minecraft
 
 		void UpdateUI(double ts, const glm::vec2& mouse_position, long long frame)
 		{
-			
+
 		}
 
 		void CloseUIContext()
@@ -330,13 +314,13 @@ namespace Minecraft
 			delete GUI_FontAtlas;
 			delete GUI_TextShader;
 			delete GUI_Shader;
-		
+
 			GUI_TextVertices.clear();
 			GUI_Vertices.clear();
 			GUI_TextureCoordinateMap->clear();
 
 			delete GUI_TextureCoordinateMap;
-		}	
+		}
 
-	}		 
-}			
+	}
+}

@@ -37,5 +37,6 @@ namespace Minecraft
 		void UpdateUI(double ts, const glm::vec2& mouse_position, long long frame);
 		bool Button(const glm::vec2& position, const glm::ivec2& button_size, const std::string& label);
 		void MouseButtonCallback(int button, int action, int mods);
+		void CloseUIContext();
 	}
 }
