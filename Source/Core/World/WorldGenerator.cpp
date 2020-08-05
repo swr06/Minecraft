@@ -125,7 +125,7 @@ namespace Minecraft
                 generated_x = x;
                 generated_z = z;
 
-                generated_y = (height_at / 2 + 1.0f) * (64);
+                generated_y = (height_at / 2 + 1.0f) * (96.0f);
 
                 switch (chunk_biome)
                 {
