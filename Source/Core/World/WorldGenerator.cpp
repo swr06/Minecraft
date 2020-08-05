@@ -5,9 +5,9 @@ namespace Minecraft
     // Sets the vertical blocks based on the biome
     void SetVerticalBlocks(Chunk* chunk, int x, int z, int y_level, Biome biome)
     {
-        if (y_level >= CHUNK_SIZE_Y)
+        if (y_level >= 128)
         {
-            y_level = CHUNK_SIZE_Y - 1;
+            y_level = 128 - 1;
         }
 
         for (int i = 0; i < y_level; i++)
@@ -125,7 +125,7 @@ namespace Minecraft
                 generated_x = x;
                 generated_z = z;
 
-                generated_y = (height_at / 2 + 1.0f) * ((float)CHUNK_SIZE_Y);
+                generated_y = (height_at / 2 + 1.0f) * ((float)96);
 
                 switch (chunk_biome)
                 {

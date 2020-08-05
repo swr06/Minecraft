@@ -95,7 +95,7 @@ namespace Minecraft
 			{
 				for (int y = blockMin.y; y <= blockMax.y; ++y)
 				{
-					for (int z = blockMin.z; z <= blockMax.z; ++z)
+					for (int z = blockMin.z; z <= blockMax.z; ++x)
 					{
 						const Block* block = GetWorldBlock(glm::vec3(x, y, z));
 
