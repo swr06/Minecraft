@@ -97,7 +97,7 @@ namespace Minecraft
         // Set the chunk state
         chunk->p_ChunkState = ChunkState::Generated;
 
-        WorldGenerator.SetNoiseType(FastNoise::Simplex);
+        WorldGenerator.SetNoiseType(FastNoise::SimplexFractal);
         BiomeGenerator.SetNoiseType(FastNoise::Simplex);
 
         float generated_x = 0;
