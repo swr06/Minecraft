@@ -60,7 +60,7 @@ namespace Minecraft
 			return m_Up;
 		}
 
-		inline const glm::vec3& GetRight()
+		inline const glm::vec3 GetRight()
 		{
 			return glm::normalize(glm::cross(m_Front, m_Up));
 		}

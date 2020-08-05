@@ -58,8 +58,6 @@ namespace Minecraft
 
     void FillInWorldStructure(Chunk* chunk, WorldStructure* structure, int x, int y, int z)
     {
-        Block block;
-
         for (int i = x, sx = 0; i < x + MAX_STRUCTURE_X; i++, sx++)
         {
             for (int j = y, sy = 0; j < y + MAX_STRUCTURE_Y; j++, sy++)
@@ -121,7 +119,6 @@ namespace Minecraft
         static TreeStructure WorldStructureTree;
         static CactusStructure WorldStructureCactus;
         WorldStructure* Structure = nullptr;
-        Biome chunk_biome;
 
         // Generates the world using perlin noise to generate a height map
 
@@ -152,6 +149,11 @@ namespace Minecraft
 
                 case Biome::Desert:
                     Structure = &WorldStructureCactus;
+                    structure_freq = 200;
+                    break;
+
+                default : 
+                    Structure = &WorldStructureTree;
                     structure_freq = 200;
                     break;
                 }

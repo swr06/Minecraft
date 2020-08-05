@@ -115,7 +115,6 @@ namespace Minecraft
 
         World* LoadWorld(const std::string& world_name)
         {
-            Player* player = new Player;
             stringstream cdata_dir_s; // chunk data directory
             stringstream player_file_pth;
             stringstream world_file_pth;

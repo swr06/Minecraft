@@ -26,8 +26,6 @@ namespace Minecraft
 
 		WorldStructure()
 		{
-			Block b;
-
 			p_Structure = new std::array<std::array<std::array<Block, MAX_STRUCTURE_X>, MAX_STRUCTURE_Y>, MAX_STRUCTURE_Z>;
 			p_StructureType = WorldStructureType::Undefined;
 

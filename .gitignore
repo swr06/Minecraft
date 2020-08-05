@@ -339,3 +339,5 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 Source/imgui.ini
+Source/ClangRelease/Minecraft Clone.tlog/clang-cl.13568.delete.1.tlog
+*.tlog

@@ -22,9 +22,6 @@ namespace GLClasses
 	private :
 
 		GLuint m_TextureID;
-		int m_Width;
-		int m_Height;
-		int m_Channels;
 		
 		std::vector<std::string> m_CubeFacePaths;
 	};

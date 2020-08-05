@@ -30,7 +30,7 @@ namespace Minecraft
 		p_Player = new Player;
 
 		// Set the players position
-		p_Player->p_Camera.SetPosition(glm::vec3(0, (CHUNK_SIZE_Y + 10) - 2, 0));
+		p_Player->p_Camera.SetPosition(glm::vec3(0, 140, 0));
 
 		Logger::LogToConsole("The World was Constructed!");
 
@@ -82,8 +82,6 @@ namespace Minecraft
 		m_CurrentFrame++;
 
 		// Collision testing
-
-		//m_CloudManager.Update(glfwGetTime(), m_CurrentFrame);
 	}
 
 	void World::RenderWorld()

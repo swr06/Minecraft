@@ -178,7 +178,9 @@ namespace Minecraft
 			glfwGetCursorPos(GUI_Window, &mx, &my);
 			glfwGetFramebufferSize(GUI_Window, &wx, &wy);
 
-			GUI_AABB2D mouse_aabb = { (float)mx, (float)wy - my, 4, 4 };
+			float _my = static_cast<float>(wy - my);
+
+			GUI_AABB2D mouse_aabb = { (float)mx, _my, 4, 4 };
 			GUI_AABB2D button_aabb = { position.x, position.y, button_size.x, button_size.y };
 
 			if (CheckAABBCollision(button_aabb, mouse_aabb))

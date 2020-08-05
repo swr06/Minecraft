@@ -58,7 +58,6 @@ void GLAPIENTRY gl_debug_callback(GLenum source, GLenum type, GLuint id,
 namespace Minecraft
 {
 	static const constexpr bool ShouldInitializeImgui = false;
-	static const constexpr bool ShouldCull = true;
 
 	Application MinecraftApplication;
 
@@ -90,7 +89,7 @@ namespace Minecraft
         glfwMakeContextCurrent(m_Window);
 
         // Turn on V-Sync
-        glfwSwapInterval(1);
+        glfwSwapInterval(0);
 
         glewInit();
 
@@ -240,11 +239,11 @@ namespace Minecraft
 			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		}
 
-		//// Render button
-		//if (GUI::Button(glm::vec2(200, 400), "This is a test! $#@#%$!"))
-		//{
-		//	std::cout << "\nPRESSED!";
-		//}
+		// Render button
+		if (GUI::Button(glm::vec2(200, 400), "This is a test! $#@#%$!"))
+		{
+			std::cout << "\nPRESSED!";
+		}
 
 		GUI::RenderUI(glfwGetTime(), 0);
 
