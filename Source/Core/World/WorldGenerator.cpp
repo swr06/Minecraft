@@ -96,7 +96,7 @@ namespace Minecraft
 
         // Set the chunk state
         chunk->p_ChunkState = ChunkState::Generated;
-        
+
         WorldGenerator.SetNoiseType(FastNoise::Simplex);
         BiomeGenerator.SetNoiseType(FastNoise::Simplex);
 
@@ -108,61 +108,55 @@ namespace Minecraft
         static CactusStructure WorldStructureCactus;
         WorldStructure* Structure;
 
-        static float HeightMap[CHUNK_SIZE_X][CHUNK_SIZE_Y]; // 2D heightmap to create terrain
-
         Biome chunk_biome;
 
         chunk_biome = GetBiome(BiomeGenerator.GetNoise(chunk->p_Position.x * CHUNK_SIZE_X, chunk->p_Position.y * CHUNK_SIZE_Y, chunk->p_Position.z * CHUNK_SIZE_Z));
 
-        for (int x = 0; x < CHUNK_SIZE_X; x++)
-        {
-            for (int y = 0; y < CHUNK_SIZE_Y; y++)
-            {
-                HeightMap[x][y] = WorldGenerator.GetNoise(x + chunk->p_Position.x * CHUNK_SIZE_X, y + chunk->p_Position.z * CHUNK_SIZE_Z) *
-                    WorldGeneratorMultiply_1.GetNoise((x + chunk->p_Position.x * CHUNK_SIZE_X) + 4, (y + chunk->p_Position.z * CHUNK_SIZE_Z) + 8) ;
-            }
-        }
+        // Generates the world using perlin noise to generate a height map
 
         for (int x = 0; x < CHUNK_SIZE_X; x++)
         {
             for (int z = 0; z < CHUNK_SIZE_Z; z++)
             {
+                float real_x = x + chunk->p_Position.x * CHUNK_SIZE_X;
+                float real_z = z + chunk->p_Position.z * CHUNK_SIZE_Z;
+
+                float height_at = WorldGenerator.GetNoise(real_x, real_z) * WorldGeneratorMultiply_1.GetNoise(real_x + 4, real_z + 4);
                 generated_x = x;
                 generated_z = z;
 
+                generated_y = (height_at / 2 + 1.0f) * (64);
+
                 switch (chunk_biome)
                 {
-                    case Biome::Grassland :
-                    {
-                        generated_y = (HeightMap[x][z] / 2 + 1.0) * (CHUNK_SIZE_Y - 32);
-                        Structure = &WorldStructureTree;
-                        break;
-                    }
+                case Biome::Grassland:
+                {
+                    Structure = &WorldStructureTree;
+                    break;
+                }
 
-                    case Biome::Desert : 
-                    {
-                        generated_y = (HeightMap[x][z] / 2 + 1.0) * (CHUNK_SIZE_Y - 32);
-                        Structure = &WorldStructureCactus;
-                        break;
-                    }
+                case Biome::Desert:
+                {
+                    Structure = &WorldStructureCactus;
+                    break;
+                }
 
-                    default :
-                    {
-                        generated_y = (HeightMap[x][z] / 2 + 1.0) * (CHUNK_SIZE_Y - 32);
-                        Structure = nullptr;
-                        break;
-                    }
+                default:
+                {
+                    Structure = nullptr;
+                    break;
+                }
                 }
 
                 SetVerticalBlocks(chunk, generated_x, generated_z, generated_y, chunk_biome);
-                
-                if (WorldTreeGenerator.UnsignedInt(75) == 7 &&
-                    generated_x + MAX_STRUCTURE_X < CHUNK_SIZE_X && 
+
+                if (WorldTreeGenerator.UnsignedInt(75) == 0 &&
+                    generated_x + MAX_STRUCTURE_X < CHUNK_SIZE_X &&
                     generated_y + MAX_STRUCTURE_Y < CHUNK_SIZE_Y &&
                     generated_z + MAX_STRUCTURE_Z < CHUNK_SIZE_Z &&
                     Structure != nullptr)
                 {
-                     FillInWorldStructure(chunk, Structure, generated_x, generated_y - 1, generated_z);
+                    FillInWorldStructure(chunk, Structure, generated_x, generated_y - 1, generated_z);
                 }
             }
         }
