@@ -121,11 +121,11 @@ namespace Minecraft
                 float real_x = x + chunk->p_Position.x * CHUNK_SIZE_X;
                 float real_z = z + chunk->p_Position.z * CHUNK_SIZE_Z;
 
-                float height_at = WorldGenerator.GetNoise(real_x, real_z) * WorldGeneratorMultiply_1.GetNoise(real_x + 4, real_z + 4);
+                float height_at = WorldGenerator.GetNoise(real_x, real_z) * WorldGeneratorMultiply_1.GetNoise(real_x * 0.8f, real_z * 0.8f);
                 generated_x = x;
                 generated_z = z;
 
-                generated_y = (height_at / 2 + 1.0f) * (96.0f);
+                generated_y = (height_at / 2 + 1.0f) * ((float)CHUNK_SIZE_Y);
 
                 switch (chunk_biome)
                 {
