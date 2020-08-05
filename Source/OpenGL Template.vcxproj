@@ -168,7 +168,6 @@
     <ClCompile Include="Core\Chunk.cpp" />
     <ClCompile Include="Core\ChunkMesh.cpp" />
     <ClCompile Include="Core\Clouds\Cloud.cpp" />
-    <ClCompile Include="Core\Clouds\CloudGenerator.cpp" />
     <ClCompile Include="Core\CubeRenderer.cpp" />
     <ClCompile Include="Core\Dependencies\imgui\imgui.cpp" />
     <ClCompile Include="Core\Dependencies\imgui\imgui_demo.cpp" />
@@ -221,7 +220,6 @@
     <ClInclude Include="Core\Chunk.h" />
     <ClInclude Include="Core\ChunkMesh.h" />
     <ClInclude Include="Core\Clouds\Cloud.h" />
-    <ClInclude Include="Core\Clouds\CloudGenerator.h" />
     <ClInclude Include="Core\CubeRenderer.h" />
     <ClInclude Include="Core\Dependencies\imgui\imconfig.h" />
     <ClInclude Include="Core\Dependencies\imgui\imgui.h" />
@@ -272,8 +270,8 @@
     <None Include="Shaders\2DElementShaderVert.glsl" />
     <None Include="Shaders\BlockRendererFrag.glsl" />
     <None Include="Shaders\BlockRendererVertex.glsl" />
-    <None Include="Shaders\CloudShaderFrag.glsl" />
-    <None Include="Shaders\CloudShaderVert.glsl" />
+    <None Include="Shaders\CloudFrag.glsl" />
+    <None Include="Shaders\CloudVert.glsl" />
     <None Include="Shaders\CubeRendererFrag.glsl" />
     <None Include="Shaders\CubeRendererVert.glsl" />
     <None Include="Shaders\LightingFrag.glsl" />

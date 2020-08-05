@@ -31,18 +31,7 @@ namespace Minecraft
 			p_Structure = new std::array<std::array<std::array<Block, MaxStructureX>, MaxStructureY>, MaxStructureZ>;
 			p_StructureType = WorldStructureType::Undefined;
 
-			for (int i = 0; i < MaxStructureX; i++)
-			{
-				for (int j = 0; j < MaxStructureY; j++)
-				{
-					for (int k = 0; k < MaxStructureZ; k++)
-					{
-						b.p_BlockType = BlockType::Air;
-
-						p_Structure->at(i).at(j).at(k) = b;
-					}
-				}
-			}
+			memset(p_Structure, BlockType::Air, MaxStructureX * MaxStructureY * MaxStructureZ);
 		}
 
 		~WorldStructure()

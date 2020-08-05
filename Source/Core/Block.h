@@ -49,6 +49,16 @@ namespace Minecraft
 
 	struct Block
 	{
-		std::uint8_t p_BlockType;
+		std::uint8_t p_BlockType = BlockType::UnknownBlockType;
+
+		bool IsOpaque()
+		{
+			if (p_BlockType != BlockType::Air && p_BlockType != BlockType::GlassWhite && p_BlockType != BlockType::Water)
+			{
+				return true;
+			}
+
+			return false;
+		}
 	};
 }

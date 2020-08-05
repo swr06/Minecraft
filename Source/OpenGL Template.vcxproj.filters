@@ -101,12 +101,6 @@
       <Filter>Minecraft\Physics</Filter>
     </ClCompile>
     <ClCompile Include="Minecraft.cpp" />
-    <ClCompile Include="Core\Clouds\Cloud.cpp">
-      <Filter>Minecraft\Clouds</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Clouds\CloudGenerator.cpp">
-      <Filter>Minecraft\Clouds</Filter>
-    </ClCompile>
     <ClCompile Include="Core\OpenGL Classes\stb_image.cpp">
       <Filter>Abstract OpenGL\Texturing\stb_image</Filter>
     </ClCompile>
@@ -139,6 +133,9 @@
     </ClCompile>
     <ClCompile Include="Core\UI\GUI.cpp">
       <Filter>Minecraft\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Clouds\Cloud.cpp">
+      <Filter>Minecraft\Clouds</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -256,12 +253,6 @@
     <ClInclude Include="Core\Physics\AABB.h">
       <Filter>Minecraft\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Clouds\Cloud.h">
-      <Filter>Minecraft\Clouds</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Clouds\CloudGenerator.h">
-      <Filter>Minecraft\Clouds</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Utils\Enums.h">
       <Filter>Minecraft\Utils</Filter>
     </ClInclude>
@@ -303,6 +294,9 @@
     </ClInclude>
     <ClInclude Include="Core\UI\GUI.h">
       <Filter>Minecraft\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Clouds\Cloud.h">
+      <Filter>Minecraft\Clouds</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -381,9 +375,6 @@
     <Filter Include="Minecraft\Gameplay">
       <UniqueIdentifier>{05e3cda0-424a-47c9-8b36-3e60a9932cb0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Minecraft\Clouds">
-      <UniqueIdentifier>{5db0b6e5-9576-4633-bd15-9a41793390f2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Dependencies\Imgui">
       <UniqueIdentifier>{16c3fee6-7dc3-4a4a-9cd5-0d706ae97834}</UniqueIdentifier>
     </Filter>
@@ -401,6 +392,9 @@
     </Filter>
     <Filter Include="Shaders\UI">
       <UniqueIdentifier>{44c6560f-7fe9-487d-977c-9170940ee39b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Minecraft\Clouds">
+      <UniqueIdentifier>{232420d0-e6a4-42fb-bd73-74530efc7ae8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -422,16 +416,7 @@
     <None Include="Shaders\2DElementShaderVert.glsl">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\CubeRendererFrag.glsl">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="Shaders\CubeRendererVert.glsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\CloudShaderFrag.glsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\CloudShaderVert.glsl">
       <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\LightingFrag.glsl">
@@ -451,6 +436,15 @@
     </None>
     <None Include="Shaders\UI\UIElementVert.glsl">
       <Filter>Shaders\UI</Filter>
+    </None>
+    <None Include="Shaders\CubeRendererFrag.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\CloudFrag.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\CloudVert.glsl">
+      <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

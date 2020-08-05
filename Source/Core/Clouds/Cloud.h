@@ -13,3 +13,13 @@
 #include "../OpenGL Classes/Shader.h"
 #include "../OpenGL Classes/GLDebug.h"
 
+#include "../Utils/Defs.h"
+
+namespace Minecraft
+{
+	namespace Clouds
+	{
+		void Init();
+		void RenderClouds(double ts, const glm::vec2& render_distance);
+	}
+}
