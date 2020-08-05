@@ -28,10 +28,10 @@ namespace Minecraft
 		{
 			Block b;
 
-			p_Structure = new std::array<std::array<std::array<Block, MaxStructureX>, MaxStructureY>, MaxStructureZ>;
+			p_Structure = new std::array<std::array<std::array<Block, MAX_STRUCTURE_X>, MAX_STRUCTURE_Y>, MAX_STRUCTURE_Z>;
 			p_StructureType = WorldStructureType::Undefined;
 
-			memset(p_Structure, BlockType::Air, MaxStructureX * MaxStructureY * MaxStructureZ);
+			memset(p_Structure, BlockType::Air, MAX_STRUCTURE_X * MAX_STRUCTURE_Y * MAX_STRUCTURE_Z);
 		}
 
 		~WorldStructure()
@@ -40,7 +40,7 @@ namespace Minecraft
 		}
 
 		WorldStructureType p_StructureType;
-		std::array<std::array<std::array<Block, MaxStructureX>, MaxStructureY>, MaxStructureZ>* p_Structure;
+		std::array<std::array<std::array<Block, MAX_STRUCTURE_X>, MAX_STRUCTURE_Y>, MAX_STRUCTURE_Z>* p_Structure;
 
 	protected : 
 

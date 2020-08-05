@@ -3,11 +3,9 @@
 #define CHUNK_SIZE_X 16
 #define CHUNK_SIZE_Y 128
 #define CHUNK_SIZE_Z 16
-#define MaxStructureX 8
-#define MaxStructureY 8
-#define MaxStructureZ 8
-#define ChunkID int;
-#define CoordType int;
+#define MAX_STRUCTURE_X 8
+#define MAX_STRUCTURE_Y 8
+#define MAX_STRUCTURE_Z 8
 
 
 // For windowing and context creation

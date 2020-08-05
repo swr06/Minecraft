@@ -49,13 +49,13 @@ namespace Minecraft
     {
         Block block;
 
-        for (int i = x, sx = 0; i < x + MaxStructureX; i++, sx++)
+        for (int i = x, sx = 0; i < x + MAX_STRUCTURE_X; i++, sx++)
         {
-            for (int j = y, sy = 0; j < y + MaxStructureY; j++, sy++)
+            for (int j = y, sy = 0; j < y + MAX_STRUCTURE_Y; j++, sy++)
             {
-                for (int k = z, sz = 0; k < z + MaxStructureZ; k++, sz++)
+                for (int k = z, sz = 0; k < z + MAX_STRUCTURE_Z; k++, sz++)
                 {
-                    if (i < CHUNK_SIZE_X && j < CHUNK_SIZE_Y && k < CHUNK_SIZE_Z && sx < MaxStructureX && sy < MaxStructureY && sz < MaxStructureZ)
+                    if (i < CHUNK_SIZE_X && j < CHUNK_SIZE_Y && k < CHUNK_SIZE_Z && sx < MAX_STRUCTURE_X && sy < MAX_STRUCTURE_Y && sz < MAX_STRUCTURE_Z)
                     {
                         if (structure->p_Structure->at(sx).at(sy).at(sz).p_BlockType != BlockType::Air)
                         {
@@ -157,9 +157,9 @@ namespace Minecraft
                 SetVerticalBlocks(chunk, generated_x, generated_z, generated_y, chunk_biome);
                 
                 if (WorldTreeGenerator.UnsignedInt(75) == 7 &&
-                    generated_x + MaxStructureX < CHUNK_SIZE_X && 
-                    generated_y + MaxStructureY < CHUNK_SIZE_Y &&
-                    generated_z + MaxStructureZ < CHUNK_SIZE_Z &&
+                    generated_x + MAX_STRUCTURE_X < CHUNK_SIZE_X && 
+                    generated_y + MAX_STRUCTURE_Y < CHUNK_SIZE_Y &&
+                    generated_z + MAX_STRUCTURE_Z < CHUNK_SIZE_Z &&
                     Structure != nullptr)
                 {
                      FillInWorldStructure(chunk, Structure, generated_x, generated_y - 1, generated_z);
