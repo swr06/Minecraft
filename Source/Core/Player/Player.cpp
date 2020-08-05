@@ -22,7 +22,7 @@ namespace Minecraft
 			cam.ChangePosition(back * camera_speed);
 			do_collision_check = true;
 		}
-			
+
 		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 		{
 			cam.ChangePosition(-(cam.GetRight() * camera_speed));
@@ -95,7 +95,7 @@ namespace Minecraft
 			{
 				for (int y = blockMin.y; y <= blockMax.y; ++y)
 				{
-					for (int z = blockMin.z; z <= blockMax.z; ++x)
+					for (int z = blockMin.z; z <= blockMax.z; ++z)
 					{
 						const Block* block = GetWorldBlock(glm::vec3(x, y, z));
 
