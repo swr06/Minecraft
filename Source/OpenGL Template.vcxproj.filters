@@ -85,9 +85,6 @@
     <ClCompile Include="Core\OrthographicCamera.cpp">
       <Filter>Minecraft</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Utils\Physics.cpp">
-      <Filter>Minecraft\Utils</Filter>
-    </ClCompile>
     <ClCompile Include="Core\Maths\Frustum.cpp">
       <Filter>Minecraft\Math\Frustum Culling</Filter>
     </ClCompile>
@@ -237,9 +234,6 @@
     </ClInclude>
     <ClInclude Include="Core\OrthographicCamera.h">
       <Filter>Minecraft</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Utils\Physics.h">
-      <Filter>Minecraft\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Core\Utils\Raycast.h">
       <Filter>Minecraft\Utils</Filter>

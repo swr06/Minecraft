@@ -2,9 +2,18 @@
 
 namespace Minecraft
 {
+    Biome GetBiome(float chunk_noise);
+
     // Sets the vertical blocks based on the biome
-    void SetVerticalBlocks(Chunk* chunk, int x, int z, int y_level, Biome biome)
+    // Also it returns the biome for the block column
+    Biome SetVerticalBlocks(Chunk* chunk, int x, int z, int y_level, float real_x, float real_z)
     {
+        static FastNoise BiomeGenerator(1234);
+        BiomeGenerator.SetNoiseType(FastNoise::Simplex);
+
+        float column_noise = BiomeGenerator.GetNoise(real_x, real_z);
+        Biome biome = GetBiome(column_noise);
+       
         if (y_level >= 128)
         {
             y_level = 128 - 1;
@@ -43,6 +52,8 @@ namespace Minecraft
                 }
             }
         }
+
+        return biome;
     }
 
     void FillInWorldStructure(Chunk* chunk, WorldStructure* structure, int x, int y, int z)
@@ -71,18 +82,23 @@ namespace Minecraft
     {
         // Quantize the noise into various levels and frequency
 
-        const float grass_land = 0.1f;
-        const float desert = 0.6f;
+        const float grass_land = 0.3f;
+        const float desert = 0.5f;
         const float ocean = 0.6f;
 
-        if (chunk_noise <= 0)
+        if (chunk_noise <= grass_land)
         {
             return Biome::Grassland;
         }
 
-        else if (chunk_noise > 0)
+        else if (chunk_noise > desert)
         {
             return Biome::Desert;
+        }
+
+        else
+        {
+            return Biome::Grassland;
         }
     }
 
@@ -92,13 +108,11 @@ namespace Minecraft
         static Random WorldTreeGenerator(WorldSeed);
         static FastNoise WorldGenerator(WorldSeed);
         static FastNoise WorldGeneratorMultiply_1(WorldSeed);
-        static FastNoise BiomeGenerator(WorldSeed);
 
         // Set the chunk state
         chunk->p_ChunkState = ChunkState::Generated;
 
         WorldGenerator.SetNoiseType(FastNoise::SimplexFractal);
-        BiomeGenerator.SetNoiseType(FastNoise::Simplex);
 
         float generated_x = 0;
         float generated_y = 0;
@@ -106,11 +120,8 @@ namespace Minecraft
 
         static TreeStructure WorldStructureTree;
         static CactusStructure WorldStructureCactus;
-        WorldStructure* Structure;
-
+        WorldStructure* Structure = nullptr;
         Biome chunk_biome;
-
-        chunk_biome = GetBiome(BiomeGenerator.GetNoise(chunk->p_Position.x * CHUNK_SIZE_X, chunk->p_Position.y * CHUNK_SIZE_Y, chunk->p_Position.z * CHUNK_SIZE_Z));
 
         // Generates the world using perlin noise to generate a height map
 
@@ -118,6 +129,8 @@ namespace Minecraft
         {
             for (int z = 0; z < CHUNK_SIZE_Z; z++)
             {
+                int structure_freq = 0; // The value passed to the seeded random number gen. The higher this number is
+                                        // .. the lesser of that structure will be there
                 float real_x = x + chunk->p_Position.x * CHUNK_SIZE_X;
                 float real_z = z + chunk->p_Position.z * CHUNK_SIZE_Z;
 
@@ -127,28 +140,21 @@ namespace Minecraft
 
                 generated_y = (height_at / 2 + 1.0f) * ((float)96);
 
-                switch (chunk_biome)
+                // The biome of the block column
+                Biome biome = SetVerticalBlocks(chunk, generated_x, generated_z, generated_y, real_x, real_z);
+
+                switch (biome)
                 {
-                case Biome::Grassland:
-                {
+                case Biome::Grassland : 
                     Structure = &WorldStructureTree;
+                    structure_freq = 50;
                     break;
-                }
 
                 case Biome::Desert:
-                {
                     Structure = &WorldStructureCactus;
+                    structure_freq = 200;
                     break;
                 }
-
-                default:
-                {
-                    Structure = nullptr;
-                    break;
-                }
-                }
-
-                SetVerticalBlocks(chunk, generated_x, generated_z, generated_y, chunk_biome);
 
                 if (WorldTreeGenerator.UnsignedInt(75) == 0 &&
                     generated_x + MAX_STRUCTURE_X < CHUNK_SIZE_X &&

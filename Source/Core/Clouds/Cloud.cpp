@@ -38,9 +38,14 @@ namespace Minecraft
 
 	void Clouds::RenderClouds(double ts, const glm::vec2& render_distance)
 	{
+		const float width = 1024, height = 1024, depth = 1024;
+
 		float x = 0.0f;
 		float y = 128.0f;
 		float z = 0.0f;
+
+		float w = width + x;
+		float d = depth + z;
 
 		// Generate the vertex buffer
 
@@ -51,12 +56,11 @@ namespace Minecraft
 		CloudVertex v3;
 		CloudVertex v4;
 
-		float w, h;
+		v1.position = glm::vec3(x, y, z);
+		v2.position = glm::vec3(w, y, z);
+		v3.position = glm::vec3(w, y, d);
+		v4.position = glm::vec3(x, y, d);
 
-		v1.position = glm::vec3(0, y, 0);
-		v2.position = glm::vec3();
-		v3.position = glm::vec3();
-		v4.position = glm::vec3();
 
 	}
 }

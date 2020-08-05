@@ -6,7 +6,7 @@ namespace Minecraft
 	{
 		FPSCamera cam = p_Camera;
 		bool do_collision_check = false;
-		const float camera_speed = 0.25;
+		const float camera_speed = 0.35f;
 
 		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		{

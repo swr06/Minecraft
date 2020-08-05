@@ -240,11 +240,11 @@ namespace Minecraft
 			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		}
 
-		// Render button
-		if (GUI::Button(glm::vec2(200, 400), "This is a test! $#@#%$!"))
-		{
-			std::cout << "\nPRESSED!";
-		}
+		//// Render button
+		//if (GUI::Button(glm::vec2(200, 400), "This is a test! $#@#%$!"))
+		//{
+		//	std::cout << "\nPRESSED!";
+		//}
 
 		GUI::RenderUI(glfwGetTime(), 0);
 
