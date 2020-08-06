@@ -18,13 +18,16 @@ namespace Minecraft
 		chunk->GetChunkMesh()->p_VAO.Unbind();
 	}
 
-	void Renderer::StartChunkRendering(FPSCamera* camera, const glm::vec4& ambient_light)
+	void Renderer::StartChunkRendering(FPSCamera* camera, const glm::vec4& ambient_light, int render_distance)
 	{
 		m_DefaultShader.Use();
 		m_BlockAtlas.Bind(0);
 		m_DefaultShader.SetInteger("u_Texture", 0, 0);
 		m_DefaultShader.SetVector4f("u_AmbientLight", ambient_light, 0);
 		m_DefaultShader.SetMatrix4("u_ViewProjection", camera->GetViewProjection());
+		m_DefaultShader.SetMatrix4("u_ViewMatrix", camera->GetViewMatrix());
+		m_DefaultShader.SetInteger("u_RenderDistance", render_distance);
+		m_DefaultShader.SetVector4f("u_FogColor", glm::vec4(0.60f, 0.79f, 0.89f, 1.0f));
 	}
 
 	void Renderer::EndChunkRendering()

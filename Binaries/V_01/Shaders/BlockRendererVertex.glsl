@@ -4,17 +4,28 @@ layout (location = 1) in vec2 a_TexCoords;
 layout (location = 2) in float a_LightingLevel;
 layout (location = 3) in float a_BlockFaceLightLevel;
 
+uniform int u_RenderDistance;
 uniform vec4 u_AmbientLight;
 uniform mat4 u_ViewProjection;
+uniform mat4 u_ViewMatrix;
 uniform vec2 u_ChunkCoordinates;
 
+out float v_Visibility; // For implementing fog
 out vec2 v_TexCoord;
 out vec4 v_TintColor;
 
+const float fog_density = 0.01f;
+float fog_gradient = float(u_RenderDistance + 2.50f);
+
 void main()
 {
+	// Calculate fog
+	vec4 relative_camera_pos = u_ViewMatrix * vec4(a_Position, 1.0f);
+	float fog_distance = length(relative_camera_pos);
+	v_Visibility = exp(-pow((fog_distance * fog_density), fog_gradient));
+	v_Visibility = clamp(v_Visibility, 0.0f, 1.0f);
+
 	float lighting_level = a_LightingLevel ;	
-	//lighting_level /= 2;
 	lighting_level /= 10;
 
 	if (lighting_level < 0.2)

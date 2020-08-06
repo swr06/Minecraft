@@ -3,7 +3,8 @@
 namespace Minecraft
 {
 	// The amount of chunks that gets rendered around the player
-	int render_distance_x = 6, render_distance_z = 6;
+	const int render_distance = 6;
+	const int render_distance_x = render_distance, render_distance_z = render_distance;
 
 	static void PrintVec3(const glm::vec3& val)
 	{
@@ -109,7 +110,7 @@ namespace Minecraft
 
 		// Render chunks according to render distance
 
-		m_Renderer.StartChunkRendering(&p_Player->p_Camera, glm::vec4(ambient, ambient, ambient, 1.0f));
+		m_Renderer.StartChunkRendering(&p_Player->p_Camera, glm::vec4(ambient, ambient, ambient, 1.0f), render_distance);
 
 		for (int i = player_chunk_x - render_distance_x; i < player_chunk_x + render_distance_x; i++)
 		{
