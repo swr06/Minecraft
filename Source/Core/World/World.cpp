@@ -139,8 +139,6 @@ namespace Minecraft
 			}
 		}
 
-		std::cout << chunks_rendered << "\n";
-
 		m_Renderer.EndChunkRendering();
 
 		glDisable(GL_CULL_FACE);
