@@ -289,23 +289,29 @@ namespace Minecraft
 			glfwGetFramebufferSize(GUI_Window, &w, &h);
 			GUI_ProjectionMatrix = glm::ortho(0.0f, (float)w, 0.0f, (float)h);
 
-			// Render the buttons, windows etc..
-			GUI_Shader->Use();
-			GUI_Shader->SetMatrix4("u_ProjectionMatrix", GUI_ProjectionMatrix, 0);
-			GUI_VAO->Bind();
-			GUI_VBO->BufferData(GUI_Vertices.size() * sizeof(GUIVertex), &GUI_Vertices.front(), GL_STATIC_DRAW);
-			glDrawElements(GL_TRIANGLES, floor(GUI_Vertices.size() / 4) * 6, GL_UNSIGNED_INT, 0);
-			GUI_VAO->Unbind();
+			if (GUI_Vertices.size() > 0)
+			{
+				// Render the buttons, windows etc..
+				GUI_Shader->Use();
+				GUI_Shader->SetMatrix4("u_ProjectionMatrix", GUI_ProjectionMatrix, 0);
+				GUI_VAO->Bind();
+				GUI_VBO->BufferData(GUI_Vertices.size() * sizeof(GUIVertex), &GUI_Vertices.front(), GL_STATIC_DRAW);
+				glDrawElements(GL_TRIANGLES, floor(GUI_Vertices.size() / 4) * 6, GL_UNSIGNED_INT, 0);
+				GUI_VAO->Unbind();
+			}
 
-			// Render the GUI Text (Glyphs)
-			GUI_TextShader->Use();
-			GUI_FontAtlas->Bind(0);
-			GUI_TextShader->SetMatrix4("u_ProjectionMatrix", GUI_ProjectionMatrix, 0);
-			GUI_TextShader->SetInteger("u_FontTexture", 0, 0);
-			GUI_Text_VAO->Bind();
-			GUI_Text_VBO->BufferData(GUI_TextVertices.size() * sizeof(GUITextVertex), &GUI_TextVertices.front(), GL_STATIC_DRAW);
-			glDrawElements(GL_TRIANGLES, floor(GUI_TextVertices.size() / 4) * 6, GL_UNSIGNED_INT, 0);
-			GUI_Text_VAO->Unbind();
+			if (GUI_TextVertices.size() > 0)
+			{
+				// Render the GUI Text (Glyphs)
+				GUI_TextShader->Use();
+				GUI_FontAtlas->Bind(0);
+				GUI_TextShader->SetMatrix4("u_ProjectionMatrix", GUI_ProjectionMatrix, 0);
+				GUI_TextShader->SetInteger("u_FontTexture", 0, 0);
+				GUI_Text_VAO->Bind();
+				GUI_Text_VBO->BufferData(GUI_TextVertices.size() * sizeof(GUITextVertex), &GUI_TextVertices.front(), GL_STATIC_DRAW);
+				glDrawElements(GL_TRIANGLES, floor(GUI_TextVertices.size() / 4) * 6, GL_UNSIGNED_INT, 0);
+				GUI_Text_VAO->Unbind();
+			}
 
 			GUI_TextVertices.clear();
 			GUI_Vertices.clear();

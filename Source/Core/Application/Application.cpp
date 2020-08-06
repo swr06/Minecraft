@@ -89,7 +89,7 @@ namespace Minecraft
         glfwMakeContextCurrent(m_Window);
 
         // Turn on V-Sync
-        glfwSwapInterval(1);
+        glfwSwapInterval(0);
 
         glewInit();
 
@@ -242,10 +242,10 @@ namespace Minecraft
 		}
 
 		// Render button
-		if (GUI::Button(glm::vec2(200, 400), "This is a test! $#@#%$!"))
+		/*if (GUI::Button(glm::vec2(200, 400), "This is a test! $#@#%$!"))
 		{
 			std::cout << "\nPRESSED!";
-		}
+		}*/
 
 		GUI::RenderUI(glfwGetTime(), 0);
 
