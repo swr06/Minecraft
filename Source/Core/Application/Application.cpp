@@ -89,7 +89,7 @@ namespace Minecraft
         glfwMakeContextCurrent(m_Window);
 
         // Turn on V-Sync
-        glfwSwapInterval(0);
+        glfwSwapInterval(1);
 
         glewInit();
 
@@ -169,6 +169,7 @@ namespace Minecraft
 		}
 
 		GUI::InitUISystem(m_Window);
+		Clouds::Init();
         EventSystem::InitEventSystem(m_Window, &m_EventQueue);
 
 		// Resize window to the maximized view
@@ -197,6 +198,7 @@ namespace Minecraft
 		}
 
 		GUI::CloseUIContext();
+		Clouds::DestroyClouds();
 		glfwDestroyWindow(m_Window);
 
 		delete m_World;
@@ -246,6 +248,9 @@ namespace Minecraft
 		}
 
 		GUI::RenderUI(glfwGetTime(), 0);
+
+		// Render clouds (The clouds still dont work) (TODO)
+		Clouds::RenderClouds(glfwGetTime(), glm::vec2(1.0f), &m_World->p_Player->p_Camera);
 
 		// Render imgui and swap the buffers after rendering ui components, world etc..
 		GLClasses::DisplayFrameRate(m_Window, "A Tiny Minecraft Clone V0.01 By Samuel Rasquinha");

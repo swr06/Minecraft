@@ -1,6 +1,4 @@
 #pragma once
-
-c
 #include <iostream>
 
 namespace Minecraft

@@ -19,7 +19,10 @@
 #include "../Block.h"
 #include "../Chunk.h"
 
+// Include GUI Library
 #include "../UI/GUI.h"
+
+#include "../Clouds/Cloud.h"
 
 namespace Minecraft
 {

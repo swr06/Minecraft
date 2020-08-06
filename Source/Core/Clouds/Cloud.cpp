@@ -26,6 +26,7 @@ namespace Minecraft
 
 		Cloud_Shader->CreateShaderProgramFromFile("Shaders/CloudVert.glsl", "Shaders/CloudFrag.glsl");
 		Cloud_Shader->CompileShaders();
+
 		Cloud_Texture->CreateTexture("Resources/Maps/cloud_map.png");
 		Cloud_VAO->Bind();
 		Cloud_VBO->Bind();
@@ -36,12 +37,15 @@ namespace Minecraft
 		Cloud_VAO->Unbind();
 	}
 
-	void Clouds::RenderClouds(double ts, const glm::vec2& render_distance)
+	void Clouds::RenderClouds(double ts, const glm::vec2& render_distance, FPSCamera* camera)
 	{
+		glDisable(GL_CULL_FACE);
+		glDisable(GL_DEPTH_TEST);
+
 		const float width = 1024, height = 1024, depth = 1024;
 
 		float x = 0.0f;
-		float y = 128.0f;
+		float y = 160.0f;
 		float z = 0.0f;
 
 		float w = width + x;
@@ -61,6 +65,29 @@ namespace Minecraft
 		v3.position = glm::vec3(w, y, d);
 		v4.position = glm::vec3(x, y, d);
 
+		cloud_vertices.push_back(v1);
+		cloud_vertices.push_back(v2);
+		cloud_vertices.push_back(v3);
+		cloud_vertices.push_back(v4);
 
+		// Use the cloud shader and set uniforms
+		Cloud_Shader->Use();
+		Cloud_Shader->SetMatrix4("u_Projection", camera->GetProjectionMatrix(), 0);
+		Cloud_Texture->Bind(0);
+		Cloud_Shader->SetInteger("u_CloudTexture", 0);
+
+		DebugGLFunction(Cloud_VAO->Bind());
+		DebugGLFunction(Cloud_VBO->BufferData(cloud_vertices.size() * sizeof(CloudVertex), &cloud_vertices.front(), GL_STATIC_DRAW));
+		DebugGLFunction(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0));
+		Cloud_VAO->Unbind();
+	}
+
+	void Clouds::DestroyClouds()
+	{
+		delete Cloud_VBO;
+		delete Cloud_VAO;
+		delete Cloud_IBO;
+		delete Cloud_Shader;
+		delete Cloud_Texture;
 	}
 }

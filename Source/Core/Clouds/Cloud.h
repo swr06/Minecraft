@@ -15,11 +15,14 @@
 
 #include "../Utils/Defs.h"
 
+#include "../FpsCamera.h"
+
 namespace Minecraft
 {
 	namespace Clouds
 	{
 		void Init();
-		void RenderClouds(double ts, const glm::vec2& render_distance);
+		void RenderClouds(double ts, const glm::vec2& render_distance, FPSCamera* camera);
+		void DestroyClouds();
 	}
 }
