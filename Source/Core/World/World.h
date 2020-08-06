@@ -70,8 +70,6 @@ namespace Minecraft
 		void UpdateSurroundingChunks(int cx, int cz);
 		void UpdateLights();
 
-		bool ChunkInViewFrustum(Chunk* chunk);
-
 		uint32_t m_ChunkCount;
 		std::pair<float, float> m_CrosshairPosition;
 
@@ -94,5 +92,7 @@ namespace Minecraft
 		// Lighting
 		std::queue<LightNode> m_LightBFSQueue;
 		std::queue<LightRemovalNode> m_LightRemovalBFSQueue;
+
+		ViewFrustum m_ViewFrustum;
 	};
 }

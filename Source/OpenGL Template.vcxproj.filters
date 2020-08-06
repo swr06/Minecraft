@@ -88,9 +88,6 @@
     <ClCompile Include="Core\Maths\Frustum.cpp">
       <Filter>Minecraft\Math\Frustum Culling</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Maths\Plane.cpp">
-      <Filter>Minecraft\Math\Frustum Culling</Filter>
-    </ClCompile>
     <ClCompile Include="Core\Utils\Raycast.cpp">
       <Filter>Minecraft\Utils</Filter>
     </ClCompile>
@@ -237,9 +234,6 @@
     </ClInclude>
     <ClInclude Include="Core\Utils\Raycast.h">
       <Filter>Minecraft\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Maths\Plane.h">
-      <Filter>Minecraft\Math\Frustum Culling</Filter>
     </ClInclude>
     <ClInclude Include="Core\Maths\Frustum.h">
       <Filter>Minecraft\Math\Frustum Culling</Filter>

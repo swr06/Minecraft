@@ -10,6 +10,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "Maths/Frustum.h"
 #include "ChunkMesh.h"
 #include "Lighting/Lighting.h"
 
@@ -69,6 +70,7 @@ namespace Minecraft
 		std::array<std::array<std::array<Block, CHUNK_SIZE_X>, CHUNK_SIZE_Y>, CHUNK_SIZE_Z> p_ChunkContents;
 		std::array<std::array<std::array<i8Vec2, CHUNK_SIZE_X>, CHUNK_SIZE_Y>, CHUNK_SIZE_Z> p_ChunkLightInformation;
 		ChunkLightMapState p_LightMapState;
+		FrustumAABB p_ChunkFrustumAABB;
 
 	private :
 		// each chunk will be a 16x16x16 block space. A 3D array

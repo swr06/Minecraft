@@ -42,13 +42,17 @@ namespace Minecraft
         {
             glm::vec3 res = p_Position;
 
-            if (normal.x > 0) {
+            if (normal.x > 0) 
+            {
                 res.x += p_Dimensions.x;
             }
-            if (normal.y > 0) {
+
+            if (normal.y > 0) 
+            {
                 res.y += p_Dimensions.y;
             }
-            if (normal.z > 0) {
+            if (normal.z > 0) 
+            {
                 res.z += p_Dimensions.z;
             }
 

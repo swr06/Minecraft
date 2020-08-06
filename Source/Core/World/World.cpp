@@ -78,6 +78,9 @@ namespace Minecraft
 
 		p_Player->OnUpdate(window);
 
+		// Update the view frustum
+		m_ViewFrustum.Update(p_Player->p_Camera.GetViewProjection());
+
 		// Increase the frame count 
 		m_CurrentFrame++;
 
@@ -126,11 +129,17 @@ namespace Minecraft
 					UpdateSurroundingChunks(i, j);
 				}
 
-				// Render the chunks
-				chunks_rendered++;
-				RenderChunkFromMap(i, j);
+				if (m_ViewFrustum.BoxInFrustum(chunk->p_ChunkFrustumAABB))
+				{
+					RenderChunkFromMap(i, j);
+
+					// Render the chunks
+					chunks_rendered++;
+				}
 			}
 		}
+
+		std::cout << chunks_rendered << "\n";
 
 		m_Renderer.EndChunkRendering();
 

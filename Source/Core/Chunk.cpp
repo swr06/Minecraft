@@ -4,6 +4,7 @@ namespace Minecraft
 {
 	Chunk::Chunk(const glm::vec3 chunk_position) : p_Position(chunk_position), 
 		p_MeshState(ChunkMeshState::Unbuilt), p_ChunkState(ChunkState::Ungenerated), p_LightMapState(ChunkLightMapState::UnmodifiedLightMap)
+		, p_ChunkFrustumAABB(glm::vec3(CHUNK_SIZE_X, CHUNK_SIZE_Y, CHUNK_SIZE_Z), glm::vec3(chunk_position.x * CHUNK_SIZE_X, chunk_position.y * CHUNK_SIZE_Y, chunk_position.z * CHUNK_SIZE_Z))
 	{
 		// Initialize all the blocks in the chunk to be air blocks
 
