@@ -3,7 +3,7 @@
 namespace Minecraft
 {
 	// The amount of chunks that gets rendered around the player
-	int render_distance_x = 4, render_distance_z = 4;
+	int render_distance_x = 6, render_distance_z = 6;
 
 	static void PrintVec3(const glm::vec3& val)
 	{
@@ -115,22 +115,21 @@ namespace Minecraft
 		{
 			for (int j = player_chunk_z - render_distance_z; j < player_chunk_z + render_distance_z; j++)
 			{
-				// Construct the chunks if the mesh isn't built
-
 				Chunk* chunk = RetrieveChunkFromMap(i, j);
-
-				if (chunk->p_MeshState == ChunkMeshState::Unbuilt)
-				{
-					chunk->Construct();
-				}
-
-				else if (chunk->p_MeshState == ChunkMeshState::Edited)
-				{
-					UpdateSurroundingChunks(i, j);
-				}
 
 				if (m_ViewFrustum.BoxInFrustum(chunk->p_ChunkFrustumAABB))
 				{
+					// Construct the chunks if the mesh isn't built
+					if (chunk->p_MeshState == ChunkMeshState::Unbuilt)
+					{
+						chunk->Construct();
+					}
+
+					else if (chunk->p_MeshState == ChunkMeshState::Edited)
+					{
+						UpdateSurroundingChunks(i, j);
+					}
+
 					RenderChunkFromMap(i, j);
 
 					// Render the chunks
