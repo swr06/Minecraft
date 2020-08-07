@@ -377,13 +377,22 @@ namespace Minecraft
 
 		// Upload the data to the GPU whenever the mesh is reconstructed
 
-		m_VBO.BufferData(this->m_Vertices.size() * sizeof(Vertex), &this->m_Vertices.front(), GL_STATIC_DRAW);
-		p_VerticesCount = m_Vertices.size();
-		m_Vertices.clear();
+		p_VerticesCount = 0;
+		p_TransparentVerticesCount = 0;
 
-		m_TransparentVBO.BufferData(this->m_TransparentVertices.size() * sizeof(Vertex), &this->m_TransparentVertices.front(), GL_STATIC_DRAW);
-		p_TransparentVerticesCount = m_TransparentVertices.size();
-		m_TransparentVertices.clear();
+		if (m_Vertices.size() > 0)
+		{
+			m_VBO.BufferData(this->m_Vertices.size() * sizeof(Vertex), &this->m_Vertices.front(), GL_STATIC_DRAW);
+			p_VerticesCount = m_Vertices.size();
+			m_Vertices.clear();
+		}
+
+		if (m_TransparentVertices.size() > 0)
+		{
+			m_TransparentVBO.BufferData(this->m_TransparentVertices.size() * sizeof(Vertex), &this->m_TransparentVertices.front(), GL_STATIC_DRAW);
+			p_TransparentVerticesCount = m_TransparentVertices.size();
+			m_TransparentVertices.clear();
+		}
 	}
 
 	void ChunkMesh::AddFace(BlockFaceType face_type, const glm::vec3& position, BlockType type, float light_level, Chunk* chunk,

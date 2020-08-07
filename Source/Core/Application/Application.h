@@ -26,6 +26,14 @@
 
 namespace Minecraft
 {
+	enum GameState : uint8_t
+	{
+		MenuState,
+		WorldSelectState,
+		PlayingState,
+		PauseState
+	};
+
 	class Application
 	{
 	public : 
@@ -38,6 +46,7 @@ namespace Minecraft
 		void OnUpdate();
 		inline World* GetWorld() { return m_World; }
 
+		GameState GetState() { return m_GameState; }
 	private :
 
 		void OnImGuiRender();
@@ -48,6 +57,7 @@ namespace Minecraft
 
 		std::vector<EventSystem::Event> m_EventQueue;
 		bool m_CursorLocked;
+		GameState m_GameState;
 	};
 
 	extern Application MinecraftApplication;

@@ -66,7 +66,7 @@ namespace Minecraft
 		fprintf(stderr, "GLFW ERROR!   %d: %s\n", error, description);
 	}
 
-	Application::Application()
+	Application::Application() : m_GameState(GameState::MenuState)
 	{
 		const char* glsl_version = static_cast<const char*>("#version 130");
 
@@ -89,7 +89,7 @@ namespace Minecraft
         glfwMakeContextCurrent(m_Window);
 
         // Turn on V-Sync
-        glfwSwapInterval(0);
+        glfwSwapInterval(1);
 
         glewInit();
 
@@ -213,12 +213,9 @@ namespace Minecraft
 			ImGui::NewFrame();
 		}
 
-        // Poll the events
-        PollEvents();
+		// Poll the events
+		PollEvents();
 
-        // Update the world
-        m_World->OnUpdate(m_Window);
-		
 		// Enable depth testing and blending
 		glEnable(GL_DEPTH_TEST);
 		glDepthMask(GL_TRUE);
@@ -227,12 +224,52 @@ namespace Minecraft
 
 		// Clear the depth and color bit buffer
 
-        glClearColor(0.44f, 0.78f, 0.88f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+		glClearColor(0.44f, 0.78f, 0.88f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
 		glClear(GL_DEPTH_BUFFER_BIT);
 
-		// Render the world
-        m_World->RenderWorld();
+		if (m_GameState == GameState::MenuState)
+		{
+			glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+
+			int w, h;
+			glfwGetFramebufferSize(m_Window, &w, &h);
+
+			if (GUI::Button(glm::vec2(((float)w)/2, ((float)h)/2), "PLAY"))
+			{
+				m_GameState = GameState::PlayingState;
+			}
+		}
+
+		else if (m_GameState == GameState::PauseState)
+		{
+			glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+
+			int w, h;
+			glfwGetFramebufferSize(m_Window, &w, &h);
+
+			if (GUI::Button(glm::vec2(((float)w) / 2, ((float)h) / 2), "RESUME"))
+			{
+				m_GameState = GameState::PlayingState;
+			}
+
+			if (GUI::Button(glm::vec2(((float)w) / 2, ((float)h) / 2 - 54), "QUIT GAME"))
+			{
+				glfwSetWindowShouldClose(m_Window, true);
+			}
+		}
+
+		else if (m_GameState == GameState::PlayingState)
+		{
+			glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+			// Update the world
+			m_World->OnUpdate(m_Window);
+
+			// Render the world
+			m_World->RenderWorld();
+		}
+
 
 		if (ShouldInitializeImgui)
 		{
@@ -240,12 +277,6 @@ namespace Minecraft
 			ImGui::Render();
 			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		}
-
-		// Render button
-		/*if (GUI::Button(glm::vec2(200, 400), "This is a test! $#@#%$!"))
-		{
-			std::cout << "\nPRESSED!";
-		}*/
 
 		GUI::RenderUI(glfwGetTime(), 0);
 
@@ -287,25 +318,9 @@ namespace Minecraft
 
 			case EventSystem::EventTypes::KeyPress :
 			{
-				if (e.key == GLFW_KEY_F1)
+				if (e.key == GLFW_KEY_ESCAPE)
 				{
-					glfwSetWindowShouldClose(m_Window, true);
-				}
-
-				else if (e.key == GLFW_KEY_ESCAPE)
-				{
-					// If the cursor is locked, release it. else lock it back
-					if (m_CursorLocked == true)
-					{
-						glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-						m_CursorLocked = false;
-					}
-
-					else if (m_CursorLocked == false)
-					{
-						glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-						m_CursorLocked = true;
-					}
+					m_GameState = GameState::PauseState;
 				}
 
 				break;
