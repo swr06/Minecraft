@@ -31,7 +31,7 @@ namespace Minecraft
 		}
 	}
 
-	void Renderer::StartChunkRendering(FPSCamera* camera, const glm::vec4& ambient_light, int render_distance)
+	void Renderer::StartChunkRendering(FPSCamera* camera, const glm::vec4& ambient_light, int render_distance, const glm::vec4& sun_position)
 	{
 		m_DefaultShader.Use();
 		m_BlockAtlas.Bind(0);
@@ -40,8 +40,10 @@ namespace Minecraft
 		m_DefaultShader.SetMatrix4("u_ViewProjection", camera->GetViewProjection());
 		m_DefaultShader.SetMatrix4("u_ViewMatrix", camera->GetViewMatrix());
 		m_DefaultShader.SetInteger("u_RenderDistance", render_distance);
-		//m_DefaultShader.SetVector4f("u_FogColor", glm::vec4(0.60f, 0.79f, 0.89f, 1.0f)); // BLUE FOG
+		m_DefaultShader.SetFloat("u_SunPositionY", static_cast<float>(sun_position.y / 1000.0f));
 		m_DefaultShader.SetVector4f("u_FogColor", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)); // WHITE FOG
+
+		//m_DefaultShader.SetVector4f("u_FogColor", glm::vec4(0.60f, 0.79f, 0.89f, 1.0f)); // BLUE FOG
 	}
 
 	void Renderer::EndChunkRendering()

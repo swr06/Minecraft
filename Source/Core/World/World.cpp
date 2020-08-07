@@ -26,6 +26,9 @@ namespace Minecraft
 
 	World::World(int seed) : m_Camera2D(0.0f, (float)DEFAULT_WINDOW_X, 0.0f, (float)DEFAULT_WINDOW_Y), m_WorldSeed(seed)
 	{
+		m_SunCycle = CurrentSunCycle::Sun_Rising;
+		m_SunPosition = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+
 		// Generate all the chunks 
 
 		p_Player = new Player;
@@ -90,7 +93,7 @@ namespace Minecraft
 
 	void World::RenderWorld()
 	{
-		static float ambient = 0.8f;
+		static float ambient = 0.4f;
 		int player_chunk_x = 0;
 		int player_chunk_y = 0;
 		int player_chunk_z = 0;
@@ -110,7 +113,7 @@ namespace Minecraft
 
 		// Render chunks according to render distance
 
-		m_Renderer.StartChunkRendering(&p_Player->p_Camera, glm::vec4(ambient, ambient, ambient, 1.0f), render_distance);
+		m_Renderer.StartChunkRendering(&p_Player->p_Camera, glm::vec4(ambient, ambient, ambient, 1.0f), render_distance, m_SunPosition);
 
 		for (int i = player_chunk_x - render_distance_x; i < player_chunk_x + render_distance_x; i++)
 		{
@@ -167,6 +170,44 @@ namespace Minecraft
 
 		// Do collision tests after all rendering is complete
 		DoCollisionTests();
+
+		// Tick the sun every 20 
+		if (m_CurrentFrame % 20 == 0)
+		{
+			TickSun();
+		}
+	}
+
+	void World::TickSun()
+	{
+		const float max_sun = 1500.0f;
+		const float min_sun = 10.0f;
+
+		if (m_SunCycle == CurrentSunCycle::Sun_Rising)
+		{
+			if (m_SunPosition.y >= max_sun)
+			{
+				m_SunPosition.y = max_sun;
+				m_SunCycle = CurrentSunCycle::Sun_Setting;
+
+				return;
+			}
+			
+			m_SunPosition.y += 1;
+		}
+
+		else if (m_SunCycle == CurrentSunCycle::Sun_Setting)
+		{
+			if (m_SunPosition.y <= min_sun)
+			{
+				m_SunPosition.y = min_sun;
+				m_SunCycle = CurrentSunCycle::Sun_Rising;
+
+				return;
+			}
+
+			m_SunPosition.y -= 1;
+		}
 	}
 
 	void World::OnEvent(EventSystem::Event e)

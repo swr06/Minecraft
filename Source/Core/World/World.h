@@ -32,6 +32,12 @@
 
 namespace Minecraft
 {
+	enum CurrentSunCycle
+	{
+		Sun_Setting,
+		Sun_Rising
+	};
+
 	class World
 	{
 	public:
@@ -63,11 +69,13 @@ namespace Minecraft
 		int GetSeed();
 
 	private:
+
 		void UnloadFarChunks();
 		void RayCast(bool place);
 		void DoCollisionTests();
 		void UpdateSurroundingChunks(int cx, int cz);
 		void UpdateLights();
+		void TickSun();
 
 		uint32_t m_ChunkCount;
 		std::pair<float, float> m_CrosshairPosition;
@@ -91,6 +99,10 @@ namespace Minecraft
 		// Lighting
 		std::queue<LightNode> m_LightBFSQueue;
 		std::queue<LightRemovalNode> m_LightRemovalBFSQueue;
+
+		// Day and night cycle
+		glm::vec4 m_SunPosition;
+		CurrentSunCycle m_SunCycle;
 
 		ViewFrustum m_ViewFrustum;
 	};

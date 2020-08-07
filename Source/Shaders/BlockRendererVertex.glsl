@@ -9,10 +9,12 @@ uniform vec4 u_AmbientLight;
 uniform mat4 u_ViewProjection;
 uniform mat4 u_ViewMatrix;
 uniform vec2 u_ChunkCoordinates;
+uniform float u_SunPositionY; // The normalized sun position
 
 out float v_Visibility; // For implementing fog
 out vec2 v_TexCoord;
 out vec4 v_TintColor;
+out float v_SunlightIntensity;
 
 const float fog_density = 0.01f;
 float fog_gradient = float(u_RenderDistance + 2.50f);
@@ -44,6 +46,8 @@ void main()
 		v_TintColor = vec4(lighting_level, lighting_level, lighting_level, 1.0f);
 	}
 
+	// Calculate the sun light intensity
+	v_SunlightIntensity = u_SunPositionY + 0.6f;
 
 	gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
 	v_TexCoord = a_TexCoords;
