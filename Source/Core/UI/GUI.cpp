@@ -246,12 +246,16 @@ namespace Minecraft
 			}
 		}
 
-		bool Button(const glm::vec2& position, const std::string& label)
+		bool Button(const glm::vec2& pos, const std::string& label)
 		{
-			const glm::vec2 button_size = glm::vec2(label.size() * glyph_x + 8, glyph_y + 8);
+			glm::vec2 button_size = glm::vec2(label.size() * glyph_x, glyph_y);
+			glm::vec2 real_button_size = glm::vec2(2 * button_size.x, glyph_y + 8);
 
-			GenerateGlyphs(glm::vec2(position.x + 4, position.y + 4), label, 1.0f);
-			GenerateButtonQuad(glm::vec2(position.x - 4, position.y - 4), glm::vec2(button_size.x + 10, button_size.y + 10));
+			// Apply a correction to the specified position
+			glm::vec2 position = glm::vec2(pos.x - (button_size.x / 2), pos.y);
+
+			GenerateGlyphs(glm::vec2(position.x + (button_size.x / 2), position.y + 4), label, 1.0f);
+			GenerateButtonQuad(glm::vec2(position.x, position.y), real_button_size);
 			GUI_Buttons.push_back({ position, button_size, label, 0 });
 
 			if (glfwGetMouseButton(GUI_Window, GLFW_MOUSE_BUTTON_LEFT))

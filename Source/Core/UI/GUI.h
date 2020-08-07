@@ -35,7 +35,7 @@ namespace Minecraft
 		void InitUISystem(GLFWwindow* window);
 		void RenderUI(double ts, long long frame);
 		void UpdateUI(double ts, const glm::vec2& mouse_position, long long frame);
-		bool Button(const glm::vec2& position, const std::string& label);
+		bool Button(const glm::vec2& pos, const std::string& label);
 		void Text(glm::vec2& position, const std::string& label);
 		void MouseButtonCallback(int button, int action, int mods);
 		void CloseUIContext();

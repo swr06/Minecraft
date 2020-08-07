@@ -90,7 +90,7 @@ namespace Minecraft
 
 	void World::RenderWorld()
 	{
-		static float ambient = 0.5f;
+		static float ambient = 0.8f;
 		int player_chunk_x = 0;
 		int player_chunk_y = 0;
 		int player_chunk_z = 0;
