@@ -162,6 +162,8 @@
   <ItemGroup>
     <ClCompile Include="Core\Application\Application.cpp" />
     <ClCompile Include="Core\Application\Events.cpp" />
+    <ClCompile Include="Core\Audio\Audio.cpp" />
+    <ClCompile Include="Core\Audio\OpenALFunctions.cpp" />
     <ClCompile Include="Core\Block.cpp" />
     <ClCompile Include="Core\BlockTextureManager.cpp" />
     <ClCompile Include="Core\Camera.cpp" />
@@ -212,6 +214,8 @@
     <ClInclude Include="Core\Application\Application.h" />
     <ClInclude Include="Core\Application\Events.h" />
     <ClInclude Include="Core\Application\EventStructs.h" />
+    <ClInclude Include="Core\Audio\Audio.h" />
+    <ClInclude Include="Core\Audio\OpenALFunctions.h" />
     <ClInclude Include="Core\Block.h" />
     <ClInclude Include="Core\BlockTextureManager.h" />
     <ClInclude Include="Core\Camera.h" />

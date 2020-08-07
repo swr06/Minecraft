@@ -27,7 +27,8 @@ namespace Minecraft
 		m_DefaultShader.SetMatrix4("u_ViewProjection", camera->GetViewProjection());
 		m_DefaultShader.SetMatrix4("u_ViewMatrix", camera->GetViewMatrix());
 		m_DefaultShader.SetInteger("u_RenderDistance", render_distance);
-		m_DefaultShader.SetVector4f("u_FogColor", glm::vec4(0.60f, 0.79f, 0.89f, 1.0f));
+		//m_DefaultShader.SetVector4f("u_FogColor", glm::vec4(0.60f, 0.79f, 0.89f, 1.0f)); // BLUE FOG
+		m_DefaultShader.SetVector4f("u_FogColor", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)); // WHITE FOG
 	}
 
 	void Renderer::EndChunkRendering()

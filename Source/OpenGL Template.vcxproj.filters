@@ -131,6 +131,12 @@
     <ClCompile Include="Core\Clouds\Cloud.cpp">
       <Filter>Minecraft\Clouds</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Audio\Audio.cpp">
+      <Filter>Minecraft\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Audio\OpenALFunctions.cpp">
+      <Filter>Minecraft\Audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\OpenGL Classes\Fps.h">
@@ -286,6 +292,12 @@
     <ClInclude Include="Core\Clouds\Cloud.h">
       <Filter>Minecraft\Clouds</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Audio\Audio.h">
+      <Filter>Minecraft\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Audio\OpenALFunctions.h">
+      <Filter>Minecraft\Audio</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Dependencies">
@@ -383,6 +395,9 @@
     </Filter>
     <Filter Include="Minecraft\Clouds">
       <UniqueIdentifier>{232420d0-e6a4-42fb-bd73-74530efc7ae8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Minecraft\Audio">
+      <UniqueIdentifier>{899fa653-b880-464c-ae21-73c927a87a20}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
