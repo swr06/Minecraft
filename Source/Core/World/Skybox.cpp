@@ -67,7 +67,7 @@ namespace Minecraft
         m_VAO.Unbind();
 	}
 
-    void Skybox::RenderSkybox(FPSCamera* camera)
+    void Skybox::RenderSkybox(FPSCamera* camera, const glm::vec4& sun_pos)
     {
         glDepthMask(GL_FALSE);
         m_SkyboxShader.Use();
@@ -75,6 +75,7 @@ namespace Minecraft
         m_SkyboxShader.SetMatrix4("u_Projection", camera->GetProjectionMatrix());
         m_SkyboxShader.SetMatrix4("u_View", glm::mat4(glm::mat3(camera->GetViewMatrix())));
         m_SkyboxShader.SetInteger("u_Skybox", 0);
+        m_SkyboxShader.SetFloat("u_SunPositionY", sun_pos.y);
 
         m_VAO.Bind();
         glActiveTexture(GL_TEXTURE0);

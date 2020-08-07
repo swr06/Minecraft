@@ -47,7 +47,7 @@ void main()
 	}
 
 	// Calculate the sun light intensity
-	v_SunlightIntensity = u_SunPositionY + 0.6f;
+	v_SunlightIntensity = max(u_SunPositionY / 1000.0f, 0.6f);
 
 	gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
 	v_TexCoord = a_TexCoords;

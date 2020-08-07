@@ -14,7 +14,7 @@ namespace Minecraft
 	{
 	public:
 		Skybox();
-		void RenderSkybox(FPSCamera* camera);
+		void RenderSkybox(FPSCamera* camera, const glm::vec4& sun_pos);
 
 	private :
 		GLClasses::VertexBuffer m_VBO;

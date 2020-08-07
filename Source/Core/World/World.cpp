@@ -99,7 +99,7 @@ namespace Minecraft
 		int player_chunk_z = 0;
 
 		glDisable(GL_CULL_FACE);
-		m_Skybox.RenderSkybox(&p_Player->p_Camera);
+		m_Skybox.RenderSkybox(&p_Player->p_Camera, m_SunPosition);
 
 		// Enable face culling
 		glEnable(GL_CULL_FACE);
@@ -171,8 +171,8 @@ namespace Minecraft
 		// Do collision tests after all rendering is complete
 		DoCollisionTests();
 
-		// Tick the sun every 20 
-		if (m_CurrentFrame % 20 == 0)
+		// Tick the sun every 8 frames 
+		if (m_CurrentFrame % 8 == 0)
 		{
 			TickSun();
 		}
