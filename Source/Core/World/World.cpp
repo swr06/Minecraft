@@ -12,6 +12,21 @@ namespace Minecraft
 		return;
 	}
 
+	bool TestCollision(const glm::vec3& pos_1, const glm::vec3& dim_1, const glm::vec3& pos_2, const glm::vec3& dim_2)
+	{
+		if (pos_1.x < pos_2.x + dim_2.x &&
+			pos_1.x + dim_1.x > pos_2.x &&
+			pos_1.y < pos_2.y + dim_2.y &&
+			pos_1.y + dim_1.y > pos_2.y &&
+			pos_1.z < pos_2.z + dim_2.z &&
+			pos_1.z + dim_1.z > pos_2.z)
+		{
+			return true;
+		}
+
+		return false;
+	}
+	
 	// Converts world block coordinates to local block coordinates or chunk coordinates. Used for lighting calculations
 	static glm::ivec3 WorldBlockToLocalBlockCoordinates(const glm::vec3& pos)
 	{
@@ -27,7 +42,7 @@ namespace Minecraft
 	World::World(int seed) : m_Camera2D(0.0f, (float)DEFAULT_WINDOW_X, 0.0f, (float)DEFAULT_WINDOW_Y), m_WorldSeed(seed)
 	{
 		m_SunCycle = CurrentSunCycle::Sun_Rising;
-		m_SunPosition = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+		m_SunPosition = glm::vec4(0.0f, 700.0f, 0.0f, 1.0f);
 
 		// Generate all the chunks 
 
@@ -376,7 +391,7 @@ namespace Minecraft
 						auto& player_pos = p_Player->p_Position;
 						edit_block = GetBlockFromPosition(glm::vec3(position.x, position.y, position.z));
 
-						if (place)
+						if (place && TestCollision(position, glm::vec3(1,1,1), p_Player->p_Position, glm::vec3(1,2,1)) == false)
 						{
 							edit_block.first->p_BlockType = static_cast<BlockType>(m_CurrentHeldBlock);
 
