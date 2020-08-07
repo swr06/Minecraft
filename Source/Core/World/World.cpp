@@ -39,14 +39,14 @@ namespace Minecraft
 		return glm::ivec3(bx, by, bz);
 	}
 
-	World::World(int seed) : m_Camera2D(0.0f, (float)DEFAULT_WINDOW_X, 0.0f, (float)DEFAULT_WINDOW_Y), m_WorldSeed(seed)
+	World::World(int seed, const glm::vec2& window_size) : m_Camera2D(0.0f, (float)DEFAULT_WINDOW_X, 0.0f, (float)DEFAULT_WINDOW_Y), m_WorldSeed(seed)
 	{
 		m_SunCycle = CurrentSunCycle::Sun_Rising;
 		m_SunPosition = glm::vec4(0.0f, 700.0f, 0.0f, 1.0f);
 
 		// Generate all the chunks 
 
-		p_Player = new Player;
+		p_Player = new Player(window_size.x, window_size.y);
 
 		// Set the players position
 		p_Player->p_Camera.SetPosition(glm::vec3(0, 140, 0));

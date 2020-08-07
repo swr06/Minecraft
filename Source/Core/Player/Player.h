@@ -18,7 +18,7 @@ namespace Minecraft
 	{
 	public : 
 
-		Player() : p_Camera(70.0f, 800 / 600, 0.1, 100.0f), p_PlayerAABB(glm::vec3(-0.25f, -1.5f, -0.25f), glm::vec3(0.25f, 0.25f, 0.25f))
+		Player(float wx, float wy) : p_Camera(70.0f, wx / wy, 0.1, 100.0f), p_PlayerAABB(glm::vec3(-0.25f, -1.5f, -0.25f), glm::vec3(0.25f, 0.25f, 0.25f))
 		{
 
 		}

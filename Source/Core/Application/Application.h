@@ -28,8 +28,9 @@ namespace Minecraft
 {
 	enum GameState : uint8_t
 	{
-		MenuState,
+		MenuState = 0,
 		WorldSelectState,
+		WorldCreateState,
 		PlayingState,
 		PauseState
 	};
@@ -58,6 +59,7 @@ namespace Minecraft
 		std::vector<EventSystem::Event> m_EventQueue;
 		bool m_CursorLocked;
 		GameState m_GameState;
+		ImFont* m_Font;
 	};
 
 	extern Application MinecraftApplication;

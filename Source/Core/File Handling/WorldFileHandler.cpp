@@ -135,7 +135,7 @@ namespace Minecraft
                 fread(&world_data, sizeof(WorldData), 1, world_file);
                 fclose(world_file);
 
-                World* world = new World(world_data.seed);
+                World* world = new World(world_data.seed, {DEFAULT_WINDOW_X, DEFAULT_WINDOW_Y});
 
                 // iterate through all the files in the chunk directory and read the binary data  
                 for (auto entry : std::filesystem::directory_iterator(cdata_dir_s.str()))

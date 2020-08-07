@@ -42,7 +42,7 @@ namespace Minecraft
 	{
 	public:
 
-		World(int seed);
+		World(int seed, const glm::vec2& window_size);
 		~World();
 
 		void OnUpdate(GLFWwindow* window);
