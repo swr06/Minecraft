@@ -298,6 +298,9 @@
     <ClInclude Include="Core\Audio\OpenALFunctions.h">
       <Filter>Minecraft\Audio</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Audio\alut.h">
+      <Filter>Minecraft\Audio</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Dependencies">

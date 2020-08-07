@@ -214,6 +214,7 @@
     <ClInclude Include="Core\Application\Application.h" />
     <ClInclude Include="Core\Application\Events.h" />
     <ClInclude Include="Core\Application\EventStructs.h" />
+    <ClInclude Include="Core\Audio\alut.h" />
     <ClInclude Include="Core\Audio\Audio.h" />
     <ClInclude Include="Core\Audio\OpenALFunctions.h" />
     <ClInclude Include="Core\Block.h" />

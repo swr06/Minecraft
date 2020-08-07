@@ -19,6 +19,7 @@ namespace Minecraft
 	public : 
 
 		Renderer();
+		void RenderTransparentChunk(Chunk* chunk);
 		void RenderChunk(Chunk* chunk);
 		void StartChunkRendering(FPSCamera* camera, const glm::vec4& ambient_light, int render_distance);
 		void EndChunkRendering();

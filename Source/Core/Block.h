@@ -53,7 +53,19 @@ namespace Minecraft
 
 		bool IsOpaque()
 		{
-			if (p_BlockType != BlockType::Air && p_BlockType != BlockType::GlassWhite && p_BlockType != BlockType::Water)
+			if (p_BlockType != BlockType::Air && p_BlockType != BlockType::GlassWhite 
+				&& p_BlockType != BlockType::Water && p_BlockType != BlockType::Cactus)
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		bool IsTransparent()
+		{
+			if (p_BlockType == BlockType::Water || p_BlockType == BlockType::Lava 
+				|| p_BlockType == BlockType::GlassWhite || p_BlockType == BlockType::Cactus)
 			{
 				return true;
 			}

@@ -3,7 +3,7 @@
 
 namespace Minecraft
 {
-	ChunkMesh::ChunkMesh() : p_VBO(GL_ARRAY_BUFFER)
+	ChunkMesh::ChunkMesh() : m_VBO(GL_ARRAY_BUFFER), m_TransparentVBO(GL_ARRAY_BUFFER)
 	{
 		static bool IndexBufferInitialized = false;
 
@@ -41,13 +41,22 @@ namespace Minecraft
 		int stride = (7 * sizeof(GLfloat));
 
 		p_VAO.Bind();
-		p_VBO.Bind();
+		m_VBO.Bind();
 		StaticIBO.Bind();
-		p_VBO.VertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, (void*)0);
-		p_VBO.VertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, stride, (void*)(3 * sizeof(float)));
-		p_VBO.VertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, stride, (void*)(5 * sizeof(float)));
-		p_VBO.VertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, stride, (void*)(6 * sizeof(float)));
+		m_VBO.VertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, (void*)0);
+		m_VBO.VertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, stride, (void*)(3 * sizeof(float)));
+		m_VBO.VertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, stride, (void*)(5 * sizeof(float)));
+		m_VBO.VertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, stride, (void*)(6 * sizeof(float)));
 		p_VAO.Unbind();
+
+		p_TransparentVAO.Bind();
+		m_TransparentVBO.Bind();
+		StaticIBO.Bind();
+		m_TransparentVBO.VertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, (void*)0);
+		m_TransparentVBO.VertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, stride, (void*)(3 * sizeof(float)));
+		m_TransparentVBO.VertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, stride, (void*)(5 * sizeof(float)));
+		m_TransparentVBO.VertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, stride, (void*)(6 * sizeof(float)));
+		p_TransparentVAO.Unbind();
 
 		// Set the values of the 2D planes
 
@@ -108,6 +117,8 @@ namespace Minecraft
 				{
 					if (ChunkData->at(x).at(y).at(z).p_BlockType != BlockType::Air)
 					{
+						Block* block = &ChunkData->at(x).at(y).at(z);
+
 						// To fix chunk edge mesh building issues, both faces are added if it is in the edge
 
 						float light_level = chunk->GetTorchLightAt(x, y, z);
@@ -118,91 +129,199 @@ namespace Minecraft
 
 						if (z <= 0)
 						{
-							if (BackwardChunkData->at(x).at(y).at(CHUNK_SIZE_Z - 1).IsOpaque() == false)
+							if (block->IsTransparent())
 							{
-								AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
-								AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								if (BackwardChunkData->at(x).at(y).at(CHUNK_SIZE_Z - 1).p_BlockType == BlockType::Air)
+								{
+									AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk, false);
+									AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk, false);
+								}
+
+								else if (ChunkData->at(x).at(y).at(1).p_BlockType == BlockType::Air)
+								{
+									AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk, false);
+									AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk, false);
+								}
 							}
 
-							else if (ChunkData->at(x).at(y).at(1).IsOpaque() == false)
-							{
-								AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
-								AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+							else
+							{ 
+								if (BackwardChunkData->at(x).at(y).at(CHUNK_SIZE_Z - 1).IsOpaque() == false)
+								{
+									AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+									AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								}
+
+								else if (ChunkData->at(x).at(y).at(1).IsOpaque() == false)
+								{
+									AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+									AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								}
 							}
 						}
 
 						else if (z >= CHUNK_SIZE_Z - 1)
 						{
-							if (ForwardChunkData->at(x).at(y).at(0).IsOpaque() == false)
+							if (block->IsTransparent())
 							{
-								AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
-								AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								if (ForwardChunkData->at(x).at(y).at(0).p_BlockType == BlockType::Air)
+								{
+									AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk, false);
+									AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk, false);
+								}
+
+								else if (ChunkData->at(x).at(y).at(CHUNK_SIZE_Z - 2).p_BlockType == BlockType::Air)
+								{
+									AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk, false);
+									AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk, false);
+								}
 							}
 
-							else if (ChunkData->at(x).at(y).at(CHUNK_SIZE_Z - 2).IsOpaque() == false)
+							else
 							{
-								AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
-								AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								if (ForwardChunkData->at(x).at(y).at(0).IsOpaque() == false)
+								{
+									AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+									AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								}
+
+								else if (ChunkData->at(x).at(y).at(CHUNK_SIZE_Z - 2).IsOpaque() == false)
+								{
+									AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+									AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								}
 							}
 						}
 
 						else
 						{
-							//If the forward block is an air block, add the forward face to the mesh
-							if (ChunkData->at(x).at(y).at(z + 1).IsOpaque() == false)
+							if (block->IsTransparent())
 							{
-								AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								if (ChunkData->at(x).at(y).at(z + 1).p_BlockType == BlockType::Air)
+								{
+									AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk, false);
+								}
+
+								if (ChunkData->at(x).at(y).at(z - 1).p_BlockType == BlockType::Air)
+								{
+									AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk, false);
+								}
 							}
 
-							// If the back (-forward) block is an air block, add the back face to the mesh
-							if (ChunkData->at(x).at(y).at(z - 1).IsOpaque() == false)
+							else
 							{
-								AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								//If the forward block is an air block, add the forward face to the mesh
+								if (ChunkData->at(x).at(y).at(z + 1).IsOpaque() == false)
+								{
+									AddFace(BlockFaceType::front, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								}
+
+								// If the back (-forward) block is an air block, add the back face to the mesh
+								if (ChunkData->at(x).at(y).at(z - 1).IsOpaque() == false)
+								{
+									AddFace(BlockFaceType::backward, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								}
 							}
 						}
 
 						if (x <= 0)
 						{
-							if (LeftChunkData->at(CHUNK_SIZE_X - 1).at(y).at(z).IsOpaque() == false)
+							if (block->IsTransparent())
 							{
-								AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
-								AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								if (LeftChunkData->at(CHUNK_SIZE_X - 1).at(y).at(z).p_BlockType == BlockType::Air)
+								{
+									AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk, false);
+									AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk, false);
+								}
+
+								else if (ChunkData->at(1).at(y).at(z).p_BlockType == BlockType::Air)
+								{
+									AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk, false);
+									AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk, false);
+								}
+
 							}
 
-							else if (ChunkData->at(1).at(y).at(z).IsOpaque() == false)
+							else
 							{
-								AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
-								AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								if (LeftChunkData->at(CHUNK_SIZE_X - 1).at(y).at(z).IsOpaque() == false)
+								{
+									AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+									AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								}
+
+								else if (ChunkData->at(1).at(y).at(z).IsOpaque() == false)
+								{
+									AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+									AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								}
 							}
 						}
 
 						else if (x >= CHUNK_SIZE_X - 1)
 						{
-							if (RightChunkData->at(0).at(y).at(z).IsOpaque() == false)
+							if (block->IsTransparent())
 							{
-								AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
-								AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								if (RightChunkData->at(0).at(y).at(z).p_BlockType == BlockType::Air)
+								{
+									AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk, false);
+									AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk, false);
+								}
+
+								else if (ChunkData->at(CHUNK_SIZE_X - 2).at(y).at(z).p_BlockType == BlockType::Air)
+								{
+									AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk, false);
+									AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk, false);
+								}
 							}
 
-							else if (ChunkData->at(CHUNK_SIZE_X - 2).at(y).at(z).IsOpaque() == false)
+							else
 							{
-								AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
-								AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								if (RightChunkData->at(0).at(y).at(z).IsOpaque() == false)
+								{
+									AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+									AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								}
+
+								else if (ChunkData->at(CHUNK_SIZE_X - 2).at(y).at(z).IsOpaque() == false)
+								{
+									AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+									AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								}
 							}
+
 						}
 
 						else
 						{
-							// If the next block is an air block, add the right face to the mesh
-							if (ChunkData->at(x + 1).at(y).at(z).IsOpaque() == false)
+							if (block->IsTransparent())
 							{
-								AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								// If the next block is an air block, add the right face to the mesh
+								if (ChunkData->at(x + 1).at(y).at(z).p_BlockType == BlockType::Air)
+								{
+									AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk, false);
+								}
+
+								// If the previous block is an air block, add the left face to the mesh
+								if (ChunkData->at(x - 1).at(y).at(z).p_BlockType == BlockType::Air)
+								{
+									AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk, false);
+								}
 							}
 
-							// If the previous block is an air block, add the left face to the mesh
-							if (ChunkData->at(x - 1).at(y).at(z).IsOpaque() == false)
+							else
 							{
-								AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								// If the next block is an air block, add the right face to the mesh
+								if (ChunkData->at(x + 1).at(y).at(z).IsOpaque() == false)
+								{
+									AddFace(BlockFaceType::right, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								}
+
+								// If the previous block is an air block, add the left face to the mesh
+								if (ChunkData->at(x - 1).at(y).at(z).IsOpaque() == false)
+								{
+									AddFace(BlockFaceType::left, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								}
 							}
 						}
 
@@ -221,16 +340,34 @@ namespace Minecraft
 
 						else
 						{
-							// If the top block is an air block, add the top face to the mesh
-							if (ChunkData->at(x).at(y - 1).at(z).IsOpaque() == false)
+							if (block->IsTransparent())
 							{
-								AddFace(BlockFaceType::bottom, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								// If the top block is an air block, add the top face to the mesh
+								if (ChunkData->at(x).at(y - 1).at(z).p_BlockType == BlockType::Air)
+								{
+									AddFace(BlockFaceType::bottom, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk, false);
+								}
+
+								// If the bottom block is an air block, add the top face to the mesh
+								if (ChunkData->at(x).at(y + 1).at(z).p_BlockType == BlockType::Air)
+								{
+									AddFace(BlockFaceType::top, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk, false);
+								}
 							}
 
-							// If the bottom block is an air block, add the top face to the mesh
-							if (ChunkData->at(x).at(y + 1).at(z).IsOpaque() == false)
+							else
 							{
-								AddFace(BlockFaceType::top, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								// If the top block is an air block, add the top face to the mesh
+								if (ChunkData->at(x).at(y - 1).at(z).IsOpaque() == false)
+								{
+									AddFace(BlockFaceType::bottom, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								}
+
+								// If the bottom block is an air block, add the top face to the mesh
+								if (ChunkData->at(x).at(y + 1).at(z).IsOpaque() == false)
+								{
+									AddFace(BlockFaceType::top, world_position, static_cast<BlockType>(ChunkData->at(x).at(y).at(z).p_BlockType), light_level, chunk);
+								}
 							}
 						}
 					}
@@ -240,12 +377,17 @@ namespace Minecraft
 
 		// Upload the data to the GPU whenever the mesh is reconstructed
 
-		p_VBO.BufferData(this->m_Vertices.size() * sizeof(Vertex), &this->m_Vertices.front(), GL_STATIC_DRAW);
+		m_VBO.BufferData(this->m_Vertices.size() * sizeof(Vertex), &this->m_Vertices.front(), GL_STATIC_DRAW);
 		p_VerticesCount = m_Vertices.size();
 		m_Vertices.clear();
+
+		m_TransparentVBO.BufferData(this->m_TransparentVertices.size() * sizeof(Vertex), &this->m_TransparentVertices.front(), GL_STATIC_DRAW);
+		p_TransparentVerticesCount = m_TransparentVertices.size();
+		m_TransparentVertices.clear();
 	}
 
-	void ChunkMesh::AddFace(BlockFaceType face_type, const glm::vec3& position, BlockType type, float light_level, Chunk* chunk)
+	void ChunkMesh::AddFace(BlockFaceType face_type, const glm::vec3& position, BlockType type, float light_level, Chunk* chunk,
+							bool buffer)
 	{
 		glm::mat4 translation = glm::translate(glm::mat4(1.0f), position);
 
@@ -416,10 +558,20 @@ namespace Minecraft
 			v4.texture_coords = glm::vec2(TextureCoordinates[6], TextureCoordinates[7]);
 		}
 
-		// Push the vertices to the buffer
-		m_Vertices.push_back(v1);
-		m_Vertices.push_back(v2);
-		m_Vertices.push_back(v3);
-		m_Vertices.push_back(v4);
+		if (buffer)
+		{
+			m_Vertices.push_back(v1);
+			m_Vertices.push_back(v2);
+			m_Vertices.push_back(v3);
+			m_Vertices.push_back(v4);
+		}
+
+		else if (!buffer)
+		{
+			m_TransparentVertices.push_back(v1);
+			m_TransparentVertices.push_back(v2);
+			m_TransparentVertices.push_back(v3);
+			m_TransparentVertices.push_back(v4);
+		}
 	}
 }

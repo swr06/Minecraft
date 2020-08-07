@@ -38,18 +38,25 @@ namespace Minecraft
 		void ConstructMesh(Chunk* chunk, const glm::vec3& chunk_pos);
 		
 		std::uint32_t p_VerticesCount;
-		GLClasses::VertexBuffer p_VBO;
+		std::uint32_t p_TransparentVerticesCount;
 		GLClasses::VertexArray p_VAO;
+		GLClasses::VertexArray p_TransparentVAO;
 
 	private : 
 
-		void AddFace(BlockFaceType face_type, const glm::vec3& position, BlockType type, float light_level, Chunk* chunk);
+		void AddFace(BlockFaceType face_type, const glm::vec3& position, BlockType type, float light_level, Chunk* chunk,
+			bool buffer = true);
+
 		std::vector<Vertex> m_Vertices;
+		std::vector<Vertex> m_TransparentVertices;
 		glm::vec4 m_TopFace[4];
 		glm::vec4 m_BottomFace[4];
 		glm::vec4 m_ForwardFace[4];
 		glm::vec4 m_BackFace[4];
 		glm::vec4 m_LeftFace[4];
 		glm::vec4 m_RightFace[4];
+
+		GLClasses::VertexBuffer m_VBO;
+		GLClasses::VertexBuffer m_TransparentVBO; // Vertex buffer for trasparent blocks
 	};
 }

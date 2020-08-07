@@ -131,10 +131,23 @@ namespace Minecraft
 						UpdateSurroundingChunks(i, j);
 					}
 
-					RenderChunkFromMap(i, j);
+					m_Renderer.RenderChunk(chunk);
 
 					// Render the chunks
 					chunks_rendered++;
+				}
+			}
+		}
+
+		for (int i = player_chunk_x - render_distance_x; i < player_chunk_x + render_distance_x; i++)
+		{
+			for (int j = player_chunk_z - render_distance_z; j < player_chunk_z + render_distance_z; j++)
+			{
+				Chunk* chunk = RetrieveChunkFromMap(i, j);
+
+				if (m_ViewFrustum.BoxInFrustum(chunk->p_ChunkFrustumAABB))
+				{
+					m_Renderer.RenderTransparentChunk(chunk);
 				}
 			}
 		}
@@ -172,7 +185,7 @@ namespace Minecraft
 		{
 			m_CurrentHeldBlock++;
 
-			if (m_CurrentHeldBlock == BlockType::WoolYellow + 1)
+			if (m_CurrentHeldBlock == BlockType::Water + 1)
 			{
 				m_CurrentHeldBlock = 0;
 			}
@@ -258,12 +271,6 @@ namespace Minecraft
 		bz += block_chunk_z * CHUNK_SIZE_Y;
 
 		return glm::vec3(bx, by, bz);
-	}
-
-	void World::RenderChunkFromMap(int cx, int cz)
-	{
-		m_Renderer.RenderChunk(RetrieveChunkFromMap(cx, cz));
-		return;
 	}
 
 	void World::UnloadFarChunks()

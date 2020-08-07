@@ -63,7 +63,6 @@ namespace Minecraft
 		int GetSeed();
 
 	private:
-		void RenderChunkFromMap(int cx, int cz);
 		void UnloadFarChunks();
 		void RayCast(bool place);
 		void DoCollisionTests();

@@ -13,9 +13,22 @@ namespace Minecraft
 
 	void Renderer::RenderChunk(Chunk* chunk)
 	{
-		chunk->GetChunkMesh()->p_VAO.Bind();
-		DebugGLFunction(glDrawElements(GL_TRIANGLES, floor(chunk->GetChunkMesh()->p_VerticesCount / 4) * 6, GL_UNSIGNED_INT, 0));
-		chunk->GetChunkMesh()->p_VAO.Unbind();
+		if (chunk->GetChunkMesh()->p_VerticesCount > 0)
+		{
+			chunk->GetChunkMesh()->p_VAO.Bind();
+			DebugGLFunction(glDrawElements(GL_TRIANGLES, floor(chunk->GetChunkMesh()->p_VerticesCount / 4) * 6, GL_UNSIGNED_INT, 0));
+			chunk->GetChunkMesh()->p_VAO.Unbind();
+		}
+	}
+
+	void Renderer::RenderTransparentChunk(Chunk* chunk)
+	{
+		if (chunk->GetChunkMesh()->p_TransparentVerticesCount > 0)
+		{
+			chunk->GetChunkMesh()->p_TransparentVAO.Bind();
+			DebugGLFunction(glDrawElements(GL_TRIANGLES, floor(chunk->GetChunkMesh()->p_TransparentVerticesCount / 4) * 6, GL_UNSIGNED_INT, 0));
+			chunk->GetChunkMesh()->p_TransparentVAO.Unbind();
+		}
 	}
 
 	void Renderer::StartChunkRendering(FPSCamera* camera, const glm::vec4& ambient_light, int render_distance)
