@@ -66,7 +66,7 @@ namespace Minecraft
 		fprintf(stderr, "GLFW ERROR!   %d: %s\n", error, description);
 	}
 
-	Application::Application() : m_GameState(GameState::MenuState)
+	Application::Application() : m_GameState(GameState::MenuState), m_OrthagonalCamera(0.0f, (float)DEFAULT_WINDOW_X, 0.0f, (float)DEFAULT_WINDOW_Y)
 	{
 		const char* glsl_version = static_cast<const char*>("#version 130");
 
@@ -89,7 +89,7 @@ namespace Minecraft
 		glfwMakeContextCurrent(m_Window);
 
 		// Turn on V-Sync
-		glfwSwapInterval(1);
+		glfwSwapInterval(0);
 
 		glewInit();
 
@@ -147,6 +147,10 @@ namespace Minecraft
 
 		// Resize window to the maximized view
 		glfwMaximizeWindow(m_Window);
+
+		m_LogoTexture.CreateTexture("Resources/Branding/logo.png", false);
+		m_BlurMenuBackground.CreateTexture("Resources/Branding/menu_blur.png", false);
+		m_Renderer2D = new Renderer2D;
 	}
 
 	Application::~Application()
@@ -162,6 +166,7 @@ namespace Minecraft
 		//Clouds::DestroyClouds();
 		glfwDestroyWindow(m_Window);
 
+		delete m_Renderer2D;
 		delete m_World;
 	}
 
@@ -237,6 +242,14 @@ namespace Minecraft
 		
 		if (m_GameState == GameState::MenuState)
 		{
+			float logo_x, logo_y;
+			
+			logo_x = w * 0.10f;
+			logo_y = h - m_LogoTexture.GetHeight();
+			logo_y -= h * 0.15f;
+
+			m_Renderer2D->RenderQuad(glm::vec2(0, 0), &m_BlurMenuBackground, &m_OrthagonalCamera);
+			m_Renderer2D->RenderQuad(glm::vec2(logo_x, logo_y), &m_LogoTexture, &m_OrthagonalCamera);
 			glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
 			bool open = true;
@@ -325,6 +338,8 @@ namespace Minecraft
 
 		else if (m_GameState == GameState::WorldSelectState)
 		{
+			m_Renderer2D->RenderQuad(glm::vec2(0, 0), &m_BlurMenuBackground, &m_OrthagonalCamera);
+
 			if (std::filesystem::exists("Saves/"))
 			{
 				for (auto entry : std::filesystem::directory_iterator("Saves/"))
@@ -390,6 +405,8 @@ namespace Minecraft
 
 		else if (m_GameState == GameState::WorldCreateState)
 		{
+			m_Renderer2D->RenderQuad(glm::vec2(0, 0), &m_BlurMenuBackground, &m_OrthagonalCamera);
+
 			glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
 			bool open = true;
@@ -498,6 +515,7 @@ namespace Minecraft
 		case EventSystem::EventTypes::WindowResize:
 		{
 			glViewport(0, 0, e.wx, e.wy);
+			m_OrthagonalCamera.SetProjection(0.0f, e.wx, 0.0f, e.wy);
 			break;
 		}
 

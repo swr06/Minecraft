@@ -2,18 +2,20 @@
 
 namespace GLClasses
 {
-	Texture::Texture(string path, GLenum type, GLenum min_filter, GLenum mag_filter, GLenum texwrap_s, GLenum texwrap_t, array<GLfloat, 8> TextureCoords, bool clean_up)
+	Texture::Texture(string path, bool flip, GLenum type, GLenum min_filter, GLenum mag_filter, GLenum texwrap_s, GLenum texwrap_t, array<GLfloat, 8> TextureCoords, bool clean_up)
 	{
-		stbi_set_flip_vertically_on_load(true);
-
 		m_Texture = new GLuint;
-		this->CreateTexture(path, type, min_filter, mag_filter, texwrap_s, texwrap_t, TextureCoords, clean_up);	
+		this->CreateTexture(path, flip, type, min_filter, mag_filter, texwrap_s, texwrap_t, TextureCoords, clean_up);	
 	}
 
-	void Texture::CreateTexture(string path, GLenum type, GLenum min_filter, GLenum mag_filter, GLenum texwrap_s, GLenum texwrap_t, array<GLfloat, 8> TextureCoords, bool clean_up)
+	void Texture::CreateTexture(string path, bool flip, GLenum type, GLenum min_filter, GLenum mag_filter, GLenum texwrap_s, GLenum texwrap_t, array<GLfloat, 8> TextureCoords, bool clean_up)
 	{
+		if (flip)
+			stbi_set_flip_vertically_on_load(true);
+		else
+			stbi_set_flip_vertically_on_load(false);
+
 		GLenum internalformat = GL_RGBA;
-		stbi_set_flip_vertically_on_load(true); 
 		
 		m_delete_texture = true;
 		m_Texture = new GLuint;

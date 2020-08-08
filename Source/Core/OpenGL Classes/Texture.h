@@ -22,7 +22,7 @@ namespace GLClasses
 	{
 	public:
 
-		Texture(string path, GLenum type = GL_TEXTURE_2D,
+		Texture(string path, bool flip = true, GLenum type = GL_TEXTURE_2D,
 			GLenum min_filter = GL_NEAREST, GLenum mag_filter = GL_NEAREST,
 			GLenum texwrap_s = GL_REPEAT, GLenum texwrap_t = GL_REPEAT,
 			array<GLfloat, 8> TextureCoords = { 1.0f, 1.0f,  1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f }
@@ -56,7 +56,7 @@ namespace GLClasses
 			}
 		}
 
-		void CreateTexture(string path, GLenum type = GL_TEXTURE_2D,
+		void CreateTexture(string path, bool flip = true, GLenum type = GL_TEXTURE_2D,
 			GLenum min_filter = GL_NEAREST, GLenum mag_filter = GL_NEAREST,
 			GLenum texwrap_s = GL_REPEAT, GLenum texwrap_t = GL_REPEAT, array<GLfloat, 8> TextureCoords = { 1.0f, 1.0f,  1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f }, bool clean_up = true);
 

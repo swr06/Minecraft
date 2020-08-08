@@ -61,6 +61,10 @@ namespace Minecraft
 		bool m_CursorLocked;
 		GameState m_GameState;
 		ImFont* m_Font;
+		Texture m_LogoTexture;
+		Texture m_BlurMenuBackground;
+		Renderer2D* m_Renderer2D;
+		OrthographicCamera m_OrthagonalCamera;
 	};
 
 	extern Application MinecraftApplication;
