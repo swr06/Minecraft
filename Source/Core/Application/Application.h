@@ -32,7 +32,8 @@ namespace Minecraft
 		WorldSelectState,
 		WorldCreateState,
 		PlayingState,
-		PauseState
+		PauseState,
+		HelpState
 	};
 
 	class Application

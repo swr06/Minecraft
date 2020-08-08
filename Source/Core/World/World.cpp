@@ -26,7 +26,7 @@ namespace Minecraft
 
 		return false;
 	}
-	
+
 	// Converts world block coordinates to local block coordinates or chunk coordinates. Used for lighting calculations
 	static glm::ivec3 WorldBlockToLocalBlockCoordinates(const glm::vec3& pos)
 	{
@@ -39,7 +39,8 @@ namespace Minecraft
 		return glm::ivec3(bx, by, bz);
 	}
 
-	World::World(int seed, const glm::vec2& window_size) : m_Camera2D(0.0f, (float)DEFAULT_WINDOW_X, 0.0f, (float)DEFAULT_WINDOW_Y), m_WorldSeed(seed)
+	World::World(int seed, const glm::vec2& window_size, const std::string& world_name, WorldGenerationType world_gen_type) 
+		: m_Camera2D(0.0f, window_size.x, 0.0f, window_size.y), m_WorldSeed(seed), m_WorldName(world_name), m_WorldGenType(world_gen_type)
 	{
 		m_SunCycle = CurrentSunCycle::Sun_Rising;
 		m_SunPosition = glm::vec4(0.0f, 700.0f, 0.0f, 1.0f);
@@ -54,7 +55,11 @@ namespace Minecraft
 		Logger::LogToConsole("The World was Constructed!");
 
 		m_CrosshairTexture.CreateTexture("Resources/crosshair.png");
-		m_CrosshairPosition = std::pair<float, float>((float)DEFAULT_WINDOW_X / 2, (float)DEFAULT_WINDOW_Y / 2);
+		
+		float cw = floor(static_cast<float>(window_size.x) / static_cast <float>(2.0f));
+		float cy = floor(static_cast<float>(window_size.y) / static_cast<float>(2.0f));
+
+		m_CrosshairPosition = std::pair<float, float>(cw, cy);
 		m_CurrentFrame = 0;
 	}
 
@@ -89,7 +94,7 @@ namespace Minecraft
 				if (ChunkExistsInMap(i, j) == false)
 				{
 					Chunk* chunk = EmplaceChunkInMap(i, j);
-					GenerateChunk(chunk, m_WorldSeed);
+					GenerateChunk(chunk, m_WorldSeed, m_WorldGenType);
 					chunk->p_MeshState = ChunkMeshState::Unbuilt;
 				}
 			}
@@ -207,7 +212,7 @@ namespace Minecraft
 
 				return;
 			}
-			
+
 			m_SunPosition.y += 1;
 		}
 
@@ -391,7 +396,7 @@ namespace Minecraft
 						auto& player_pos = p_Player->p_Position;
 						edit_block = GetBlockFromPosition(glm::vec3(position.x, position.y, position.z));
 
-						if (place && TestCollision(position, glm::vec3(1,1,1), p_Player->p_Position, glm::vec3(1,2,1)) == false)
+						if (place && TestCollision(position, glm::vec3(1, 1, 1), p_Player->p_Position, glm::vec3(1, 2, 1)) == false)
 						{
 							edit_block.first->p_BlockType = static_cast<BlockType>(m_CurrentHeldBlock);
 

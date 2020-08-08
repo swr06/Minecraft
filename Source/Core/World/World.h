@@ -32,6 +32,13 @@
 
 namespace Minecraft
 {
+	enum WorldGenerationType 
+	{
+		Generation_Normal = 0,
+		Generation_Flat,
+		Generation_FlatWithoutStructures
+	};
+
 	enum CurrentSunCycle
 	{
 		Sun_Setting,
@@ -42,21 +49,24 @@ namespace Minecraft
 	{
 	public:
 
-		World(int seed, const glm::vec2& window_size);
+		World(int seed, const glm::vec2& window_size, const std::string& world_name, WorldGenerationType world_gen_type);
 		~World();
 
 		void OnUpdate(GLFWwindow* window);
 		void RenderWorld();
 		void OnEvent(EventSystem::Event e);
+		const std::string& GetName() { return m_WorldName; }
 
 		// Gets a world block from the respective chunk. Returns nullptr if invalid
 		std::pair<Block*, Chunk*> GetBlockFromPosition(const glm::vec3& pos);
-		void SetBlockFromPosition(BlockType type, const glm::vec3& pos);
 		std::pair<Block*, Chunk*> GetBlock(const glm::vec3& block_loc);
 		BlockType GetBlockTypeFromPosition(const glm::vec3& pos);
 		glm::vec3 ConvertPositionToWorldBlockPosition(const glm::vec3& pos);
-		bool ChunkExistsInMap(int cx, int cz);
 		Chunk* RetrieveChunkFromMap(int cx, int cz);
+		WorldGenerationType GetWorldGenerationType() { return m_WorldGenType; }
+
+		bool ChunkExistsInMap(int cx, int cz);
+		void SetBlockFromPosition(BlockType type, const glm::vec3& pos);
 
 		Player* p_Player;
 
@@ -105,5 +115,8 @@ namespace Minecraft
 		CurrentSunCycle m_SunCycle;
 
 		ViewFrustum m_ViewFrustum;
+
+		const std::string m_WorldName;
+		WorldGenerationType m_WorldGenType;
 	};
 }

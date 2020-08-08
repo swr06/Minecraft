@@ -100,7 +100,7 @@ namespace Minecraft
         }
     }
 
-    void GenerateChunk(Chunk* chunk, const int WorldSeed)
+    void GenerateChunk(Chunk* chunk, const int WorldSeed, WorldGenerationType gen_type)
     {
         static Random SeedEngine;
         static Random WorldTreeGenerator(WorldSeed);
@@ -109,62 +109,109 @@ namespace Minecraft
 
         // Set the chunk state
         chunk->p_ChunkState = ChunkState::Generated;
-
         WorldGenerator.SetNoiseType(FastNoise::SimplexFractal);
-
-        float generated_x = 0;
-        float generated_y = 0;
-        float generated_z = 0;
 
         static TreeStructure WorldStructureTree;
         static CactusStructure WorldStructureCactus;
         WorldStructure* Structure = nullptr;
 
-        // Generates the world using perlin noise to generate a height map
-
-        for (int x = 0; x < CHUNK_SIZE_X; x++)
+        if (gen_type == WorldGenerationType::Generation_Normal)
         {
-            for (int z = 0; z < CHUNK_SIZE_Z; z++)
+            float generated_x = 0;
+            float generated_y = 0;
+            float generated_z = 0;
+
+            // Generates the world using perlin noise to generate a height map
+
+            for (int x = 0; x < CHUNK_SIZE_X; x++)
             {
-                int structure_freq = 0; // The value passed to the seeded random number gen. The higher this number is
-                                        // .. the lesser of that structure will be there
-                float real_x = x + chunk->p_Position.x * CHUNK_SIZE_X;
-                float real_z = z + chunk->p_Position.z * CHUNK_SIZE_Z;
-
-                float height_at = WorldGenerator.GetNoise(real_x, real_z) * WorldGeneratorMultiply_1.GetNoise(real_x * 0.8f, real_z * 0.8f);
-                generated_x = x;
-                generated_z = z;
-
-                generated_y = (height_at / 2 + 1.0f) * ((float)96);
-
-                // The biome of the block column
-                Biome biome = SetVerticalBlocks(chunk, generated_x, generated_z, generated_y, real_x, real_z);
-
-                switch (biome)
+                for (int z = 0; z < CHUNK_SIZE_Z; z++)
                 {
-                case Biome::Grassland : 
-                    Structure = &WorldStructureTree;
-                    structure_freq = 50;
-                    break;
+                    int structure_freq = 0; // The value passed to the seeded random number gen. The higher this number is
+                                            // .. the lesser of that structure will be there
+                    float real_x = x + chunk->p_Position.x * CHUNK_SIZE_X;
+                    float real_z = z + chunk->p_Position.z * CHUNK_SIZE_Z;
 
-                case Biome::Desert:
-                    Structure = &WorldStructureCactus;
-                    structure_freq = 200;
-                    break;
+                    float height_at = WorldGenerator.GetNoise(real_x, real_z) * WorldGeneratorMultiply_1.GetNoise(real_x * 0.8f, real_z * 0.8f);
+                    generated_x = x;
+                    generated_z = z;
 
-                default : 
-                    Structure = &WorldStructureTree;
-                    structure_freq = 200;
-                    break;
+                    generated_y = (height_at / 2 + 1.0f) * ((float)96);
+
+                    // The biome of the block column
+                    Biome biome = SetVerticalBlocks(chunk, generated_x, generated_z, generated_y, real_x, real_z);
+
+                    switch (biome)
+                    {
+                    case Biome::Grassland:
+                        Structure = &WorldStructureTree;
+                        structure_freq = 50;
+                        break;
+
+                    case Biome::Desert:
+                        Structure = &WorldStructureCactus;
+                        structure_freq = 200;
+                        break;
+
+                    default:
+                        Structure = &WorldStructureTree;
+                        structure_freq = 200;
+                        break;
+                    }
+
+                    if (WorldTreeGenerator.UnsignedInt(75) == 0 &&
+                        generated_x + MAX_STRUCTURE_X < CHUNK_SIZE_X &&
+                        generated_y + MAX_STRUCTURE_Y < CHUNK_SIZE_Y &&
+                        generated_z + MAX_STRUCTURE_Z < CHUNK_SIZE_Z &&
+                        Structure != nullptr)
+                    {
+                        FillInWorldStructure(chunk, Structure, generated_x, generated_y - 1, generated_z);
+                    }
                 }
+            }
+        }
 
-                if (WorldTreeGenerator.UnsignedInt(75) == 0 &&
-                    generated_x + MAX_STRUCTURE_X < CHUNK_SIZE_X &&
-                    generated_y + MAX_STRUCTURE_Y < CHUNK_SIZE_Y &&
-                    generated_z + MAX_STRUCTURE_Z < CHUNK_SIZE_Z &&
-                    Structure != nullptr)
+        else if (gen_type == WorldGenerationType::Generation_Flat || gen_type == WorldGenerationType::Generation_FlatWithoutStructures)
+        {
+            for (int x = 0; x < CHUNK_SIZE_X; x++)
+            {
+                for (int z = 0; z < CHUNK_SIZE_Z; z++)
                 {
-                    FillInWorldStructure(chunk, Structure, generated_x, generated_y - 1, generated_z);
+                    float real_x = x + chunk->p_Position.x * CHUNK_SIZE_X;
+                    float real_z = z + chunk->p_Position.z * CHUNK_SIZE_Z;
+
+                    int structure_freq = 0;
+                    Biome biome = SetVerticalBlocks(chunk, x, z, 127, real_x, real_z);
+
+                    switch (biome)
+                    {
+                    case Biome::Grassland:
+                        Structure = &WorldStructureTree;
+                        structure_freq = 50;
+                        break;
+
+                    case Biome::Desert:
+                        Structure = &WorldStructureCactus;
+                        structure_freq = 200;
+                        break;
+
+                    default:
+                        Structure = &WorldStructureTree;
+                        structure_freq = 200;
+                        break;
+                    }
+
+                    if (gen_type != WorldGenerationType::Generation_FlatWithoutStructures)
+                    {
+                        if (WorldTreeGenerator.UnsignedInt(structure_freq) == 0 &&
+                            x + MAX_STRUCTURE_X < CHUNK_SIZE_X &&
+                            127 + MAX_STRUCTURE_Y < CHUNK_SIZE_Y &&
+                            z + MAX_STRUCTURE_Z < CHUNK_SIZE_Z &&
+                            Structure != nullptr)
+                        {
+                            FillInWorldStructure(chunk, Structure, x, 126, z);
+                        }
+                    }
                 }
             }
         }

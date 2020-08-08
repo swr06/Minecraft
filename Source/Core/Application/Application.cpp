@@ -112,6 +112,8 @@ namespace Minecraft
 		glDebugMessageCallback(gl_debug_callback, nullptr);
 #endif
 
+		EventSystem::InitEventSystem(m_Window, &m_EventQueue);
+
 		// Setting up imgui context
 		if (ShouldInitializeImgui)
 		{
@@ -123,7 +125,10 @@ namespace Minecraft
 			ImGui_ImplGlfw_InitForOpenGL(m_Window, true);
 			ImGui_ImplOpenGL3_Init(glsl_version);
 
-			m_Font = io.Fonts->AddFontFromFileTTF("Resources/Fonts/arcade.TTF", 24);
+			//m_Font = io.Fonts->AddFontFromFileTTF("Resources/Fonts/pixeboy.ttf", 24);
+			m_Font = io.Fonts->AddFontFromFileTTF("Resources/Fonts/Pixellari.ttf", 24);
+			io.KeyMap[ImGuiKey_Delete] = GLFW_KEY_DELETE;
+			io.KeyMap[ImGuiKey_Backspace] = GLFW_KEY_BACKSPACE;
 		}
 
 		// Turn on depth 
@@ -138,41 +143,7 @@ namespace Minecraft
 		if (glfwRawMouseMotionSupported())
 			glfwSetInputMode(m_Window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
 
-		/*bool load_world = false;
-		int seed;
-
-		std::cout << "\nDo you want to load a saved world ? (1/0) : ";
-		std::cin >> load_world;
-		std::cout << "\n";
-
-		if (load_world)
-		{
-			std::string world_name;
-			std::cout << "Please enter the name of the saved world : ";
-			std::cin >> world_name;
-
-			m_World = WorldFileHandler::LoadWorld(world_name);
-
-			if (!m_World)
-			{
-				Logger::LogToConsole("Failed to load the world! reverting to generating a new world.");
-				std::cout << "Enter the seed (int) : ";
-				std::cin >> seed;
-				m_World = new World(seed);
-			}
-		}
-
-		else
-		{
-			std::cout << "Enter the seed (int) : ";
-			std::cin >> seed;
-
-			m_World = new World(seed);
-		}*/
-
 		GUI::InitUISystem(m_Window);
-		//Clouds::Init();
-		EventSystem::InitEventSystem(m_Window, &m_EventQueue);
 
 		// Resize window to the maximized view
 		glfwMaximizeWindow(m_Window);
@@ -250,14 +221,16 @@ namespace Minecraft
 		int w, h;
 		glfwGetFramebufferSize(m_Window, &w, &h);
 
-		static std::vector<std::string> Saves;
+		// For the world create menu
+		static char input[64];
+		static int seed = 0;
+		static int world_type = 0;
+
+		std::vector<std::string> Saves;
 
 		if (first_run)
 		{
-			for (auto entry : std::filesystem::directory_iterator("Saves/"))
-			{
-				Saves.push_back(entry.path().filename().string());
-			}
+			memset(&input, '\0', 64);
 
 			first_run = false;
 		}
@@ -278,7 +251,7 @@ namespace Minecraft
 			window_flags |= ImGuiWindowFlags_NoBackground;
 
 			ImGui::SetNextWindowPos(ImVec2((w/2) - 220/2, (h/2) - 70/2), ImGuiCond_Always);
-			ImGui::SetNextWindowSize(ImVec2(220, 200), ImGuiCond_Always);
+			ImGui::SetNextWindowSize(ImVec2(600, 300), ImGuiCond_Always);
 
 			if (ImGui::Begin("Menu", &open, window_flags))
 			{
@@ -287,6 +260,13 @@ namespace Minecraft
 				if (ImGui::Button("PLAY!", ImVec2(200, 48)))
 				{
 					m_GameState = GameState::WorldSelectState;
+				}
+
+				ImGui::NewLine();
+
+				if (ImGui::Button("HELP AND ABOUT", ImVec2(200, 48)))
+				{
+					m_GameState = GameState::HelpState;
 				}
 
 				ImGui::NewLine();
@@ -317,9 +297,8 @@ namespace Minecraft
 			window_flags |= ImGuiWindowFlags_NoBackground;
 
 			ImGui::SetNextWindowPos(ImVec2((w / 2) - 220 / 2, (h / 2) - 70 / 2), ImGuiCond_Always);
-			ImGui::SetNextWindowSize(ImVec2(220, 200), ImGuiCond_Always);
 
-			if (ImGui::Begin("Menu", &open, window_flags))
+			if (ImGui::Begin("Pause Menu", &open, window_flags))
 			{
 				ImGui::PushFont(m_Font);
 
@@ -330,9 +309,13 @@ namespace Minecraft
 
 				ImGui::NewLine();
 
-				if (ImGui::Button("QUIT TO MAIN MENU", ImVec2(200, 48)))
+				if (ImGui::Button("QUIT", ImVec2(200, 48)))
 				{
+					WorldFileHandler::SaveWorld(m_World->GetName(), m_World);
 					m_GameState = GameState::MenuState;
+
+					delete m_World;
+					m_World = nullptr;
 				}
 
 				ImGui::PopFont();
@@ -341,6 +324,71 @@ namespace Minecraft
 		}
 
 		else if (m_GameState == GameState::WorldSelectState)
+		{
+			if (std::filesystem::exists("Saves/"))
+			{
+				for (auto entry : std::filesystem::directory_iterator("Saves/"))
+				{
+					Saves.push_back(entry.path().filename().string());
+				}
+			}
+
+			glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+
+			bool open = true;
+
+			ImGuiWindowFlags window_flags = 0;
+			window_flags |= ImGuiWindowFlags_NoTitleBar;
+			window_flags |= ImGuiWindowFlags_NoMove;
+			window_flags |= ImGuiWindowFlags_NoResize;
+			window_flags |= ImGuiWindowFlags_NoCollapse;
+			window_flags |= ImGuiWindowFlags_NoNav;
+			window_flags |= ImGuiWindowFlags_NoBackground;
+
+			ImGui::SetNextWindowPos(ImVec2(20, 20), ImGuiCond_Always);
+			ImGui::SetNextWindowSize(ImVec2(w - 20, h - 20), ImGuiCond_Always);
+
+			if (ImGui::Begin("Menu", &open, window_flags))
+			{
+				ImGui::PushFont(m_Font);
+
+				if (ImGui::Button("Create new world.."))
+				{
+					m_GameState = GameState::WorldCreateState;
+				}
+
+				ImGui::SameLine();
+				ImGui::Text("                     ");
+				ImGui::SameLine();
+
+				if (ImGui::Button("BACK"))
+				{
+					m_GameState = GameState::MenuState;
+				}
+
+				ImGui::Separator();
+				ImGui::NewLine();
+
+				for (int i = 0; i < Saves.size(); i++)
+				{
+					if (ImGui::Button(Saves.at(i).c_str()))
+					{
+						m_World = WorldFileHandler::LoadWorld(Saves.at(i));
+						m_GameState = GameState::PlayingState;
+						break;
+					}
+
+					ImGui::Separator();
+				}
+
+				ImGui::NewLine();
+
+				ImGui::PopFont();
+				ImGui::End();
+			}
+		}
+
+		else if (m_GameState == GameState::WorldCreateState)
 		{
 			glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
@@ -354,33 +402,78 @@ namespace Minecraft
 			window_flags |= ImGuiWindowFlags_NoNav;
 			window_flags |= ImGuiWindowFlags_NoBackground;
 
-			if (ImGui::Begin("Menu", &open, window_flags))
+			ImGui::SetNextWindowPos(ImVec2(20, 20), ImGuiCond_Always);
+			ImGui::SetNextWindowSize(ImVec2(w - 20, h - 20), ImGuiCond_Always);
+
+			if (ImGui::Begin("World Create", &open, window_flags))
 			{
 				ImGui::PushFont(m_Font);
 
-				if (ImGui::Button("Create new world.."))
+				if (ImGui::Button("BACK"))
 				{
-					int fx, fy;
-					glfwGetFramebufferSize(m_Window, &fx, &fy);
+					m_GameState = GameState::WorldSelectState;
+				}
 
+				ImGui::Text("\n");
+				ImGui::Separator();
+				ImGui::Text("\n");
+				ImGui::Text("Create your new world!");
+				ImGui::Text("\n");
+				ImGui::InputText("World Name", input, 63);
+				ImGui::InputInt("Seed", &seed);
+				ImGui::Text("\n\n");
+				ImGui::RadioButton("Normal", &world_type, (int)WorldGenerationType::Generation_Normal);
+				ImGui::RadioButton("Flat", &world_type, (int)WorldGenerationType::Generation_Flat);
+				ImGui::RadioButton("Flat without Structures", &world_type, (int)WorldGenerationType::Generation_FlatWithoutStructures);
+
+				ImGui::Text("\n\n");
+
+				if (ImGui::Button("Create!", ImVec2(200,200)))
+				{
+					m_World = new World(seed, glm::vec2(w, h), input, static_cast<WorldGenerationType>(world_type));
 					m_GameState = GameState::PlayingState;
-					m_World = new World(1234, glm::vec2(fx, fy));
+				}
+
+				ImGui::PopFont();
+				ImGui::End();
+			}
+		}
+
+		else if (m_GameState == GameState::HelpState)
+		{
+			glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+
+			bool open = true;
+
+			ImGuiWindowFlags window_flags = 0;
+			window_flags |= ImGuiWindowFlags_NoTitleBar;
+			window_flags |= ImGuiWindowFlags_NoMove;
+			window_flags |= ImGuiWindowFlags_NoResize;
+			window_flags |= ImGuiWindowFlags_NoCollapse;
+			window_flags |= ImGuiWindowFlags_NoNav;
+			//window_flags |= ImGuiWindowFlags_NoBackground;
+
+			ImGui::SetNextWindowPos(ImVec2(20, 20), ImGuiCond_Always);
+
+			if (ImGui::Begin("Help Menu", 0, window_flags))
+			{
+				if (ImGui::Button("BACK"))
+				{
+					m_GameState = GameState::MenuState;
 				}
 
 				ImGui::Separator();
-				ImGui::NewLine();
+				ImGui::Text("\n");
+				ImGui::Text("A Tiny Minecraft Clone");
+				ImGui::Text("By Samuel Rasquinha (samuelrasquinha@gmail.com)");
+				ImGui::Text("Discord : swr#1899");
+				ImGui::Text("If you like this project. Please consider starring it on GitHub");
+				ImGui::Text("All art and resources are not mine. Credits go to their respective owners");
+				ImGui::Text("\n\n");
+				ImGui::Text("MOVEMENT - W S A D");
+				ImGui::Text("FLY - SPACE/LEFT SHIFT");
+				ImGui::Text("BLOCK EDITING - LEFT/RIGHT MOUSE BUTTONS");
 
-				for (int i = 0; i < Saves.size(); i++)
-				{
-					if (ImGui::Button(Saves.at(i).c_str()))
-					{
-						
-					}
-				}
-
-				ImGui::NewLine();
-
-				ImGui::PopFont();
 				ImGui::End();
 			}
 		}
@@ -410,7 +503,7 @@ namespace Minecraft
 
 		case EventSystem::EventTypes::KeyPress:
 		{
-			if (e.key == GLFW_KEY_ESCAPE)
+			if (e.key == GLFW_KEY_ESCAPE && m_GameState == GameState::PlayingState)
 			{
 				m_GameState = GameState::PauseState;
 			}
@@ -420,7 +513,9 @@ namespace Minecraft
 		}
 
 		if (m_World)
+		{
 			m_World->OnEvent(e);
+		}
 	}
 
 	void Application::PollEvents()

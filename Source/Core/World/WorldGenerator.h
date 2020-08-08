@@ -18,15 +18,16 @@
 
 namespace Minecraft
 {
+	enum WorldGenerationType;
+
 	enum Biome
 	{
-		Grassland,
+		Grassland = 9,
 		Plains,
 		Ocean,
 		Desert,
 		Jungle
 	};
 
-	void GenerateChunk(Chunk* chunk, const int WorldSeed);
-
+	void GenerateChunk(Chunk* chunk, const int WorldSeed, WorldGenerationType gen_type);
 }

@@ -13,6 +13,7 @@ namespace Minecraft
         struct WorldData
         {
             int seed;
+            int world_gen_type;
         };
 
         // takes in a string such as "-1, 2" and outputs an std::pair<int,int>
@@ -95,7 +96,7 @@ namespace Minecraft
 
             // A file that has the seed of the world etc..
             FILE* world_data_file;
-            WorldData world_data_w = { world->GetSeed() }; // the world data to write in the world.bin file
+            WorldData world_data_w = { world->GetSeed(), world->GetWorldGenerationType() }; // the world data to write in the world.bin file
             stringstream world_data_file_pth;
 
             world_data_file_pth << dir_s.str() << "world.bin";
@@ -135,7 +136,7 @@ namespace Minecraft
                 fread(&world_data, sizeof(WorldData), 1, world_file);
                 fclose(world_file);
 
-                World* world = new World(world_data.seed, {DEFAULT_WINDOW_X, DEFAULT_WINDOW_Y});
+                World* world = new World(world_data.seed, {DEFAULT_WINDOW_X, DEFAULT_WINDOW_Y}, world_name, (WorldGenerationType)world_data.world_gen_type);
 
                 // iterate through all the files in the chunk directory and read the binary data  
                 for (auto entry : std::filesystem::directory_iterator(cdata_dir_s.str()))
