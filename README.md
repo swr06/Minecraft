@@ -36,8 +36,8 @@ A Tiny Minecraft clone made with C++ and OpenGL.
 This project compiles with Clang and MSVC. 
 
 # Benchmarks? 
-Intel HD 4000 - 200~ FPS
-Vega 8 iGPU - 500~ FPS
+- Intel HD 4000 - 200~ FPS
+- Vega 8 iGPU - 500~ FPS
 
 # Contact me
 Email : samuelrasquinha@gmail.com
@@ -66,4 +66,5 @@ This project is under the MIT license. See LICENSE for more info
   <i>Lighting Demo with lamps</i>
 </p>
 
-Thankyou !
+# Supporting 
+If you like this project, please consider starring it on github. Thankyou :)
