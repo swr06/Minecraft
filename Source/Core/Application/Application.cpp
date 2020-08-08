@@ -487,9 +487,11 @@ namespace Minecraft
 				ImGui::Text("If you like this project. Please consider starring it on GitHub");
 				ImGui::Text("All art and resources are not mine. Credits go to their respective owners");
 				ImGui::Text("\n\n");
+				ImGui::Text("Instructions : ");
 				ImGui::Text("MOVEMENT - W S A D");
 				ImGui::Text("FLY - SPACE/LEFT SHIFT");
 				ImGui::Text("BLOCK EDITING - LEFT/RIGHT MOUSE BUTTONS");
+				ImGui::Text("CHANGE CURRENT BLOCK - (Q)");
 
 				ImGui::End();
 			}
