@@ -89,7 +89,7 @@ namespace Minecraft
 		glfwMakeContextCurrent(m_Window);
 
 		// Turn on V-Sync
-		glfwSwapInterval(0);
+		glfwSwapInterval(1);
 
 		glewInit();
 
@@ -296,6 +296,7 @@ namespace Minecraft
 
 		else if (m_GameState == GameState::PauseState)
 		{
+			m_Renderer2D->RenderQuad(glm::vec2(0, 0), &m_BlurMenuBackground, &m_OrthagonalCamera);
 			glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
 			bool open = true;
@@ -458,6 +459,7 @@ namespace Minecraft
 
 		else if (m_GameState == GameState::HelpState)
 		{
+			m_Renderer2D->RenderQuad(glm::vec2(0, 0), &m_BlurMenuBackground, &m_OrthagonalCamera);
 			glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
 			bool open = true;
