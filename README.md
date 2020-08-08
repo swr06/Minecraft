@@ -40,11 +40,11 @@ This project compiles with Clang and MSVC.
 - Vega 8 iGPU - 500~ FPS
 
 # Contact me
-Email : samuelrasquinha@gmail.com
-Discord : swr#1899
+- Email : samuelrasquinha@gmail.com
+- Discord : swr#1899
 
 # Credits
-The block art, skybox art and fonts are not made by me. All credits go to their owners.
+The block art, skybox art and fonts are not made by me. All credits go to their owners. 
 
 # License
 This project is under the MIT license. See LICENSE for more info
