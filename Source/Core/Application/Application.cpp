@@ -147,6 +147,7 @@ namespace Minecraft
 			m_Font = io.Fonts->AddFontFromFileTTF("Resources/Fonts/Pixellari.ttf", 24);
 			io.KeyMap[ImGuiKey_Delete] = GLFW_KEY_DELETE;
 			io.KeyMap[ImGuiKey_Backspace] = GLFW_KEY_BACKSPACE;
+			io.IniFilename = nullptr;
 		}
 
 		// Turn on depth 
@@ -167,7 +168,7 @@ namespace Minecraft
 		glfwMaximizeWindow(m_Window);
 
 		m_LogoTexture.CreateTexture("Resources/Branding/logo.png", false);
-		m_BlurMenuBackground.CreateTexture("Resources/Branding/1234.png", false);
+		m_BlurMenuBackground.CreateTexture("Resources/Branding/menu_blur.png", false);
 		m_Renderer2D = new Renderer2D;
 	}
 
@@ -330,7 +331,7 @@ namespace Minecraft
 
 			ImGui::SetNextWindowPos(ImVec2((w / 2) - 220 / 2, (h / 2) - 70 / 2), ImGuiCond_Always);
 
-			if (ImGui::Begin("Pause Menu", &open, window_flags))
+			if (ImGui::Begin("Pause Menu.", &open, window_flags))
 			{
 				ImGui::PushFont(m_Font);
 

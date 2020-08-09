@@ -238,10 +238,13 @@ namespace Minecraft
 
 		if (e.type == EventSystem::EventTypes::WindowResize)
 		{
-			float aspect = (float)e.wx / (float)e.wy;
-			p_Player->p_Camera.SetAspect(aspect);
-			m_Camera2D.SetProjection((float)0, (float)e.wx, (float)0, (float)e.wy);
-			m_CrosshairPosition = std::pair <float, float>(e.wx / 2, e.wy / 2);
+			if (e.wx > 0 && e.wy > 0)
+			{
+				float aspect = (float)e.wx / (float)e.wy;
+				p_Player->p_Camera.SetAspect(aspect);
+				m_Camera2D.SetProjection((float)0, (float)e.wx, (float)0, (float)e.wy);
+				m_CrosshairPosition = std::pair <float, float>(e.wx / 2, e.wy / 2);
+			}
 		}
 
 		if (e.type == EventSystem::EventTypes::KeyPress && e.key == GLFW_KEY_Q)
