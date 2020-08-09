@@ -55,14 +55,14 @@ namespace Minecraft
 		void OnUpdate(GLFWwindow* window);
 		void RenderWorld();
 		void OnEvent(EventSystem::Event e);
-		const std::string& GetName() { return m_WorldName; }
+		const std::string& GetName() noexcept { return m_WorldName; }
 
 		// Gets a world block from the respective chunk. Returns nullptr if invalid
-		std::pair<Block*, Chunk*> GetBlockFromPosition(const glm::vec3& pos);
-		std::pair<Block*, Chunk*> GetBlock(const glm::vec3& block_loc);
-		BlockType GetBlockTypeFromPosition(const glm::vec3& pos);
-		glm::vec3 ConvertPositionToWorldBlockPosition(const glm::vec3& pos);
-		Chunk* RetrieveChunkFromMap(int cx, int cz);
+		std::pair<Block*, Chunk*> GetBlockFromPosition(const glm::vec3& pos) noexcept;
+		std::pair<Block*, Chunk*> GetBlock(const glm::vec3& block_loc) noexcept;
+		BlockType GetBlockTypeFromPosition(const glm::vec3& pos) noexcept;
+		glm::vec3 ConvertPositionToWorldBlockPosition(const glm::vec3& pos) noexcept;
+		Chunk* RetrieveChunkFromMap(int cx, int cz) noexcept;
 		WorldGenerationType GetWorldGenerationType() { return m_WorldGenType; }
 
 		bool ChunkExistsInMap(int cx, int cz);

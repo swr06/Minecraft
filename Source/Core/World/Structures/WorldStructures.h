@@ -4,7 +4,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <array>
+#include <vector>
 
 #include "../../Block.h"
 #include "../../Utils/Defs.h"
@@ -20,36 +20,78 @@ namespace Minecraft
 		Undefined
 	};
 
+	struct StructureBlock
+	{
+		Block block;
+		int x, y, z;
+	};
+
 	class WorldStructure
 	{
 	public :
 
 		WorldStructure()
 		{
-			p_Structure = new std::array<std::array<std::array<Block, MAX_STRUCTURE_X>, MAX_STRUCTURE_Y>, MAX_STRUCTURE_Z>;
 			p_StructureType = WorldStructureType::Undefined;
-
-			memset(p_Structure, BlockType::Air, MAX_STRUCTURE_X * MAX_STRUCTURE_Y * MAX_STRUCTURE_Z);
 		}
 
-		~WorldStructure()
+		~WorldStructure() 
 		{
-			delete p_Structure;
-		}
+			p_Structure.clear();
+		};
 
 		WorldStructureType p_StructureType;
-		std::array<std::array<std::array<Block, MAX_STRUCTURE_X>, MAX_STRUCTURE_Y>, MAX_STRUCTURE_Z>* p_Structure;
+		std::vector<StructureBlock> p_Structure;
 
 	protected : 
 
-		void SetBlock(int x, int y, int z, BlockType type)
+		void SetBlock(int x, int y, int z, BlockType type) noexcept
 		{
-			Block b;
+			StructureBlock b;
 
-			b.p_BlockType = type;
-			p_Structure->at(x).at(y).at(z) = b;
+			b.x = x;
+			b.y = y;
+			b.z = z;
+			b.block = { type };
+			p_Structure.push_back(b);
+		}
+
+		void SetBlocksX(const glm::vec3& position, int breadth, BlockType type) noexcept
+		{
+			for (int x = position.x; x < position.x + breadth; x++)
+			{
+				SetBlock(x, position.y, position.z, type);
+			}
+		}
+
+		void SetBlocksZ(const glm::vec3& position, int depth, BlockType type) noexcept
+		{
+			for (int z = position.z; z < position.z + depth; z++)
+			{
+				SetBlock(position.x, position.y, z, type);
+			}
+		}
+
+		void SetBlocksY(const glm::vec3& position, int height, BlockType type) noexcept
+		{
+			for (int y = position.y; y < position.y + height; y++)
+			{
+				SetBlock(position.x, y, position.z, type);
+			}
+		}
+
+		void SetBlocksHorizontal(const glm::vec3& position, int breadth, int depth, BlockType type) noexcept
+		{ 
+			for (int i = position.x; i < position.x + breadth; i++)
+			{
+				for (int j = position.z; j < position.z + depth; j++)
+				{
+					SetBlock(i, position.y, j, type);
+				}
+			}
 		}
 	};
+
 
 	class TreeStructure : public WorldStructure
 	{
@@ -59,95 +101,14 @@ namespace Minecraft
 		{
 			// Define the tree structure
 
-			// Add the Bark
-			SetBlock(2, 0, 2, BlockType::OakLog);
-			SetBlock(2, 1, 2, BlockType::OakLog);
-			SetBlock(2, 2, 2, BlockType::OakLog);
-			SetBlock(2, 3, 2, BlockType::OakLog);
-			SetBlock(2, 4, 2, BlockType::OakLog);
+			// Leaves
+			SetBlocksHorizontal(glm::vec3(0, 3, 0), 5, 5, BlockType::OakLeaves);
+			SetBlocksHorizontal(glm::vec3(0, 2, 0), 5, 5, BlockType::OakLeaves);
+			SetBlocksHorizontal(glm::vec3(1, 4, 1), 3, 3, BlockType::OakLeaves);
+			SetBlocksHorizontal(glm::vec3(2, 5, 2), 1, 1, BlockType::OakLeaves);
 
-			SetBlock(2, 3, 2, BlockType::OakLeaves);
-
-			SetBlock(0, 2, 0, BlockType::OakLeaves);
-			SetBlock(0, 2, 1, BlockType::OakLeaves);
-			SetBlock(0, 2, 2, BlockType::OakLeaves);
-			SetBlock(0, 2, 3, BlockType::OakLeaves);
-			SetBlock(1, 2, 0, BlockType::OakLeaves);
-			SetBlock(1, 2, 1, BlockType::OakLeaves);
-			SetBlock(1, 2, 2, BlockType::OakLeaves);
-			SetBlock(1, 2, 3, BlockType::OakLeaves);
-			SetBlock(2, 2, 0, BlockType::OakLeaves);
-			SetBlock(2, 2, 1, BlockType::OakLeaves);
-			SetBlock(2, 2, 3, BlockType::OakLeaves);
-			SetBlock(3, 2, 0, BlockType::OakLeaves);
-			SetBlock(3, 2, 1, BlockType::OakLeaves);
-			SetBlock(3, 2, 2, BlockType::OakLeaves);
-			SetBlock(3, 2, 3, BlockType::OakLeaves);
-			SetBlock(4, 2, 0, BlockType::OakLeaves);
-			SetBlock(4, 2, 1, BlockType::OakLeaves);
-			SetBlock(4, 2, 2, BlockType::OakLeaves);
-			SetBlock(4, 2, 3, BlockType::OakLeaves);
-
-			SetBlock(0, 3, 0, BlockType::OakLeaves);
-			SetBlock(0, 3, 1, BlockType::OakLeaves);
-			SetBlock(0, 3, 2, BlockType::OakLeaves);
-			SetBlock(0, 3, 3, BlockType::OakLeaves);
-			SetBlock(1, 3, 0, BlockType::OakLeaves);
-			SetBlock(1, 3, 1, BlockType::OakLeaves);
-			SetBlock(1, 3, 2, BlockType::OakLeaves);
-			SetBlock(1, 3, 3, BlockType::OakLeaves);
-			SetBlock(2, 3, 0, BlockType::OakLeaves);
-			SetBlock(2, 3, 1, BlockType::OakLeaves);
-			SetBlock(2, 3, 3, BlockType::OakLeaves);
-			SetBlock(3, 3, 0, BlockType::OakLeaves);
-			SetBlock(3, 3, 1, BlockType::OakLeaves);
-			SetBlock(3, 3, 2, BlockType::OakLeaves);
-			SetBlock(3, 3, 3, BlockType::OakLeaves);
-			SetBlock(4, 3, 0, BlockType::OakLeaves);
-			SetBlock(4, 3, 1, BlockType::OakLeaves);
-			SetBlock(4, 3, 2, BlockType::OakLeaves);
-			SetBlock(4, 3, 3, BlockType::OakLeaves);
-
-			SetBlock(0, 4, 0, BlockType::OakLeaves);
-			SetBlock(0, 4, 1, BlockType::OakLeaves);
-			SetBlock(0, 4, 2, BlockType::OakLeaves);
-			SetBlock(0, 4, 3, BlockType::OakLeaves);
-			SetBlock(1, 4, 0, BlockType::OakLeaves);
-			SetBlock(1, 4, 1, BlockType::OakLeaves);
-			SetBlock(1, 4, 2, BlockType::OakLeaves);
-			SetBlock(1, 4, 3, BlockType::OakLeaves);
-			SetBlock(2, 4, 0, BlockType::OakLeaves);
-			SetBlock(2, 4, 1, BlockType::OakLeaves);	
-			SetBlock(2, 4, 3, BlockType::OakLeaves);
-			SetBlock(3, 4, 0, BlockType::OakLeaves);
-			SetBlock(3, 4, 1, BlockType::OakLeaves);
-			SetBlock(3, 4, 2, BlockType::OakLeaves);
-			SetBlock(3, 4, 3, BlockType::OakLeaves);
-			SetBlock(4, 4, 0, BlockType::OakLeaves);
-			SetBlock(4, 4, 1, BlockType::OakLeaves);
-			SetBlock(4, 4, 2, BlockType::OakLeaves);
-			SetBlock(4, 4, 3, BlockType::OakLeaves);
-
-			SetBlock(0, 5, 0, BlockType::OakLeaves);
-			SetBlock(0, 5, 1, BlockType::OakLeaves);
-			SetBlock(0, 5, 2, BlockType::OakLeaves);
-			SetBlock(0, 5, 3, BlockType::OakLeaves);
-			SetBlock(1, 5, 0, BlockType::OakLeaves);
-			SetBlock(1, 5, 1, BlockType::OakLeaves);
-			SetBlock(1, 5, 2, BlockType::OakLeaves);
-			SetBlock(1, 5, 3, BlockType::OakLeaves);
-			SetBlock(2, 5, 0, BlockType::OakLeaves);
-			SetBlock(2, 5, 1, BlockType::OakLeaves);
-			SetBlock(2, 5, 2, BlockType::OakLeaves);
-			SetBlock(2, 5, 3, BlockType::OakLeaves);
-			SetBlock(3, 5, 0, BlockType::OakLeaves);
-			SetBlock(3, 5, 1, BlockType::OakLeaves);
-			SetBlock(3, 5, 2, BlockType::OakLeaves);
-			SetBlock(3, 5, 3, BlockType::OakLeaves);
-			SetBlock(4, 5, 0, BlockType::OakLeaves);
-			SetBlock(4, 5, 1, BlockType::OakLeaves);
-			SetBlock(4, 5, 2, BlockType::OakLeaves);
-			SetBlock(4, 5, 3, BlockType::OakLeaves);
+			// Bark
+			SetBlocksY(glm::vec3(2, 0, 2), 3, BlockType::OakLog);
 		}
 	};
 
@@ -156,12 +117,7 @@ namespace Minecraft
 	public : 
 		CactusStructure()
 		{
-			SetBlock(2, 0, 2, BlockType::Cactus);
-			SetBlock(2, 1, 2, BlockType::Cactus);
-			SetBlock(2, 2, 2, BlockType::Cactus);
-			SetBlock(2, 3, 2, BlockType::Cactus);
-			SetBlock(2, 4, 2, BlockType::Cactus);
-			SetBlock(2, 5, 2, BlockType::Cactus);
+			SetBlocksY(glm::vec3(2, 0, 2), 6, BlockType::Cactus);
 		}
 	};
 }

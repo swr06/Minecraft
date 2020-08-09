@@ -30,6 +30,8 @@ void main()
 	float lighting_level = a_LightingLevel ;	
 	lighting_level /= 10;
 
+	v_SunlightIntensity = max(u_SunPositionY / 1000.0f, 0.6f);
+
 	if (lighting_level < 0.2)
 	{
 		v_TintColor =  u_AmbientLight;
@@ -44,10 +46,12 @@ void main()
 		}
 
 		v_TintColor = vec4(lighting_level, lighting_level, lighting_level, 1.0f);
-	}
 
-	// Calculate the sun light intensity
-	v_SunlightIntensity = max(u_SunPositionY / 1000.0f, 0.6f);
+		if (v_SunlightIntensity < 1.0f)
+		{
+			v_SunlightIntensity = 1.0f;
+		}
+	}
 
 	gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
 	v_TexCoord = a_TexCoords;

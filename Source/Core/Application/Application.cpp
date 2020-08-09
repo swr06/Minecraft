@@ -66,6 +66,24 @@ namespace Minecraft
 		fprintf(stderr, "GLFW ERROR!   %d: %s\n", error, description);
 	}
 
+	static bool FilenameIsValid(const std::string& filepath)
+	{
+		FILE* file;
+
+		file = fopen(filepath.c_str(), "w+");
+		
+		if (!file)
+		{
+			return false;
+		}
+
+		else
+		{
+			fclose(file);
+			std::filesystem::remove(filepath);
+		}
+	}
+
 	Application::Application() : m_GameState(GameState::MenuState), m_OrthagonalCamera(0.0f, (float)DEFAULT_WINDOW_X, 0.0f, (float)DEFAULT_WINDOW_Y)
 	{
 		const char* glsl_version = static_cast<const char*>("#version 130");
@@ -448,8 +466,19 @@ namespace Minecraft
 
 				if (ImGui::Button("Create!", ImVec2(200,200)))
 				{
-					m_World = new World(seed, glm::vec2(w, h), input, static_cast<WorldGenerationType>(world_type));
-					m_GameState = GameState::PlayingState;
+					//bool isValid = FilenameIsValid(input);
+					bool isValid = true;
+
+					if (isValid)
+					{
+						m_World = new World(seed, glm::vec2(w, h), input, static_cast<WorldGenerationType>(world_type));
+						m_GameState = GameState::PlayingState;
+					}
+
+					else
+					{
+						Logger::LogToConsole("INVALID WORLD NAME GIVEN!");
+					}
 				}
 
 				ImGui::PopFont();

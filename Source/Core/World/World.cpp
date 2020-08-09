@@ -272,7 +272,7 @@ namespace Minecraft
 	}
 
 	// Gets a block from position
-	std::pair<Block*, Chunk*> World::GetBlockFromPosition(const glm::vec3& pos)
+	std::pair<Block*, Chunk*> World::GetBlockFromPosition(const glm::vec3& pos) noexcept
 	{
 		int block_chunk_x = static_cast<int>(floor(pos.x / CHUNK_SIZE_X));
 		int block_chunk_z = static_cast<int>(floor(pos.z / CHUNK_SIZE_Z));
@@ -298,7 +298,7 @@ namespace Minecraft
 	}
 
 	// Returns the chunk* and block* from BLOCK position
-	std::pair<Block*, Chunk*> World::GetBlock(const glm::vec3& block_loc)
+	std::pair<Block*, Chunk*> World::GetBlock(const glm::vec3& block_loc) noexcept
 	{
 		int block_chunk_x = static_cast<int>(floor(block_loc.x / CHUNK_SIZE_X));
 		int block_chunk_z = static_cast<int>(floor(block_loc.z / CHUNK_SIZE_Z));
@@ -308,7 +308,7 @@ namespace Minecraft
 	}
 
 	// Returns the type of block at a position
-	BlockType World::GetBlockTypeFromPosition(const glm::vec3& pos)
+	BlockType World::GetBlockTypeFromPosition(const glm::vec3& pos) noexcept
 	{
 		int block_chunk_x = static_cast<int>(floor(pos.x / CHUNK_SIZE_X));
 		int block_chunk_z = static_cast<int>(floor(pos.z / CHUNK_SIZE_Z));
@@ -320,7 +320,7 @@ namespace Minecraft
 	}
 
 	// Converts world pixel coordinates to world block position
-	glm::vec3 World::ConvertPositionToWorldBlockPosition(const glm::vec3& pos)
+	glm::vec3 World::ConvertPositionToWorldBlockPosition(const glm::vec3& pos) noexcept
 	{
 		int block_chunk_x = static_cast<int>(floor(pos.x / CHUNK_SIZE_X));
 		int block_chunk_z = static_cast<int>(floor(pos.z / CHUNK_SIZE_Z));
@@ -788,7 +788,7 @@ namespace Minecraft
 	}
 
 	// Gets an existing chunk from the map
-	Chunk* World::RetrieveChunkFromMap(int cx, int cz)
+	Chunk* World::RetrieveChunkFromMap(int cx, int cz) noexcept
 	{
 		Chunk* ret_val = &m_WorldChunks.at(std::pair<int, int>(cx, cz));
 		return ret_val;
