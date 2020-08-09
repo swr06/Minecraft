@@ -167,7 +167,7 @@ namespace Minecraft
 		glfwMaximizeWindow(m_Window);
 
 		m_LogoTexture.CreateTexture("Resources/Branding/logo.png", false);
-		m_BlurMenuBackground.CreateTexture("Resources/Branding/menu_blur.png", false);
+		m_BlurMenuBackground.CreateTexture("Resources/Branding/1234.png", false);
 		m_Renderer2D = new Renderer2D;
 	}
 

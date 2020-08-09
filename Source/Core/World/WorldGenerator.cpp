@@ -6,7 +6,7 @@ namespace Minecraft
     Biome GetBiome(float chunk_noise);
 
     // Water levels
-    constexpr int water_min = 80;
+    constexpr int water_min = 18;
     constexpr int water_max = 90;
 
     // Sets the vertical blocks based on the biome
