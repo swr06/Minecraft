@@ -82,5 +82,15 @@ namespace Minecraft
 
 			return false;
 		}
+
+		bool IsLiquid() const
+		{
+			if (p_BlockType == BlockType::Water || p_BlockType == BlockType::Lava)
+			{
+				return true;
+			}
+
+			return false;
+		}
 	};
 }

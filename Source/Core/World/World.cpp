@@ -375,7 +375,7 @@ namespace Minecraft
 				Block* ray_block = ray_hitblock.first;
 				Chunk* ray_chunk = ray_hitblock.second;
 
-				if (ray_block != nullptr && ray_block->p_BlockType != BlockType::Air)
+				if (ray_block != nullptr && ray_block->p_BlockType != BlockType::Air && ray_block->IsLiquid() == false)
 				{
 					glm::vec3 normal;
 
