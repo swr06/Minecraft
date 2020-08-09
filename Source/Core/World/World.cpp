@@ -162,6 +162,8 @@ namespace Minecraft
 			}
 		}
 
+		glDisable(GL_CULL_FACE);
+
 		for (int i = player_chunk_x - render_distance_x; i < player_chunk_x + render_distance_x; i++)
 		{
 			for (int j = player_chunk_z - render_distance_z; j < player_chunk_z + render_distance_z; j++)

@@ -51,7 +51,7 @@ namespace Minecraft
 	{
 		std::uint8_t p_BlockType = BlockType::UnknownBlockType;
 
-		bool IsOpaque()
+		bool IsOpaque() const
 		{
 			if (p_BlockType != BlockType::Air && p_BlockType != BlockType::GlassWhite 
 				&& p_BlockType != BlockType::Water && p_BlockType != BlockType::Cactus)
@@ -62,10 +62,20 @@ namespace Minecraft
 			return false;
 		}
 
-		bool IsTransparent()
+		bool IsTransparent() const
 		{
 			if (p_BlockType == BlockType::Water || p_BlockType == BlockType::Lava 
 				|| p_BlockType == BlockType::GlassWhite || p_BlockType == BlockType::Cactus)
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		bool Collidable() const 
+		{
+			if (p_BlockType != BlockType::Air && p_BlockType != BlockType::Water && p_BlockType != BlockType::Lava)
 			{
 				return true;
 			}

@@ -99,7 +99,7 @@ namespace Minecraft
 					{
 						const Block* block = GetWorldBlock(glm::vec3(x, y, z));
 
-						if (block && block->p_BlockType != BlockType::Air)
+						if (block && block->Collidable())
 						{
 							return true;
 						}

@@ -2,13 +2,17 @@
 
 namespace Minecraft
 {
+    static FastNoise BiomeGenerator(1234);
     Biome GetBiome(float chunk_noise);
+
+    // Water levels
+    constexpr int water_min = 80;
+    constexpr int water_max = 90;
 
     // Sets the vertical blocks based on the biome
     // Also it returns the biome for the block column
     Biome SetVerticalBlocks(Chunk* chunk, int x, int z, int y_level, float real_x, float real_z)
     {
-        static FastNoise BiomeGenerator(1234);
         BiomeGenerator.SetNoiseType(FastNoise::Simplex);
 
         float column_noise = BiomeGenerator.GetNoise(real_x, real_z);
@@ -63,6 +67,41 @@ namespace Minecraft
             chunk->SetBlock((BlockType)structure->p_Structure.at(i).block.p_BlockType,
                 glm::vec3(x + structure->p_Structure.at(i).x, y + structure->p_Structure.at(i).y,
                     z + structure->p_Structure.at(i).z));    
+        }
+    }
+
+    void AddWaterBlocks(Chunk* chunk)
+    {
+        /*
+        Generates water in the areas needed inside of the chunk
+        */
+
+        ChunkDataTypePtr chunk_data = &chunk->p_ChunkContents;
+
+        for (int i = 0; i < CHUNK_SIZE_X; i++)
+        {
+            for (int j = 0; j < CHUNK_SIZE_Y; j++)
+            {
+                for (int k = 0; k < CHUNK_SIZE_Z; k++)
+                {
+                    if (chunk_data->at(i).at(j).at(k).p_BlockType != BlockType::Air)
+                    {
+                        continue;
+                    }
+
+                    BiomeGenerator.SetNoiseType(FastNoise::Simplex);
+                    float real_x = i + chunk->p_Position.x * CHUNK_SIZE_X;
+                    float real_z = k + chunk->p_Position.z * CHUNK_SIZE_Z;
+                    float biome_noise = BiomeGenerator.GetNoise(real_x, real_z);
+
+                    Biome biome = GetBiome(biome_noise);
+
+                    if (j > water_min && j < water_max)
+                    {
+                        chunk_data->at(i).at(j).at(k).p_BlockType = BlockType::Water;
+                    }
+                }
+            }
         }
     }
 
@@ -152,12 +191,15 @@ namespace Minecraft
                     if (WorldTreeGenerator.UnsignedInt(75) == 0 &&
                         generated_x + MAX_STRUCTURE_X < CHUNK_SIZE_X &&
                         generated_z + MAX_STRUCTURE_Z < CHUNK_SIZE_Z &&
+                        generated_y > water_max + 1 && generated_y < CHUNK_SIZE_Y &&
                         Structure != nullptr)
                     {
                         FillInWorldStructure(chunk, Structure, generated_x, generated_y - 1, generated_z);
                     }
                 }
             }
+
+            AddWaterBlocks(chunk);
         }
 
         else if (gen_type == WorldGenerationType::Generation_Flat || gen_type == WorldGenerationType::Generation_FlatWithoutStructures)
