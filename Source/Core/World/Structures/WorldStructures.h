@@ -102,13 +102,22 @@ namespace Minecraft
 			// Define the tree structure
 
 			// Leaves
-			SetBlocksHorizontal(glm::vec3(0, 3, 0), 5, 5, BlockType::OakLeaves);
-			SetBlocksHorizontal(glm::vec3(0, 2, 0), 5, 5, BlockType::OakLeaves);
-			SetBlocksHorizontal(glm::vec3(1, 4, 1), 3, 3, BlockType::OakLeaves);
-			SetBlocksHorizontal(glm::vec3(2, 5, 2), 1, 1, BlockType::OakLeaves);
+			SetBlocksHorizontal(glm::vec3(0, 5, 0), 5, 5, BlockType::OakLeaves);
+
+			SetBlock(0, 6, 0, BlockType::OakLeaves);
+			SetBlock(0, 6, 4, BlockType::OakLeaves);
+			SetBlock(4, 6, 0, BlockType::OakLeaves);
+			SetBlock(4, 6, 4, BlockType::OakLeaves);
+			SetBlocksHorizontal(glm::vec3(1, 6, 1), 3, 3, BlockType::OakLeaves);
+			SetBlock(2, 7, 2, BlockType::OakLeaves);
+			SetBlock(2 + 1, 7, 2, BlockType::OakLeaves);
+			SetBlock(2 - 1, 7, 2, BlockType::OakLeaves);
+			SetBlock(2, 7, 2 + 1, BlockType::OakLeaves);
+			SetBlock(2, 7, 2 - 1, BlockType::OakLeaves);
+			SetBlock(2, 8, 2, BlockType::OakLeaves);
 
 			// Bark
-			SetBlocksY(glm::vec3(2, 0, 2), 3, BlockType::OakLog);
+			SetBlocksY(glm::vec3(2, 0, 2), 7, BlockType::OakLog);
 		}
 	};
 
