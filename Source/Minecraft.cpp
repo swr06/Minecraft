@@ -31,13 +31,6 @@ Github : @swr06
 
 #include <iostream>
 
-#ifdef __WIN32
-extern "C" {
-    __declspec(dllexport) bool NvOptimusEnablement = true;
-    __declspec(dllexport) bool AmdPowerXpressRequestHighPerformance = true;
-}
-#endif 
-
 // Uses the already declared application variable
 extern Minecraft::Application Minecraft::MinecraftApplication;
 

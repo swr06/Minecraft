@@ -47,8 +47,8 @@ project "Minecraft Clone"
    
    libdirs
    {
-      "Core/Dependencies/GLEW/lib",
-      "Core/Dependencies/GLFW/lib"
+      "Source/Core/Dependencies/GLEW/lib",
+      "Source/Core/Dependencies/GLFW/lib"
    }
   
    filter "system:windows"
