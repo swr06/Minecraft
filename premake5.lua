@@ -1,5 +1,3 @@
--- Premake file 
-
 workspace "Minecraft Clone"
 	architecture "x86"
    configurations 
@@ -12,7 +10,7 @@ project "Minecraft Clone"
    location "Source"
    kind "ConsoleApp"
    language "C++"
-   targetdir "bin/%{cfg.buildcfg}"
+   targetdir "Source/bin/%{cfg.buildcfg}"
 
    files 
    { 
@@ -31,10 +29,29 @@ project "Minecraft Clone"
    {
       "glew32s.lib",
       "glfw3.lib",
-      "opengl32.lib"
+      "opengl32.lib",
+      "opengl32.lib",
+	   "kernel32.lib",
+		"user32.lib",
+		"gdi32.lib",
+		"winspool.lib",
+		"comdlg32.lib",
+		"advapi32.lib",
+		"shell32.lib",
+		"ole32.lib",
+		"oleaut32.lib",
+		"uuid.lib",
+		"odbc32.lib",
+		"odbccp32.lib"
    }
-
-   filter "system::windows"
+   
+   libdirs
+   {
+      "Core/Dependencies/GLEW/lib",
+      "Core/Dependencies/GLFW/lib"
+   }
+  
+   filter "system:windows"
       cppdialect "C++17"
       staticruntime "On"
       systemversion "latest"
@@ -59,6 +76,3 @@ project "Minecraft Clone"
          "_CRT_SECURE_NO_WARNINGS"
       }
       optimize "On"
-
-   filter { "system::windows", "configurations:Release" }
-      buildoptions "/MT"
