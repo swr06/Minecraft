@@ -6,8 +6,8 @@ namespace Minecraft
     Biome GetBiome(float chunk_noise);
 
     // Water levels
-    constexpr int water_min = 18;
-    constexpr int water_max = 90;
+    constexpr int water_min = 5;
+    constexpr int water_max = 85;
 
     // Sets the vertical blocks based on the biome
     // Also it returns the biome for the block column
@@ -18,9 +18,9 @@ namespace Minecraft
         float column_noise = BiomeGenerator.GetNoise(real_x, real_z);
         Biome biome = GetBiome(column_noise);
 
-        if (y_level >= 128)
+        if (y_level >= CHUNK_SIZE_Y)
         {
-            y_level = 128 - 1;
+            y_level = CHUNK_SIZE_Y - 4;
         }
 
         for (int i = 0; i < y_level; i++)
@@ -110,22 +110,21 @@ namespace Minecraft
         // Quantize the noise into various levels and frequency
 
         const float grass_land = 0.3f;
-        const float desert = 0.5f;
+        const float desert = 0.4f;
         const float ocean = 0.6f;
-
         if (chunk_noise <= grass_land)
         {
             return Biome::Grassland;
         }
 
-        else if (chunk_noise > desert)
+        else if (chunk_noise >= desert)
         {
             return Biome::Desert;
         }
 
         else
         {
-            return Biome::Grassland;
+            return Biome::Desert;
         }
     }
 
@@ -161,11 +160,13 @@ namespace Minecraft
                     float real_x = x + chunk->p_Position.x * CHUNK_SIZE_X;
                     float real_z = z + chunk->p_Position.z * CHUNK_SIZE_Z;
 
-                    float height_at = WorldGenerator.GetNoise(real_x, real_z) * WorldGeneratorMultiply_1.GetNoise(real_x * 0.8f, real_z * 0.8f);
+                    float height_at = WorldGenerator.GetNoise(real_x, real_z) + 
+                        (0.5 * WorldGenerator.GetNoise(real_x, real_z)) *
+                         WorldGeneratorMultiply_1.GetNoise(real_x * 0.4f, real_z * 0.4f);
                     generated_x = x;
                     generated_z = z;
 
-                    generated_y = (height_at / 2 + 1.0f) * ((float)96);
+                    generated_y = (height_at / 2 + 1.0f) * ((float)95);
 
                     // The biome of the block column
                     Biome biome = SetVerticalBlocks(chunk, generated_x, generated_z, generated_y, real_x, real_z);
@@ -184,7 +185,7 @@ namespace Minecraft
 
                     default:
                         Structure = &WorldStructureTree;
-                        structure_freq = 200;
+                        structure_freq = 50;
                         break;
                     }
 
