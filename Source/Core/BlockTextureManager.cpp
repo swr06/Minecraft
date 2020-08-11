@@ -41,6 +41,8 @@ namespace Minecraft
 		static std::array<GLfloat, 8> GlassWhiteTexture;
 		static std::array<GLfloat, 8> WaterTexture;
 		static std::array<GLfloat, 8> UndefinedTexture;
+		static std::array<GLfloat, 8> GravelTexture;
+		static std::array<GLfloat, 8> ClayTexture;
 
 		/// ///
 
@@ -77,7 +79,9 @@ namespace Minecraft
 			WoolBlueTexture = BlockTextureAtlas.Sample(glm::vec2(25, 25), glm::vec2(26, 26));
 			WoolYellowTexture = BlockTextureAtlas.Sample(glm::vec2(26, 26), glm::vec2(27, 27));
 			WaterTexture = BlockTextureAtlas.Sample(glm::vec2(27, 27), glm::vec2(28, 28));
-			UndefinedTexture = BlockTextureAtlas.Sample(glm::vec2(28, 28), glm::vec2(29, 29));
+			GravelTexture = BlockTextureAtlas.Sample(glm::vec2(28, 28), glm::vec2(29, 29));
+			ClayTexture = BlockTextureAtlas.Sample(glm::vec2(29, 29), glm::vec2(30, 30));
+			UndefinedTexture = BlockTextureAtlas.Sample(glm::vec2(30, 30), glm::vec2(31, 31));
 		}
 
 		switch (block_type)
@@ -275,6 +279,18 @@ namespace Minecraft
 		case BlockType::Water : 
 		{
 			return WaterTexture;
+			break;
+		}
+
+		case BlockType::Gravel :
+		{
+			return GravelTexture;
+			break;
+		}
+
+		case BlockType::Clay : 
+		{
+			return ClayTexture;
 			break;
 		}
 

@@ -117,7 +117,7 @@ namespace Minecraft
 			SetBlock(2, 8, 2, BlockType::OakLeaves);
 
 			// Bark
-			SetBlocksY(glm::vec3(2, 0, 2), 7, BlockType::OakLog);
+			SetBlocksY(glm::vec3(2, 0, 2), 8, BlockType::OakLog);
 		}
 	};
 

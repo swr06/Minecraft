@@ -36,6 +36,8 @@ namespace Minecraft
 		WoolGreen,
 		WoolBlue,
 		WoolYellow,
+		Gravel,
+		Clay,
 
 		// Liquid or gas blocks
 		Water, // To add
