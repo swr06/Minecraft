@@ -35,6 +35,7 @@ namespace Minecraft
 	enum WorldGenerationType 
 	{
 		Generation_Normal = 0,
+		Generation_Hilly,
 		Generation_Flat,
 		Generation_FlatWithoutStructures
 	};

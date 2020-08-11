@@ -9,7 +9,7 @@ namespace Minecraft
 		// Initialize all the blocks in the chunk to be air blocks
 
 		memset(&p_ChunkContents, BlockType::Air, CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z);
-		memset(&p_ChunkLightInformation, 0, (CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z) * 2);
+		memset(&p_ChunkLightInformation, 0, (CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z * sizeof(std::uint8_t)));
 	}
 
 	Chunk::~Chunk()
@@ -25,25 +25,14 @@ namespace Minecraft
 		p_ChunkContents.at(position.x).at(position.y).at(position.z) = b;
 	}
 
-	int Chunk::GetSunlightAt(int x, int y, int z)
-	{
-		return p_ChunkLightInformation[x][y][z].x;
-	}
-
 	int Chunk::GetTorchLightAt(int x, int y, int z)
 	{
-		return p_ChunkLightInformation[x][y][z].y;
-	}
-
-	void Chunk::SetSunlightAt(int x, int y, int z, int light_val)
-	{
-		p_ChunkLightInformation[x][y][z].x = light_val;
-		p_LightMapState = ChunkLightMapState::ModifiedLightMap;
+		return p_ChunkLightInformation[x][y][z];
 	}
 
 	void Chunk::SetTorchLightAt(int x, int y, int z, int light_val)
 	{
-		p_ChunkLightInformation[x][y][z].y = light_val;
+		p_ChunkLightInformation[x][y][z] = light_val;
 		p_LightMapState = ChunkLightMapState::ModifiedLightMap;
 	}
 

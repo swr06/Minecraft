@@ -40,7 +40,7 @@ namespace Minecraft
 			}
 
 			fwrite(chunk->p_ChunkContents.data(), sizeof(Block), CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z, outfile);
-			fwrite(chunk->p_ChunkLightInformation.data(), sizeof(i8Vec2), CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z, outfile);
+			fwrite(chunk->p_ChunkLightInformation.data(), sizeof(std::uint8_t), CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z, outfile);
 
 			fclose(outfile);
 			return true;
@@ -63,7 +63,7 @@ namespace Minecraft
 			}
 
 			fread(&chunk->p_ChunkContents, sizeof(Block), CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z, infile);
-			fread(&chunk->p_ChunkLightInformation, sizeof(i8Vec2), CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z, infile);
+			fread(&chunk->p_ChunkLightInformation, sizeof(std::uint8_t), CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z, infile);
 
 			fclose(infile);
 			return true;

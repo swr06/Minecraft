@@ -285,9 +285,6 @@
     <None Include="Shaders\UI\UITextVert.glsl" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resources\block_atlas.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Text Include="Core\Lighting\Readme.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

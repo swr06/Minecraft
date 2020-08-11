@@ -312,9 +312,6 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{f8191836-fbd8-4d79-819a-b6a561058afa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resources">
-      <UniqueIdentifier>{af69efa1-10d3-4bcc-8099-85542c221f8e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Abstract OpenGL\FPS">
       <UniqueIdentifier>{bcfbad3a-d102-46ba-8b20-c9c8099fb90a}</UniqueIdentifier>
     </Filter>
@@ -452,11 +449,6 @@
     <None Include="Shaders\CloudVert.glsl">
       <Filter>Shaders</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Resources\block_atlas.png">
-      <Filter>Resources</Filter>
-    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Core\Lighting\Readme.txt">

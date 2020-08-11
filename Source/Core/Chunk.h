@@ -38,12 +38,6 @@ namespace Minecraft
 		undefined
 	};
 
-	struct i8Vec2
-	{
-		std::int8_t x;
-		std::int8_t y;
-	};
-
 	class Chunk
 	{
 	public : 
@@ -53,10 +47,7 @@ namespace Minecraft
 
 		void SetBlock(BlockType type, const glm::vec3& position);
 
-		int GetSunlightAt(int x, int y, int z);
 		int GetTorchLightAt(int x, int y, int z);
-
-		void SetSunlightAt(int x, int y, int z, int light_val);
 		void SetTorchLightAt(int x, int y, int z, int light_val);
 
 		void Construct();
@@ -68,7 +59,7 @@ namespace Minecraft
 		ChunkMeshState p_MeshState;
 		ChunkState p_ChunkState;
 		std::array<std::array<std::array<Block, CHUNK_SIZE_X>, CHUNK_SIZE_Y>, CHUNK_SIZE_Z> p_ChunkContents;
-		std::array<std::array<std::array<i8Vec2, CHUNK_SIZE_X>, CHUNK_SIZE_Y>, CHUNK_SIZE_Z> p_ChunkLightInformation;
+		std::array<std::array<std::array<uint8_t, CHUNK_SIZE_X>, CHUNK_SIZE_Y>, CHUNK_SIZE_Z> p_ChunkLightInformation;
 		ChunkLightMapState p_LightMapState;
 		FrustumAABB p_ChunkFrustumAABB;
 

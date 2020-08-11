@@ -17,7 +17,7 @@ namespace Minecraft
 
         float column_noise = BiomeGenerator.GetNoise(real_x, real_z);
         Biome biome = GetBiome(column_noise);
-       
+
         if (y_level >= 128)
         {
             y_level = 128 - 1;
@@ -66,7 +66,7 @@ namespace Minecraft
         {
             chunk->SetBlock((BlockType)structure->p_Structure.at(i).block.p_BlockType,
                 glm::vec3(x + structure->p_Structure.at(i).x, y + structure->p_Structure.at(i).y,
-                    z + structure->p_Structure.at(i).z));    
+                    z + structure->p_Structure.at(i).z));
         }
     }
 
@@ -141,7 +141,7 @@ namespace Minecraft
         WorldGenerator.SetNoiseType(FastNoise::SimplexFractal);
 
         static TreeStructure WorldStructureTree;
-        static CactusStructure WorldStructureCactus; 
+        static CactusStructure WorldStructureCactus;
         WorldStructure* Structure = nullptr;
 
         if (gen_type == WorldGenerationType::Generation_Normal)
@@ -173,7 +173,7 @@ namespace Minecraft
                     switch (biome)
                     {
                     case Biome::Grassland:
-                        Structure = &WorldStructureTree; 
+                        Structure = &WorldStructureTree;
                         structure_freq = 50;
                         break;
 
@@ -188,7 +188,7 @@ namespace Minecraft
                         break;
                     }
 
-                    if (WorldTreeGenerator.UnsignedInt(75) == 0 &&
+                    if (WorldTreeGenerator.UnsignedInt(structure_freq) == 0 &&
                         generated_x + MAX_STRUCTURE_X < CHUNK_SIZE_X &&
                         generated_z + MAX_STRUCTURE_Z < CHUNK_SIZE_Z &&
                         generated_y > water_max + 1 && generated_y < CHUNK_SIZE_Y &&
