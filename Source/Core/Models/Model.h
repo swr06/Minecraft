@@ -80,7 +80,7 @@ namespace Minecraft
 	public :
 		GrassModel()
 		{
-			Block b = { BlockType::Grass };
+			Block b = { BlockType::ModelGrass };
 			const std::array<GLfloat, 8>& block_coords = GetModelTexture(b);
 
 			// Add 2 diagonal planes

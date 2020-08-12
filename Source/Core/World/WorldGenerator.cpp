@@ -13,26 +13,21 @@ namespace Minecraft
 
     BlockType GetUnderwaterBlock()
     {
-        /*int random = rand() % 40;
-        
+        int random = rand() % 14;
+
         switch (random)
         {
-        case 0 : 
+        case 0 :
             return BlockType::Sand;
             break;
 
-        case 1 : 
-            return BlockType::Gravel;
-            break;
-
-        case 2 :
+        case 5 :
             return BlockType::Clay;
             break;
-
         default:
             return BlockType::Sand;
             break;
-        }*/
+        }
 
         return BlockType::Sand;
     }
@@ -185,20 +180,16 @@ namespace Minecraft
     {
         // Quantize the noise into various levels and frequency
 
-        const float grass_land = 0.3f;
-        const float desert = 0.4f;
+        const float grass_land = 0.2f;
+        const float desert = 0.2f;
         const float ocean = 0.6f;
+
         if (chunk_noise <= grass_land)
         {
             return Biome::Grassland;
         }
 
-        else if (chunk_noise >= desert)
-        {
-            return Biome::Desert;
-        }
-
-        else
+        else if (chunk_noise > desert)
         {
             return Biome::Desert;
         }
@@ -236,9 +227,9 @@ namespace Minecraft
                     float real_x = x + chunk->p_Position.x * CHUNK_SIZE_X;
                     float real_z = z + chunk->p_Position.z * CHUNK_SIZE_Z;
 
-                    float height_at = WorldGenerator.GetNoise(real_x, real_z) + 
+                    float height_at = WorldGenerator.GetNoise(real_x, real_z) +
                         (0.5 * WorldGenerator.GetNoise(real_x, real_z)) *
-                         WorldGeneratorMultiply_1.GetNoise(real_x * 0.4f, real_z * 0.4f);
+                        WorldGeneratorMultiply_1.GetNoise(real_x * 0.4f, real_z * 0.4f);
                     generated_x = x;
                     generated_z = z;
 
@@ -256,7 +247,7 @@ namespace Minecraft
 
                     case Biome::Desert:
                         Structure = &WorldStructureCactus;
-                        structure_freq = 200;
+                        structure_freq = 75;
                         break;
 
                     default:

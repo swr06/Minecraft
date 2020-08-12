@@ -46,6 +46,16 @@ namespace Minecraft
 		Slime, // To add
 		Air,
 
+		// Models
+		Model_Grass,
+		Model_Deadbush,
+		Flower_allium,
+		Flower_orchid,
+		Flower_tulip_red,
+		Flower_rose,
+		Flower_houstonia,
+		Flower_dandelion,
+
 		UnknownBlockType
 	};
 
