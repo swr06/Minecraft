@@ -4,7 +4,7 @@
 #include <GL/glew.h>
 
 #include <array>
-#include <map>
+#include <unordered_map>
 #include "Block.h"
 #include "TextureAtlas.h"
 #include "Utils/Enums.h"

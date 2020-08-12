@@ -399,6 +399,9 @@
     <Filter Include="Minecraft\Audio">
       <UniqueIdentifier>{899fa653-b880-464c-ae21-73c927a87a20}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Minecraft\Models">
+      <UniqueIdentifier>{dd76538f-067c-45fd-aa44-1f363b24d0d4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\BlockRendererFrag.glsl">

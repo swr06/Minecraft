@@ -42,21 +42,33 @@ namespace GLClasses
 			m_TileY = ty;
 		}
 
-		std::array<GLfloat, 8> Sample(const glm::vec2& start_coords, const glm::vec2& end_coords)
+		std::array<GLfloat, 8> Sample(const glm::vec2& start_coords, const glm::vec2& end_coords, bool flip = false)
 		{
+			glm::vec2 s_coords;
+			glm::vec2 e_coords;
+
+			s_coords = start_coords;
+			e_coords = end_coords;
+
+			if (flip)
+			{
+				s_coords = end_coords;
+				e_coords = start_coords;
+			}
+
 			float width, height;
 			float x2, y2;
 			float x1, y1;
 
-			width = m_TileX * (end_coords.x - start_coords.x);
-			height = m_TileY * (end_coords.y - start_coords.y);
+			width = m_TileX * (e_coords.x - s_coords.x);
+			height = m_TileY * (e_coords.y - s_coords.y);
 
 			array<GLfloat, 8> TextureCoordinates;
 
-			x1 = start_coords.x * m_TileX;
-			y1 = start_coords.y * m_TileY;
-			x2 = end_coords.x * m_TileX;
-			y2 = end_coords.y * m_TileY;
+			x1 = s_coords.x * m_TileX;
+			y1 = s_coords.y * m_TileY;
+			x2 = e_coords.x * m_TileX;
+			y2 = e_coords.y * m_TileY;
 
 			x1 = x1 / m_AtlasWidth;
 			y1 = y1 / m_AtlasHeight;

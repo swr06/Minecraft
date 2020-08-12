@@ -1,304 +1,184 @@
-#include "BlockTextureManager.h"
+﻿#include "BlockTextureManager.h"
 
 namespace Minecraft
 {
-	const std::array<GLfloat, 8>& GetBlockTexture(BlockType block_type, BlockFaceType face_type)
+	/*
+	A hacky way to map block faces to texture coordinates. :)
+	Don't bother understanding it
+
+	If it works, it works
+	 ¯\_(ツ)_/¯
+	*/
+
+	enum class BlockTypeTexture
 	{
-		static GLClasses::TextureAtlas BlockTextureAtlas("Resources/BlockAtlasHighDef.png", 128, 128);
-		
-		// Misc
-		static std::array<GLfloat, 8> DirtBlockTexture[4];
-		static std::array<GLfloat, 8> SandBlockTexture;
-		static std::array<GLfloat, 8> CactusBlockTexture[3];
+		CactusTop = -5,
+		CactusBottom,
+		OakLogTop,
+		GrassTop,
+		GrassFront,
+		GrassSide, // Will be 0. The others can be casted to work with the BlockType enum. 
+		Dirt,
+		Stone,
+		Cobblestone,
+		StoneBricks,
+		CarvedStone,
+		OakLeaves,
+		SpruceLeaves,
+		OakLog,
+		Cactus,
+		Sand,
+		OakPlanks,
+		AcaciaPlanks,
+		DarkOakPlanks,
+		Bricks,
+		GlassWhite,
+		Lamp_On,
+		Lamp_Off,
+		WoolRed,
+		WoolGreen,
+		WoolBlue,
+		WoolYellow,
+		Gravel,
+		Clay,
+		Water,
+		Lava, 
+		Snow, 
+		Slime,
+		Air,
+		Model_Grass,
+		Model_Deadbush,
+		Flower_allium,
+		Flower_orchid,
+		Flower_tulip_red,
+		Flower_rose,
+		Flower_houstonia,
+		Flower_dandelion,
+		UnknownBlockType
+	};
 
-		// Leaves
-		static std::array<GLfloat, 8> OakLeafBlockTexture;
-		static std::array<GLfloat, 8> SpruceLeafTexture;
-
-		// Wood and planks
-		static std::array<GLfloat, 8> OakLogTexture[2];
-		static std::array<GLfloat, 8> OakPlankTexture;
-		static std::array<GLfloat, 8> AcaciaPlankTexture;
-		static std::array<GLfloat, 8> DarkOakPlankTexture;
-
-		// Stone and brick
-		static std::array<GLfloat, 8> BrickBlockTexture;
-		static std::array<GLfloat, 8> StoneBlockTexture;
-		static std::array<GLfloat, 8> CobblestoneBlockTexture;
-		static std::array<GLfloat, 8> StoneBrickTexture;
-		static std::array<GLfloat, 8> CarvedStoneTexture;
-
-		// Lamp
-		static std::array<GLfloat, 8> LampTexture[2]; // lamp on and lamp off
-
-		// Wools
-		static std::array<GLfloat, 8> WoolRedTexture;
-		static std::array<GLfloat, 8> WoolGreenTexture;
-		static std::array<GLfloat, 8> WoolBlueTexture;
-		static std::array<GLfloat, 8> WoolYellowTexture;
-
-		// Transparent blocks
-		static std::array<GLfloat, 8> GlassWhiteTexture;
-		static std::array<GLfloat, 8> WaterTexture;
-		static std::array<GLfloat, 8> UndefinedTexture;
-		static std::array<GLfloat, 8> GravelTexture;
-		static std::array<GLfloat, 8> ClayTexture;
-
-		/// ///
-
-		static bool arrays_initialized = false;
-
-		if (arrays_initialized == false)
-		{
-			arrays_initialized = true;
-			DirtBlockTexture[0] = BlockTextureAtlas.Sample(glm::vec2(0, 0), glm::vec2(1, 1));
-			DirtBlockTexture[1] = BlockTextureAtlas.Sample(glm::vec2(1, 1), glm::vec2(2, 2));
-			DirtBlockTexture[2] = BlockTextureAtlas.Sample(glm::vec2(3, 3), glm::vec2(2, 2));
-			DirtBlockTexture[3] = BlockTextureAtlas.Sample(glm::vec2(3, 3), glm::vec2(4, 4));
-			StoneBlockTexture = BlockTextureAtlas.Sample(glm::vec2(4, 4), glm::vec2(5, 5));
-			CobblestoneBlockTexture = BlockTextureAtlas.Sample(glm::vec2(5, 5), glm::vec2(6, 6));
-			OakLogTexture[0] = BlockTextureAtlas.Sample(glm::vec2(6, 6), glm::vec2(7, 7));
-			OakLogTexture[1] = BlockTextureAtlas.Sample(glm::vec2(7, 7), glm::vec2(8, 8));
-			OakLeafBlockTexture = BlockTextureAtlas.Sample(glm::vec2(8, 8), glm::vec2(9, 9));
-			SpruceLeafTexture = BlockTextureAtlas.Sample(glm::vec2(9, 9), glm::vec2(10, 10));
-			SandBlockTexture = BlockTextureAtlas.Sample(glm::vec2(10, 10), glm::vec2(11, 11));
-			CactusBlockTexture[0] = BlockTextureAtlas.Sample(glm::vec2(11, 11), glm::vec2(12, 12));
-			CactusBlockTexture[2] = BlockTextureAtlas.Sample(glm::vec2(12, 12), glm::vec2(13, 13));
-			CactusBlockTexture[1] = BlockTextureAtlas.Sample(glm::vec2(13, 13), glm::vec2(14, 14));
-			OakPlankTexture = BlockTextureAtlas.Sample(glm::vec2(14, 14), glm::vec2(15, 15));
-			AcaciaPlankTexture = BlockTextureAtlas.Sample(glm::vec2(15, 15), glm::vec2(16, 16));
-			DarkOakPlankTexture = BlockTextureAtlas.Sample(glm::vec2(16, 16), glm::vec2(17, 17));
-			BrickBlockTexture = BlockTextureAtlas.Sample(glm::vec2(17, 17), glm::vec2(18, 18));
-			StoneBrickTexture = BlockTextureAtlas.Sample(glm::vec2(18, 18), glm::vec2(19, 19));
-			CarvedStoneTexture = BlockTextureAtlas.Sample(glm::vec2(19, 19), glm::vec2(20, 20));
-			GlassWhiteTexture = BlockTextureAtlas.Sample(glm::vec2(20, 20), glm::vec2(21, 21));
-			LampTexture[0] = BlockTextureAtlas.Sample(glm::vec2(21, 21), glm::vec2(22, 22));
-			LampTexture[1] = BlockTextureAtlas.Sample(glm::vec2(22, 22), glm::vec2(23, 23));
-			WoolRedTexture = BlockTextureAtlas.Sample(glm::vec2(23, 23), glm::vec2(24, 24));
-			WoolGreenTexture = BlockTextureAtlas.Sample(glm::vec2(24, 24), glm::vec2(25, 25));
-			WoolBlueTexture = BlockTextureAtlas.Sample(glm::vec2(25, 25), glm::vec2(26, 26));
-			WoolYellowTexture = BlockTextureAtlas.Sample(glm::vec2(26, 26), glm::vec2(27, 27));
-			WaterTexture = BlockTextureAtlas.Sample(glm::vec2(27, 27), glm::vec2(28, 28));
-			GravelTexture = BlockTextureAtlas.Sample(glm::vec2(28, 28), glm::vec2(29, 29));
-			ClayTexture = BlockTextureAtlas.Sample(glm::vec2(29, 29), glm::vec2(30, 30));
-			UndefinedTexture = BlockTextureAtlas.Sample(glm::vec2(30, 30), glm::vec2(31, 31));
-		}
+	BlockTypeTexture GetRealBlockTexture(BlockType block_type, BlockFaceType face_type)
+	{
+		uint8_t block = (BlockType)block_type;
+		BlockTypeTexture ret_val = (BlockTypeTexture)block;
 
 		switch (block_type)
 		{
-		case BlockType::Grass:
-		{
-			switch (face_type)
+			case BlockType::Grass : 
 			{
-			case BlockFaceType::top:
-				return DirtBlockTexture[0];
-				break;
+				if (face_type == BlockFaceType::front || face_type == BlockFaceType::backward)
+					ret_val = BlockTypeTexture::GrassFront;
 
-			case BlockFaceType::bottom:
-				return DirtBlockTexture[1];
-				break;
+				else if (face_type == BlockFaceType::top)
+					ret_val = BlockTypeTexture::GrassTop;
 
-			case BlockFaceType::left:
-				return DirtBlockTexture[2];
-				break;
+				else if (face_type == BlockFaceType::left || face_type == BlockFaceType::right)
+					ret_val = BlockTypeTexture::GrassSide;
 
-			case BlockFaceType::right:
-				return DirtBlockTexture[2];
-				break;
+				else if (face_type == BlockFaceType::bottom)
+					ret_val = BlockTypeTexture::Dirt;
 
-			case BlockFaceType::front:
-				return DirtBlockTexture[3];
 				break;
+			}
+		
+			case BlockType::OakLog : 
+			{
+				if (face_type == BlockFaceType::top)
+					ret_val = BlockTypeTexture::OakLogTop;
 
-			case BlockFaceType::backward:
-				return DirtBlockTexture[3];
-				break;
+				else
+					ret_val = BlockTypeTexture::OakLog; 
 
-			default:
-				return DirtBlockTexture[1];
 				break;
 			}
 
-			break;
-		}
-
-		case BlockType::Dirt:
-		{
-			return DirtBlockTexture[1];
-			break;
-		}
-
-		case BlockType::Stone:
-		{
-			return StoneBlockTexture;
-			break;
-		}
-
-		case BlockType::Cobblestone : 
-		{
-			return CobblestoneBlockTexture;
-			break;
-		}
-
-		case BlockType::OakLog:
-		{
-			return OakLogTexture[0];
-			break;
-		}
-
-		case BlockType::OakLeaves:
-		{
-			return OakLeafBlockTexture;
-			break;
-		}
-
-		case BlockType::Sand:
-		{
-			return SandBlockTexture;
-			break;
-		}
-
-		case BlockType::Cactus:
-		{
-			switch (face_type)
+			case BlockType::Cactus:
 			{
-				case BlockFaceType::top:
-					return CactusBlockTexture[2];
-					break;
+				if (face_type == BlockFaceType::top)
+					ret_val = BlockTypeTexture::CactusTop;
 
-				case BlockFaceType::bottom:
-					return CactusBlockTexture[1];
-					break;
+				else if (face_type == BlockFaceType::bottom)
+					ret_val = BlockTypeTexture::CactusBottom;
 
-				case BlockFaceType::left:
-					return CactusBlockTexture[0];
-					break;
+				else
+					ret_val = BlockTypeTexture::Cactus;
 
-				case BlockFaceType::right:
-					return CactusBlockTexture[0];
-					break;
-
-				case BlockFaceType::front:
-					return CactusBlockTexture[0];
-					break;
-
-				case BlockFaceType::backward:
-					return CactusBlockTexture[0];
-					break;
-
-				default:
-					return CactusBlockTexture[0];
-					break;
+				break;
 			}
 		}
 
-		case BlockType::SpruceLeaves : 
+		return ret_val;
+	}
+
+	std::unordered_map<BlockTypeTexture, std::array<GLfloat, 8>> BlockDatabase;
+
+	const std::array<GLfloat, 8>& GetBlockTexture(BlockType block_type, BlockFaceType face_type)
+	{
+		static bool first_run = true;
+
+		if (first_run)
 		{
-			return SpruceLeafTexture;
-			break;
+			GLClasses::TextureAtlas BlockTextureAtlas("Resources/BlockAtlasHighDef.png", 128, 128);
+			first_run = false;
+
+			constexpr int list_sz = 31;
+
+			BlockTypeTexture texture_list[list_sz] =
+			{
+				BlockTypeTexture::GrassTop,
+				BlockTypeTexture::Dirt,
+				BlockTypeTexture::GrassSide,
+				BlockTypeTexture::GrassFront,
+				BlockTypeTexture::Stone,
+				BlockTypeTexture::Cobblestone,
+				BlockTypeTexture::OakLog,
+				BlockTypeTexture::OakLogTop,
+				BlockTypeTexture::OakLeaves,
+				BlockTypeTexture::SpruceLeaves,
+				BlockTypeTexture::Sand,
+				BlockTypeTexture::Cactus,
+				BlockTypeTexture::CactusBottom,
+				BlockTypeTexture::CactusTop,
+				BlockTypeTexture::OakPlanks,
+				BlockTypeTexture::AcaciaPlanks,
+				BlockTypeTexture::DarkOakPlanks,
+				BlockTypeTexture::Bricks,
+				BlockTypeTexture::StoneBricks,
+				BlockTypeTexture::CarvedStone,
+				BlockTypeTexture::GlassWhite,
+				BlockTypeTexture::Lamp_Off,
+				BlockTypeTexture::Lamp_On,
+				BlockTypeTexture::WoolRed,
+				BlockTypeTexture::WoolGreen,
+				BlockTypeTexture::WoolBlue,
+				BlockTypeTexture::WoolYellow,
+				BlockTypeTexture::Water,
+				BlockTypeTexture::Gravel,
+				BlockTypeTexture::Clay,
+				BlockTypeTexture::UnknownBlockType
+			};
+
+			for (int i = 0; i < list_sz; i++)
+			{
+				if (texture_list[i] == BlockTypeTexture::GrassSide)
+				{
+					BlockDatabase[texture_list[i]] = BlockTextureAtlas.Sample(glm::vec2(i, i), glm::vec2(i + 1, i + 1), true);
+				}
+
+				else
+				{
+					BlockDatabase[texture_list[i]] = BlockTextureAtlas.Sample(glm::vec2(i, i), glm::vec2(i + 1, i + 1));
+				}
+			}
 		}
 
-		case BlockType::OakPlanks :
+		std::unordered_map<BlockTypeTexture, std::array<GLfloat, 8>>::iterator iter = BlockDatabase.find(GetRealBlockTexture(block_type, face_type));
+
+		if (iter == BlockDatabase.end())
 		{
-			return OakPlankTexture;
-			break;
+			return BlockDatabase[BlockTypeTexture::UnknownBlockType];
 		}
 
-		case BlockType::AcaciaPlanks :
-		{
-			return AcaciaPlankTexture;
-			break;
-		}
-
-		case BlockType::DarkOakPlanks : 
-		{
-			return DarkOakPlankTexture;
-			break;
-		}
-
-		case BlockType::Bricks : 
-		{
-			return BrickBlockTexture;
-			break;
-		}
-
-		case BlockType::StoneBricks : 
-		{
-			return StoneBrickTexture;
-			break;
-		}
-
-		case BlockType::CarvedStone : 
-		{
-			return CarvedStoneTexture;
-			break;
-		}
-
-		case BlockType::GlassWhite : 
-		{
-			return GlassWhiteTexture;
-			break;
-		}
-
-		case BlockType::Lamp_On : 
-		{
-			return LampTexture[1];
-			break;
-		}
-
-		case BlockType::Lamp_Off :
-		{
-			return LampTexture[0];
-			break;
-		}
-
-		case BlockType::WoolRed : 
-		{
-			return WoolRedTexture;
-			break;
-		}
-
-		case BlockType::WoolGreen:
-		{
-			return WoolGreenTexture;
-			break;
-		}
-
-		case BlockType::WoolBlue:
-		{
-			return WoolBlueTexture;
-			break;
-		}
-
-		case BlockType::WoolYellow:
-		{
-			return WoolYellowTexture;
-			break;
-		}
-
-		case BlockType::Water : 
-		{
-			return WaterTexture;
-			break;
-		}
-
-		case BlockType::Gravel :
-		{
-			return GravelTexture;
-			break;
-		}
-
-		case BlockType::Clay : 
-		{
-			return ClayTexture;
-			break;
-		}
-
-		default : 
-		{
-			return UndefinedTexture;
-			break;
-		}
-		}
+		return BlockDatabase[GetRealBlockTexture(block_type, face_type)];
 	}
 }
