@@ -115,7 +115,6 @@ namespace Minecraft
 	{
 		static float ambient = 0.4f;
 		int player_chunk_x = 0;
-		int player_chunk_y = 0;
 		int player_chunk_z = 0;
 
 		glDisable(GL_CULL_FACE);
@@ -180,9 +179,6 @@ namespace Minecraft
 		m_Renderer.EndChunkRendering();
 
 		glDisable(GL_CULL_FACE);
-
-		// Render the clouds
-		//m_CloudManager.RenderClouds(&p_Player->p_Camera, p_Player->p_Position);
 
 		glDisable(GL_DEPTH_TEST);
 
@@ -251,7 +247,7 @@ namespace Minecraft
 		{
 			m_CurrentHeldBlock++;
 
-			if (m_CurrentHeldBlock == BlockType::Water + 1)
+			if (m_CurrentHeldBlock == BlockType::UnknownBlockType)
 			{
 				m_CurrentHeldBlock = 0;
 			}

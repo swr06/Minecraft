@@ -44,7 +44,6 @@ namespace Minecraft
 		Lava, // To add
 		Snow, // To add
 		Slime, // To add
-		Air,
 
 		// Models
 		Model_Grass,
@@ -53,20 +52,36 @@ namespace Minecraft
 		Flower_orchid,
 		Flower_tulip_red,
 		Flower_rose,
-		Flower_houstonia,
 		Flower_dandelion,
 
-		UnknownBlockType
+		UnknownBlockType,
+		Air
 	};
 
 	struct Block
 	{
 		std::uint8_t p_BlockType = BlockType::UnknownBlockType;
 
+		bool IsModel() const
+		{
+			if (p_BlockType == Model_Grass ||
+				p_BlockType == Model_Deadbush ||
+				p_BlockType == Flower_allium ||
+				p_BlockType == Flower_orchid ||
+				p_BlockType == Flower_tulip_red ||
+				p_BlockType == Flower_rose ||
+				p_BlockType == Flower_dandelion)
+			{
+				return true;
+			}
+
+			return false;
+		}
+
 		bool IsOpaque() const
 		{
 			if (p_BlockType != BlockType::Air && p_BlockType != BlockType::GlassWhite 
-				&& p_BlockType != BlockType::Water && p_BlockType != BlockType::Cactus)
+				&& p_BlockType != BlockType::Water && p_BlockType != BlockType::Cactus && !IsModel())
 			{
 				return true;
 			}
@@ -77,7 +92,7 @@ namespace Minecraft
 		bool IsTransparent() const
 		{
 			if (p_BlockType == BlockType::Water || p_BlockType == BlockType::Lava 
-				|| p_BlockType == BlockType::GlassWhite || p_BlockType == BlockType::Cactus)
+				|| p_BlockType == BlockType::GlassWhite || p_BlockType == BlockType::Cactus || IsModel())
 			{
 				return true;
 			}
@@ -87,7 +102,7 @@ namespace Minecraft
 
 		bool Collidable() const 
 		{
-			if (p_BlockType != BlockType::Air && p_BlockType != BlockType::Water && p_BlockType != BlockType::Lava)
+			if (p_BlockType != BlockType::Air && p_BlockType != BlockType::Water && p_BlockType != BlockType::Lava && !IsModel())
 			{
 				return true;
 			}

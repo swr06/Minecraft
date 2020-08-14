@@ -2,13 +2,6 @@
 
 namespace Minecraft
 {
-	struct i8Vec3
-	{
-		std::uint8_t x;
-		std::uint8_t y;
-		std::uint8_t z;
-	};
-
 	/* Block faces
 	0 = Top
 	1 = Bottom
@@ -25,5 +18,12 @@ namespace Minecraft
 		glm::vec2 texture_coords;
 		GLfloat lighting_level; 
 		GLfloat block_face_lighting;
+	};
+
+	struct FloraVertex
+	{
+		glm::vec3 position;
+		glm::vec2 texture_coords;
+		GLfloat lighting_level;
 	};
 }

@@ -17,6 +17,8 @@
 #include "OpenGL Classes/Shader.h"
 #include "OpenGL Classes/Texture.h"
 
+#include "Models/Model.h"
+
 #include "Utils/Vertex.h"
 #include "BlockTextureManager.h"
 
@@ -41,14 +43,18 @@ namespace Minecraft
 		std::uint32_t p_TransparentVerticesCount;
 		GLClasses::VertexArray p_VAO;
 		GLClasses::VertexArray p_TransparentVAO;
+		GLClasses::VertexArray p_FloraVAO;
 
 	private : 
 
-		void AddFace(BlockFaceType face_type, const glm::vec3& position, BlockType type, float light_level, Chunk* chunk,
+		void AddFace(BlockFaceType face_type, const glm::vec3& position, BlockType type, float light_level,
 			bool buffer = true);
+
+		void AddModel(const glm::vec3& position, BlockType type, float light_level);
 
 		std::vector<Vertex> m_Vertices;
 		std::vector<Vertex> m_TransparentVertices;
+		std::vector<Vertex> m_FloraVertices;
 		glm::vec4 m_TopFace[4];
 		glm::vec4 m_BottomFace[4];
 		glm::vec4 m_ForwardFace[4];
@@ -58,5 +64,6 @@ namespace Minecraft
 
 		GLClasses::VertexBuffer m_VBO;
 		GLClasses::VertexBuffer m_TransparentVBO; // Vertex buffer for trasparent blocks
+		GLClasses::VertexBuffer m_FloraVBO; // Vertex buffer for trasparent blocks
 	};
 }

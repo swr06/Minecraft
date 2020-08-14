@@ -45,7 +45,6 @@ namespace Minecraft
 		Lava, 
 		Snow, 
 		Slime,
-		Air,
 		Model_Grass,
 		Model_Deadbush,
 		Flower_allium,
@@ -54,7 +53,8 @@ namespace Minecraft
 		Flower_rose,
 		Flower_houstonia,
 		Flower_dandelion,
-		UnknownBlockType
+		UnknownBlockType,
+		Air
 	};
 
 	BlockTypeTexture GetRealBlockTexture(BlockType block_type, BlockFaceType face_type)
@@ -121,7 +121,7 @@ namespace Minecraft
 			GLClasses::TextureAtlas BlockTextureAtlas("Resources/BlockAtlasHighDef.png", 128, 128);
 			first_run = false;
 
-			constexpr int list_sz = 31;
+			constexpr int list_sz = 38;
 
 			BlockTypeTexture texture_list[list_sz] =
 			{
@@ -155,6 +155,13 @@ namespace Minecraft
 				BlockTypeTexture::Water,
 				BlockTypeTexture::Gravel,
 				BlockTypeTexture::Clay,
+				BlockTypeTexture::Model_Grass,
+				BlockTypeTexture::Model_Deadbush,
+				BlockTypeTexture::Flower_allium,
+				BlockTypeTexture::Flower_orchid,
+				BlockTypeTexture::Flower_tulip_red,
+				BlockTypeTexture::Flower_rose,
+				BlockTypeTexture::Flower_dandelion,
 				BlockTypeTexture::UnknownBlockType
 			};
 

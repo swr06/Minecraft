@@ -185,6 +185,7 @@
     <ClCompile Include="Core\File Handling\WorldFileHandler.cpp" />
     <ClCompile Include="Core\FpsCamera.cpp" />
     <ClCompile Include="Core\Maths\Frustum.cpp" />
+    <ClCompile Include="Core\Models\Model.cpp" />
     <ClCompile Include="Core\Noise\FastNoise.cpp" />
     <ClCompile Include="Core\OpenGL Classes\CubeTextureMap.cpp" />
     <ClCompile Include="Core\OpenGL Classes\Fps.cpp" />
@@ -237,6 +238,7 @@
     <ClInclude Include="Core\FpsCamera.h" />
     <ClInclude Include="Core\Lighting\Lighting.h" />
     <ClInclude Include="Core\Maths\Frustum.h" />
+    <ClInclude Include="Core\Models\Model.h" />
     <ClInclude Include="Core\Noise\FastNoise.h" />
     <ClInclude Include="Core\OpenGL Classes\CubeTextureMap.h" />
     <ClInclude Include="Core\OpenGL Classes\Fps.h" />

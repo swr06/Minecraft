@@ -137,6 +137,9 @@
     <ClCompile Include="Core\Audio\OpenALFunctions.cpp">
       <Filter>Minecraft\Audio</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Models\Model.cpp">
+      <Filter>Minecraft\Models</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\OpenGL Classes\Fps.h">
@@ -300,6 +303,9 @@
     </ClInclude>
     <ClInclude Include="Core\Audio\alut.h">
       <Filter>Minecraft\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Models\Model.h">
+      <Filter>Minecraft\Models</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
