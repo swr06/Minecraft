@@ -30,6 +30,7 @@ A Tiny Minecraft clone made with C++ and OpenGL.
 
 # Features to come
 - Multiplayer
+- Multithreading
 - Caves 
 
 # Compiling 
