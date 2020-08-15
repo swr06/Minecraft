@@ -28,8 +28,10 @@ A Tiny Minecraft clone made with C++ and OpenGL.
 - Accurate block editing using a voxel transversal algorithm
 - No OS Specific commands/dependencies. 
 
-# Features to come
+# Features to come (probably in the rewrite)
 - Multiplayer
+- Sun 
+- Weather
 - Multithreading
 - Caves 
 
