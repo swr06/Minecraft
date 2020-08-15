@@ -176,6 +176,31 @@ namespace Minecraft
         }
     }
 
+    BlockType GenerateFlower()
+    {
+        int r = rand() % 4;
+
+        switch (r)
+        {
+        case 0:
+            return BlockType::Flower_allium;
+            break;
+        case 1:
+            return BlockType::Flower_orchid;
+            break;
+        case 2:
+            return BlockType::Flower_tulip_red;
+            break;
+        case 3:
+            return BlockType::Flower_rose;
+            break;
+        case 4:
+            return BlockType::Flower_dandelion;
+            break;
+        }
+        return BlockType::Flower_tulip_red;
+    }
+
     Biome GetBiome(float chunk_noise)
     {
         // Quantize the noise into various levels and frequency
@@ -222,6 +247,8 @@ namespace Minecraft
             {
                 for (int z = 0; z < CHUNK_SIZE_Z; z++)
                 {
+                    BlockType model = BlockType::UnknownBlockType;
+
                     int structure_freq = 0; // The value passed to the seeded random number gen. The higher this number is
                                             // .. the lesser of that structure will be there
                     float real_x = x + chunk->p_Position.x * CHUNK_SIZE_X;
@@ -241,14 +268,37 @@ namespace Minecraft
                     switch (biome)
                     {
                     case Biome::Grassland:
+                    {
                         Structure = &WorldStructureTree;
                         structure_freq = 50;
+
+                        int random_grassland = rand() % 12;
+                        if (random_grassland < 7)
+                        {
+                            model = BlockType::Model_Grass;
+                        }
+
+                        else if (random_grassland == 9)
+                        {
+                            model = GenerateFlower();
+                        }
+
                         break;
+                    }
 
                     case Biome::Desert:
+                    {
                         Structure = &WorldStructureCactus;
                         structure_freq = 75;
+
+                        int random_desert = rand() % 12;
+                        if (random_desert == 6)
+                        {
+                            model = BlockType::Model_Deadbush;
+                        }
+
                         break;
+                    }
 
                     default:
                         Structure = &WorldStructureTree;
@@ -256,13 +306,24 @@ namespace Minecraft
                         break;
                     }
 
-                    if (WorldTreeGenerator.UnsignedInt(structure_freq) == 0 &&
+                    bool added_structure = false;
+
+                    if (WorldTreeGenerator.UnsignedInt(structure_freq) == 3 &&
                         generated_x + MAX_STRUCTURE_X < CHUNK_SIZE_X &&
                         generated_z + MAX_STRUCTURE_Z < CHUNK_SIZE_Z &&
                         generated_y > water_max + 1 && generated_y < CHUNK_SIZE_Y &&
                         Structure != nullptr)
                     {
+                        added_structure = true;
                         FillInWorldStructure(chunk, Structure, generated_x, generated_y - 2, generated_z);
+                    }
+
+                    if (!added_structure && model != BlockType::UnknownBlockType)
+                    {
+                        if (WorldTreeGenerator.UnsignedInt(12) == true)
+                        {
+                            chunk->p_ChunkContents.at(x).at(generated_y).at(z) = { model };
+                        }
                     }
                 }
             }
