@@ -39,7 +39,7 @@ namespace Minecraft
 		return glm::ivec3(bx, by, bz);
 	}
 
-	World::World(int seed, const glm::vec2& window_size, const std::string& world_name, WorldGenerationType world_gen_type) 
+	World::World(int seed, const glm::vec2& window_size, const std::string& world_name, WorldGenerationType world_gen_type)
 		: m_Camera2D(0.0f, window_size.x, 0.0f, window_size.y), m_WorldSeed(seed), m_WorldName(world_name), m_WorldGenType(world_gen_type)
 	{
 		m_SunCycle = CurrentSunCycle::Sun_Rising;
@@ -55,7 +55,7 @@ namespace Minecraft
 		Logger::LogToConsole("The World was Constructed!");
 
 		m_CrosshairTexture.CreateTexture("Resources/crosshair.png");
-		
+
 		float cw = floor(static_cast<float>(window_size.x) / static_cast <float>(2.0f));
 		float cy = floor(static_cast<float>(window_size.y) / static_cast<float>(2.0f));
 
@@ -70,36 +70,6 @@ namespace Minecraft
 
 	void World::OnUpdate(GLFWwindow* window)
 	{
-		int player_chunk_x = (int)floor(p_Player->p_Position.x / CHUNK_SIZE_X);
-		int player_chunk_z = (int)floor(p_Player->p_Position.z / CHUNK_SIZE_Z);
-
-		std::uint32_t chunks_rendered = 0;
-		std::stringstream str;
-
-		int build_distance_x = render_distance_x + 4;
-		int build_distance_z = render_distance_z + 4;
-
-		/*
-		build_distance_x and build_distance_z is the build distance. It is needed to build `x` chunks
-		more than what is required in order for the meshing process to work properly
-
-		For this it is required to first generate all the chunks that are needed to be generated.
-		Only after all the chunks are generated, the mesh building process with start
-		*/
-
-		for (int i = player_chunk_x - build_distance_x; i < player_chunk_x + build_distance_x; i++)
-		{
-			for (int j = player_chunk_z - build_distance_z; j < player_chunk_z + build_distance_z; j++)
-			{
-				if (ChunkExistsInMap(i, j) == false)
-				{
-					Chunk* chunk = EmplaceChunkInMap(i, j);
-					GenerateChunk(chunk, m_WorldSeed, m_WorldGenType);
-					chunk->p_MeshState = ChunkMeshState::Unbuilt;
-				}
-			}
-		}
-
 		p_Player->OnUpdate(window);
 
 		// Update the view frustum
@@ -108,7 +78,8 @@ namespace Minecraft
 		// Increase the frame count 
 		m_CurrentFrame++;
 
-		// Collision testing
+		GenerateChunks();
+		UpdateChunks();
 	}
 
 	void World::RenderWorld()
@@ -119,9 +90,8 @@ namespace Minecraft
 
 		glDisable(GL_CULL_FACE);
 		m_Skybox.RenderSkybox(&p_Player->p_Camera, m_SunPosition);
-		
+
 		// Enable face culling and depth testing
-		glEnable(GL_DEPTH_TEST);
 
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_FRONT);
@@ -130,7 +100,6 @@ namespace Minecraft
 		// Determine the player's current chunk
 		player_chunk_x = (int)floor(p_Player->p_Position.x / CHUNK_SIZE_X);
 		player_chunk_z = (int)floor(p_Player->p_Position.z / CHUNK_SIZE_Z);
-		uint32_t chunks_rendered = 0;
 
 		// Render chunks according to render distance
 
@@ -144,21 +113,7 @@ namespace Minecraft
 
 				if (m_ViewFrustum.BoxInFrustum(chunk->p_ChunkFrustumAABB))
 				{
-					// Construct the chunks if the mesh isn't built
-					if (chunk->p_MeshState == ChunkMeshState::Unbuilt)
-					{
-						chunk->Construct();
-					}
-
-					else if (chunk->p_MeshState == ChunkMeshState::Edited)
-					{
-						UpdateSurroundingChunks(i, j);
-					}
-
 					m_Renderer.RenderChunk(chunk);
-
-					// Render the chunks
-					chunks_rendered++;
 				}
 			}
 		}
@@ -244,6 +199,64 @@ namespace Minecraft
 			}
 
 			m_SunPosition.y -= 1;
+		}
+	}
+
+	void World::GenerateChunks()
+	{
+		int player_chunk_x = (int)floor(p_Player->p_Position.x / CHUNK_SIZE_X);
+		int player_chunk_z = (int)floor(p_Player->p_Position.z / CHUNK_SIZE_Z);
+
+		int build_distance_x = render_distance_x + 4;
+		int build_distance_z = render_distance_z + 4;
+
+		/*
+		build_distance_x and build_distance_z is the build distance. It is needed to build `x` chunks
+		more than what is required in order for the meshing process to work properly
+
+		For this it is required to first generate all the chunks that are needed to be generated.
+		Only after all the chunks are generated, the mesh building process with start
+		*/
+
+		for (int i = player_chunk_x - build_distance_x; i < player_chunk_x + build_distance_x; i++)
+		{
+			for (int j = player_chunk_z - build_distance_z; j < player_chunk_z + build_distance_z; j++)
+			{
+				if (ChunkExistsInMap(i, j) == false)
+				{
+					Chunk* chunk = EmplaceChunkInMap(i, j);
+					GenerateChunk(chunk, m_WorldSeed, m_WorldGenType);
+					chunk->p_MeshState = ChunkMeshState::Unbuilt;
+				}
+			}
+		}
+	}
+
+	void World::UpdateChunks()
+	{
+		int player_chunk_x = (int)floor(p_Player->p_Position.x / CHUNK_SIZE_X);
+		int player_chunk_z = (int)floor(p_Player->p_Position.z / CHUNK_SIZE_Z);
+
+		for (int i = player_chunk_x - render_distance_x; i < player_chunk_x + render_distance_x; i++)
+		{
+			for (int j = player_chunk_z - render_distance_z; j < player_chunk_z + render_distance_z; j++)
+			{
+				Chunk* chunk = RetrieveChunkFromMap(i, j);
+
+				if (m_ViewFrustum.BoxInFrustum(chunk->p_ChunkFrustumAABB))
+				{
+					// Construct the chunks if the mesh isn't built
+					if (chunk->p_MeshState == ChunkMeshState::Unbuilt)
+					{
+						chunk->Construct();
+					}
+
+					else if (chunk->p_MeshState == ChunkMeshState::Edited)
+					{
+						UpdateSurroundingChunks(i, j);
+					}
+				}
+			}
 		}
 	}
 
@@ -473,7 +486,6 @@ namespace Minecraft
 	void World::UpdateSurroundingChunks(int cx, int cz)
 	{
 		Chunk* chunk;
-		ChunkMesh* mesh;
 
 		chunk = RetrieveChunkFromMap(cx + 1, cz);
 		chunk->Construct();

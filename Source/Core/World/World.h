@@ -88,6 +88,9 @@ namespace Minecraft
 		void UpdateLights();
 		void TickSun();
 
+		void GenerateChunks();
+		void UpdateChunks();
+
 		uint32_t m_ChunkCount;
 		std::pair<float, float> m_CrosshairPosition;
 
