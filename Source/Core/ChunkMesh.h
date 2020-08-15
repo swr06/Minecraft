@@ -41,9 +41,10 @@ namespace Minecraft
 		
 		std::uint32_t p_VerticesCount;
 		std::uint32_t p_TransparentVerticesCount;
+		std::uint32_t p_ModelVerticesCount;
 		GLClasses::VertexArray p_VAO;
 		GLClasses::VertexArray p_TransparentVAO;
-		GLClasses::VertexArray p_FloraVAO;
+		GLClasses::VertexArray p_ModelVAO;
 
 	private : 
 
@@ -54,7 +55,7 @@ namespace Minecraft
 
 		std::vector<Vertex> m_Vertices;
 		std::vector<Vertex> m_TransparentVertices;
-		std::vector<Vertex> m_FloraVertices;
+		std::vector<ModelVertex> m_ModelVertices;
 		glm::vec4 m_TopFace[4];
 		glm::vec4 m_BottomFace[4];
 		glm::vec4 m_ForwardFace[4];
@@ -64,6 +65,6 @@ namespace Minecraft
 
 		GLClasses::VertexBuffer m_VBO;
 		GLClasses::VertexBuffer m_TransparentVBO; // Vertex buffer for trasparent blocks
-		GLClasses::VertexBuffer m_FloraVBO; // Vertex buffer for trasparent blocks
+		GLClasses::VertexBuffer m_ModelVBO; // Vertex buffer for trasparent blocks
 	};
 }

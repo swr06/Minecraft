@@ -4,10 +4,13 @@ namespace Minecraft
 {
 	Renderer::Renderer() : m_VBO(GL_ARRAY_BUFFER)
 	{
-		// Manage the vertex arrays
+		// Create and compile the shaders
 
-		m_DefaultShader.CreateShaderProgramFromFile("Shaders/BlockRendererVertex.glsl", "Shaders/BlockRendererFrag.glsl");
-		m_DefaultShader.CompileShaders();
+		m_DefaultChunkShader.CreateShaderProgramFromFile("Shaders/BlockRendererVertex.glsl", "Shaders/BlockRendererFrag.glsl");
+		m_DefaultChunkModelShader.CreateShaderProgramFromFile("Shaders/ModelRendererVertex.glsl", "Shaders/ModelRendererFrag.glsl");
+		m_DefaultChunkShader.CompileShaders();
+		m_DefaultChunkModelShader.CompileShaders();
+
 		m_BlockAtlas.CreateTexture("Resources/BlockAtlasHighDef.png");
 	}
 
@@ -33,21 +36,48 @@ namespace Minecraft
 
 	void Renderer::StartChunkRendering(FPSCamera* camera, const glm::vec4& ambient_light, int render_distance, const glm::vec4& sun_position)
 	{
-		m_DefaultShader.Use();
+		m_DefaultChunkShader.Use();
 		m_BlockAtlas.Bind(0);
-		m_DefaultShader.SetInteger("u_Texture", 0, 0);
-		m_DefaultShader.SetVector4f("u_AmbientLight", ambient_light, 0);
-		m_DefaultShader.SetMatrix4("u_ViewProjection", camera->GetViewProjection());
-		m_DefaultShader.SetMatrix4("u_ViewMatrix", camera->GetViewMatrix());
-		m_DefaultShader.SetInteger("u_RenderDistance", render_distance);
-		m_DefaultShader.SetFloat("u_SunPositionY", sun_position.y);
-		m_DefaultShader.SetVector4f("u_FogColor", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)); // WHITE FOG
-
-		//m_DefaultShader.SetVector4f("u_FogColor", glm::vec4(0.60f, 0.79f, 0.89f, 1.0f)); // BLUE FOG
+		m_DefaultChunkShader.SetInteger("u_Texture", 0, 0);
+		m_DefaultChunkShader.SetVector4f("u_AmbientLight", ambient_light, 0);
+		m_DefaultChunkShader.SetMatrix4("u_ViewProjection", camera->GetViewProjection());
+		m_DefaultChunkShader.SetMatrix4("u_ViewMatrix", camera->GetViewMatrix());
+		m_DefaultChunkShader.SetInteger("u_RenderDistance", render_distance);
+		m_DefaultChunkShader.SetFloat("u_SunPositionY", sun_position.y);
+		m_DefaultChunkShader.SetVector4f("u_FogColor", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)); // WHITE FOG
 	}
 
 	void Renderer::EndChunkRendering()
 	{
-		// Rendering ended
+		glUseProgram(0);
+	}
+
+	void Renderer::StartChunkModelRendering(FPSCamera* camera, const glm::vec4& ambient_light, int render_distance, const glm::vec4& sun_position)
+	{
+		m_DefaultChunkModelShader.Use();
+		m_BlockAtlas.Bind(0);
+		m_DefaultChunkModelShader.SetInteger("u_Texture", 0, 0);
+		m_DefaultChunkModelShader.SetVector4f("u_AmbientLight", ambient_light, 0);
+		m_DefaultChunkModelShader.SetMatrix4("u_ViewProjection", camera->GetViewProjection());
+		m_DefaultChunkModelShader.SetMatrix4("u_ViewMatrix", camera->GetViewMatrix());
+		m_DefaultChunkModelShader.SetInteger("u_RenderDistance", render_distance);
+		m_DefaultChunkModelShader.SetFloat("u_SunPositionY", sun_position.y);
+		m_DefaultChunkModelShader.SetVector4f("u_FogColor", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)); // WHITE FOG
+		m_DefaultChunkModelShader.SetFloat("u_Time", glfwGetTime(), 0);
+	}
+
+	void Renderer::RenderChunkModels(Chunk* chunk)
+	{
+		if (chunk->GetChunkMesh()->p_ModelVerticesCount > 0)
+		{
+			chunk->GetChunkMesh()->p_ModelVAO.Bind();
+			DebugGLFunction(glDrawElements(GL_TRIANGLES, floor(chunk->GetChunkMesh()->p_ModelVerticesCount / 4) * 6, GL_UNSIGNED_INT, 0));
+			chunk->GetChunkMesh()->p_ModelVAO.Unbind();
+		}
+	}
+
+	void Renderer::EndChunkModelRendering()
+	{
+		glUseProgram(0);
 	}
 }

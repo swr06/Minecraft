@@ -119,8 +119,10 @@ namespace Minecraft
 
 		glDisable(GL_CULL_FACE);
 		m_Skybox.RenderSkybox(&p_Player->p_Camera, m_SunPosition);
+		
+		// Enable face culling and depth testing
+		glEnable(GL_DEPTH_TEST);
 
-		// Enable face culling
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_FRONT);
 		glFrontFace(GL_CCW);
@@ -179,6 +181,23 @@ namespace Minecraft
 		m_Renderer.EndChunkRendering();
 
 		glDisable(GL_CULL_FACE);
+
+		m_Renderer.StartChunkModelRendering(&p_Player->p_Camera, glm::vec4(ambient, ambient, ambient, 1.0f), render_distance, m_SunPosition);
+
+		for (int i = player_chunk_x - render_distance_x; i < player_chunk_x + render_distance_x; i++)
+		{
+			for (int j = player_chunk_z - render_distance_z; j < player_chunk_z + render_distance_z; j++)
+			{
+				Chunk* chunk = RetrieveChunkFromMap(i, j);
+
+				if (m_ViewFrustum.BoxInFrustum(chunk->p_ChunkFrustumAABB))
+				{
+					m_Renderer.RenderChunkModels(chunk);
+				}
+			}
+		}
+
+		m_Renderer.EndChunkModelRendering();
 
 		glDisable(GL_DEPTH_TEST);
 

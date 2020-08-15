@@ -83,7 +83,7 @@ namespace Minecraft
 		
 			case BlockType::OakLog : 
 			{
-				if (face_type == BlockFaceType::top)
+				if (face_type == BlockFaceType::top || face_type == BlockFaceType::bottom)
 					ret_val = BlockTypeTexture::OakLogTop;
 
 				else

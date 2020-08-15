@@ -2,6 +2,7 @@
 
 #define GLEW_STATIC
 #include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
 #include "../OpenGL Classes/VertexBuffer.h"
 #include "../OpenGL Classes/VertexArray.h"
@@ -19,15 +20,21 @@ namespace Minecraft
 	public : 
 
 		Renderer();
+
+		void StartChunkRendering(FPSCamera* camera, const glm::vec4& ambient_light, int render_distance, const glm::vec4& sun_position);
 		void RenderTransparentChunk(Chunk* chunk);
 		void RenderChunk(Chunk* chunk);
-		void StartChunkRendering(FPSCamera* camera, const glm::vec4& ambient_light, int render_distance, const glm::vec4& sun_position);
 		void EndChunkRendering();
+
+		void StartChunkModelRendering(FPSCamera* camera, const glm::vec4& ambient_light, int render_distance, const glm::vec4& sun_position);
+		void RenderChunkModels(Chunk* chunk);
+		void EndChunkModelRendering();
 
 	private: 
 		GLClasses::VertexBuffer m_VBO;
 		GLClasses::VertexArray m_VAO;
-		GLClasses::Shader m_DefaultShader;
+		GLClasses::Shader m_DefaultChunkShader;
+		GLClasses::Shader m_DefaultChunkModelShader;
 		GLClasses::Texture m_BlockAtlas;
 	};
 }

@@ -60,7 +60,7 @@ namespace Minecraft
 
 	struct Block
 	{
-		std::uint8_t p_BlockType = BlockType::UnknownBlockType;
+		BlockType p_BlockType = BlockType::UnknownBlockType;
 
 		bool IsModel() const
 		{

@@ -279,6 +279,8 @@
     <None Include="Shaders\CubeRendererVert.glsl" />
     <None Include="Shaders\LightingFrag.glsl" />
     <None Include="Shaders\LightingVert.glsl" />
+    <None Include="Shaders\ModelRendererFrag.glsl" />
+    <None Include="Shaders\ModelRendererVertex.glsl" />
     <None Include="Shaders\SkyboxFrag.glsl" />
     <None Include="Shaders\SkyboxVertex.glsl" />
     <None Include="Shaders\UI\UIElementFrag.glsl" />

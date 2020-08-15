@@ -458,6 +458,12 @@
     <None Include="Shaders\CloudVert.glsl">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="Shaders\ModelRendererFrag.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\ModelRendererVertex.glsl">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Core\Lighting\Readme.txt">

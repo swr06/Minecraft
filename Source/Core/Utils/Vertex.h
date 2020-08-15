@@ -16,14 +16,14 @@ namespace Minecraft
 	{
 		glm::vec3 position;
 		glm::vec2 texture_coords;
-		GLfloat lighting_level; 
-		GLfloat block_face_lighting;
+		float lighting_level; 
+		float block_face_lighting;
 	};
 
-	struct FloraVertex
+	struct ModelVertex
 	{
 		glm::vec3 position;
 		glm::vec2 texture_coords;
-		GLfloat lighting_level;
+		float lighting_level;
 	};
 }
