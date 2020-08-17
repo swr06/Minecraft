@@ -18,7 +18,7 @@ public:
 		return (float)m_Distribution(m_Engine) / (float)std::numeric_limits<uint32_t>::max();
 	}
 
-	int Int(int limit)
+	int Int(int limit) 
 	{
 		return (int)m_Distribution(m_Engine) % limit;
 	}

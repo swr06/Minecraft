@@ -11,11 +11,9 @@ namespace Minecraft
 
     BlockType vein_block = BlockType::Sand;
 
-    BlockType GetUnderwaterBlock(int cx, int cz)
+    BlockType GetUnderwaterBlock(Random& random_gen)
     {
-        Random _random(cx + cz);
-
-        switch (_random.UnsignedInt(6))
+        switch (random_gen.UnsignedInt(6))
         {
         case 0 :
             return BlockType::Sand;
@@ -99,6 +97,7 @@ namespace Minecraft
         Generates water in the areas needed inside of the chunk
         */
 
+        Random water_gen(chunk->p_Position.x + chunk->p_Position.y);
         ChunkDataTypePtr chunk_data = &chunk->p_ChunkContents;
         int cx = chunk->p_Position.x;
         int cz = chunk->p_Position.z;
@@ -129,7 +128,7 @@ namespace Minecraft
                         {
                             if (chunk_data->at(x - 1).at(y).at(z).IsOpaque())
                             {
-                                chunk_data->at(x - 1).at(y).at(z).p_BlockType = GetUnderwaterBlock(cx, cz);
+                                chunk_data->at(x - 1).at(y).at(z).p_BlockType = GetUnderwaterBlock(water_gen);
                             }
                         }
 
@@ -137,7 +136,7 @@ namespace Minecraft
                         {
                             if (chunk_data->at(x + 1).at(y).at(z).IsOpaque())
                             {
-                                chunk_data->at(x + 1).at(y).at(z).p_BlockType = GetUnderwaterBlock(cx, cz);
+                                chunk_data->at(x + 1).at(y).at(z).p_BlockType = GetUnderwaterBlock(water_gen);
                             }
                         }
 
@@ -145,7 +144,7 @@ namespace Minecraft
                         {
                             if (chunk_data->at(x).at(y).at(z - 1).IsOpaque())
                             {
-                                chunk_data->at(x).at(y).at(z - 1).p_BlockType = GetUnderwaterBlock(cx, cz);
+                                chunk_data->at(x).at(y).at(z - 1).p_BlockType = GetUnderwaterBlock(water_gen);
                             }
                         }
 
@@ -153,7 +152,7 @@ namespace Minecraft
                         {
                             if (chunk_data->at(x).at(y).at(z + 1).IsOpaque())
                             {
-                                chunk_data->at(x).at(y).at(z + 1).p_BlockType = GetUnderwaterBlock(cx, cz);
+                                chunk_data->at(x).at(y).at(z + 1).p_BlockType = GetUnderwaterBlock(water_gen);
                             }
                         }
 
@@ -161,7 +160,7 @@ namespace Minecraft
                         {
                             if (chunk_data->at(x).at(y - 1).at(z).IsOpaque())
                             {
-                                chunk_data->at(x).at(y - 1).at(z).p_BlockType = GetUnderwaterBlock(cx, cz);
+                                chunk_data->at(x).at(y - 1).at(z).p_BlockType = GetUnderwaterBlock(water_gen);
                             }
                         }
 
@@ -169,7 +168,7 @@ namespace Minecraft
                         {
                             if (chunk_data->at(x).at(y + 1).at(z).IsOpaque())
                             {
-                                chunk_data->at(x).at(y + 1).at(z).p_BlockType = GetUnderwaterBlock(cx, cz);
+                                chunk_data->at(x).at(y + 1).at(z).p_BlockType = GetUnderwaterBlock(water_gen);
                             }
                         }
                     }
