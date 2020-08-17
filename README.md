@@ -53,6 +53,9 @@ The block art, skybox art and fonts are not made by me. All credits go to their 
 # License
 This project is under the MIT license. See LICENSE for more info
 
+# Known bugs
+- Blending issues with glass and models
+
 # Screenshots
 
 ![Minecraft Menu](https://github.com/swr06/Minecraft/blob/master/Screenshots/menu.png)
