@@ -286,6 +286,7 @@ namespace Minecraft
         // Set the chunk state
         chunk->p_ChunkState = ChunkState::Generated;
         WorldGenerator.SetNoiseType(FastNoise::SimplexFractal);
+        WorldGeneratorMultiply_1.SetNoiseType(FastNoise::SimplexFractal);
 
         static TreeStructure WorldStructureTree;
         static CactusStructure WorldStructureCactus;

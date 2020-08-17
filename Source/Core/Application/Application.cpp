@@ -107,7 +107,7 @@ namespace Minecraft
 		glfwMakeContextCurrent(m_Window);
 
 		// Turn on V-Sync
-		glfwSwapInterval(0);
+		glfwSwapInterval(1);
 
 		glewInit();
 
