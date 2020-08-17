@@ -11,7 +11,7 @@ namespace Minecraft
 		m_DefaultChunkShader.CompileShaders();
 		m_DefaultChunkModelShader.CompileShaders();
 
-		m_BlockAtlas.CreateTexture("Resources/BlockAtlasHighDef.png");
+		m_BlockAtlas.CreateTexture("Resources/64x64_sheet.png");
 	}
 
 	void Renderer::RenderChunk(Chunk* chunk)

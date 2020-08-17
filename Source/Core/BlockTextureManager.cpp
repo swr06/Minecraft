@@ -47,12 +47,14 @@ namespace Minecraft
 		Slime,
 		Model_Grass,
 		Model_Deadbush,
+		Model_Kelp,
 		Flower_allium,
 		Flower_orchid,
 		Flower_tulip_red,
+		Flower_tulip_pink,
 		Flower_rose,
-		Flower_houstonia,
 		Flower_dandelion,
+
 		UnknownBlockType,
 		Air
 	};
@@ -118,10 +120,10 @@ namespace Minecraft
 
 		if (first_run)
 		{
-			GLClasses::TextureAtlas BlockTextureAtlas("Resources/BlockAtlasHighDef.png", 128, 128);
+			GLClasses::TextureAtlas BlockTextureAtlas("Resources/64x64_sheet.png", 64, 64);
 			first_run = false;
 
-			constexpr int list_sz = 38;
+			constexpr int list_sz = 40;
 
 			BlockTypeTexture texture_list[list_sz] =
 			{
@@ -160,8 +162,10 @@ namespace Minecraft
 				BlockTypeTexture::Flower_allium,
 				BlockTypeTexture::Flower_orchid,
 				BlockTypeTexture::Flower_tulip_red,
+				BlockTypeTexture::Flower_tulip_pink,
 				BlockTypeTexture::Flower_rose,
 				BlockTypeTexture::Flower_dandelion,
+				BlockTypeTexture::Model_Kelp,
 				BlockTypeTexture::UnknownBlockType
 			};
 
@@ -179,13 +183,14 @@ namespace Minecraft
 			}
 		}
 
-		std::unordered_map<BlockTypeTexture, std::array<GLfloat, 8>>::iterator iter = BlockDatabase.find(GetRealBlockTexture(block_type, face_type));
+		BlockTypeTexture tex = GetRealBlockTexture(block_type, face_type);
+		std::unordered_map<BlockTypeTexture, std::array<GLfloat, 8>>::iterator iter = BlockDatabase.find(tex);
 
 		if (iter == BlockDatabase.end())
 		{
 			return BlockDatabase[BlockTypeTexture::UnknownBlockType];
 		}
 
-		return BlockDatabase[GetRealBlockTexture(block_type, face_type)];
+		return BlockDatabase[tex];
 	}
 }

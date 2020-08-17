@@ -17,7 +17,7 @@ out vec4 v_TintColor;
 out float v_SunlightIntensity;
 
 const float fog_density = 0.01f;
-float fog_gradient = float(u_RenderDistance + 2.50f);
+float fog_gradient = float(u_RenderDistance);
 
 void main()
 {

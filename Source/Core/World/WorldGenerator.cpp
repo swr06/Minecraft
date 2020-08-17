@@ -178,7 +178,7 @@ namespace Minecraft
 
     BlockType GenerateFlower()
     {
-        int r = rand() % 4;
+        int r = rand() % 6;
 
         switch (r)
         {
@@ -191,11 +191,20 @@ namespace Minecraft
         case 2:
             return BlockType::Flower_tulip_red;
             break;
+
         case 3:
-            return BlockType::Flower_rose;
+            return BlockType::Flower_tulip_pink;
             break;
         case 4:
+            return BlockType::Flower_rose;
+            break;
+
+        case 5:
             return BlockType::Flower_dandelion;
+            break;
+
+        default :
+            return BlockType::Flower_tulip_red;
             break;
         }
         return BlockType::Flower_tulip_red;
@@ -275,10 +284,18 @@ namespace Minecraft
                         int random_grassland = rand() % 12;
                         if (random_grassland < 7)
                         {
-                            model = BlockType::Model_Grass;
+                            if (generated_y < water_max - 1)
+                            {
+                                model = BlockType::Model_Kelp;
+                            }
+
+                            else if (generated_y > water_max + 2)
+                            {
+                                model = BlockType::Model_Grass;
+                            }
                         }
 
-                        else if (random_grassland == 9)
+                        else if (random_grassland == 9 && generated_y > water_max + 2)
                         {
                             model = GenerateFlower();
                         }
@@ -292,7 +309,16 @@ namespace Minecraft
                         structure_freq = 75;
 
                         int random_desert = rand() % 12;
-                        if (random_desert == 6)
+
+                        if (random_desert < 7)
+                        {
+                            if (generated_y < water_max - 1)
+                            {
+                                model = BlockType::Model_Kelp;
+                            }
+                        }
+
+                        else if (random_desert == 9 && generated_y > water_max + 2)
                         {
                             model = BlockType::Model_Deadbush;
                         }

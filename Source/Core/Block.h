@@ -48,9 +48,11 @@ namespace Minecraft
 		// Models
 		Model_Grass,
 		Model_Deadbush,
+		Model_Kelp,
 		Flower_allium,
 		Flower_orchid,
 		Flower_tulip_red,
+		Flower_tulip_pink,
 		Flower_rose,
 		Flower_dandelion,
 
@@ -66,9 +68,11 @@ namespace Minecraft
 		{
 			if (p_BlockType == Model_Grass ||
 				p_BlockType == Model_Deadbush ||
+				p_BlockType == Model_Kelp ||
 				p_BlockType == Flower_allium ||
 				p_BlockType == Flower_orchid ||
 				p_BlockType == Flower_tulip_red ||
+				p_BlockType == Flower_tulip_pink ||
 				p_BlockType == Flower_rose ||
 				p_BlockType == Flower_dandelion)
 			{
@@ -81,7 +85,8 @@ namespace Minecraft
 		bool IsOpaque() const
 		{
 			if (p_BlockType != BlockType::Air && p_BlockType != BlockType::GlassWhite 
-				&& p_BlockType != BlockType::Water && p_BlockType != BlockType::Cactus && !IsModel())
+				&& p_BlockType != BlockType::Water && p_BlockType != BlockType::Cactus && p_BlockType != BlockType::OakLeaves 
+				&& p_BlockType != BlockType::SpruceLeaves && !IsModel())
 			{
 				return true;
 			}
@@ -92,7 +97,8 @@ namespace Minecraft
 		bool IsTransparent() const
 		{
 			if (p_BlockType == BlockType::Water || p_BlockType == BlockType::Lava 
-				|| p_BlockType == BlockType::GlassWhite || p_BlockType == BlockType::Cactus || IsModel())
+				|| p_BlockType == BlockType::GlassWhite || p_BlockType == BlockType::Cactus || p_BlockType == BlockType::OakLeaves ||
+				p_BlockType == BlockType::SpruceLeaves  ||  IsModel())
 			{
 				return true;
 			}
@@ -110,7 +116,7 @@ namespace Minecraft
 			return false;
 		}
 
-		bool IsLiquid() const
+		bool IsLiquid() const 
 		{
 			if (p_BlockType == BlockType::Water || p_BlockType == BlockType::Lava)
 			{

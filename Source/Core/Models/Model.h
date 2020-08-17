@@ -40,8 +40,7 @@ namespace Minecraft
 	protected :
 		void AddVertex(const glm::vec3& pos, const glm::vec2& tex_coords)
 		{
-			//p_ModelVertices.push_back({ pos, tex_coords });
-			p_ModelVertices.insert(p_ModelVertices.begin(), { pos, tex_coords });
+			p_ModelVertices.push_back({ pos, tex_coords });
 		}
 
 	private :
