@@ -13,19 +13,21 @@ A Tiny Minecraft clone made with C++ and OpenGL.
 - Biome generation by noise quantization 
 - Infinite Terrain
 - High Definition texture pack
-- Support for translucent blocks such as Glass
+- Support for translucent blocks such as Glass (sort of)
 - Fast chunk meshing 
 - Face culling
 - Frustum culling
 - Complete day/night cycle
 - Exponential fog
 - 3D AABB Collision detection
-- Extremely efficient Flood Fill Voxel lighting algorithm using BFS queue
-- Extremely fast world saving and loading
+- Efficient Flood Fill Voxel lighting algorithm using BFS queue
+- Fast world saving and loading
 - Complete main menu and GUI interface using ImGui
 - Logger
 - Cloud Skybox using cubemaps
 - Accurate block editing using a voxel transversal algorithm
+- Cave generation using 3D perlin noise
+- Water generation 
 - No OS Specific commands/dependencies. 
 
 # Features to come (probably in the rewrite)
@@ -33,7 +35,6 @@ A Tiny Minecraft clone made with C++ and OpenGL.
 - Sun 
 - Weather
 - Multithreading
-- Caves 
 
 # Compiling 
 This project compiles with Clang and MSVC. 
