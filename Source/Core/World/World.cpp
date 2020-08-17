@@ -527,8 +527,6 @@ namespace Minecraft
 				{
 					m_LightBFSQueue.emplace(glm::vec3(x - 1, y, z), chunk);
 				}
-
-				chunk->p_MeshState = ChunkMeshState::Unbuilt;
 			}
 
 			else if (x == 0)
@@ -545,8 +543,6 @@ namespace Minecraft
 				{
 					m_LightBFSQueue.emplace(glm::vec3(CHUNK_SIZE_X - 1, y, z), left_chunk);
 				}
-
-				left_chunk->p_MeshState = ChunkMeshState::Unbuilt;
 			}
 
 			if (x < CHUNK_SIZE_X - 1)
@@ -563,8 +559,6 @@ namespace Minecraft
 				{
 					m_LightBFSQueue.emplace(glm::vec3(x + 1, y, z), chunk);
 				}
-
-				chunk->p_MeshState = ChunkMeshState::Unbuilt;
 			}
 
 			else if (x == CHUNK_SIZE_X - 1)
@@ -581,8 +575,6 @@ namespace Minecraft
 				{
 					m_LightBFSQueue.emplace(glm::vec3(0, y, z), right_chunk);
 				}
-
-				right_chunk->p_MeshState = ChunkMeshState::Unbuilt;
 			}
 
 			if (y > 0)
@@ -599,8 +591,6 @@ namespace Minecraft
 				{
 					m_LightBFSQueue.emplace(glm::vec3(x, y - 1, z), chunk);
 				}
-
-				chunk->p_MeshState = ChunkMeshState::Unbuilt;
 			}
 
 			if (y < CHUNK_SIZE_Y - 1)
@@ -617,8 +607,6 @@ namespace Minecraft
 				{
 					m_LightBFSQueue.emplace(glm::vec3(x, y + 1, z), chunk);
 				}
-
-				chunk->p_MeshState = ChunkMeshState::Unbuilt;
 			}
 
 			if (z > 0)
@@ -635,8 +623,6 @@ namespace Minecraft
 				{
 					m_LightBFSQueue.emplace(glm::vec3(x, y, z - 1), chunk);
 				}
-
-				chunk->p_MeshState = ChunkMeshState::Unbuilt;
 			}
 
 			else if (z == 0)
@@ -653,8 +639,6 @@ namespace Minecraft
 				{
 					m_LightBFSQueue.emplace(glm::vec3(x, y, CHUNK_SIZE_Z - 1), back_chunk);
 				}
-
-				back_chunk->p_MeshState = ChunkMeshState::Unbuilt;
 			}
 
 			if (z < CHUNK_SIZE_Z - 1)
@@ -671,8 +655,6 @@ namespace Minecraft
 				{
 					m_LightBFSQueue.emplace(glm::vec3(x, y, z + 1), chunk);
 				}
-
-				chunk->p_MeshState = ChunkMeshState::Unbuilt;
 			}
 
 			else if (z == CHUNK_SIZE_Z - 1)
@@ -689,8 +671,6 @@ namespace Minecraft
 				{
 					m_LightBFSQueue.emplace(glm::vec3(x, y, 0), front_chunk);
 				}
-
-				front_chunk->p_MeshState = ChunkMeshState::Unbuilt;
 			}
 		}
 
