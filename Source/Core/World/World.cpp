@@ -122,7 +122,7 @@ namespace Minecraft
 		
 		// Enable face culling and depth testing
 		glEnable(GL_DEPTH_TEST);
-		glDepthFunc(GL_LESS);
+		glDepthFunc(GL_LEQUAL);
 
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_FRONT);
@@ -448,6 +448,11 @@ namespace Minecraft
 
 								edit_block.second->SetTorchLightAt(light_removal_block.x, light_removal_block.y, light_removal_block.z, 0);
 								UpdateLights();
+							}
+
+							else if (edit_block.first->p_BlockType == BlockType::Bedrock)
+							{
+								return;
 							}
 
 							edit_block.first->p_BlockType = BlockType::Air;

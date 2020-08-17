@@ -107,7 +107,7 @@ namespace Minecraft
 		glfwMakeContextCurrent(m_Window);
 
 		// Turn on V-Sync
-		glfwSwapInterval(1);
+		glfwSwapInterval(0);
 
 		glewInit();
 
@@ -273,8 +273,13 @@ namespace Minecraft
 				BlockType current_block = static_cast<BlockType>(m_World->p_Player->p_CurrentHeldBlock);
 				std::stringstream ss;
 				ss << "Current held block : " << BlockDatabase::GetBlockName(current_block).c_str();
-
 				ImGui::Text(ss.str().c_str());
+
+				stringstream ppos_s;
+				const glm::vec3& ppos = m_World->p_Player->p_Position;
+				ppos_s << "Player Position =  X : " << ppos.x << " | Y : " << ppos.y << " | Z : " << ppos.z;
+				ImGui::Text(ppos_s.str().c_str());
+				
 				ImGui::End();
 			}
 		}

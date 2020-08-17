@@ -56,6 +56,7 @@ namespace Minecraft
 		Flower_rose,
 		Flower_dandelion,
 
+		Bedrock,
 		UnknownBlockType,
 		Air
 	};

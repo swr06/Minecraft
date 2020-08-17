@@ -230,6 +230,52 @@ namespace Minecraft
         }
     }
 
+    void GenerateCaves(Chunk* chunk, const int seed)
+    {
+        constexpr int cave_level = 55;
+
+        static FastNoise noise_1(seed);
+        static FastNoise noise_2(seed);
+
+        noise_1.SetNoiseType(FastNoise::Simplex);
+        noise_2.SetNoiseType(FastNoise::Simplex);
+
+        for (int x = 0; x < CHUNK_SIZE_X; x++)
+        {
+            for (int y = 0; y < CHUNK_SIZE_Y; y++)
+            {
+                for (int z = 0; z < CHUNK_SIZE_Z; z++)
+                {
+                    if (y < 2)
+                    {
+                        chunk->p_ChunkContents.at(x).at(y).at(z) = { BlockType::Bedrock };
+                    }
+
+                    else if (y < cave_level)
+                    {
+                        float real_x = x + chunk->p_Position.x * CHUNK_SIZE_X;
+                        float real_z = z + chunk->p_Position.z * CHUNK_SIZE_Z;
+
+                        float n1 = noise_1.GetNoise(real_x, y, real_z);
+                        n1 = n1 * n1;
+
+                        float n2 = noise_2.GetNoise(real_x, y, real_z);
+                        n2 = n2 * n2;
+
+                        float res = n1 + n2;
+
+                        bool cave = res < 0.02 ? true : false;
+
+                        if (cave)
+                        {
+                            chunk->p_ChunkContents.at(x).at(y).at(z) = { BlockType::Air };
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     void GenerateChunk(Chunk* chunk, const int WorldSeed, WorldGenerationType gen_type)
     {
         static Random SeedEngine;
@@ -358,6 +404,8 @@ namespace Minecraft
             }
 
             AddWaterBlocks(chunk);
+
+            GenerateCaves(chunk, WorldSeed);
         }
 
         else if (gen_type == WorldGenerationType::Generation_Flat || gen_type == WorldGenerationType::Generation_FlatWithoutStructures)

@@ -57,6 +57,7 @@ namespace Minecraft
 			Flower_rose,
 			Flower_dandelion,
 
+			Bedrock,
 			UnknownBlockType,
 			Air
 		};
@@ -126,7 +127,7 @@ namespace Minecraft
 				GLClasses::TextureAtlas BlockTextureAtlas("Resources/64x64_sheet.png", 64, 64);
 				first_run = false;
 
-				constexpr int list_sz = 40;
+				constexpr int list_sz = 41;
 
 				BlockTypeTexture texture_list[list_sz] =
 				{
@@ -169,6 +170,7 @@ namespace Minecraft
 					BlockTypeTexture::Flower_rose,
 					BlockTypeTexture::Flower_dandelion,
 					BlockTypeTexture::Model_Kelp,
+					BlockTypeTexture::Bedrock,
 					BlockTypeTexture::UnknownBlockType
 				};
 
@@ -242,6 +244,7 @@ namespace Minecraft
 				BlockNameDatabase[BlockType::Flower_rose] = "Flower (Rose) [Model]";
 				BlockNameDatabase[BlockType::Flower_dandelion] = "Flower (Dandelion) [Model]";
 				BlockNameDatabase[BlockType::UnknownBlockType] = "UNKNOWN BLOCK";
+				BlockNameDatabase[BlockType::Bedrock] = "Bedrock";
 				BlockNameDatabase[BlockType::Air] = "Air";
 			}
 
