@@ -264,11 +264,11 @@ namespace Minecraft
 
 		if (e.type == EventSystem::EventTypes::KeyPress && e.key == GLFW_KEY_Q)
 		{
-			m_CurrentHeldBlock++;
+			p_Player->p_CurrentHeldBlock++;
 
-			if (m_CurrentHeldBlock == BlockType::UnknownBlockType)
+			if (p_Player->p_CurrentHeldBlock == BlockType::Water)
 			{
-				m_CurrentHeldBlock = 0;
+				p_Player->p_CurrentHeldBlock = BlockType::Grass;
 			}
 		}
 
@@ -418,9 +418,9 @@ namespace Minecraft
 
 						if (place && TestCollision(position, glm::vec3(1, 1, 1), p_Player->p_Position, glm::vec3(1, 2, 1)) == false)
 						{
-							edit_block.first->p_BlockType = static_cast<BlockType>(m_CurrentHeldBlock);
+							edit_block.first->p_BlockType = static_cast<BlockType>(p_Player->p_CurrentHeldBlock);
 
-							if (static_cast<BlockType>(m_CurrentHeldBlock) == BlockType::Lamp_On)
+							if (static_cast<BlockType>(p_Player->p_CurrentHeldBlock) == BlockType::Lamp_On)
 							{
 								glm::ivec3 light_block = WorldBlockToLocalBlockCoordinates(position);
 

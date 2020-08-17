@@ -601,7 +601,7 @@ namespace Minecraft
 
 		// Get required texture coordinates
 
-		const std::array<GLfloat, 8>& TextureCoordinates = GetBlockTexture(type, face_type);
+		const std::array<GLfloat, 8>& TextureCoordinates = BlockDatabase::GetBlockTexture(type, face_type);
 
 		if (reverse_texture_coordinates)
 		{

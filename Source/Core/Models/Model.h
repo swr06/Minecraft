@@ -4,7 +4,7 @@
 #include <gl/glew.h>
 
 #include "../Utils/Defs.h"
-#include "../BlockTextureManager.h"
+#include "../BlockDatabase.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -23,7 +23,7 @@ namespace Minecraft
 	public :
 		Model(BlockType type) 
 		{
-			const std::array<GLfloat, 8>& block_coords = GetBlockTexture(type, BlockFaceType::front);
+			const std::array<GLfloat, 8>& block_coords = BlockDatabase::GetBlockTexture(type, BlockFaceType::front);
 
 			AddVertex(glm::vec3(0, 0, 0), glm::vec2(block_coords[0], block_coords[1]));
 			AddVertex(glm::vec3(1, 0, 1), glm::vec2(block_coords[2], block_coords[3]));

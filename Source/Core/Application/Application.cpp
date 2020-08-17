@@ -252,6 +252,33 @@ namespace Minecraft
 
 		std::vector<std::string> Saves;
 
+		if (m_GameState == GameState::PlayingState && m_World)
+		{
+			bool open = true;
+
+			ImGuiWindowFlags window_flags = 0;
+			window_flags |= ImGuiWindowFlags_NoTitleBar;
+			window_flags |= ImGuiWindowFlags_NoScrollbar;
+			window_flags |= ImGuiWindowFlags_NoMove;
+			window_flags |= ImGuiWindowFlags_NoResize;
+			window_flags |= ImGuiWindowFlags_NoCollapse;
+			window_flags |= ImGuiWindowFlags_NoNav;
+			window_flags |= ImGuiWindowFlags_NoBackground;
+
+			ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Always);
+			ImGui::SetNextWindowSize(ImVec2(w - 10, h - 10), ImGuiCond_Always);
+
+			if (ImGui::Begin("Debug Text", &open, window_flags))
+			{
+				BlockType current_block = static_cast<BlockType>(m_World->p_Player->p_CurrentHeldBlock);
+				std::stringstream ss;
+				ss << "Current held block : " << BlockDatabase::GetBlockName(current_block).c_str();
+
+				ImGui::Text(ss.str().c_str());
+				ImGui::End();
+			}
+		}
+
 		if (first_run)
 		{
 			memset(&input, '\0', 64);

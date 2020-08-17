@@ -55,9 +55,6 @@
     <ClCompile Include="Core\Application\Events.cpp">
       <Filter>Minecraft\Application</Filter>
     </ClCompile>
-    <ClCompile Include="Core\BlockTextureManager.cpp">
-      <Filter>Minecraft\Block</Filter>
-    </ClCompile>
     <ClCompile Include="Core\TextureAtlas.cpp">
       <Filter>Minecraft</Filter>
     </ClCompile>
@@ -140,6 +137,9 @@
     <ClCompile Include="Core\Models\Model.cpp">
       <Filter>Minecraft\Models</Filter>
     </ClCompile>
+    <ClCompile Include="Core\BlockDatabase.cpp">
+      <Filter>Minecraft\Block</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\OpenGL Classes\Fps.h">
@@ -204,9 +204,6 @@
     </ClInclude>
     <ClInclude Include="Core\Application\EventStructs.h">
       <Filter>Minecraft\Application</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\BlockTextureManager.h">
-      <Filter>Minecraft\Block</Filter>
     </ClInclude>
     <ClInclude Include="Core\TextureAtlas.h">
       <Filter>Minecraft</Filter>
@@ -306,6 +303,9 @@
     </ClInclude>
     <ClInclude Include="Core\Models\Model.h">
       <Filter>Minecraft\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\BlockDatabase.h">
+      <Filter>Minecraft\Block</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

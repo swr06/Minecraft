@@ -165,7 +165,7 @@
     <ClCompile Include="Core\Audio\Audio.cpp" />
     <ClCompile Include="Core\Audio\OpenALFunctions.cpp" />
     <ClCompile Include="Core\Block.cpp" />
-    <ClCompile Include="Core\BlockTextureManager.cpp" />
+    <ClCompile Include="Core\BlockDatabase.cpp" />
     <ClCompile Include="Core\Camera.cpp" />
     <ClCompile Include="Core\Chunk.cpp" />
     <ClCompile Include="Core\ChunkMesh.cpp" />
@@ -219,7 +219,7 @@
     <ClInclude Include="Core\Audio\Audio.h" />
     <ClInclude Include="Core\Audio\OpenALFunctions.h" />
     <ClInclude Include="Core\Block.h" />
-    <ClInclude Include="Core\BlockTextureManager.h" />
+    <ClInclude Include="Core\BlockDatabase.h" />
     <ClInclude Include="Core\Camera.h" />
     <ClInclude Include="Core\Chunk.h" />
     <ClInclude Include="Core\ChunkMesh.h" />

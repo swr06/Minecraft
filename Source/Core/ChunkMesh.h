@@ -20,7 +20,7 @@
 #include "Models/Model.h"
 
 #include "Utils/Vertex.h"
-#include "BlockTextureManager.h"
+#include "BlockDatabase.h"
 
 namespace Minecraft
 {

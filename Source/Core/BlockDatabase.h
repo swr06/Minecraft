@@ -11,5 +11,9 @@
 
 namespace Minecraft
 {
-	const std::array<GLfloat, 8>& GetBlockTexture(BlockType block_type, BlockFaceType face_type);
+	namespace BlockDatabase
+	{
+		const std::array<GLfloat, 8>& GetBlockTexture(BlockType block_type, BlockFaceType face_type);
+		const std::string& GetBlockName(BlockType block_type);
+	}
 }

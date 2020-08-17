@@ -31,6 +31,7 @@ namespace Minecraft
 		glm::vec3 p_Position;
 		World* p_World;
 		AABB p_PlayerAABB;
+		std::uint8_t p_CurrentHeldBlock = 0;
 
 	private : 
 

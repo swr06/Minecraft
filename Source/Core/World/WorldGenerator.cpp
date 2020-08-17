@@ -6,16 +6,16 @@ namespace Minecraft
     Biome GetBiome(float chunk_noise);
 
     // Water levels
-    constexpr int water_min = 5;
+    constexpr int water_min = 2;
     constexpr int water_max = 85;
 
     BlockType vein_block = BlockType::Sand;
 
-    BlockType GetUnderwaterBlock()
+    BlockType GetUnderwaterBlock(int cx, int cz)
     {
-        int random = rand() % 14;
+        Random _random(cx + cz);
 
-        switch (random)
+        switch (_random.UnsignedInt(6))
         {
         case 0 :
             return BlockType::Sand;
@@ -100,6 +100,8 @@ namespace Minecraft
         */
 
         ChunkDataTypePtr chunk_data = &chunk->p_ChunkContents;
+        int cx = chunk->p_Position.x;
+        int cz = chunk->p_Position.z;
 
         for (int x = 0; x < CHUNK_SIZE_X; x++)
         {
@@ -127,7 +129,7 @@ namespace Minecraft
                         {
                             if (chunk_data->at(x - 1).at(y).at(z).IsOpaque())
                             {
-                                chunk_data->at(x - 1).at(y).at(z).p_BlockType = GetUnderwaterBlock();
+                                chunk_data->at(x - 1).at(y).at(z).p_BlockType = GetUnderwaterBlock(cx, cz);
                             }
                         }
 
@@ -135,7 +137,7 @@ namespace Minecraft
                         {
                             if (chunk_data->at(x + 1).at(y).at(z).IsOpaque())
                             {
-                                chunk_data->at(x + 1).at(y).at(z).p_BlockType = GetUnderwaterBlock();
+                                chunk_data->at(x + 1).at(y).at(z).p_BlockType = GetUnderwaterBlock(cx, cz);
                             }
                         }
 
@@ -143,7 +145,7 @@ namespace Minecraft
                         {
                             if (chunk_data->at(x).at(y).at(z - 1).IsOpaque())
                             {
-                                chunk_data->at(x).at(y).at(z - 1).p_BlockType = GetUnderwaterBlock();
+                                chunk_data->at(x).at(y).at(z - 1).p_BlockType = GetUnderwaterBlock(cx, cz);
                             }
                         }
 
@@ -151,7 +153,7 @@ namespace Minecraft
                         {
                             if (chunk_data->at(x).at(y).at(z + 1).IsOpaque())
                             {
-                                chunk_data->at(x).at(y).at(z + 1).p_BlockType = GetUnderwaterBlock();
+                                chunk_data->at(x).at(y).at(z + 1).p_BlockType = GetUnderwaterBlock(cx, cz);
                             }
                         }
 
@@ -159,7 +161,7 @@ namespace Minecraft
                         {
                             if (chunk_data->at(x).at(y - 1).at(z).IsOpaque())
                             {
-                                chunk_data->at(x).at(y - 1).at(z).p_BlockType = GetUnderwaterBlock();
+                                chunk_data->at(x).at(y - 1).at(z).p_BlockType = GetUnderwaterBlock(cx, cz);
                             }
                         }
 
@@ -167,7 +169,7 @@ namespace Minecraft
                         {
                             if (chunk_data->at(x).at(y + 1).at(z).IsOpaque())
                             {
-                                chunk_data->at(x).at(y + 1).at(z).p_BlockType = GetUnderwaterBlock();
+                                chunk_data->at(x).at(y + 1).at(z).p_BlockType = GetUnderwaterBlock(cx, cz);
                             }
                         }
                     }
@@ -176,11 +178,11 @@ namespace Minecraft
         }
     }
 
-    BlockType GenerateFlower()
+    BlockType GenerateFlower(int cx, int cz)
     {
-        int r = rand() % 6;
+        Random random(cx + cz);
 
-        switch (r)
+        switch (random.UnsignedInt(6))
         {
         case 0:
             return BlockType::Flower_allium;
@@ -244,6 +246,8 @@ namespace Minecraft
         static CactusStructure WorldStructureCactus;
         WorldStructure* Structure = nullptr;
 
+        Random model_generator(chunk->p_Position.x + chunk->p_Position.z);
+
         if (gen_type == WorldGenerationType::Generation_Normal)
         {
             float generated_x = 0;
@@ -281,7 +285,7 @@ namespace Minecraft
                         Structure = &WorldStructureTree;
                         structure_freq = 50;
 
-                        int random_grassland = rand() % 12;
+                        int random_grassland = model_generator.UnsignedInt(12);
                         if (random_grassland < 7)
                         {
                             if (generated_y < water_max - 1)
@@ -297,7 +301,7 @@ namespace Minecraft
 
                         else if (random_grassland == 9 && generated_y > water_max + 2)
                         {
-                            model = GenerateFlower();
+                            model = GenerateFlower(chunk->p_Position.x, chunk->p_Position.z);
                         }
 
                         break;
@@ -308,7 +312,7 @@ namespace Minecraft
                         Structure = &WorldStructureCactus;
                         structure_freq = 75;
 
-                        int random_desert = rand() % 12;
+                        int random_desert = model_generator.UnsignedInt(12);
 
                         if (random_desert < 7)
                         {
