@@ -13,6 +13,8 @@ namespace Minecraft
 		m_Position = glm::vec3(0.0f, 0.0f, 0.0f);
 		m_Front = glm::vec3(0.0f, 0.0f, -1.0f);
 		m_Up = glm::vec3(0.0f, 1.0f, 0.0f);
+		m_Acceleration = glm::vec3(0.0f);
+		m_Velocity = glm::vec3(0.0f);
 
 		_Pitch = 0.0f;
 		_Yaw = 0.0f;
@@ -126,6 +128,22 @@ namespace Minecraft
 		m_zFar = zFar;
 
 		RecalculateProjectionMatrix();
+	}
+
+	void FPSCamera::OnUpdate()
+	{
+		constexpr float drag = 0.90f;
+
+		m_Velocity += m_Acceleration;
+		m_Velocity *= drag;
+
+		if (glm::length(m_Velocity) < 0.001) 
+		{
+			m_Velocity = glm::vec3(0.0f);
+		}
+		
+		m_Position += m_Velocity;
+		RecalculateViewMatrix();
 	}
 
 	void FPSCamera::RecalculateViewMatrix()

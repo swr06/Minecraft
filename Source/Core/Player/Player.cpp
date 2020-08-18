@@ -4,55 +4,55 @@ namespace Minecraft
 {
 	void Player::OnUpdate(GLFWwindow* window)
 	{
-		FPSCamera cam = p_Camera;
 		bool do_collision_check = false;
-		const float camera_speed = 0.35f;
+		const float camera_speed = 0.05f;
+
+		p_Camera.ResetAcceleration();
 
 		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		{
 			// Take the cross product of the camera's right and up.
 			glm::vec3 front = -glm::cross(p_Camera.GetRight(), p_Camera.GetUp());
-			cam.ChangePosition(front * camera_speed);
+			p_Camera.ApplyAcceleration(front * camera_speed);
 			do_collision_check = true;
 		}
 
 		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 		{
 			glm::vec3 back = glm::cross(p_Camera.GetRight(), p_Camera.GetUp());
-			cam.ChangePosition(back * camera_speed);
+			p_Camera.ApplyAcceleration(back * camera_speed);
 			do_collision_check = true;
 		}
 
 		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 		{
-			cam.ChangePosition(-(cam.GetRight() * camera_speed));
+			p_Camera.ApplyAcceleration(-(p_Camera.GetRight() * camera_speed));
 			do_collision_check = true;
 		}
 
 		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		{
-			cam.ChangePosition(cam.GetRight() * camera_speed);
+			p_Camera.ApplyAcceleration(p_Camera.GetRight() * camera_speed);
 			do_collision_check = true;
 		}
 
 		if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
 		{
-			cam.ChangePosition(cam.GetUp() * camera_speed);
+			p_Camera.ApplyAcceleration(p_Camera.GetUp() * camera_speed);
 			do_collision_check = true;
 		}
 
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 		{
-			cam.ChangePosition(-(cam.GetUp() * camera_speed));
+			p_Camera.ApplyAcceleration(-(p_Camera.GetUp() * camera_speed));
 			do_collision_check = true;
 		}
 
+		p_Camera.OnUpdate();
+
 		if (do_collision_check)
 		{
-			if (TestBlockCollision(cam.GetPosition()) == false)
-			{
-				p_Camera = cam;
-			}
+			// Todo : CHECK COLLISIONS
 		}
 
 		// Update the player's position
@@ -80,6 +80,21 @@ namespace Minecraft
 		}
 	}
 
+	static bool TestCollision(const glm::vec3& pos_1, const glm::vec3& dim_1, const glm::vec3& pos_2, const glm::vec3& dim_2)
+	{
+		if (pos_1.x < pos_2.x + dim_2.x &&
+			pos_1.x + dim_1.x > pos_2.x &&
+			pos_1.y < pos_2.y + dim_2.y &&
+			pos_1.y + dim_1.y > pos_2.y &&
+			pos_1.z < pos_2.z + dim_2.z &&
+			pos_1.z + dim_1.z > pos_2.z)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
 	bool Player::TestBlockCollision(const glm::vec3& position)
 	{
 		glm::vec3 blockMin = p_PlayerAABB.GetRelativeMinimum(position);
@@ -88,9 +103,6 @@ namespace Minecraft
 		if (position.y < CHUNK_SIZE_Y && blockMin.y < CHUNK_SIZE_Y && blockMax.y < CHUNK_SIZE_Y &&
 			position.y >= 0 && blockMin.y >= 0 && blockMax.y >= 0)
 		{
-			blockMin = glm::vec3(floor(blockMin.x), floor(blockMin.y), floor(blockMin.z));
-			blockMax = glm::vec3(floor(blockMax.x), floor(blockMax.y), floor(blockMax.z));
-
 			for (int x = blockMin.x; x <= blockMax.x; ++x)
 			{
 				for (int y = blockMin.y; y <= blockMax.y; ++y)

@@ -96,6 +96,23 @@ namespace Minecraft
 			return m_zFar;
 		}
 
+		inline void ResetAcceleration()
+		{
+			m_Acceleration = glm::vec3(0.0f);
+		}
+
+		inline void ResetVelocity()
+		{
+			m_Velocity = glm::vec3(0.0f);
+		}
+
+		inline void ApplyAcceleration(const glm::vec3& acceleration)
+		{
+			m_Acceleration = m_Acceleration + acceleration;
+		}
+
+		void OnUpdate();
+
 	private : 
 
 		void RecalculateViewMatrix();
@@ -110,6 +127,9 @@ namespace Minecraft
 		glm::vec3 m_Position;
 		glm::vec3 m_Front;
 		glm::vec3 m_Up;
+
+		glm::vec3 m_Acceleration;
+		glm::vec3 m_Velocity;
 
 		glm::mat4 m_ViewMatrix;
 		glm::mat4 m_ProjectionMatrix;
