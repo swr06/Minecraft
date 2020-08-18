@@ -50,6 +50,9 @@ This project compiles with Clang and MSVC.
 # Credits
 The block art, skybox art and fonts are not made by me. All credits go to their owners. 
 
+# Special Thanks
+Dan Bechard (Discord : @dandymcgee#2568)
+
 # License
 This project is under the MIT license. See LICENSE for more info
 
