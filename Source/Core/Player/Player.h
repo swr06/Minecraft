@@ -12,7 +12,7 @@ namespace Minecraft
 {
 	class World;
 	
-	Block* GetWorldBlock(const glm::vec3& block_pos);
+	Block* GetWorldBlock(const glm::vec3& block_pos);  
 
 	class Player
 	{
