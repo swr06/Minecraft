@@ -279,6 +279,10 @@ namespace Minecraft
 				const glm::vec3& ppos = m_World->p_Player->p_Position;
 				ppos_s << "Player Position =  X : " << ppos.x << " | Y : " << ppos.y << " | Z : " << ppos.z;
 				ImGui::Text(ppos_s.str().c_str());
+
+				stringstream player_colliding;
+				player_colliding << "Player is colliding : " << m_World->p_Player->p_IsColliding;
+				ImGui::Text(player_colliding.str().c_str());
 				
 				ImGui::End();
 			}

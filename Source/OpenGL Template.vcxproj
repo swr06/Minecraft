@@ -197,7 +197,6 @@
     <ClCompile Include="Core\OpenGL Classes\VertexArray.cpp" />
     <ClCompile Include="Core\OpenGL Classes\VertexBuffer.cpp" />
     <ClCompile Include="Core\OrthographicCamera.cpp" />
-    <ClCompile Include="Core\Physics\AABB.cpp" />
     <ClCompile Include="Core\Player\Player.cpp" />
     <ClCompile Include="Core\Renderer\Renderer.cpp" />
     <ClCompile Include="Core\Renderer\Renderer2D.cpp" />
@@ -250,7 +249,6 @@
     <ClInclude Include="Core\OpenGL Classes\VertexArray.h" />
     <ClInclude Include="Core\OpenGL Classes\VertexBuffer.h" />
     <ClInclude Include="Core\OrthographicCamera.h" />
-    <ClInclude Include="Core\Physics\AABB.h" />
     <ClInclude Include="Core\Player\Player.h" />
     <ClInclude Include="Core\Renderer\Renderer.h" />
     <ClInclude Include="Core\Renderer\Renderer2D.h" />

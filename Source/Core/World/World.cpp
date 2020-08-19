@@ -357,7 +357,8 @@ namespace Minecraft
 
 	void World::UnloadFarChunks()
 	{
-		// TODO : Unload chunks into a binary file
+
+
 		return;
 	}
 

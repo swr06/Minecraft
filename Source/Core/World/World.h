@@ -23,12 +23,9 @@
 #include "../Renderer/Renderer2D.h"
 #include "../Application/Events.h"
 #include "../Utils/Ray.h"
-#include "../Physics/AABB.h"
 #include "../Clouds/Cloud.h"
 #include "../CubeRenderer.h"
 #include "WorldGenerator.h"
-
-// TODO : Include ray cast class
 
 namespace Minecraft
 {

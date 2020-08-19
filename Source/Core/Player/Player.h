@@ -6,7 +6,6 @@
 #include "../FpsCamera.h"
 #include "../Block.h"
 #include "../Application/Events.h"
-#include "../Physics/AABB.h"
 
 namespace Minecraft
 {
@@ -18,7 +17,7 @@ namespace Minecraft
 	{
 	public : 
 
-		Player(float wx, float wy) : p_Camera(70.0f, wx / wy, 0.1, 100.0f), p_PlayerAABB(glm::vec3(-0.25f, -1.5f, -0.25f), glm::vec3(0.25f, 0.25f, 0.25f))
+		Player(float wx, float wy) : p_Camera(70.0f, wx / wy, 0.1, 100.0f)
 		{
 
 		}
@@ -30,8 +29,8 @@ namespace Minecraft
 		FPSCamera p_Camera;
 		glm::vec3 p_Position;
 		World* p_World;
-		AABB p_PlayerAABB;
 		std::uint8_t p_CurrentHeldBlock = 0;
+		bool p_IsColliding = false;
 
 	private : 
 
