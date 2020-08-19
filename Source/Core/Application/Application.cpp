@@ -270,6 +270,10 @@ namespace Minecraft
 
 			if (ImGui::Begin("Debug Text", &open, window_flags))
 			{
+				stringstream vsync;
+				vsync << "VSync : " << m_VSync;
+				ImGui::Text(vsync.str().c_str());
+
 				BlockType current_block = static_cast<BlockType>(m_World->p_Player->p_CurrentHeldBlock);
 				std::stringstream ss;
 				ss << "Current held block : " << BlockDatabase::GetBlockName(current_block).c_str();
@@ -283,6 +287,10 @@ namespace Minecraft
 				stringstream player_colliding;
 				player_colliding << "Player is colliding : " << m_World->p_Player->p_IsColliding;
 				ImGui::Text(player_colliding.str().c_str());
+
+				stringstream freefly;
+				freefly << "Freefly : " << m_World->p_Player->p_FreeFly;
+				ImGui::Text(freefly.str().c_str());
 				
 				ImGui::End();
 			}
@@ -594,6 +602,17 @@ namespace Minecraft
 			if (e.key == GLFW_KEY_ESCAPE && m_GameState == GameState::PlayingState)
 			{
 				m_GameState = GameState::PauseState;
+			}
+
+			else if (e.key == GLFW_KEY_ESCAPE && m_GameState == GameState::PauseState)
+			{
+				m_GameState = GameState::PlayingState;
+			}
+
+			else if (e.key == GLFW_KEY_V)
+			{
+				m_VSync = !m_VSync;
+				glfwSwapInterval(m_VSync);
 			}
 
 			break;

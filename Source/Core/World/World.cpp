@@ -12,7 +12,7 @@ namespace Minecraft
 		return;
 	}
 
-	bool TestCollision(const glm::vec3& pos_1, const glm::vec3& dim_1, const glm::vec3& pos_2, const glm::vec3& dim_2)
+	bool TestAABB3DCollision(const glm::vec3& pos_1, const glm::vec3& dim_1, const glm::vec3& pos_2, const glm::vec3& dim_2)
 	{
 		if (pos_1.x < pos_2.x + dim_2.x &&
 			pos_1.x + dim_1.x > pos_2.x &&
@@ -340,26 +340,26 @@ namespace Minecraft
 		return static_cast<BlockType>(RetrieveChunkFromMap(block_chunk_x, block_chunk_z)->p_ChunkContents.at(bx).at(by).at(bz).p_BlockType);
 	}
 
-	// Converts world pixel coordinates to world block position
-	glm::vec3 World::ConvertPositionToWorldBlockPosition(const glm::vec3& pos) noexcept
-	{
-		int block_chunk_x = static_cast<int>(floor(pos.x / CHUNK_SIZE_X));
-		int block_chunk_z = static_cast<int>(floor(pos.z / CHUNK_SIZE_Z));
-		int bx = pos.x - (block_chunk_x * CHUNK_SIZE_X);
-		int by = static_cast<int>(floor(pos.y));
-		int bz = pos.z - (block_chunk_z * CHUNK_SIZE_Z);
-
-		bx += block_chunk_x * CHUNK_SIZE_X;
-		bz += block_chunk_z * CHUNK_SIZE_Y;
-
-		return glm::vec3(bx, by, bz);
-	}
-
 	void World::UnloadFarChunks()
 	{
 
 
 		return;
+	}
+
+	bool World::TestRayPlayerCollision(const glm::vec3& ray_block)
+	{
+		glm::vec3 pos = glm::vec3(
+			p_Player->p_Position.x,
+			p_Player->p_Position.y,
+			p_Player->p_Position.z);
+
+		if (TestAABB3DCollision(pos, glm::vec3(0.75f, 1.5f, 0.75f), ray_block, glm::vec3(1.0f, 1.0f, 1.0f)))
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	void World::RayCast(bool place)
@@ -418,7 +418,7 @@ namespace Minecraft
 						auto& player_pos = p_Player->p_Position;
 						edit_block = GetBlockFromPosition(glm::vec3(position.x, position.y, position.z));
 
-						if (place && TestCollision(position, glm::vec3(1, 1, 1), p_Player->p_Position, glm::vec3(1, 2, 1)) == false)
+						if (place && !TestRayPlayerCollision(position))
 						{
 							edit_block.first->p_BlockType = static_cast<BlockType>(p_Player->p_CurrentHeldBlock);
 

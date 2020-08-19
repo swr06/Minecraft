@@ -31,9 +31,11 @@ namespace Minecraft
 		World* p_World;
 		std::uint8_t p_CurrentHeldBlock = 0;
 		bool p_IsColliding = false;
+		bool p_FreeFly = false;
 
 	private : 
 
-
+		bool m_IsJumping = false;
+		bool m_IsFalling = false;
 	};
 }

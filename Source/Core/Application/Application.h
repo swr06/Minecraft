@@ -59,6 +59,7 @@ namespace Minecraft
 
 		std::vector<EventSystem::Event> m_EventQueue;
 		bool m_CursorLocked;
+		bool m_VSync = true;
 		GameState m_GameState;
 		ImFont* m_Font;
 		Texture m_LogoTexture;

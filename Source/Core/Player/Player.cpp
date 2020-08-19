@@ -76,6 +76,14 @@ namespace Minecraft
 			}
 		}
 
+		else if (e.type == EventSystem::EventTypes::KeyPress)
+		{
+			if (e.key == GLFW_KEY_F)
+			{
+				p_FreeFly = !p_FreeFly;
+			}
+		}
+
 		else if (e.type == EventSystem::EventTypes::MouseMove)
 		{
 			p_Camera.UpdateOnMouseMovement(e.mx, e.my);
