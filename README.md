@@ -7,7 +7,7 @@ Created by Samuel Rasquinha using C++17 and OpenGL 3.3 :game_die:
 A Tiny Minecraft clone made with C++ and OpenGL. 
 
 # Current Features
-- 3D Perspective FPS style camera
+- 3D Perspective FPS style camera with smooth movement
 - Terrain generation using simplex noise
 - World structures such as trees and cactus
 - Biome generation by noise quantization 
