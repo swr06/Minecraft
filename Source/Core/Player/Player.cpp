@@ -117,13 +117,16 @@ namespace Minecraft
 			for (int j = player_block.y - block_range.y; j < player_block.y + block_range.y; j++)
 				for (int k = player_block.z - block_range.z; k < player_block.z + block_range.z; k++)
 				{
-					Block* block = GetWorldBlock(glm::vec3(i, j, k));
-
-					if (block->Collidable())
+					if (j < CHUNK_SIZE_Y && j >= 0)
 					{
-						if (Test3DAABBCollision(pos, glm::vec3(0.75f, 1.5f, 0.75f), glm::vec3(i, j, k), glm::vec3(1, 1, 1)))
+						Block* block = GetWorldBlock(glm::vec3(i, j, k));
+
+						if (block->Collidable())
 						{
-							return true;
+							if (Test3DAABBCollision(pos, glm::vec3(0.75f, 1.5f, 0.75f), glm::vec3(i, j, k), glm::vec3(1, 1, 1)))
+							{
+								return true;
+							}
 						}
 					}
 				}
