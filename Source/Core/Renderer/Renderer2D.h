@@ -27,6 +27,7 @@ namespace Minecraft
 		Renderer2D();
 	
 		void RenderQuad(const glm::vec2& position, GLClasses::Texture* texture, OrthographicCamera* camera);
+		void RenderQuad(const glm::vec2& position, GLClasses::Texture* texture, OrthographicCamera* camera, int w, int h);
 
 	private : 
 

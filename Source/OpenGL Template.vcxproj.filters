@@ -137,6 +137,9 @@
     <ClCompile Include="Core\BlockDatabase.cpp">
       <Filter>Minecraft\Block</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Application\PlatformSpecific.cpp">
+      <Filter>Minecraft\Application</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\OpenGL Classes\Fps.h">
@@ -300,6 +303,9 @@
     </ClInclude>
     <ClInclude Include="Core\BlockDatabase.h">
       <Filter>Minecraft\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Application\PlatformSpecific.h">
+      <Filter>Minecraft\Application</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

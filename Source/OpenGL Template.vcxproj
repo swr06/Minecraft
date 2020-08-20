@@ -162,6 +162,7 @@
   <ItemGroup>
     <ClCompile Include="Core\Application\Application.cpp" />
     <ClCompile Include="Core\Application\Events.cpp" />
+    <ClCompile Include="Core\Application\PlatformSpecific.cpp" />
     <ClCompile Include="Core\Audio\Audio.cpp" />
     <ClCompile Include="Core\Audio\OpenALFunctions.cpp" />
     <ClCompile Include="Core\Block.cpp" />
@@ -214,6 +215,7 @@
     <ClInclude Include="Core\Application\Application.h" />
     <ClInclude Include="Core\Application\Events.h" />
     <ClInclude Include="Core\Application\EventStructs.h" />
+    <ClInclude Include="Core\Application\PlatformSpecific.h" />
     <ClInclude Include="Core\Audio\alut.h" />
     <ClInclude Include="Core\Audio\Audio.h" />
     <ClInclude Include="Core\Audio\OpenALFunctions.h" />

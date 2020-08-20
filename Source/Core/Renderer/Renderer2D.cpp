@@ -54,4 +54,42 @@ namespace Minecraft
 
         glEnable(GL_DEPTH_TEST);
 	}
+
+    void Renderer2D::RenderQuad(const glm::vec2& position, GLClasses::Texture* texture, OrthographicCamera* camera, int w, int h)
+    {
+        glDisable(GL_DEPTH_TEST);
+        glDisable(GL_CULL_FACE);
+
+        const std::array<GLfloat, 8> texture_coords = texture->GetTextureCoords();
+
+        float x, y;
+
+        x = position.x;
+        y = position.y;
+
+        float width = static_cast<float>(w);
+        float height = static_cast<float>(h);
+
+        GLfloat Vertices[] = {
+            width, y, 1.0f, texture_coords[0], texture_coords[1],
+            width, height, 1.0f, texture_coords[2], texture_coords[3],
+            x, height, 1.0f, texture_coords[4], texture_coords[5],
+            x, y, 1.0f, texture_coords[6], texture_coords[7],
+        };
+
+        m_DefaultShader.Use();
+        texture->Bind(1);
+        m_DefaultShader.SetMatrix4("u_Projection", camera->GetProjectionMatrix(), 0);
+        m_DefaultShader.SetMatrix4("u_View", camera->GetViewMatrix(), 0);
+        m_DefaultShader.SetMatrix4("u_Model", glm::mat4(1.0f), 0);
+        m_DefaultShader.SetInteger("u_Texture", 1, 0);
+
+        // Draw the 2D quad 
+        m_VAO.Bind();
+        m_VBO.BufferData(20 * sizeof(GLfloat), Vertices, GL_STATIC_DRAW);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)0);
+        m_VAO.Unbind();
+
+        glEnable(GL_DEPTH_TEST);
+    }
 }

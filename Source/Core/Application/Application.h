@@ -23,6 +23,7 @@
 #include "../UI/GUI.h"
 
 #include "../Clouds/Cloud.h"
+#include "PlatformSpecific.h"
 
 namespace Minecraft
 {
@@ -60,12 +61,14 @@ namespace Minecraft
 		std::vector<EventSystem::Event> m_EventQueue;
 		bool m_CursorLocked;
 		bool m_VSync = true;
+		bool m_ShowDebugInfo = false;
 		GameState m_GameState;
 		ImFont* m_Font;
 		Texture m_LogoTexture;
 		Texture m_BlurMenuBackground;
 		Renderer2D* m_Renderer2D;
 		OrthographicCamera m_OrthagonalCamera;
+		PlatformSpecific::ProcessDebugInfo m_ProcDebugInfo;
 	};
 
 	extern Application MinecraftApplication;

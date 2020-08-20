@@ -66,7 +66,7 @@ namespace Minecraft
 		fprintf(stderr, "GLFW ERROR!   %d: %s\n", error, description);
 	}
 
-	static bool FilenameIsValid(const std::string& filepath)
+	bool FilenameIsValid(const std::string& filepath)
 	{
 		FILE* file;
 
@@ -81,6 +81,7 @@ namespace Minecraft
 		{
 			fclose(file);
 			std::filesystem::remove(filepath);
+			return true;
 		}
 	}
 
@@ -237,6 +238,13 @@ namespace Minecraft
 		GLClasses::DisplayFrameRate(m_Window, "A Tiny Minecraft Clone V0.01 By Samuel Rasquinha");
 		glfwSwapBuffers(m_Window);
 		glfwPollEvents();
+
+		// Obtain the debug info every second
+		
+		if (std::remainderf(glfwGetTime(), 2.0f) <= 0.0f)
+		{
+			PlatformSpecific::GetProcDebugInfo(m_ProcDebugInfo);
+		}
 	}
 
 	void Application::OnImGuiRender()
@@ -270,28 +278,28 @@ namespace Minecraft
 
 			if (ImGui::Begin("Debug Text", &open, window_flags))
 			{
-				stringstream vsync;
-				vsync << "VSync : " << m_VSync;
-				ImGui::Text(vsync.str().c_str());
-
+				stringstream ss;
 				BlockType current_block = static_cast<BlockType>(m_World->p_Player->p_CurrentHeldBlock);
-				std::stringstream ss;
-				ss << "Current held block : " << BlockDatabase::GetBlockName(current_block).c_str();
+				const glm::vec3& pos = m_World->p_Player->p_Position;
+
+				ss << "VSync : " << m_VSync << "\n";
+				ss << "Current held block : " << BlockDatabase::GetBlockName(current_block).c_str() << "\n";
+				ss << "Player Position =  X : " << pos.x << " | Y : " << pos.y << " | Z : " << pos.z << "\n"; 
+				ss << "Player is colliding : " << m_World->p_Player->p_IsColliding << "\n";
+				ss << "Freefly : " << m_World->p_Player->p_FreeFly << "\n";
 				ImGui::Text(ss.str().c_str());
-
-				stringstream ppos_s;
-				const glm::vec3& ppos = m_World->p_Player->p_Position;
-				ppos_s << "Player Position =  X : " << ppos.x << " | Y : " << ppos.y << " | Z : " << ppos.z;
-				ImGui::Text(ppos_s.str().c_str());
-
-				stringstream player_colliding;
-				player_colliding << "Player is colliding : " << m_World->p_Player->p_IsColliding;
-				ImGui::Text(player_colliding.str().c_str());
-
-				stringstream freefly;
-				freefly << "Freefly : " << m_World->p_Player->p_FreeFly;
-				ImGui::Text(freefly.str().c_str());
 				
+				if (m_ShowDebugInfo)
+				{
+					std::stringstream debug_ss;
+
+					debug_ss << "Total CPU Used : " << m_ProcDebugInfo.cpu_usage << "\n";
+					debug_ss << "Total Memory : " << m_ProcDebugInfo.total_mem << "  /  " << m_ProcDebugInfo.total_mem_used << "\n";
+					debug_ss << "Total Virtual Memory : " << m_ProcDebugInfo.total_vm << "  /  " << m_ProcDebugInfo.total_vm_used << "\n";
+					debug_ss << "CPU Usage : " << m_ProcDebugInfo.cpu_usage << "\n";
+					ImGui::Text(debug_ss.str().c_str());
+				}
+
 				ImGui::End();
 			}
 		}
@@ -311,8 +319,11 @@ namespace Minecraft
 			logo_y = h - m_LogoTexture.GetHeight();
 			logo_y -= h * 0.15f;
 
-			m_Renderer2D->RenderQuad(glm::vec2(0, 0), &m_BlurMenuBackground, &m_OrthagonalCamera);
-			m_Renderer2D->RenderQuad(glm::vec2(logo_x, logo_y), &m_LogoTexture, &m_OrthagonalCamera);
+			float logo_width = w - (w * 0.10);
+			float logo_height = h - (h * 0.15);
+
+			m_Renderer2D->RenderQuad(glm::vec2(0, 0), &m_BlurMenuBackground, &m_OrthagonalCamera, w, h);
+			m_Renderer2D->RenderQuad(glm::vec2(logo_x, logo_y), &m_LogoTexture, &m_OrthagonalCamera, logo_width, logo_height);
 			glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
 			bool open = true;
@@ -359,7 +370,7 @@ namespace Minecraft
 
 		else if (m_GameState == GameState::PauseState)
 		{
-			m_Renderer2D->RenderQuad(glm::vec2(0, 0), &m_BlurMenuBackground, &m_OrthagonalCamera);
+			m_Renderer2D->RenderQuad(glm::vec2(0, 0), &m_BlurMenuBackground, &m_OrthagonalCamera, w, h);
 			glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
 			bool open = true;
@@ -402,7 +413,7 @@ namespace Minecraft
 
 		else if (m_GameState == GameState::WorldSelectState)
 		{
-			m_Renderer2D->RenderQuad(glm::vec2(0, 0), &m_BlurMenuBackground, &m_OrthagonalCamera);
+			m_Renderer2D->RenderQuad(glm::vec2(0, 0), &m_BlurMenuBackground, &m_OrthagonalCamera, w, h);
 
 			if (std::filesystem::exists("Saves/"))
 			{
@@ -469,7 +480,7 @@ namespace Minecraft
 
 		else if (m_GameState == GameState::WorldCreateState)
 		{
-			m_Renderer2D->RenderQuad(glm::vec2(0, 0), &m_BlurMenuBackground, &m_OrthagonalCamera);
+			m_Renderer2D->RenderQuad(glm::vec2(0, 0), &m_BlurMenuBackground, &m_OrthagonalCamera, w, h);
 
 			glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
@@ -511,8 +522,7 @@ namespace Minecraft
 
 				if (ImGui::Button("Create!", ImVec2(200,200)))
 				{
-					//bool isValid = FilenameIsValid(input);
-					bool isValid = true;
+					bool isValid = FilenameIsValid(input);
 
 					if (isValid)
 					{
@@ -533,7 +543,7 @@ namespace Minecraft
 
 		else if (m_GameState == GameState::HelpState)
 		{
-			m_Renderer2D->RenderQuad(glm::vec2(0, 0), &m_BlurMenuBackground, &m_OrthagonalCamera);
+			m_Renderer2D->RenderQuad(glm::vec2(0, 0), &m_BlurMenuBackground, &m_OrthagonalCamera, w, h);
 			glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
 			bool open = true;
@@ -564,10 +574,11 @@ namespace Minecraft
 				ImGui::Text("All art and resources are not mine. Credits go to their respective owners");
 				ImGui::Text("\n\n");
 				ImGui::Text("Instructions : ");
+				ImGui::Text("TOGGLE DEBUG MENU : F3");
 				ImGui::Text("MOVEMENT - W S A D");
 				ImGui::Text("FLY - SPACE/LEFT SHIFT");
 				ImGui::Text("BLOCK EDITING - LEFT/RIGHT MOUSE BUTTONS");
-				ImGui::Text("CHANGE CURRENT BLOCK - (Q)");
+				ImGui::Text("CHANGE CURRENT BLOCK - (Q) or (E)");
 
 				ImGui::End();
 			}
@@ -602,6 +613,11 @@ namespace Minecraft
 			if (e.key == GLFW_KEY_ESCAPE && m_GameState == GameState::PlayingState)
 			{
 				m_GameState = GameState::PauseState;
+			}
+
+			else if (e.key == GLFW_KEY_F3 && m_GameState == GameState::PlayingState)
+			{
+				m_ShowDebugInfo = !m_ShowDebugInfo;
 			}
 
 			else if (e.key == GLFW_KEY_ESCAPE && m_GameState == GameState::PauseState)
