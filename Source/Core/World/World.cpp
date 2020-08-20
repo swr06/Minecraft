@@ -50,7 +50,8 @@ namespace Minecraft
 		p_Player = new Player(window_size.x, window_size.y);
 
 		// Set the players position
-		p_Player->p_Camera.SetPosition(glm::vec3(0, 140, 0));
+		p_Player->p_Position=glm::vec3(0, 140, 0);
+		p_Player->p_Camera.SetPosition(p_Player->p_Position);
 
 		Logger::LogToConsole("The World was Constructed!");
 
