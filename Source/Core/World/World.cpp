@@ -263,13 +263,21 @@ namespace Minecraft
 			}
 		}
 
-		if (e.type == EventSystem::EventTypes::KeyPress && e.key == GLFW_KEY_Q)
+		if (e.type == EventSystem::EventTypes::KeyPress && e.key == GLFW_KEY_E)
 		{
 			p_Player->p_CurrentHeldBlock++;
 
 			if (p_Player->p_CurrentHeldBlock == BlockType::Water)
 			{
 				p_Player->p_CurrentHeldBlock = BlockType::Grass;
+			}
+		}
+
+		if (e.type == EventSystem::EventTypes::KeyPress && e.key == GLFW_KEY_Q)
+		{
+			if (p_Player->p_CurrentHeldBlock > BlockType::Grass)
+			{
+				p_Player->p_CurrentHeldBlock--;
 			}
 		}
 
