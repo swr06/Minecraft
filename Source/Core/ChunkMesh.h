@@ -26,9 +26,11 @@ namespace Minecraft
 {
 	class Chunk;
 	typedef std::array<std::array<std::array<Block, CHUNK_SIZE_X>, CHUNK_SIZE_Y>, CHUNK_SIZE_Z>* ChunkDataTypePtr;
+	typedef std::array<std::array<std::array<uint8_t, CHUNK_SIZE_X>, CHUNK_SIZE_Y>, CHUNK_SIZE_Z>* ChunkLightDataTypePtr;
 
 	// Forward declarations
 	ChunkDataTypePtr _GetChunkDataForMeshing(int cx, int cz);
+	ChunkLightDataTypePtr _GetChunkLightDataForMeshing(int cx, int cz);
 
 	class ChunkMesh
 	{
@@ -48,7 +50,7 @@ namespace Minecraft
 
 	private : 
 
-		void AddFace(BlockFaceType face_type, const glm::vec3& position, BlockType type, float light_level,
+		void AddFace(Chunk* chunk, BlockFaceType face_type, const glm::vec3& position, BlockType type, float light_level,
 			bool buffer = true);
 
 		void AddModel(const glm::vec3& position, BlockType type, float light_level);

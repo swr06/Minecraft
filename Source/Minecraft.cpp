@@ -52,6 +52,17 @@ namespace Minecraft
         return nullptr;
     }
 
+    ChunkLightDataTypePtr _GetChunkLightDataForMeshing(int cx, int cz)
+    {
+        if (MinecraftApplication.GetWorld() && MinecraftApplication.GetWorld()->ChunkExistsInMap(cx, cz))
+        {
+            Chunk* chunk = MinecraftApplication.GetWorld()->RetrieveChunkFromMap(cx, cz);
+            return &chunk->p_ChunkLightInformation;
+        }
+
+        return nullptr;
+    }
+
     Block* GetWorldBlock(const glm::vec3& block_pos)
     {
         std::pair<Block*, Chunk*> block = MinecraftApplication.GetWorld()->GetBlockFromPosition(block_pos);
