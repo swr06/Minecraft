@@ -515,6 +515,7 @@ namespace Minecraft
 				ImGui::InputInt("Seed", &seed);
 				ImGui::Text("\n\n");
 				ImGui::RadioButton("Normal", &world_type, (int)WorldGenerationType::Generation_Normal);
+				ImGui::RadioButton("Normal without caves (Faster)", &world_type, (int)WorldGenerationType::Generation_Normal_withoutcaves);
 				ImGui::RadioButton("Flat", &world_type, (int)WorldGenerationType::Generation_Flat);
 				ImGui::RadioButton("Flat without Structures", &world_type, (int)WorldGenerationType::Generation_FlatWithoutStructures);
 

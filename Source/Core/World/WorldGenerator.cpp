@@ -46,35 +46,43 @@ namespace Minecraft
 
         for (int i = 0; i < y_level; i++)
         {
-            if (biome == Biome::Grassland)
+            if (i > 1)
             {
-                if (i >= y_level - 1)
+                if (biome == Biome::Grassland)
                 {
-                    chunk->SetBlock(BlockType::Grass, glm::vec3(x, i, z));
+                    if (i >= y_level - 1)
+                    {
+                        chunk->SetBlock(BlockType::Grass, glm::vec3(x, i, z));
+                    }
+
+                    else if (i >= y_level - 5)
+                    {
+                        chunk->SetBlock(BlockType::Dirt, glm::vec3(x, i, z));
+                    }
+
+                    else
+                    {
+                        chunk->SetBlock(BlockType::Stone, glm::vec3(x, i, z));
+                    }
                 }
 
-                else if (i >= y_level - 5)
+                else if (biome == Biome::Desert)
                 {
-                    chunk->SetBlock(BlockType::Dirt, glm::vec3(x, i, z));
-                }
+                    if (i >= y_level - 6)
+                    {
+                        chunk->SetBlock(BlockType::Sand, glm::vec3(x, i, z));
+                    }
 
-                else
-                {
-                    chunk->SetBlock(BlockType::Stone, glm::vec3(x, i, z));
+                    else
+                    {
+                        chunk->SetBlock(BlockType::Stone, glm::vec3(x, i, z));
+                    }
                 }
             }
 
-            else if (biome == Biome::Desert)
+            else
             {
-                if (i >= y_level - 6)
-                {
-                    chunk->SetBlock(BlockType::Sand, glm::vec3(x, i, z));
-                }
-
-                else
-                {
-                    chunk->SetBlock(BlockType::Stone, glm::vec3(x, i, z));
-                }
+                chunk->SetBlock(BlockType::Bedrock, glm::vec3(x, i, z));
             }
         }
 
@@ -294,7 +302,7 @@ namespace Minecraft
 
         Random model_generator(chunk->p_Position.x + chunk->p_Position.z);
 
-        if (gen_type == WorldGenerationType::Generation_Normal)
+        if (gen_type == WorldGenerationType::Generation_Normal || gen_type == WorldGenerationType::Generation_Normal_withoutcaves)
         {
             float generated_x = 0;
             float generated_y = 0;
@@ -406,7 +414,10 @@ namespace Minecraft
 
             AddWaterBlocks(chunk);
 
-            GenerateCaves(chunk, WorldSeed);
+            if (gen_type == WorldGenerationType::Generation_Normal)
+            {
+                GenerateCaves(chunk, WorldSeed);
+            }
         }
 
         else if (gen_type == WorldGenerationType::Generation_Flat || gen_type == WorldGenerationType::Generation_FlatWithoutStructures)
