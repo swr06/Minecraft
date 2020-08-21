@@ -160,8 +160,8 @@ namespace Minecraft
 		glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		m_CursorLocked = true;
 
-		if (glfwRawMouseMotionSupported())
-			glfwSetInputMode(m_Window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+//		if (glfwRawMouseMotionSupported())
+//			glfwSetInputMode(m_Window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
 
 		GUI::InitUISystem(m_Window);
 
