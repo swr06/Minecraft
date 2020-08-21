@@ -1,5 +1,5 @@
 [![discord](https://img.shields.io/discord/746366936937660527.svg?logo=discord "Discord")](https://discord.gg/ApTJcVN)
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square "License")](https://github.com/caseymcc/HastyNoise/blob/master/LICENSE)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square "License")](https://github.com/swr06/Minecraft/blob/master/LICENSE)
 ![hunter](https://img.shields.io/badge/hunter-ATMC-blue.svg)
 
 ![Minecraft Logo](https://github.com/swr06/Minecraft/blob/master/Screenshots/logo.png)
