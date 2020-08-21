@@ -92,7 +92,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Core\Dependencies\GLEW\include;$(SolutionDir)Core\Dependencies\GLFW\include;$(SolutionDir)Core\Dependencies\glm</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Core\Dependencies\GLEW\include;$(SolutionDir)Core\Dependencies\GLFW\include;$(SolutionDir)Core\Dependencies\glm;$(SolutionDir)Core\Dependencies\imgui</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>

@@ -121,35 +121,25 @@ namespace Minecraft
 
 		const glm::ivec3 block_range = { 2, 2, 2 };
 
-		for(int i=player_block.x - block_range.x; i < player_block.x + block_range.x; i++)
-		{
-			if(i >= CHUNK_SIZE_X || i < 0)
-				continue;
-
-			for(int j=player_block.y - block_range.y; j < player_block.y + block_range.y; j++)
-			{
-				if(j >= CHUNK_SIZE_Y || j < 0)
-					continue;
-
-				for(int k=player_block.z - block_range.z; k < player_block.z + block_range.z; k++)
+		for (int i = player_block.x - block_range.x; i < player_block.x + block_range.x; i++)
+			for (int j = player_block.y - block_range.y; j < player_block.y + block_range.y; j++)
+				for (int k = player_block.z - block_range.z; k < player_block.z + block_range.z; k++)
 				{
-					if(k >= CHUNK_SIZE_Z || k < 0)
-						continue;
-
-					Block* block=GetWorldBlock(glm::vec3(i, j, k));
-
-					if(block->Collidable())
+					if (j < CHUNK_SIZE_Y && j >= 0)
 					{
-						if(Test3DAABBCollision(pos, glm::vec3(0.75f, 1.5f, 0.75f), glm::vec3(i, j, k), glm::vec3(1, 1, 1)))
+						Block* block = GetWorldBlock(glm::vec3(i, j, k));
+
+						if (block && block->Collidable())
 						{
-							return true;
+							if (Test3DAABBCollision(pos, glm::vec3(0.75f, 1.5f, 0.75f), glm::vec3(i, j, k), glm::vec3(1, 1, 1)))
+							{
+								return true;
+							}
 						}
 					}
 				}
-			}
-		}
 
 		return false;
-	
+
 	}
 }
