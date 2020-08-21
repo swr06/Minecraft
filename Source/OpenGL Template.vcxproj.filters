@@ -88,7 +88,6 @@
     <ClCompile Include="Core\Utils\Raycast.cpp">
       <Filter>Minecraft\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="Minecraft.cpp" />
     <ClCompile Include="Core\OpenGL Classes\stb_image.cpp">
       <Filter>Abstract OpenGL\Texturing\stb_image</Filter>
     </ClCompile>
@@ -140,6 +139,7 @@
     <ClCompile Include="Core\Application\PlatformSpecific.cpp">
       <Filter>Minecraft\Application</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\OpenGL Classes\Fps.h">

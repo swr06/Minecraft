@@ -98,8 +98,18 @@ namespace Minecraft
 		bool IsTransparent() const
 		{
 			if (p_BlockType == BlockType::Water || p_BlockType == BlockType::Lava 
-				|| p_BlockType == BlockType::GlassWhite || p_BlockType == BlockType::Cactus || p_BlockType == BlockType::OakLeaves ||
+				|| p_BlockType == BlockType::GlassWhite || p_BlockType == BlockType::OakLeaves ||
 				p_BlockType == BlockType::SpruceLeaves  ||  IsModel())
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		bool IsLightPropogatable() const 
+		{
+			if (p_BlockType == BlockType::Water || p_BlockType == BlockType::GlassWhite || p_BlockType == BlockType::Air || IsModel())
 			{
 				return true;
 			}

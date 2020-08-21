@@ -137,6 +137,12 @@ namespace Minecraft
 						// To fix chunk edge mesh building issues, both faces are added if it is in the edge
 
 						float light_level = ChunkLData->at(x).at(y).at(z);
+
+						if (y >= 0 && y < CHUNK_SIZE_Y)
+						{
+							light_level = ChunkLData->at(x).at(y + 1).at(z);
+						}
+
 						world_position.x = chunk_pos.x * CHUNK_SIZE_X + x;
 						world_position.y = 0 * CHUNK_SIZE_Y + y;
 						world_position.z = chunk_pos.z * CHUNK_SIZE_Z + z;

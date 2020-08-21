@@ -209,7 +209,7 @@
     <ClCompile Include="Core\World\Structures\WorldStructures.cpp" />
     <ClCompile Include="Core\World\World.cpp" />
     <ClCompile Include="Core\World\WorldGenerator.cpp" />
-    <ClCompile Include="Minecraft.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Application\Application.h" />

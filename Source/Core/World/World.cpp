@@ -733,7 +733,7 @@ namespace Minecraft
 
 			if (x > 0)
 			{
-				if (chunk->GetBlock(x - 1, y, z)->p_BlockType == BlockType::Air && chunk->GetTorchLightAt(x - 1, y, z) + 2 <= light_level)
+				if (chunk->GetBlock(x - 1, y, z)->IsLightPropogatable() && chunk->GetTorchLightAt(x - 1, y, z) + 2 <= light_level)
 				{
 					chunk->SetTorchLightAt(x - 1, y, z, light_level - 1);
 					m_LightBFSQueue.push({ glm::vec3(x - 1, y, z), chunk });
@@ -744,7 +744,7 @@ namespace Minecraft
 
 			else if (x == 0)
 			{
-				if (left_chunk->GetBlock(CHUNK_SIZE_X - 1, y, z)->p_BlockType == BlockType::Air && left_chunk->GetTorchLightAt(CHUNK_SIZE_X - 1, y, z) + 2 <= light_level)
+				if (left_chunk->GetBlock(CHUNK_SIZE_X - 1, y, z)->IsLightPropogatable() && left_chunk->GetTorchLightAt(CHUNK_SIZE_X - 1, y, z) + 2 <= light_level)
 				{
 					left_chunk->SetTorchLightAt(CHUNK_SIZE_X - 1, y, z, light_level - 1);
 					m_LightBFSQueue.push({ glm::vec3(CHUNK_SIZE_X - 1, y, z), left_chunk });
@@ -755,7 +755,7 @@ namespace Minecraft
 
 			if (x < CHUNK_SIZE_X - 1)
 			{
-				if (chunk->GetBlock(x + 1, y, z)->p_BlockType == BlockType::Air && chunk->GetTorchLightAt(x + 1, y, z) + 2 <= light_level)
+				if (chunk->GetBlock(x + 1, y, z)->IsLightPropogatable() && chunk->GetTorchLightAt(x + 1, y, z) + 2 <= light_level)
 				{
 					chunk->SetTorchLightAt(x + 1, y, z, light_level - 1);
 					m_LightBFSQueue.push({ glm::vec3(x + 1, y, z), chunk });
@@ -766,7 +766,7 @@ namespace Minecraft
 
 			else if (x == CHUNK_SIZE_X - 1)
 			{
-				if (right_chunk->GetBlock(0, y, z)->p_BlockType == BlockType::Air && right_chunk->GetTorchLightAt(0, y, z) + 2 <= light_level)
+				if (right_chunk->GetBlock(0, y, z)->IsLightPropogatable() && right_chunk->GetTorchLightAt(0, y, z) + 2 <= light_level)
 				{
 					right_chunk->SetTorchLightAt(0, y, z, light_level - 1);
 					m_LightBFSQueue.push({ glm::vec3(0, y, z), right_chunk });
@@ -777,7 +777,7 @@ namespace Minecraft
 
 			if (y > 0)
 			{
-				if (chunk->GetBlock(x, y - 1, z)->p_BlockType == BlockType::Air && chunk->GetTorchLightAt(x, y - 1, z) + 2 <= light_level)
+				if (chunk->GetBlock(x, y - 1, z)->IsLightPropogatable() && chunk->GetTorchLightAt(x, y - 1, z) + 2 <= light_level)
 				{
 					chunk->SetTorchLightAt(x, y - 1, z, light_level - 1);
 					m_LightBFSQueue.push({ glm::vec3(x, y - 1, z), chunk });
@@ -788,7 +788,7 @@ namespace Minecraft
 
 			if (y < CHUNK_SIZE_Y - 1)
 			{
-				if (chunk->GetBlock(x, y + 1, z)->p_BlockType == BlockType::Air && chunk->GetTorchLightAt(x, y + 1, z) + 2 <= light_level)
+				if (chunk->GetBlock(x, y + 1, z)->IsLightPropogatable() && chunk->GetTorchLightAt(x, y + 1, z) + 2 <= light_level)
 				{
 					chunk->SetTorchLightAt(x, y + 1, z, light_level - 1);
 					m_LightBFSQueue.push({ glm::vec3(x, y + 1, z), chunk });
@@ -799,7 +799,7 @@ namespace Minecraft
 
 			if (z > 0)
 			{
-				if (chunk->GetBlock(x, y, z - 1)->p_BlockType == BlockType::Air && chunk->GetTorchLightAt(x, y, z - 1) + 2 <= light_level)
+				if (chunk->GetBlock(x, y, z - 1)->IsLightPropogatable() && chunk->GetTorchLightAt(x, y, z - 1) + 2 <= light_level)
 				{
 					chunk->SetTorchLightAt(x, y, z - 1, light_level - 1);
 					m_LightBFSQueue.push({ glm::vec3(x, y, z - 1), chunk });
@@ -810,7 +810,7 @@ namespace Minecraft
 
 			else if (z == 0)
 			{
-				if (back_chunk->GetBlock(x, y, CHUNK_SIZE_Z - 1)->p_BlockType == BlockType::Air && back_chunk->GetTorchLightAt(x, y, CHUNK_SIZE_Z - 1) + 2 <= light_level)
+				if (back_chunk->GetBlock(x, y, CHUNK_SIZE_Z - 1)->IsLightPropogatable() && back_chunk->GetTorchLightAt(x, y, CHUNK_SIZE_Z - 1) + 2 <= light_level)
 				{
 					back_chunk->SetTorchLightAt(x, y, CHUNK_SIZE_Z - 1, light_level - 1);
 					m_LightBFSQueue.push({ glm::vec3(x, y, CHUNK_SIZE_Z - 1), back_chunk });
@@ -821,7 +821,7 @@ namespace Minecraft
 
 			if (z < CHUNK_SIZE_Z - 1)
 			{
-				if (chunk->GetBlock(x, y, z + 1)->p_BlockType == BlockType::Air && chunk->GetTorchLightAt(x, y, z + 1) + 2 <= light_level)
+				if (chunk->GetBlock(x, y, z + 1)->IsLightPropogatable() && chunk->GetTorchLightAt(x, y, z + 1) + 2 <= light_level)
 				{
 					chunk->SetTorchLightAt(x, y, z + 1, light_level - 1);
 					m_LightBFSQueue.push({ glm::vec3(x, y, z + 1), chunk });
@@ -832,7 +832,7 @@ namespace Minecraft
 
 			else if (z == CHUNK_SIZE_Z - 1)
 			{
-				if (front_chunk->GetBlock(x, y, 0)->p_BlockType == BlockType::Air && front_chunk->GetTorchLightAt(x, y, 0) + 2 <= light_level)
+				if (front_chunk->GetBlock(x, y, 0)->IsLightPropogatable() && front_chunk->GetTorchLightAt(x, y, 0) + 2 <= light_level)
 				{
 					front_chunk->SetTorchLightAt(x, y, 0, light_level - 1);
 					m_LightBFSQueue.push({ glm::vec3(x, y, 0), front_chunk });

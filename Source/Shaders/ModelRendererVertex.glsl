@@ -33,6 +33,7 @@ void main()
 	v_Visibility = clamp(v_Visibility, 0.0f, 1.0f);
 
 	float lighting_level = a_LightingLevel ;	
+	lighting_level /= 2;
 	lighting_level /= 10;
 
 	v_SunlightIntensity = max(u_SunPositionY / 1000.0f, 0.6f);
