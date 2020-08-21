@@ -74,10 +74,10 @@ namespace Minecraft
 #endif
 
 #ifdef _LINUX
-		ProcessDebugInfo GetProcDebugInfo()
+		void GetProcDebugInfo(ProcessDebugInfo& info)
 		{
-			ProcessDebugInfo info = { 0,0,0,0,0 };
-			return info;
+			// TODO : Get this on linux
+			info = { 0, 0, 0, 0, 0 };
 		}
 #endif 
 	}
