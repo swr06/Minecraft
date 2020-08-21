@@ -25,19 +25,11 @@
 #include "../Utils/Ray.h"
 #include "../Clouds/Cloud.h"
 #include "../CubeRenderer.h"
+#include "WorldGeneratorType.h"
 #include "WorldGenerator.h"
 
 namespace Minecraft
 {
-	enum WorldGenerationType 
-	{
-		Generation_Normal = 0,
-		Generation_Normal_withoutcaves,
-		Generation_Hilly,
-		Generation_Flat,
-		Generation_FlatWithoutStructures
-	};
-
 	enum CurrentSunCycle
 	{
 		Sun_Setting,

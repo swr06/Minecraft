@@ -11,6 +11,7 @@
 #include "../Noise/FastNoise.h"
 
 #include "World.h"
+#include "WorldGeneratorType.h"
 #include "Structures/WorldStructures.h"
 #include "../Chunk.h"
 #include "../Utils/Random.h"
@@ -18,8 +19,6 @@
 
 namespace Minecraft
 {
-	enum WorldGenerationType;
-
 	enum Biome
 	{
 		Grassland = 9,
