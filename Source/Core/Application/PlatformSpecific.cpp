@@ -71,9 +71,7 @@ namespace Minecraft
 			info.cpu_usage = percent;
 		}
 
-#endif
-
-#ifdef _LINUX
+#else
 		void GetProcDebugInfo(ProcessDebugInfo& info)
 		{
 			// TODO : Get this on linux

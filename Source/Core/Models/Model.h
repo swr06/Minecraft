@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 
-#include <gl/glew.h>
+#include <GL/glew.h>
 
 #include "../Utils/Defs.h"
 #include "../BlockDatabase.h"
