@@ -45,4 +45,10 @@ namespace GLClasses
 		glVertexAttribPointer(index, size, type, normalized, stride, pointer);
 		glEnableVertexAttribArray(index);
 	}
+	void VertexBuffer::VertexAttribIPointer(GLuint index, GLint size, GLenum type, GLsizei stride, const GLvoid* pointer)
+	{
+		this->Bind();
+		glVertexAttribIPointer(index, size, type, stride, pointer);
+		glDisableVertexAttribArray(index);
+	}
 }
