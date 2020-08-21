@@ -52,6 +52,7 @@ The block art, skybox art and fonts are not made by me. All credits go to their 
 
 # Special Thanks
 Dan Bechard (Discord : @dandymcgee#2568)
+Krazer (Discord : @Krazer7877)
 
 # References 
 1) https://www.seedofandromeda.com/blogs/29-fast-flood-fill-lighting-in-a-blocky-voxel-game-pt-1
