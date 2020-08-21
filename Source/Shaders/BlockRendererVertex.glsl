@@ -1,7 +1,7 @@
 #version 330 core
 layout (location = 0) in vec3 a_Position;
 layout (location = 1) in vec2 a_TexCoords;
-layout (location = 2) in float a_LightingLevel;
+layout (location = 2) in uint a_LightingLevel;
 layout (location = 3) in float a_BlockFaceLightLevel;
 
 uniform int u_RenderDistance;
@@ -27,7 +27,7 @@ void main()
 	v_Visibility = exp(-pow((fog_distance * fog_density), fog_gradient));
 	v_Visibility = clamp(v_Visibility, 0.0f, 1.0f);
 
-	float lighting_level = a_LightingLevel ;	
+	float lighting_level = float(a_LightingLevel) ;	
 	lighting_level /= 2;
 	lighting_level /= 10;
 

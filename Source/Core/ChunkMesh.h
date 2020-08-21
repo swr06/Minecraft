@@ -50,7 +50,7 @@ namespace Minecraft
 
 	private : 
 
-		void AddFace(Chunk* chunk, BlockFaceType face_type, const glm::vec3& position, BlockType type, float light_level,
+		void AddFace(Chunk* chunk, BlockFaceType face_type, const glm::vec3& position, BlockType type, uint8_t light_level,
 			bool buffer = true);
 
 		void AddModel(const glm::vec3& position, BlockType type, float light_level);

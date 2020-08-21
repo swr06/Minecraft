@@ -38,34 +38,30 @@ namespace Minecraft
 			delete[] IndexBuffer;
 		}
 
-		int stride = (7 * sizeof(GLfloat));
-
 		p_VAO.Bind();
 		m_VBO.Bind();
 		StaticIBO.Bind();
-		m_VBO.VertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, (void*)0);
-		m_VBO.VertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, stride, (void*)(3 * sizeof(float)));
-		m_VBO.VertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, stride, (void*)(5 * sizeof(float)));
-		m_VBO.VertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, stride, (void*)(6 * sizeof(float)));
+		m_VBO.VertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
+		m_VBO.VertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texture_coords));
+		m_VBO.VertexAttribIPointer(2, 1, GL_UNSIGNED_BYTE, sizeof(Vertex), (void*)offsetof(Vertex, lighting_level));
+		m_VBO.VertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, block_face_lighting));
 		p_VAO.Unbind();
 
 		p_TransparentVAO.Bind();
 		m_TransparentVBO.Bind();
 		StaticIBO.Bind();
-		m_TransparentVBO.VertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, (void*)0);
-		m_TransparentVBO.VertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, stride, (void*)(3 * sizeof(float)));
-		m_TransparentVBO.VertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, stride, (void*)(5 * sizeof(float)));
-		m_TransparentVBO.VertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, stride, (void*)(6 * sizeof(float)));
+		m_TransparentVBO.VertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
+		m_TransparentVBO.VertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texture_coords));
+		m_TransparentVBO.VertexAttribIPointer(2, 1, GL_UNSIGNED_BYTE, sizeof(Vertex), (void*)offsetof(Vertex, lighting_level));
+		m_TransparentVBO.VertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, block_face_lighting));
 		p_TransparentVAO.Unbind();
-
-		int model_stride = (6 * sizeof(GLfloat));
 
 		p_ModelVAO.Bind();
 		m_ModelVBO.Bind();
 		StaticIBO.Bind();
-		m_ModelVBO.VertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, model_stride, (void*)0);
-		m_ModelVBO.VertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, model_stride, (void*)(3 * sizeof(float)));
-		m_ModelVBO.VertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, model_stride, (void*)(5 * sizeof(float)));
+		m_ModelVBO.VertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ModelVertex), (void*)offsetof(ModelVertex, position));
+		m_ModelVBO.VertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(ModelVertex), (void*)offsetof(ModelVertex, texture_coords));
+		m_ModelVBO.VertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, sizeof(ModelVertex), (void*)offsetof(ModelVertex, lighting_level));
 		p_ModelVAO.Unbind();
 
 		// Set the values of the 2D planes
@@ -497,7 +493,7 @@ namespace Minecraft
 		return glm::ivec3(lx, ly, lz);
 	}
 
-	void ChunkMesh::AddFace(Chunk* chunk, BlockFaceType face_type, const glm::vec3& position, BlockType type, float light_level,
+	void ChunkMesh::AddFace(Chunk* chunk, BlockFaceType face_type, const glm::vec3& position, BlockType type, uint8_t light_level,
 		bool buffer)
 	{
 		glm::mat4 translation = glm::translate(glm::mat4(1.0f), position);

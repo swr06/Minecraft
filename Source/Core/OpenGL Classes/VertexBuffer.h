@@ -26,6 +26,8 @@ namespace GLClasses
 		void VertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized,
 			GLsizei stride, const GLvoid* pointer);
 
+		void VertexAttribIPointer(GLuint index, GLint size, GLenum type, GLsizei stride, const GLvoid* pointer);
+
 	private:
 
 		GLuint buffer_id;
