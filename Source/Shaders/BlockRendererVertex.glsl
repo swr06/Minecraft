@@ -5,10 +5,14 @@ layout (location = 2) in uint a_LightingLevel;
 layout (location = 3) in uint a_BlockFaceLightLevel;
 
 uniform int u_RenderDistance;
+uniform int u_CHUNK_SIZE_X;
+uniform int u_CHUNK_SIZE_Y;
+uniform int u_CHUNK_SIZE_Z;
+uniform int u_ChunkX;
+uniform int u_ChunkZ;
 uniform vec4 u_AmbientLight;
 uniform mat4 u_ViewProjection;
 uniform mat4 u_ViewMatrix;
-uniform vec2 u_ChunkCoordinates; // The coordinates of the chunk
 uniform float u_SunPositionY; // The normalized sun position
 
 out float v_Visibility; // For implementing fog

@@ -18,6 +18,11 @@ namespace Minecraft
 	{
 		if (chunk->GetChunkMesh()->p_VerticesCount > 0)
 		{
+			int chunk_x = floor(chunk->p_Position.x);
+			int chunk_z = floor(chunk->p_Position.z);
+			m_DefaultChunkShader.SetInteger("u_ChunkX", chunk_x);
+			m_DefaultChunkShader.SetInteger("u_ChunkZ", chunk_z);
+
 			chunk->GetChunkMesh()->p_VAO.Bind();
 			DebugGLFunction(glDrawElements(GL_TRIANGLES, floor(chunk->GetChunkMesh()->p_VerticesCount / 4) * 6, GL_UNSIGNED_INT, 0));
 			chunk->GetChunkMesh()->p_VAO.Unbind();
@@ -43,6 +48,9 @@ namespace Minecraft
 		m_DefaultChunkShader.SetMatrix4("u_ViewProjection", camera->GetViewProjection());
 		m_DefaultChunkShader.SetMatrix4("u_ViewMatrix", camera->GetViewMatrix());
 		m_DefaultChunkShader.SetInteger("u_RenderDistance", render_distance);
+		m_DefaultChunkShader.SetInteger("u_CHUNK_SIZE_X", CHUNK_SIZE_X);
+		m_DefaultChunkShader.SetInteger("u_CHUNK_SIZE_Y", CHUNK_SIZE_Y);
+		m_DefaultChunkShader.SetInteger("u_CHUNK_SIZE_Z", CHUNK_SIZE_Z);
 		m_DefaultChunkShader.SetFloat("u_SunPositionY", sun_position.y);
 		m_DefaultChunkShader.SetVector4f("u_FogColor", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)); // WHITE FOG
 	}
