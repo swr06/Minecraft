@@ -17,7 +17,7 @@ namespace Minecraft
 		glm::vec3 position;
 		glm::vec2 texture_coords;
 		uint8_t lighting_level; 
-		float block_face_lighting;
+		uint8_t block_face_lighting;
 	};
 
 	struct ModelVertex
