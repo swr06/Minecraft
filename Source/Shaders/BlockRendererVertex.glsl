@@ -2,13 +2,17 @@
 layout (location = 0) in ivec3 a_Position;
 layout (location = 1) in vec2 a_TexCoords; 
 layout (location = 2) in uint a_LightingLevel;
-layout (location = 3) in float a_BlockFaceLightLevel;
+layout (location = 3) in uint a_BlockFaceLightLevel;
 
 uniform int u_RenderDistance;
+uniform int u_CHUNK_SIZE_X;
+uniform int u_CHUNK_SIZE_Y;
+uniform int u_CHUNK_SIZE_Z;
+uniform int u_ChunkX;
+uniform int u_ChunkZ;
 uniform vec4 u_AmbientLight;
 uniform mat4 u_ViewProjection;
 uniform mat4 u_ViewMatrix;
-uniform vec2 u_ChunkCoordinates;
 uniform float u_SunPositionY; // The normalized sun position
 
 out float v_Visibility; // For implementing fog
@@ -34,16 +38,13 @@ void main()
 	lighting_level /= 2;
 	lighting_level /= 10;
 
-<<<<<<< Updated upstream
-=======
 	float block_light = float(a_BlockFaceLightLevel) / float(10);
->>>>>>> Stashed changes
 	v_SunlightIntensity = max(u_SunPositionY / 1000.0f, 0.6f);
 
 	if (lighting_level < 0.2)
 	{
 		v_TintColor =  u_AmbientLight;
-		v_TintColor = v_TintColor * vec4(a_BlockFaceLightLevel, a_BlockFaceLightLevel, a_BlockFaceLightLevel, 1.0f);
+		v_TintColor = v_TintColor * vec4(block_light, block_light, block_light, 1.0f);
 	}
 
 	else 
