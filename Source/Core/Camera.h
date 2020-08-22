@@ -65,6 +65,12 @@ namespace Minecraft
 			return glm::normalize(glm::cross(m_Front, m_Up));
 		}
 
+		void RefreshCamera()
+		{
+			RecalculateProjectionMatrix();
+			RecalculateViewMatrix();
+		}
+
 	private : 
 
 		void RecalculateViewMatrix();

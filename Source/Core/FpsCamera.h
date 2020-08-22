@@ -111,6 +111,11 @@ namespace Minecraft
 			m_Acceleration = m_Acceleration + acceleration;
 		}
 
+		void Refresh()
+		{
+			RecalculateProjectionMatrix();
+			RecalculateViewMatrix();
+		}
 		void OnUpdate();
 
 	private : 
