@@ -41,7 +41,7 @@ namespace Minecraft
 		p_VAO.Bind();
 		m_VBO.Bind();
 		StaticIBO.Bind();
-		m_VBO.VertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
+		m_VBO.VertexAttribIPointer(0, 3, GL_UNSIGNED_BYTE, sizeof(Vertex), (void*)offsetof(Vertex, position));
 		m_VBO.VertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texture_coords));
 		m_VBO.VertexAttribIPointer(2, 1, GL_UNSIGNED_BYTE, sizeof(Vertex), (void*)offsetof(Vertex, lighting_level));
 		m_VBO.VertexAttribIPointer(3, 1, GL_UNSIGNED_BYTE, sizeof(Vertex), (void*)offsetof(Vertex, block_face_lighting));
@@ -50,7 +50,7 @@ namespace Minecraft
 		p_TransparentVAO.Bind();
 		m_TransparentVBO.Bind();
 		StaticIBO.Bind();
-		m_TransparentVBO.VertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
+		m_TransparentVBO.VertexAttribIPointer(0, 3, GL_UNSIGNED_BYTE, sizeof(Vertex), (void*)offsetof(Vertex, position));
 		m_TransparentVBO.VertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texture_coords));
 		m_TransparentVBO.VertexAttribIPointer(2, 1, GL_UNSIGNED_BYTE, sizeof(Vertex), (void*)offsetof(Vertex, lighting_level));
 		m_TransparentVBO.VertexAttribIPointer(3, 1, GL_UNSIGNED_BYTE, sizeof(Vertex), (void*)offsetof(Vertex, block_face_lighting));
@@ -109,6 +109,7 @@ namespace Minecraft
 		ChunkLightDataTypePtr ChunkLData = &chunk->p_ChunkLightInformation;
 
 		glm::vec3 world_position;
+		glm::vec3 local_position;
 		m_Vertices.clear();
 
 		ChunkDataTypePtr ForwardChunkData = _GetChunkDataForMeshing(static_cast<int>(chunk_pos.x), static_cast<int>(chunk_pos.z + 1));
@@ -142,6 +143,7 @@ namespace Minecraft
 						world_position.x = chunk_pos.x * CHUNK_SIZE_X + x;
 						world_position.y = 0 * CHUNK_SIZE_Y + y;
 						world_position.z = chunk_pos.z * CHUNK_SIZE_Z + z;
+						local_position = glm::vec3(x, y, z);
 
 						if (z <= 0)
 						{
@@ -155,15 +157,15 @@ namespace Minecraft
 								if (BackwardChunkData->at(x).at(y).at(CHUNK_SIZE_Z - 1).p_BlockType == BlockType::Air)
 								{
 									light_level = BackwardChunkLData->at(x).at(y).at(CHUNK_SIZE_Z - 1);
-									AddFace(chunk, BlockFaceType::front, world_position, block->p_BlockType, light_level, false);
-									AddFace(chunk, BlockFaceType::backward, world_position, block->p_BlockType, light_level, false);
+									AddFace(chunk, BlockFaceType::front, local_position, block->p_BlockType, light_level, false);
+									AddFace(chunk, BlockFaceType::backward, local_position, block->p_BlockType, light_level, false);
 								}
 
 								else if (ChunkData->at(x).at(y).at(1).p_BlockType == BlockType::Air)
 								{
 									light_level = ChunkLData->at(x).at(y).at(1);
-									AddFace(chunk, BlockFaceType::front, world_position, block->p_BlockType, light_level, false);
-									AddFace(chunk, BlockFaceType::backward, world_position, block->p_BlockType, light_level, false);
+									AddFace(chunk, BlockFaceType::front, local_position, block->p_BlockType, light_level, false);
+									AddFace(chunk, BlockFaceType::backward, local_position, block->p_BlockType, light_level, false);
 								}
 							}
 
@@ -172,15 +174,15 @@ namespace Minecraft
 								if (BackwardChunkData->at(x).at(y).at(CHUNK_SIZE_Z - 1).IsOpaque() == false)
 								{
 									light_level = BackwardChunkLData->at(x).at(y).at(CHUNK_SIZE_Z - 1);
-									AddFace(chunk, BlockFaceType::front, world_position, block->p_BlockType, light_level);
-									AddFace(chunk, BlockFaceType::backward, world_position, block->p_BlockType, light_level);
+									AddFace(chunk, BlockFaceType::front, local_position, block->p_BlockType, light_level);
+									AddFace(chunk, BlockFaceType::backward, local_position, block->p_BlockType, light_level);
 								}
 
 								else if (ChunkData->at(x).at(y).at(1).IsOpaque() == false)
 								{
 									light_level = ChunkLData->at(x).at(y).at(1);
-									AddFace(chunk, BlockFaceType::front, world_position, block->p_BlockType, light_level);
-									AddFace(chunk, BlockFaceType::backward, world_position, block->p_BlockType, light_level);
+									AddFace(chunk, BlockFaceType::front, local_position, block->p_BlockType, light_level);
+									AddFace(chunk, BlockFaceType::backward, local_position, block->p_BlockType, light_level);
 								}
 							}
 						}
@@ -197,15 +199,15 @@ namespace Minecraft
 								if (ForwardChunkData->at(x).at(y).at(0).p_BlockType == BlockType::Air)
 								{
 									light_level = ForwardChunkLData->at(x).at(y).at(0);
-									AddFace(chunk, BlockFaceType::front, world_position, block->p_BlockType, light_level, false);
-									AddFace(chunk, BlockFaceType::backward, world_position, block->p_BlockType, light_level, false);
+									AddFace(chunk, BlockFaceType::front, local_position, block->p_BlockType, light_level, false);
+									AddFace(chunk, BlockFaceType::backward, local_position, block->p_BlockType, light_level, false);
 								}
 
 								else if (ChunkData->at(x).at(y).at(CHUNK_SIZE_Z - 2).p_BlockType == BlockType::Air)
 								{
 									light_level = ChunkLData->at(x).at(y).at(CHUNK_SIZE_Z - 2);
-									AddFace(chunk, BlockFaceType::front, world_position, block->p_BlockType, light_level, false);
-									AddFace(chunk, BlockFaceType::backward, world_position, block->p_BlockType, light_level, false);
+									AddFace(chunk, BlockFaceType::front, local_position, block->p_BlockType, light_level, false);
+									AddFace(chunk, BlockFaceType::backward, local_position, block->p_BlockType, light_level, false);
 								}
 							}
 
@@ -214,15 +216,15 @@ namespace Minecraft
 								if (ForwardChunkData->at(x).at(y).at(0).IsOpaque() == false)
 								{
 									light_level = ForwardChunkLData->at(x).at(y).at(0);
-									AddFace(chunk, BlockFaceType::front, world_position, block->p_BlockType, light_level);
-									AddFace(chunk, BlockFaceType::backward, world_position, block->p_BlockType, light_level);
+									AddFace(chunk, BlockFaceType::front, local_position, block->p_BlockType, light_level);
+									AddFace(chunk, BlockFaceType::backward, local_position, block->p_BlockType, light_level);
 								}
 
 								else if (ChunkData->at(x).at(y).at(CHUNK_SIZE_Z - 2).IsOpaque() == false)
 								{
 									light_level = ChunkLData->at(x).at(y).at(CHUNK_SIZE_Z - 2);
-									AddFace(chunk, BlockFaceType::front, world_position, block->p_BlockType, light_level);
-									AddFace(chunk, BlockFaceType::backward, world_position, block->p_BlockType, light_level);
+									AddFace(chunk, BlockFaceType::front, local_position, block->p_BlockType, light_level);
+									AddFace(chunk, BlockFaceType::backward, local_position, block->p_BlockType, light_level);
 								}
 							}
 						}
@@ -239,13 +241,13 @@ namespace Minecraft
 								if (ChunkData->at(x).at(y).at(z + 1).p_BlockType == BlockType::Air)
 								{
 									light_level = ChunkLData->at(x).at(y).at(z + 1);
-									AddFace(chunk, BlockFaceType::front, world_position, block->p_BlockType, light_level, false);
+									AddFace(chunk, BlockFaceType::front, local_position, block->p_BlockType, light_level, false);
 								}
 
 								if (ChunkData->at(x).at(y).at(z - 1).p_BlockType == BlockType::Air)
 								{
 									light_level = ChunkLData->at(x).at(y).at(z - 1);
-									AddFace(chunk, BlockFaceType::backward, world_position, block->p_BlockType, light_level, false);
+									AddFace(chunk, BlockFaceType::backward, local_position, block->p_BlockType, light_level, false);
 								}
 							}
 
@@ -255,14 +257,14 @@ namespace Minecraft
 								if (ChunkData->at(x).at(y).at(z + 1).IsOpaque() == false)
 								{
 									light_level = ChunkLData->at(x).at(y).at(z + 1);
-									AddFace(chunk, BlockFaceType::front, world_position, block->p_BlockType, light_level);
+									AddFace(chunk, BlockFaceType::front, local_position, block->p_BlockType, light_level);
 								}
 
 								// If the back (-forward) block is an air block, add the back face to the mesh
 								if (ChunkData->at(x).at(y).at(z - 1).IsOpaque() == false)
 								{
 									light_level = ChunkLData->at(x).at(y).at(z - 1);
-									AddFace(chunk, BlockFaceType::backward, world_position, block->p_BlockType, light_level);
+									AddFace(chunk, BlockFaceType::backward, local_position, block->p_BlockType, light_level);
 								}
 							}
 						}
@@ -279,15 +281,15 @@ namespace Minecraft
 								if (LeftChunkData->at(CHUNK_SIZE_X - 1).at(y).at(z).p_BlockType == BlockType::Air)
 								{
 									light_level = LeftChunkLData->at(CHUNK_SIZE_X - 1).at(y).at(z);
-									AddFace(chunk, BlockFaceType::left, world_position, block->p_BlockType, light_level, false);
-									AddFace(chunk, BlockFaceType::right, world_position, block->p_BlockType, light_level, false);
+									AddFace(chunk, BlockFaceType::left, local_position, block->p_BlockType, light_level, false);
+									AddFace(chunk, BlockFaceType::right, local_position, block->p_BlockType, light_level, false);
 								}
 
 								else if (ChunkData->at(1).at(y).at(z).p_BlockType == BlockType::Air)
 								{
 									light_level = ChunkLData->at(1).at(y).at(z);
-									AddFace(chunk, BlockFaceType::right, world_position, block->p_BlockType, light_level, false);
-									AddFace(chunk, BlockFaceType::left, world_position, block->p_BlockType, light_level, false);
+									AddFace(chunk, BlockFaceType::right, local_position, block->p_BlockType, light_level, false);
+									AddFace(chunk, BlockFaceType::left, local_position, block->p_BlockType, light_level, false);
 								}
 
 							}
@@ -297,15 +299,15 @@ namespace Minecraft
 								if (LeftChunkData->at(CHUNK_SIZE_X - 1).at(y).at(z).IsOpaque() == false)
 								{
 									light_level = LeftChunkLData->at(CHUNK_SIZE_X - 1).at(y).at(z);
-									AddFace(chunk, BlockFaceType::left, world_position, block->p_BlockType, light_level);
-									AddFace(chunk, BlockFaceType::right, world_position, block->p_BlockType, light_level);
+									AddFace(chunk, BlockFaceType::left, local_position, block->p_BlockType, light_level);
+									AddFace(chunk, BlockFaceType::right, local_position, block->p_BlockType, light_level);
 								}
 
 								else if (ChunkData->at(1).at(y).at(z).IsOpaque() == false)
 								{
 									light_level = ChunkLData->at(1).at(y).at(z);
-									AddFace(chunk, BlockFaceType::right, world_position, block->p_BlockType, light_level);
-									AddFace(chunk, BlockFaceType::left, world_position, block->p_BlockType, light_level);
+									AddFace(chunk, BlockFaceType::right, local_position, block->p_BlockType, light_level);
+									AddFace(chunk, BlockFaceType::left, local_position, block->p_BlockType, light_level);
 								}
 							}
 						}
@@ -322,15 +324,15 @@ namespace Minecraft
 								if (RightChunkData->at(0).at(y).at(z).p_BlockType == BlockType::Air)
 								{
 									light_level = RightChunkLData->at(0).at(y).at(z);
-									AddFace(chunk, BlockFaceType::left, world_position, block->p_BlockType, light_level, false);
-									AddFace(chunk, BlockFaceType::right, world_position, block->p_BlockType, light_level, false);
+									AddFace(chunk, BlockFaceType::left, local_position, block->p_BlockType, light_level, false);
+									AddFace(chunk, BlockFaceType::right, local_position, block->p_BlockType, light_level, false);
 								}
 
 								else if (ChunkData->at(CHUNK_SIZE_X - 2).at(y).at(z).p_BlockType == BlockType::Air)
 								{
 									light_level = ChunkLData->at(CHUNK_SIZE_X - 2).at(y).at(z);
-									AddFace(chunk, BlockFaceType::left, world_position, block->p_BlockType, light_level, false);
-									AddFace(chunk, BlockFaceType::right, world_position, block->p_BlockType, light_level, false);
+									AddFace(chunk, BlockFaceType::left, local_position, block->p_BlockType, light_level, false);
+									AddFace(chunk, BlockFaceType::right, local_position, block->p_BlockType, light_level, false);
 								}
 							}
 
@@ -339,15 +341,15 @@ namespace Minecraft
 								if (RightChunkData->at(0).at(y).at(z).IsOpaque() == false)
 								{
 									light_level = RightChunkLData->at(0).at(y).at(z);
-									AddFace(chunk, BlockFaceType::left, world_position, block->p_BlockType, light_level);
-									AddFace(chunk, BlockFaceType::right, world_position, block->p_BlockType, light_level);
+									AddFace(chunk, BlockFaceType::left, local_position, block->p_BlockType, light_level);
+									AddFace(chunk, BlockFaceType::right, local_position, block->p_BlockType, light_level);
 								}
 
 								else if (ChunkData->at(CHUNK_SIZE_X - 2).at(y).at(z).IsOpaque() == false)
 								{
 									light_level = ChunkLData->at(CHUNK_SIZE_X - 2).at(y).at(z);
-									AddFace(chunk, BlockFaceType::left, world_position, block->p_BlockType, light_level);
-									AddFace(chunk, BlockFaceType::right, world_position, block->p_BlockType, light_level);
+									AddFace(chunk, BlockFaceType::left, local_position, block->p_BlockType, light_level);
+									AddFace(chunk, BlockFaceType::right, local_position, block->p_BlockType, light_level);
 								}
 							}
 
@@ -366,14 +368,14 @@ namespace Minecraft
 								if (ChunkData->at(x + 1).at(y).at(z).p_BlockType == BlockType::Air)
 								{
 									light_level = ChunkLData->at(x + 1).at(y).at(z);
-									AddFace(chunk, BlockFaceType::right, world_position, block->p_BlockType, light_level, false);
+									AddFace(chunk, BlockFaceType::right, local_position, block->p_BlockType, light_level, false);
 								}
 
 								// If the previous block is an air block, add the left face to the mesh
 								if (ChunkData->at(x - 1).at(y).at(z).p_BlockType == BlockType::Air)
 								{
 									light_level = ChunkLData->at(x - 1).at(y).at(z);
-									AddFace(chunk, BlockFaceType::left, world_position, block->p_BlockType, light_level, false);
+									AddFace(chunk, BlockFaceType::left, local_position, block->p_BlockType, light_level, false);
 								}
 							}
 
@@ -383,14 +385,14 @@ namespace Minecraft
 								if (ChunkData->at(x + 1).at(y).at(z).IsOpaque() == false)
 								{
 									light_level = ChunkLData->at(x + 1).at(y).at(z);
-									AddFace(chunk, BlockFaceType::right, world_position, block->p_BlockType, light_level);
+									AddFace(chunk, BlockFaceType::right, local_position, block->p_BlockType, light_level);
 								}
 
 								// If the previous block is an air block, add the left face to the mesh
 								if (ChunkData->at(x - 1).at(y).at(z).IsOpaque() == false)
 								{
 									light_level = ChunkLData->at(x - 1).at(y).at(z);
-									AddFace(chunk, BlockFaceType::left, world_position, block->p_BlockType, light_level);
+									AddFace(chunk, BlockFaceType::left, local_position, block->p_BlockType, light_level);
 								}
 							}
 						}
@@ -399,13 +401,13 @@ namespace Minecraft
 						{
 							if (ChunkData->at(x).at(y + 1).at(z).IsOpaque() == false)
 							{
-								AddFace(chunk, BlockFaceType::bottom, world_position, block->p_BlockType, light_level);
+								AddFace(chunk, BlockFaceType::bottom, local_position, block->p_BlockType, light_level);
 							}
 						}
 
 						else if (y >= CHUNK_SIZE_Y - 1)
 						{
-							AddFace(chunk, BlockFaceType::top, world_position, block->p_BlockType, light_level);
+							AddFace(chunk, BlockFaceType::top, local_position, block->p_BlockType, light_level);
 						}
 
 						else
@@ -421,14 +423,14 @@ namespace Minecraft
 								if (ChunkData->at(x).at(y - 1).at(z).p_BlockType == BlockType::Air)
 								{
 									light_level = ChunkLData->at(x).at(y - 1).at(z);
-									AddFace(chunk, BlockFaceType::bottom, world_position, block->p_BlockType, light_level, false);
+									AddFace(chunk, BlockFaceType::bottom, local_position, block->p_BlockType, light_level, false);
 								}
 
 								// If the bottom block is an air block, add the top face to the mesh
 								if (ChunkData->at(x).at(y + 1).at(z).p_BlockType == BlockType::Air)
 								{
 									light_level = ChunkLData->at(x).at(y + 1).at(z);
-									AddFace(chunk, BlockFaceType::top, world_position, block->p_BlockType, light_level, false);
+									AddFace(chunk, BlockFaceType::top, local_position, block->p_BlockType, light_level, false);
 								}
 							}
 
@@ -438,14 +440,14 @@ namespace Minecraft
 								if (ChunkData->at(x).at(y - 1).at(z).IsOpaque() == false)
 								{
 									light_level = ChunkLData->at(x).at(y - 1).at(z);
-									AddFace(chunk, BlockFaceType::bottom, world_position, block->p_BlockType, light_level);
+									AddFace(chunk, BlockFaceType::bottom, local_position, block->p_BlockType, light_level);
 								}
 
 								// If the bottom block is an air block, add the top face to the mesh
 								if (ChunkData->at(x).at(y + 1).at(z).IsOpaque() == false)
 								{
 									light_level = ChunkLData->at(x).at(y + 1).at(z);
-									AddFace(chunk, BlockFaceType::top, world_position, block->p_BlockType, light_level);
+									AddFace(chunk, BlockFaceType::top, local_position, block->p_BlockType, light_level);
 								}
 							}
 						}

@@ -18,10 +18,8 @@ namespace Minecraft
 	{
 		if (chunk->GetChunkMesh()->p_VerticesCount > 0)
 		{
-			int chunk_x = floor(chunk->p_Position.x);
-			int chunk_z = floor(chunk->p_Position.z);
-			m_DefaultChunkShader.SetInteger("u_ChunkX", chunk_x);
-			m_DefaultChunkShader.SetInteger("u_ChunkZ", chunk_z);
+			m_DefaultChunkShader.SetInteger("u_ChunkX", chunk->p_Position.x);
+			m_DefaultChunkShader.SetInteger("u_ChunkZ", chunk->p_Position.z);
 
 			chunk->GetChunkMesh()->p_VAO.Bind();
 			DebugGLFunction(glDrawElements(GL_TRIANGLES, floor(chunk->GetChunkMesh()->p_VerticesCount / 4) * 6, GL_UNSIGNED_INT, 0));
@@ -33,6 +31,9 @@ namespace Minecraft
 	{
 		if (chunk->GetChunkMesh()->p_TransparentVerticesCount > 0)
 		{
+			m_DefaultChunkShader.SetInteger("u_ChunkX", chunk->p_Position.x);
+			m_DefaultChunkShader.SetInteger("u_ChunkZ", chunk->p_Position.z);
+
 			chunk->GetChunkMesh()->p_TransparentVAO.Bind();
 			DebugGLFunction(glDrawElements(GL_TRIANGLES, floor(chunk->GetChunkMesh()->p_TransparentVerticesCount / 4) * 6, GL_UNSIGNED_INT, 0));
 			chunk->GetChunkMesh()->p_TransparentVAO.Unbind();
