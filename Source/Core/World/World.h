@@ -74,6 +74,7 @@ namespace Minecraft
 		void RayCast(bool place);
 		void DoCollisionTests();
 		void UpdateSurroundingChunks(int cx, int cz);
+		void PropogateLight();
 		void UpdateLights();
 		void TickSun();
 		bool TestRayPlayerCollision(const glm::vec3& ray_block);
