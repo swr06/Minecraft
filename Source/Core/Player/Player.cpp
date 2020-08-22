@@ -43,18 +43,35 @@ namespace Minecraft
 		}
 
 		p_Camera.OnUpdate();
+		glm::vec3 new_pos = p_Camera.GetPosition();
+		glm::vec3 old_pos = cam.GetPosition();
 
-		if (TestBlockCollision(p_Camera.GetPosition()))
+		if (new_pos != old_pos)
 		{
-			p_Camera = cam;
-			p_Camera.ResetVelocity();
-			p_Camera.ResetAcceleration();
-			p_IsColliding = true;
-		}
+			glm::vec3* camera_pos = (glm::vec3*)&p_Camera.GetPosition();
 
-		else
-		{
-			p_IsColliding = false;
+			if (TestBlockCollision(glm::vec3(new_pos.x, old_pos.y, old_pos.z )))
+			{
+				camera_pos->x = old_pos.x;
+				p_Camera.ResetVelocity();
+				p_Camera.ResetAcceleration();
+			}
+
+			if (TestBlockCollision(glm::vec3(old_pos.x, old_pos.y, new_pos.z)))
+			{
+				camera_pos->z = old_pos.z;
+				p_Camera.ResetVelocity();
+				p_Camera.ResetAcceleration();
+			}
+
+			if (TestBlockCollision(glm::vec3(old_pos.x, new_pos.y, old_pos.z)))
+			{
+				camera_pos->y = old_pos.y;
+				p_Camera.ResetVelocity();
+				p_Camera.ResetAcceleration();
+			}
+
+			p_Camera.Refresh();
 		}
 
 		// Update the player's position
@@ -67,12 +84,18 @@ namespace Minecraft
 		{
 			if (e.msy > 0.0f)
 			{
-				p_Camera.SetFov(p_Camera.GetFov() + 0.1);
+				if (p_Camera.GetFov() < 71)
+				{
+					p_Camera.SetFov(p_Camera.GetFov() + 0.1);
+				}
 			}
 
 			else if (e.msy < 0.0f)
 			{
-				p_Camera.SetFov(p_Camera.GetFov() - 0.1);
+				if (p_Camera.GetFov() > 69.50)
+				{
+					p_Camera.SetFov(p_Camera.GetFov() - 0.1);
+				}
 			}
 		}
 
