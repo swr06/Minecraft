@@ -38,11 +38,11 @@ namespace Minecraft
 			delete[] IndexBuffer;
 		}
 
-		p_VAO.Bind();
+		p_VAO.Bind(); 
 		m_VBO.Bind();
 		StaticIBO.Bind();
 		m_VBO.VertexAttribIPointer(0, 3, GL_UNSIGNED_BYTE, sizeof(Vertex), (void*)offsetof(Vertex, position));
-		m_VBO.VertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texture_coords));
+		m_VBO.VertexAttribIPointer(1, 2, GL_UNSIGNED_SHORT, sizeof(Vertex), (void*)offsetof(Vertex, texture_coords));
 		m_VBO.VertexAttribIPointer(2, 1, GL_UNSIGNED_BYTE, sizeof(Vertex), (void*)offsetof(Vertex, lighting_level));
 		m_VBO.VertexAttribIPointer(3, 1, GL_UNSIGNED_BYTE, sizeof(Vertex), (void*)offsetof(Vertex, block_face_lighting));
 		p_VAO.Unbind();
@@ -51,7 +51,7 @@ namespace Minecraft
 		m_TransparentVBO.Bind();
 		StaticIBO.Bind();
 		m_TransparentVBO.VertexAttribIPointer(0, 3, GL_UNSIGNED_BYTE, sizeof(Vertex), (void*)offsetof(Vertex, position));
-		m_TransparentVBO.VertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texture_coords));
+		m_TransparentVBO.VertexAttribIPointer(1, 2, GL_UNSIGNED_SHORT, sizeof(Vertex), (void*)offsetof(Vertex, texture_coords));
 		m_TransparentVBO.VertexAttribIPointer(2, 1, GL_UNSIGNED_BYTE, sizeof(Vertex), (void*)offsetof(Vertex, lighting_level));
 		m_TransparentVBO.VertexAttribIPointer(3, 1, GL_UNSIGNED_BYTE, sizeof(Vertex), (void*)offsetof(Vertex, block_face_lighting));
 		p_TransparentVAO.Unbind();
@@ -60,7 +60,7 @@ namespace Minecraft
 		m_ModelVBO.Bind();
 		StaticIBO.Bind();
 		m_ModelVBO.VertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ModelVertex), (void*)offsetof(ModelVertex, position));
-		m_ModelVBO.VertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(ModelVertex), (void*)offsetof(ModelVertex, texture_coords));
+		m_ModelVBO.VertexAttribIPointer(1, 2, GL_UNSIGNED_SHORT, sizeof(ModelVertex), (void*)offsetof(ModelVertex, texture_coords));
 		m_ModelVBO.VertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, sizeof(ModelVertex), (void*)offsetof(ModelVertex, lighting_level));
 		p_ModelVAO.Unbind();
 
@@ -649,22 +649,22 @@ namespace Minecraft
 
 		// Get required texture coordinates
 
-		const std::array<GLfloat, 8>& TextureCoordinates = BlockDatabase::GetBlockTexture(type, face_type);
+		const std::array<uint16_t, 8>& TextureCoordinates = BlockDatabase::GetBlockTexture(type, face_type);
 
 		if (reverse_texture_coordinates)
 		{
-			v1.texture_coords = glm::vec2(TextureCoordinates[6], TextureCoordinates[7]);
-			v2.texture_coords = glm::vec2(TextureCoordinates[4], TextureCoordinates[5]);
-			v3.texture_coords = glm::vec2(TextureCoordinates[2], TextureCoordinates[3]);
-			v4.texture_coords = glm::vec2(TextureCoordinates[0], TextureCoordinates[1]);
+			v1.texture_coords = { TextureCoordinates[6], TextureCoordinates[7] };
+			v2.texture_coords = { TextureCoordinates[4], TextureCoordinates[5] };
+			v3.texture_coords = { TextureCoordinates[2], TextureCoordinates[3] };
+			v4.texture_coords = { TextureCoordinates[0], TextureCoordinates[1] };
 		}
 
 		else
 		{
-			v1.texture_coords = glm::vec2(TextureCoordinates[0], TextureCoordinates[1]);
-			v2.texture_coords = glm::vec2(TextureCoordinates[2], TextureCoordinates[3]);
-			v3.texture_coords = glm::vec2(TextureCoordinates[4], TextureCoordinates[5]);
-			v4.texture_coords = glm::vec2(TextureCoordinates[6], TextureCoordinates[7]);
+			v1.texture_coords = { TextureCoordinates[0], TextureCoordinates[1] };
+			v2.texture_coords = { TextureCoordinates[2], TextureCoordinates[3] };
+			v3.texture_coords = { TextureCoordinates[4], TextureCoordinates[5] };
+			v4.texture_coords = { TextureCoordinates[6], TextureCoordinates[7] };
 		}
 
 		if (buffer)
@@ -698,7 +698,7 @@ namespace Minecraft
 			pos = translation * pos;
 
 			vertex.position = pos;
-			vertex.texture_coords = model.p_ModelVertices.at(i).tex_coords;
+			vertex.texture_coords = { model.p_ModelVertices.at(i).tex_coords };
 			vertex.lighting_level = light_level;
 
 			m_ModelVertices.push_back(vertex);

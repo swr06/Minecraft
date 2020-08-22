@@ -42,6 +42,8 @@ namespace GLClasses
 			m_TileY = ty;
 		}
 
+		// Returns opengl texture coordinates
+		// To be used with texture()
 		std::array<GLfloat, 8> Sample(const glm::vec2& start_coords, const glm::vec2& end_coords, bool flip = false)
 		{
 			glm::vec2 s_coords;
@@ -60,9 +62,6 @@ namespace GLClasses
 			float x2, y2;
 			float x1, y1;
 
-			width = m_TileX * (e_coords.x - s_coords.x);
-			height = m_TileY * (e_coords.y - s_coords.y);
-
 			array<GLfloat, 8> TextureCoordinates;
 
 			x1 = s_coords.x * m_TileX;
@@ -74,6 +73,45 @@ namespace GLClasses
 			y1 = y1 / m_AtlasHeight;
 			x2 = x2 / m_AtlasWidth;
 			y2 = y2 / m_AtlasHeight;
+
+			TextureCoordinates[0] = x2;
+			TextureCoordinates[1] = y1;
+			TextureCoordinates[2] = x1;
+			TextureCoordinates[3] = y1;
+			TextureCoordinates[4] = x1;
+			TextureCoordinates[5] = y2;
+			TextureCoordinates[6] = x2;
+			TextureCoordinates[7] = y2;
+
+			return TextureCoordinates;
+		}
+
+		// Returns opengl texture coordinates
+		// To be used with texelFetch()
+		std::array<uint16_t, 8> SampleTexel(const glm::vec2& start_coords, const glm::vec2& end_coords, bool flip = false)
+		{
+			glm::vec2 s_coords;
+			glm::vec2 e_coords;
+
+			s_coords = start_coords;
+			e_coords = end_coords;
+
+			if (flip)
+			{
+				s_coords = end_coords;
+				e_coords = start_coords;
+			}
+
+			float width, height;
+			float x2, y2;
+			float x1, y1;
+
+			array<uint16_t, 8> TextureCoordinates;
+
+			x1 = s_coords.x * m_TileX;
+			y1 = s_coords.y * m_TileY;
+			x2 = e_coords.x * m_TileX;
+			y2 = e_coords.y * m_TileY;
 
 			TextureCoordinates[0] = x2;
 			TextureCoordinates[1] = y1;

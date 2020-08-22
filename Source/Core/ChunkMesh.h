@@ -19,7 +19,7 @@
 
 #include "Models/Model.h"
 
-#include "Utils/Vertex.h"
+//#include "Utils/Vertex.h"
 #include "BlockDatabase.h"
 
 namespace Minecraft

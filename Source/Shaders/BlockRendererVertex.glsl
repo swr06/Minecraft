@@ -1,6 +1,6 @@
 #version 330 core
 layout (location = 0) in ivec3 a_Position;
-layout (location = 1) in vec2 a_TexCoords;
+layout (location = 1) in ivec2 a_TexCoords;
 layout (location = 2) in uint a_LightingLevel;
 layout (location = 3) in uint a_BlockFaceLightLevel;
 
@@ -65,5 +65,5 @@ void main()
 	}
 
 	gl_Position = u_ViewProjection * vec4(real_pos, 1.0);
-	v_TexCoord = a_TexCoords;
+	v_TexCoord = vec2(a_TexCoords.xy);
 }

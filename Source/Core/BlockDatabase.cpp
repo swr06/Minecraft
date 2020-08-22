@@ -115,10 +115,10 @@ namespace Minecraft
 			return ret_val;
 		}
 
-		std::unordered_map<BlockTypeTexture, std::array<GLfloat, 8>> BlockDatabase;
+		std::unordered_map<BlockTypeTexture, std::array<uint16_t, 8>> BlockDatabase;
 		std::unordered_map<BlockType, std::string> BlockNameDatabase;
 
-		const std::array<GLfloat, 8>& GetBlockTexture(BlockType block_type, BlockFaceType face_type)
+		const std::array<uint16_t, 8>& GetBlockTexture(BlockType block_type, BlockFaceType face_type)
 		{
 			static bool first_run = true;
 
@@ -178,18 +178,18 @@ namespace Minecraft
 				{
 					if (texture_list[i] == BlockTypeTexture::GrassSide)
 					{
-						BlockDatabase[texture_list[i]] = BlockTextureAtlas.Sample(glm::vec2(i, i), glm::vec2(i + 1, i + 1), true);
+						BlockDatabase[texture_list[i]] = BlockTextureAtlas.SampleTexel(glm::vec2(i, 0), glm::vec2(i + 1, 1), true);
 					}
 
 					else
 					{
-						BlockDatabase[texture_list[i]] = BlockTextureAtlas.Sample(glm::vec2(i, i), glm::vec2(i + 1, i + 1));
+						BlockDatabase[texture_list[i]] = BlockTextureAtlas.SampleTexel(glm::vec2(i, 0), glm::vec2(i + 1, 1));
 					}
 				}
 			}
 
 			BlockTypeTexture tex = GetRealBlockTexture(block_type, face_type);
-			std::unordered_map<BlockTypeTexture, std::array<GLfloat, 8>>::iterator iter = BlockDatabase.find(tex);
+			std::unordered_map<BlockTypeTexture, std::array<uint16_t, 8>>::iterator iter = BlockDatabase.find(tex);
 
 			if (iter == BlockDatabase.end())
 			{

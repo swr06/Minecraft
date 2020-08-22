@@ -1,5 +1,7 @@
 #include <iostream>
 
+#include "Defs.h"
+
 namespace Minecraft
 {
 	/* Block faces
@@ -32,10 +34,16 @@ namespace Minecraft
 		}
 	};
 
+	struct i16Vec2
+	{
+		uint16_t x;
+		uint16_t y;
+	};
+
 	struct Vertex
 	{
 		i8Vec3 position;
-		glm::vec2 texture_coords;
+		i16Vec2 texture_coords;
 		uint8_t lighting_level; 
 		uint8_t block_face_lighting;
 	};
@@ -43,7 +51,7 @@ namespace Minecraft
 	struct ModelVertex
 	{
 		glm::vec3 position;
-		glm::vec2 texture_coords;
+		i16Vec2 texture_coords;
 		float lighting_level;
 	};
 }
