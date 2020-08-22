@@ -1,6 +1,9 @@
 #include <iostream>
 
 #include "Defs.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace Minecraft
 {
@@ -43,8 +46,8 @@ namespace Minecraft
 	struct Vertex
 	{
 		i8Vec3 position;
+		uint8_t lighting_level;
 		i16Vec2 texture_coords;
-		uint8_t lighting_level; 
 		uint8_t block_face_lighting;
 	};
 
