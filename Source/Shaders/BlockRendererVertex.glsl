@@ -1,6 +1,6 @@
 #version 330 core
-layout (location = 0) in vec3 a_Position;
-layout (location = 1) in vec2 a_TexCoords;
+layout (location = 0) in ivec3 a_Position;
+layout (location = 1) in vec2 a_TexCoords; 
 layout (location = 2) in uint a_LightingLevel;
 layout (location = 3) in float a_BlockFaceLightLevel;
 
@@ -21,8 +21,11 @@ float fog_gradient = float(u_RenderDistance + 1.0f);
 
 void main()
 {
+	vec3 real_position;
+	real_position = vec3(a_Position.x + (u_ChunkX * u_CHUNK_SIZE_X), a_Position.y, a_Position.z + (u_ChunkZ * u_CHUNK_SIZE_Z));
+
 	// Calculate fog
-	vec4 relative_camera_pos = u_ViewMatrix * vec4(a_Position, 1.0f);
+	vec4 relative_camera_pos = u_ViewMatrix * vec4(real_position, 1.0f);
 	float fog_distance = length(relative_camera_pos);
 	v_Visibility = exp(-pow((fog_distance * fog_density), fog_gradient));
 	v_Visibility = clamp(v_Visibility, 0.0f, 1.0f);
@@ -31,6 +34,10 @@ void main()
 	lighting_level /= 2;
 	lighting_level /= 10;
 
+<<<<<<< Updated upstream
+=======
+	float block_light = float(a_BlockFaceLightLevel) / float(10);
+>>>>>>> Stashed changes
 	v_SunlightIntensity = max(u_SunPositionY / 1000.0f, 0.6f);
 
 	if (lighting_level < 0.2)
@@ -54,6 +61,6 @@ void main()
 		}
 	}
 
-	gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+	gl_Position = u_ViewProjection * vec4(real_position, 1.0);
 	v_TexCoord = a_TexCoords;
 }
