@@ -160,8 +160,8 @@ namespace Minecraft
 		glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		m_CursorLocked = true;
 
-//		if (glfwRawMouseMotionSupported())
-//			glfwSetInputMode(m_Window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+		if (glfwRawMouseMotionSupported())
+			glfwSetInputMode(m_Window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
 
 		GUI::InitUISystem(m_Window);
 
@@ -287,6 +287,7 @@ namespace Minecraft
 				ss << "Player Position =  X : " << pos.x << " | Y : " << pos.y << " | Z : " << pos.z << "\n"; 
 				ss << "Player is colliding : " << m_World->p_Player->p_IsColliding << "\n";
 				ss << "Freefly : " << m_World->p_Player->p_FreeFly << "\n";
+				ss << "Chunk amount : " << m_World->m_ChunkCount << "\n";
 				ImGui::Text(ss.str().c_str());
 				
 				if (m_ShowDebugInfo)

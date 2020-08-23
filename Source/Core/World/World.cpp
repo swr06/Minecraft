@@ -93,7 +93,6 @@ namespace Minecraft
 		int player_chunk_x = (int)floor(p_Player->p_Position.x / CHUNK_SIZE_X);
 		int player_chunk_z = (int)floor(p_Player->p_Position.z / CHUNK_SIZE_Z);
 
-		std::uint32_t chunks_rendered = 0;
 		std::stringstream str;
 
 		int build_distance_x = render_distance_x + 4;
@@ -128,7 +127,7 @@ namespace Minecraft
 		// Increase the frame count 
 		m_CurrentFrame++;
 
-		// Collision testing
+		
 	}
 
 	/*
@@ -611,6 +610,7 @@ namespace Minecraft
 							{
 								m_LightBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y, 0), front_chunk });
 							} 
+
 							else
 							{
 								m_LightBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y, local_block_pos.z + 1), edit_block.second });

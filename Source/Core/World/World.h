@@ -67,6 +67,8 @@ namespace Minecraft
 		Chunk* EmplaceChunkInMap(int cx, int cz);
 		int GetSeed();
 
+		uint32_t m_ChunkCount = 0;
+
 	private:
 
 		void UnloadFarChunks();
@@ -78,7 +80,6 @@ namespace Minecraft
 		void TickSun();
 		bool TestRayPlayerCollision(const glm::vec3& ray_block);
 
-		uint32_t m_ChunkCount;
 		std::pair<float, float> m_CrosshairPosition;
 
 		// Renderers
