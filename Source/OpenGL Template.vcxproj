@@ -190,6 +190,7 @@
     <ClCompile Include="Core\Noise\FastNoise.cpp" />
     <ClCompile Include="Core\OpenGL Classes\CubeTextureMap.cpp" />
     <ClCompile Include="Core\OpenGL Classes\Fps.cpp" />
+    <ClCompile Include="Core\OpenGL Classes\Framebuffer.cpp" />
     <ClCompile Include="Core\OpenGL Classes\GLDebug.cpp" />
     <ClCompile Include="Core\OpenGL Classes\IndexBuffer.cpp" />
     <ClCompile Include="Core\OpenGL Classes\Shader.cpp" />
@@ -243,6 +244,7 @@
     <ClInclude Include="Core\Noise\FastNoise.h" />
     <ClInclude Include="Core\OpenGL Classes\CubeTextureMap.h" />
     <ClInclude Include="Core\OpenGL Classes\Fps.h" />
+    <ClInclude Include="Core\OpenGL Classes\Framebuffer.h" />
     <ClInclude Include="Core\OpenGL Classes\GLDebug.h" />
     <ClInclude Include="Core\OpenGL Classes\IndexBuffer.h" />
     <ClInclude Include="Core\OpenGL Classes\Shader.h" />

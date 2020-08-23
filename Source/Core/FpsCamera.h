@@ -36,6 +36,11 @@ namespace Minecraft
 			return _Pitch;
 		}
 
+		inline void SetSensitivity(float sensitivity)
+		{
+			_Sensitivity = sensitivity;
+		}
+
 		inline const glm::vec3& GetPosition()
 		{
 			return m_Position;

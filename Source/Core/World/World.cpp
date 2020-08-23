@@ -483,52 +483,74 @@ namespace Minecraft
 							edit_block.second });
 
 							if (local_block_pos.x == 0)
+							{
 								m_LightRemovalBFSQueue.push({ glm::vec3(CHUNK_SIZE_X - 1, local_block_pos.y, local_block_pos.z),
 									edit_block.second->GetTorchLightAt(CHUNK_SIZE_X - 1, local_block_pos.y, local_block_pos.z),
 									left_chunk });
+							}
 
 							else
+							{
 								m_LightRemovalBFSQueue.push({ glm::vec3(local_block_pos.x - 1, local_block_pos.y, local_block_pos.z),
 									edit_block.second->GetTorchLightAt(local_block_pos.x - 1, local_block_pos.y, local_block_pos.z),
 									edit_block.second });
+							}
 
 							if (local_block_pos.x == CHUNK_SIZE_X - 1)
+							{
 								m_LightRemovalBFSQueue.push({ glm::vec3(0, local_block_pos.y, local_block_pos.z),
 									edit_block.second->GetTorchLightAt(0, local_block_pos.y, local_block_pos.z),
 									right_chunk });
+							}
 
 							else
+							{
 								m_LightRemovalBFSQueue.push({ glm::vec3(local_block_pos.x + 1, local_block_pos.y, local_block_pos.z),
 									edit_block.second->GetTorchLightAt(local_block_pos.x + 1, local_block_pos.y, local_block_pos.z),
 									edit_block.second });
+							}
 
 							if (local_block_pos.z == 0)
+							{
 								m_LightRemovalBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y, CHUNK_SIZE_Z - 1),
 									edit_block.second->GetTorchLightAt(local_block_pos.x, local_block_pos.y, CHUNK_SIZE_Z - 1),
 									back_chunk });
+							}
+
 							else
+							{
 								m_LightRemovalBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y, local_block_pos.z - 1),
 								edit_block.second->GetTorchLightAt(local_block_pos.x, local_block_pos.y, local_block_pos.z - 1),
 								edit_block.second });
+							}
 
 							if (local_block_pos.z == CHUNK_SIZE_Z - 1)
+							{
 								m_LightRemovalBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y, 0),
 									edit_block.second->GetTorchLightAt(local_block_pos.x, local_block_pos.y, 0),
 									front_chunk });
+							}
+
 							else
+							{
 								m_LightRemovalBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y, local_block_pos.z + 1),
 								edit_block.second->GetTorchLightAt(local_block_pos.x, local_block_pos.y, local_block_pos.z + 1),
 								edit_block.second });
+							}
 
 							if (local_block_pos.y > 0)
-								m_LightRemovalBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y + 1, local_block_pos.z),
-									edit_block.second->GetTorchLightAt(local_block_pos.x, local_block_pos.y + 1, local_block_pos.z),
-									edit_block.second });
-
-							else if (local_block_pos.y < CHUNK_SIZE_Y)
+							{
 								m_LightRemovalBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y - 1, local_block_pos.z),
 									edit_block.second->GetTorchLightAt(local_block_pos.x, local_block_pos.y - 1, local_block_pos.z),
 									edit_block.second });
+							}
+
+							if (local_block_pos.y < CHUNK_SIZE_Y)
+							{
+								m_LightRemovalBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y + 1, local_block_pos.z),
+									edit_block.second->GetTorchLightAt(local_block_pos.x, local_block_pos.y + 1, local_block_pos.z),
+									edit_block.second });
+							}
 
 							/* Lighting calculations end here */
 
@@ -557,30 +579,52 @@ namespace Minecraft
 							m_LightBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y, local_block_pos.z), edit_block.second });
 
 							if (local_block_pos.x == 0)
+							{
 								m_LightBFSQueue.push({ glm::vec3(CHUNK_SIZE_X - 1, local_block_pos.y, local_block_pos.z), left_chunk });
+							}
+
 							else
+							{
 								m_LightBFSQueue.push({ glm::vec3(local_block_pos.x - 1, local_block_pos.y, local_block_pos.z), edit_block.second });
+							}
 
 							if (local_block_pos.x == CHUNK_SIZE_X - 1)
+							{
 								m_LightBFSQueue.push({ glm::vec3(0, local_block_pos.y, local_block_pos.z), right_chunk });
+							}
 							else
+							{
 								m_LightBFSQueue.push({ glm::vec3(local_block_pos.x + 1, local_block_pos.y, local_block_pos.z), edit_block.second });
+							}
 
 							if (local_block_pos.z == 0)
+							{
 								m_LightBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y, CHUNK_SIZE_Z - 1), back_chunk });
+							}
+							
 							else
+							{
 								m_LightBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y, local_block_pos.z - 1), edit_block.second });
+							}
 
 							if (local_block_pos.z == CHUNK_SIZE_Z - 1)
+							{
 								m_LightBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y, 0), front_chunk });
+							} 
 							else
+							{
 								m_LightBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y, local_block_pos.z + 1), edit_block.second });
+							}
 							
 							if (local_block_pos.y > 0)
-								m_LightBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y + 1, local_block_pos.z), edit_block.second });
-							
-							else if (local_block_pos.y < CHUNK_SIZE_Y)
+							{
 								m_LightBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y - 1, local_block_pos.z), edit_block.second });
+							}
+
+							if (local_block_pos.y < CHUNK_SIZE_Y)
+							{
+								m_LightBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y + 1, local_block_pos.z), edit_block.second });
+							}
 
 							/* Lighting calculations end here */
 

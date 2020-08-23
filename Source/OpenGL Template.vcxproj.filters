@@ -140,6 +140,9 @@
       <Filter>Minecraft\Application</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Core\OpenGL Classes\Framebuffer.cpp">
+      <Filter>Abstract OpenGL\Framebuffer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\OpenGL Classes\Fps.h">
@@ -307,6 +310,9 @@
     <ClInclude Include="Core\Application\PlatformSpecific.h">
       <Filter>Minecraft\Application</Filter>
     </ClInclude>
+    <ClInclude Include="Core\OpenGL Classes\Framebuffer.h">
+      <Filter>Abstract OpenGL\Framebuffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Dependencies">
@@ -407,6 +413,9 @@
     </Filter>
     <Filter Include="Minecraft\Models">
       <UniqueIdentifier>{dd76538f-067c-45fd-aa44-1f363b24d0d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Abstract OpenGL\Framebuffer">
+      <UniqueIdentifier>{9cdd1cbf-28a8-47d2-ab5c-12b14d212d16}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

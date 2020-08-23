@@ -18,6 +18,7 @@ namespace Minecraft
 
 		_Pitch = 0.0f;
 		_Yaw = 0.0f;
+		_Sensitivity = sensitivity;
 
 		m_ViewMatrix = glm::lookAt(m_Position, m_Front + m_Position, m_Up);
 		m_ProjectionMatrix = glm::perspective(glm::radians(fov), aspect, zNear, zFar);
