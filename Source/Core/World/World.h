@@ -50,7 +50,6 @@ namespace Minecraft
 
 		// Gets a world block from the respective chunk. Returns nullptr if invalid
 		std::pair<Block*, Chunk*> GetBlockFromPosition(const glm::vec3& pos) noexcept;
-		std::pair<Block*, Chunk*> GetBlock(const glm::vec3& block_loc) noexcept;
 		BlockType GetBlockTypeFromPosition(const glm::vec3& pos) noexcept;
 		Chunk* RetrieveChunkFromMap(int cx, int cz) noexcept;
 		WorldGenerationType GetWorldGenerationType() { return m_WorldGenType; }
@@ -72,9 +71,9 @@ namespace Minecraft
 
 		void UnloadFarChunks();
 		void RayCast(bool place);
-		void DoCollisionTests();
 		void UpdateSurroundingChunks(int cx, int cz);
 		void PropogateLight();
+		void RemoveLight();
 		void UpdateLights();
 		void TickSun();
 		bool TestRayPlayerCollision(const glm::vec3& ray_block);

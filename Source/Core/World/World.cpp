@@ -6,12 +6,19 @@ namespace Minecraft
 	const int render_distance = 6;
 	const int render_distance_x = render_distance, render_distance_z = render_distance;
 
+	/*
+		Prints a 3 component vector on the screen
+	*/
+
 	static void PrintVec3(const glm::vec3& val)
 	{
 		std::cout << std::endl << "X : " << val.x << " Y : " << val.y << " Z : " << val.z;
 		return;
 	}
 
+	/*
+		Tests the collision between a block and a position.
+	*/
 	bool TestAABB3DCollision(const glm::vec3& pos_1, const glm::vec3& dim_1, const glm::vec3& pos_2, const glm::vec3& dim_2)
 	{
 		if (pos_1.x < pos_2.x + dim_2.x &&
@@ -27,7 +34,10 @@ namespace Minecraft
 		return false;
 	}
 
-	// Converts world block coordinates to local block coordinates or chunk coordinates. Used for lighting calculations
+	/*
+		Converts world position to chunk block position
+	*/
+
 	static glm::ivec3 WorldBlockToLocalBlockCoordinates(const glm::vec3& pos)
 	{
 		int block_chunk_x = static_cast<int>(floor(pos.x / CHUNK_SIZE_X));
@@ -38,6 +48,11 @@ namespace Minecraft
 
 		return glm::ivec3(bx, by, bz);
 	}
+
+
+	/*
+		World class constructor 
+	*/
 
 	World::World(int seed, const glm::vec2& window_size, const std::string& world_name, WorldGenerationType world_gen_type) 
 		: m_Camera2D(0.0f, window_size.x, 0.0f, window_size.y), m_WorldSeed(seed), m_WorldName(world_name), m_WorldGenType(world_gen_type)
@@ -69,6 +84,10 @@ namespace Minecraft
 
 	}
 
+
+	/*
+		The World::OnUpdate function is called every frame, it updates the blocks, lighting, player etc..
+	*/
 	void World::OnUpdate(GLFWwindow* window)
 	{
 		int player_chunk_x = (int)floor(p_Player->p_Position.x / CHUNK_SIZE_X);
@@ -112,6 +131,10 @@ namespace Minecraft
 		// Collision testing
 	}
 
+	/*
+		World::Render world is called to render the world. 
+		Called every frame
+	*/
 	void World::RenderWorld()
 	{
 		static float ambient = 0.4f;
@@ -207,9 +230,6 @@ namespace Minecraft
 			, m_CrosshairPosition.second - (m_CrosshairTexture.GetHeight() / 2), 1.0f)
 			, &m_CrosshairTexture, &m_Camera2D);
 
-		// Do collision tests after all rendering is complete
-		DoCollisionTests();
-
 		// Tick the sun every 8 frames 
 		if (m_CurrentFrame % 8 == 0)
 		{
@@ -217,6 +237,10 @@ namespace Minecraft
 		}
 	}
 
+	/*
+		The tick sun ticks the sun by one unit. 
+		This function is called every 'x' frames
+	*/
 	void World::TickSun()
 	{
 		const float max_sun = 1500.0f;
@@ -249,6 +273,10 @@ namespace Minecraft
 		}
 	}
 
+	/*
+		Called by Application when an even takes place
+		Called every frame
+	*/
 	void World::OnEvent(EventSystem::Event e)
 	{
 		p_Player->OnEvent(e);
@@ -301,7 +329,10 @@ namespace Minecraft
 		}
 	}
 
-	// Gets a block from position
+	/*
+		Gets a block from position.
+		Returns : The block and chunk (of that position)
+	*/
 	std::pair<Block*, Chunk*> World::GetBlockFromPosition(const glm::vec3& pos) noexcept
 	{
 		int block_chunk_x = static_cast<int>(floor(pos.x / CHUNK_SIZE_X));
@@ -315,7 +346,9 @@ namespace Minecraft
 		return { &chunk->p_ChunkContents.at(bx).at(by).at(bz), chunk };
 	}
 
-	// Sets a world block from position
+	/*
+		Sets a world block to the type parameter
+	*/
 	void World::SetBlockFromPosition(BlockType type, const glm::vec3& pos)
 	{
 		int block_chunk_x = static_cast<int>(floor(pos.x / CHUNK_SIZE_X));
@@ -327,17 +360,9 @@ namespace Minecraft
 		RetrieveChunkFromMap(block_chunk_x, block_chunk_z)->SetBlock(type, glm::vec3(bx, by, bz));
 	}
 
-	// Returns the chunk* and block* from BLOCK position
-	std::pair<Block*, Chunk*> World::GetBlock(const glm::vec3& block_loc) noexcept
-	{
-		int block_chunk_x = static_cast<int>(floor(block_loc.x / CHUNK_SIZE_X));
-		int block_chunk_z = static_cast<int>(floor(block_loc.z / CHUNK_SIZE_Z));
-
-		Chunk* chunk = RetrieveChunkFromMap(block_chunk_x, block_chunk_z);
-		return { &chunk->p_ChunkContents.at(block_loc.x).at(block_loc.y).at(block_loc.z), chunk };
-	}
-
-	// Returns the type of block at a position
+	/*
+		Returns the type of the block at a particular position
+    */
 	BlockType World::GetBlockTypeFromPosition(const glm::vec3& pos) noexcept
 	{
 		int block_chunk_x = static_cast<int>(floor(pos.x / CHUNK_SIZE_X));
@@ -349,6 +374,11 @@ namespace Minecraft
 		return static_cast<BlockType>(RetrieveChunkFromMap(block_chunk_x, block_chunk_z)->p_ChunkContents.at(bx).at(by).at(bz).p_BlockType);
 	}
 
+	/*
+		Unloads the chunks when it is too faraway. 
+		Called every 200~ frames
+		TODO
+	*/
 	void World::UnloadFarChunks()
 	{
 
@@ -356,6 +386,10 @@ namespace Minecraft
 		return;
 	}
 
+	/*
+		Tests whether the placed block intersects with the player
+		Used to make sure that the player doesnt get stuck in a block that the player places
+	*/
 	bool World::TestRayPlayerCollision(const glm::vec3& ray_block)
 	{
 		glm::vec3 pos = glm::vec3(
@@ -371,6 +405,11 @@ namespace Minecraft
 		return false;
 	}
 
+	/*
+		Casts a ray from the direction (front) vector of the camera.
+		Speed : Fast
+		"place" determines whether the block should be places (bool)
+	*/
 	void World::RayCast(bool place)
 	{
 		glm::vec3 position = p_Player->p_Position;
@@ -426,8 +465,73 @@ namespace Minecraft
 						glm::ivec3 local_block_pos = WorldBlockToLocalBlockCoordinates(position);
 						glm::vec2 chunk_pos = glm::vec2(edit_block.second->p_Position.x, edit_block.second->p_Position.z);
 
+						Chunk* front_chunk = RetrieveChunkFromMap(chunk_pos.x, chunk_pos.y + 1);
+						Chunk* back_chunk = RetrieveChunkFromMap(chunk_pos.x, chunk_pos.y - 1);
+						Chunk* right_chunk = RetrieveChunkFromMap(chunk_pos.x + 1, chunk_pos.y);
+						Chunk* left_chunk = RetrieveChunkFromMap(chunk_pos.x - 1, chunk_pos.y);
+
+
 						if (place && !TestRayPlayerCollision(position))
 						{
+							/*
+								We need to update the light when ever a block is placed or remove.
+								Add the surrounding blocks to the removal bfs queue
+							*/
+
+							m_LightRemovalBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y, local_block_pos.z),
+							edit_block.second->GetTorchLightAt(local_block_pos.x, local_block_pos.y, local_block_pos.z),
+							edit_block.second });
+
+							if (local_block_pos.x == 0)
+								m_LightRemovalBFSQueue.push({ glm::vec3(CHUNK_SIZE_X - 1, local_block_pos.y, local_block_pos.z),
+									edit_block.second->GetTorchLightAt(CHUNK_SIZE_X - 1, local_block_pos.y, local_block_pos.z),
+									left_chunk });
+
+							else
+								m_LightRemovalBFSQueue.push({ glm::vec3(local_block_pos.x - 1, local_block_pos.y, local_block_pos.z),
+									edit_block.second->GetTorchLightAt(local_block_pos.x - 1, local_block_pos.y, local_block_pos.z),
+									edit_block.second });
+
+							if (local_block_pos.x == CHUNK_SIZE_X - 1)
+								m_LightRemovalBFSQueue.push({ glm::vec3(0, local_block_pos.y, local_block_pos.z),
+									edit_block.second->GetTorchLightAt(0, local_block_pos.y, local_block_pos.z),
+									right_chunk });
+
+							else
+								m_LightRemovalBFSQueue.push({ glm::vec3(local_block_pos.x + 1, local_block_pos.y, local_block_pos.z),
+									edit_block.second->GetTorchLightAt(local_block_pos.x + 1, local_block_pos.y, local_block_pos.z),
+									edit_block.second });
+
+							if (local_block_pos.z == 0)
+								m_LightRemovalBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y, CHUNK_SIZE_Z - 1),
+									edit_block.second->GetTorchLightAt(local_block_pos.x, local_block_pos.y, CHUNK_SIZE_Z - 1),
+									back_chunk });
+							else
+								m_LightRemovalBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y, local_block_pos.z - 1),
+								edit_block.second->GetTorchLightAt(local_block_pos.x, local_block_pos.y, local_block_pos.z - 1),
+								edit_block.second });
+
+							if (local_block_pos.z == CHUNK_SIZE_Z - 1)
+								m_LightRemovalBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y, 0),
+									edit_block.second->GetTorchLightAt(local_block_pos.x, local_block_pos.y, 0),
+									front_chunk });
+							else
+								m_LightRemovalBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y, local_block_pos.z + 1),
+								edit_block.second->GetTorchLightAt(local_block_pos.x, local_block_pos.y, local_block_pos.z + 1),
+								edit_block.second });
+
+							if (local_block_pos.y > 0)
+								m_LightRemovalBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y + 1, local_block_pos.z),
+									edit_block.second->GetTorchLightAt(local_block_pos.x, local_block_pos.y + 1, local_block_pos.z),
+									edit_block.second });
+
+							else if (local_block_pos.y < CHUNK_SIZE_Y)
+								m_LightRemovalBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y - 1, local_block_pos.z),
+									edit_block.second->GetTorchLightAt(local_block_pos.x, local_block_pos.y - 1, local_block_pos.z),
+									edit_block.second });
+
+							/* Lighting calculations end here */
+
 							edit_block.first->p_BlockType = static_cast<BlockType>(p_Player->p_CurrentHeldBlock);
 
 							if (static_cast<BlockType>(p_Player->p_CurrentHeldBlock) == BlockType::Lamp_On)
@@ -436,20 +540,21 @@ namespace Minecraft
 
 								// Push it to the light bfs
 								m_LightBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y, local_block_pos.z), edit_block.second });
-
-								// Do the lighting calculations
-								UpdateLights();
 							}
+
+							// Do the lighting calculations
+							UpdateLights();
 						}
 
 						else
 						{
-							Chunk* front_chunk = RetrieveChunkFromMap(chunk_pos.x, chunk_pos.y + 1);
-							Chunk* back_chunk = RetrieveChunkFromMap(chunk_pos.x, chunk_pos.y - 1);
-							Chunk* right_chunk = RetrieveChunkFromMap(chunk_pos.x + 1, chunk_pos.y);
-							Chunk* left_chunk = RetrieveChunkFromMap(chunk_pos.x - 1, chunk_pos.y);
+							/*
+								We need to update the light when ever a block is placed or remove.
+								Add the surrounding blocks to the removal bfs queue
+								We also need to check for chunk bounds
+							*/
 
-							// Chunk bound checking
+							m_LightBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y, local_block_pos.z), edit_block.second });
 
 							if (local_block_pos.x == 0)
 								m_LightBFSQueue.push({ glm::vec3(CHUNK_SIZE_X - 1, local_block_pos.y, local_block_pos.z), left_chunk });
@@ -476,6 +581,8 @@ namespace Minecraft
 							
 							else if (local_block_pos.y < CHUNK_SIZE_Y)
 								m_LightBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y - 1, local_block_pos.z), edit_block.second });
+
+							/* Lighting calculations end here */
 
 							if (edit_block.first->p_BlockType == BlockType::Lamp_On)
 							{
@@ -506,13 +613,10 @@ namespace Minecraft
 		}
 	}
 
-	void World::DoCollisionTests()
-	{
-
-
-	}
-
-	// Updates all the chunks to the right, left, front and back of a supplied chunk
+	/*
+		Updates all the chunks to the right, left, front and back of a supplied chunk
+		TODO : Make this faster by only updating required chunks
+	*/
 	void World::UpdateSurroundingChunks(int cx, int cz)
 	{
 		Chunk* chunk;
@@ -534,6 +638,9 @@ namespace Minecraft
 		chunk->Construct();
 	}
 
+	/*
+		Goes through the bfs queue and propogates the light through the air blocks in the required chunks.
+	*/
 	void World::PropogateLight()
 	{
 		while (!m_LightBFSQueue.empty())
@@ -678,10 +785,11 @@ namespace Minecraft
 		}
 	}
 
-	void World::UpdateLights()
+	/*
+	Goes through the bfs queue and removes the required lights at the required chunks
+	*/
+	void World::RemoveLight()
 	{
-		PropogateLight();
-
 		// Light removal bfs queue
 
 		while (m_LightRemovalBFSQueue.empty() == false)
@@ -882,10 +990,21 @@ namespace Minecraft
 				front_chunk->p_MeshState = ChunkMeshState::Unbuilt;
 			}
 		}
+	}
 
+	/*
+		Updates all the chunks
+	*/
+	void World::UpdateLights()
+	{
+		PropogateLight();
+		RemoveLight();
 		PropogateLight();
 	}
 
+	/*
+		Checks if the chunk exists in the chunk map
+	*/
 	bool World::ChunkExistsInMap(int cx, int cz)
 	{
 		std::map<std::pair<int, int>, Chunk>::iterator chunk_exists = m_WorldChunks.find(std::pair<int, int>(cx, cz));
@@ -898,7 +1017,9 @@ namespace Minecraft
 		return true;
 	}
 
-	// Gets an existing chunk from the map
+	/*
+		Gets a chunk if it exists in the chunk map
+	*/
 	Chunk* World::RetrieveChunkFromMap(int cx, int cz) noexcept
 	{
 		auto chk = m_WorldChunks.find(std::pair<int, int>(cx, cz));
@@ -915,7 +1036,9 @@ namespace Minecraft
 		return ret_val;
 	}
 
-	// Emplaces a chunk in the map
+	/*
+		Emplaces a chunk in the chunk map
+	*/
 	Chunk* World::EmplaceChunkInMap(int cx, int cz)
 	{
 		std::stringstream str;
@@ -935,6 +1058,9 @@ namespace Minecraft
 		return &m_WorldChunks.at(std::pair<int, int>(cx, cz));
 	}
 
+	/*
+		Gets the world seed
+	*/
 	int World::GetSeed()
 	{
 		return m_WorldSeed;
