@@ -65,8 +65,8 @@ The block art, skybox art and fonts are not made by me. All credits go to their 
 # License
 This project is under the MIT license. See LICENSE for more info
 
-# Known bugs
-- Blending issues with glass and models
+# Known issues
+- Transparency issues with glass and models (such as flowers..)
 
 # Screenshots
 
