@@ -99,7 +99,7 @@ namespace Minecraft
 		{
 			if (p_BlockType == BlockType::Water || p_BlockType == BlockType::Lava 
 				|| p_BlockType == BlockType::GlassWhite || p_BlockType == BlockType::OakLeaves ||
-				p_BlockType == BlockType::SpruceLeaves  ||  IsModel())
+				p_BlockType == BlockType::SpruceLeaves  ||  p_BlockType == BlockType::Air || IsModel())
 			{
 				return true;
 			}
