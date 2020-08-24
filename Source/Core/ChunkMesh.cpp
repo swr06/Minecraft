@@ -176,6 +176,7 @@ namespace Minecraft
 						if (block->IsModel())
 						{
 							AddModel(world_position, block->p_BlockType, light_level);
+							continue;
 						}
 
 						if (z <= 0)

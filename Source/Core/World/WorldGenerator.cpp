@@ -7,7 +7,7 @@ namespace Minecraft
 
     // Water levels
     constexpr int water_min = 2;
-    constexpr int water_max = 85;
+    constexpr int water_max = 60;
 
     BlockType vein_block = BlockType::Sand;
 
@@ -321,13 +321,14 @@ namespace Minecraft
                     float real_x = x + chunk->p_Position.x * CHUNK_SIZE_X;
                     float real_z = z + chunk->p_Position.z * CHUNK_SIZE_Z;
 
-                    float height_at = WorldGenerator.GetNoise(real_x, real_z) +
-                        (0.5 * WorldGenerator.GetNoise(real_x, real_z)) *
-                        WorldGeneratorMultiply_1.GetNoise(real_x * 0.4f, real_z * 0.4f);
+                    //float height_at = WorldGenerator.GetNoise(real_x, real_z) +
+                    //    (0.5 * WorldGenerator.GetNoise(real_x, real_z)) *
+                    //    WorldGeneratorMultiply_1.GetNoise(real_x * 0.4f, real_z * 0.4f);
+                    float height_at = WorldGenerator.GetNoise(real_x, real_z);
                     generated_x = x;
                     generated_z = z;
 
-                    generated_y = (height_at / 2 + 1.0f) * ((float)95);
+                    generated_y = ((height_at + 1.0f) / 2) * 200.0f;
 
                     // The biome of the block column
                     Biome biome = SetVerticalBlocks(chunk, generated_x, generated_z, generated_y, real_x, real_z);

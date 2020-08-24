@@ -17,7 +17,7 @@ namespace Minecraft
 	{
 	public : 
 
-		Player(float wx, float wy) : p_Camera(70.0f, wx / wy, 0.1, 100.0f)
+		Player(float wx, float wy) : p_Camera(70.0f, wx / wy, 0.1, 500)
 		{
 
 		}
