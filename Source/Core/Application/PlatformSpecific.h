@@ -1,6 +1,6 @@
 #include <iostream>
 
-#ifdef _WIN32 
+#ifdef _WIN32 || _WIN64
 	#include <Windows.h>
 	#include <Psapi.h>
 	#include <tchar.h>
