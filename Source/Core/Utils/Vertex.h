@@ -43,6 +43,12 @@ namespace Minecraft
 		uint16_t y;
 	};
 
+
+	/* -- Vertex Structure --
+	instead of having 3 floats for the position, texture coordinates, lighting and block face lighting, I use uint8_ts for the position and lighting. 
+	I also use a uint16_t for the texture coordinates which are looked up from the fragment shader via texelFetch()
+	*/
+
 	struct Vertex
 	{
 		i8Vec3 position;

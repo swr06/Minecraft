@@ -1,6 +1,34 @@
 #include "ChunkMesh.h"
 #include "Chunk.h"
 
+
+/*
+		-- The Chunk Meshing Process --
+
+-- Normal blocks --
+This algorithm iterates throught every block in a chunk, 
+if the left block is an air block, it adds that faces to the mesh, same for the other surrounding blocks;
+
+-- Transparent blocks --
+This mesher adds all transparent blocks of the same type together. eg : a group of water faces or leaf faces. 
+What we are left with is like a shell of that transparent block which is quite efficient.
+
+-- Meshes --
+There are 3 meshes per chunk that are all using std::vector as it is fast and efficient. The buffer is cleared after it is uploaded to the gpu.
+Meshes : 
+- Normal block mesh
+- Transparent block mesh
+- Model mesh 
+
+-- Info --
+When ever a chunk is updated. The entire mesh is regenerated instead of modifying the existing vertices..
+Index buffers are used to maximize performance
+
+The _GetchunkDataForMeshing() functions are forward declarations and are implemented in main.cpp 
+*/
+
+
+
 namespace Minecraft
 {
 	ChunkMesh::ChunkMesh() : m_VBO(GL_ARRAY_BUFFER), m_TransparentVBO(GL_ARRAY_BUFFER), m_ModelVBO(GL_ARRAY_BUFFER)
@@ -145,14 +173,14 @@ namespace Minecraft
 						world_position.z = chunk_pos.z * CHUNK_SIZE_Z + z;
 						local_position = glm::vec3(x, y, z);
 
+						if (block->IsModel())
+						{
+							AddModel(world_position, block->p_BlockType, light_level);
+						}
+
 						if (z <= 0)
 						{
-							if (block->IsModel())
-							{
-								AddModel(world_position, block->p_BlockType, light_level);
-							}
-
-							else if (block->IsTransparent())
+							if (block->IsTransparent())
 							{
 								if (BackwardChunkData->at(x).at(y).at(CHUNK_SIZE_Z - 1).IsTransparent() &&
 									BackwardChunkData->at(x).at(y).at(CHUNK_SIZE_Z - 1).p_BlockType != block->p_BlockType)
@@ -163,7 +191,7 @@ namespace Minecraft
 								}
 
 								else if (ChunkData->at(x).at(y).at(1).IsTransparent() &&
-										ChunkData->at(x).at(y).at(1).p_BlockType != block->p_BlockType)
+									ChunkData->at(x).at(y).at(1).p_BlockType != block->p_BlockType)
 								{
 									light_level = ChunkLData->at(x).at(y).at(1);
 									AddFace(chunk, BlockFaceType::front, local_position, block->p_BlockType, light_level, false);
@@ -191,12 +219,7 @@ namespace Minecraft
 
 						else if (z >= CHUNK_SIZE_Z - 1)
 						{
-							if (block->IsModel())
-							{
-								AddModel(world_position, block->p_BlockType, light_level);
-							}
-
-							else if (block->IsTransparent())
+							if (block->IsTransparent())
 							{
 								if (ForwardChunkData->at(x).at(y).at(0).IsTransparent() &&
 									ForwardChunkData->at(x).at(y).at(0).p_BlockType != block->p_BlockType)
@@ -235,12 +258,7 @@ namespace Minecraft
 
 						else
 						{
-							if (block->IsModel())
-							{
-								AddModel(world_position, block->p_BlockType, light_level);
-							}
-
-							else if (block->IsTransparent())
+							if (block->IsTransparent())
 							{
 								if (ChunkData->at(x).at(y).at(z + 1).IsTransparent() &&
 									ChunkData->at(x).at(y).at(z + 1).p_BlockType != block->p_BlockType)
@@ -277,12 +295,7 @@ namespace Minecraft
 
 						if (x <= 0)
 						{
-							if (block->IsModel())
-							{
-								AddModel(world_position, block->p_BlockType, light_level);
-							}
-
-							else if (block->IsTransparent())
+							if (block->IsTransparent())
 							{
 								if (LeftChunkData->at(CHUNK_SIZE_X - 1).at(y).at(z).IsTransparent() &&
 									LeftChunkData->at(CHUNK_SIZE_X - 1).at(y).at(z).p_BlockType != block->p_BlockType)
@@ -322,12 +335,7 @@ namespace Minecraft
 
 						else if (x >= CHUNK_SIZE_X - 1)
 						{
-							if (block->IsModel())
-							{
-								AddModel(world_position, block->p_BlockType, light_level);
-							}
-
-							else if (block->IsTransparent())
+							if (block->IsTransparent())
 							{
 								if (RightChunkData->at(0).at(y).at(z).IsTransparent() &&
 									RightChunkData->at(0).at(y).at(z).p_BlockType != block->p_BlockType)
@@ -367,12 +375,7 @@ namespace Minecraft
 
 						else
 						{
-							if (block->IsModel())
-							{
-								AddModel(world_position, block->p_BlockType, light_level);
-							}
-
-							else if (block->IsTransparent())
+							if (block->IsTransparent())
 							{
 								if (ChunkData->at(x + 1).at(y).at(z).IsTransparent() &&
 									ChunkData->at(x + 1).at(y).at(z).p_BlockType != block->p_BlockType)
@@ -422,12 +425,7 @@ namespace Minecraft
 
 						else
 						{
-							if (block->IsModel())
-							{
-								AddModel(world_position, block->p_BlockType, light_level);
-							}
-
-							else if (block->IsTransparent())
+							if (block->IsTransparent())
 							{
 								if (ChunkData->at(x).at(y - 1).at(z).IsTransparent() &&
 									ChunkData->at(x).at(y - 1).at(z).p_BlockType != block->p_BlockType)
