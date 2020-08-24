@@ -7,7 +7,7 @@ namespace Minecraft
 
     // Water levels
     constexpr int water_min = 2;
-    constexpr int water_max = 60;
+    constexpr int water_max = 80;
 
     BlockType vein_block = BlockType::Sand;
 
@@ -38,11 +38,6 @@ namespace Minecraft
 
         float column_noise = BiomeGenerator.GetNoise(real_x, real_z);
         Biome biome = GetBiome(column_noise);
-
-        if (y_level >= CHUNK_SIZE_Y)
-        {
-            y_level = CHUNK_SIZE_Y - 4;
-        }
 
         for (int i = 0; i < y_level; i++)
         {
@@ -89,14 +84,22 @@ namespace Minecraft
         return biome;
     }
 
-    void FillInWorldStructure(Chunk* chunk, WorldStructure* structure, int x, int y, int z)
+
+    bool FillInWorldStructure(Chunk* chunk, WorldStructure* structure, int x, int y, int z)
     {
+        if (x + MAX_STRUCTURE_X >= CHUNK_SIZE_X || z + MAX_STRUCTURE_Z >= CHUNK_SIZE_Z || y + MAX_STRUCTURE_Y >= CHUNK_SIZE_Y)
+        {
+            return false;
+        }
+
         for (int i = 0; i < structure->p_Structure.size(); i++)
         {
             chunk->SetBlock((BlockType)structure->p_Structure.at(i).block.p_BlockType,
                 glm::vec3(x + structure->p_Structure.at(i).x, y + structure->p_Structure.at(i).y,
                     z + structure->p_Structure.at(i).z));
         }
+
+        return true;
     }
 
     void AddWaterBlocks(Chunk* chunk)
@@ -116,69 +119,74 @@ namespace Minecraft
             {
                 for (int z = 0; z < CHUNK_SIZE_Z; z++)
                 {
-                    if (chunk_data->at(x).at(y).at(z).p_BlockType != BlockType::Air)
+                    Block* block = &chunk_data->at(x).at(y).at(z);
+
+                    if (block->p_BlockType == BlockType::Air)
                     {
-                        continue;
+                        if (y > water_min && y < water_max)
+                        {
+                            BiomeGenerator.SetNoiseType(FastNoise::Simplex);
+                            float real_x = x + chunk->p_Position.x * CHUNK_SIZE_X;
+                            float real_z = z + chunk->p_Position.z * CHUNK_SIZE_Z;
+                            float biome_noise = BiomeGenerator.GetNoise(real_x, real_z);
+
+                            Biome biome = GetBiome(biome_noise);
+
+                            chunk_data->at(x).at(y).at(z).p_BlockType = BlockType::Water;
+
+                            if (x > 0 && y < water_max - 1)
+                            {
+                                if (chunk_data->at(x - 1).at(y).at(z).IsOpaque())
+                                {
+                                    chunk_data->at(x - 1).at(y).at(z).p_BlockType = GetUnderwaterBlock(water_gen);
+                                }
+                            }
+
+                            if (x < CHUNK_SIZE_X - 1 && y < water_max - 1)
+                            {
+                                if (chunk_data->at(x + 1).at(y).at(z).IsOpaque())
+                                {
+                                    chunk_data->at(x + 1).at(y).at(z).p_BlockType = GetUnderwaterBlock(water_gen);
+                                }
+                            }
+
+                            if (z > 0 && y < water_max - 1)
+                            {
+                                if (chunk_data->at(x).at(y).at(z - 1).IsOpaque())
+                                {
+                                    chunk_data->at(x).at(y).at(z - 1).p_BlockType = GetUnderwaterBlock(water_gen);
+                                }
+                            }
+
+                            if (z < CHUNK_SIZE_Z - 1 && y < water_max - 1)
+                            {
+                                if (chunk_data->at(x).at(y).at(z + 1).IsOpaque())
+                                {
+                                    chunk_data->at(x).at(y).at(z + 1).p_BlockType = GetUnderwaterBlock(water_gen);
+                                }
+                            }
+
+                            if (y > 0)
+                            {
+                                if (chunk_data->at(x).at(y - 1).at(z).IsOpaque())
+                                {
+                                    chunk_data->at(x).at(y - 1).at(z).p_BlockType = GetUnderwaterBlock(water_gen);
+                                }
+                            }
+
+                            if (y < water_max)
+                            {
+                                if (chunk_data->at(x).at(y + 1).at(z).IsOpaque())
+                                {
+                                    chunk_data->at(x).at(y + 1).at(z).p_BlockType = GetUnderwaterBlock(water_gen);
+                                }
+                            }
+                        }
                     }
 
-                    if (y > water_min && y < water_max)
+                    else if (block->p_BlockType != BlockType::Air && y > water_max - 2&& y < water_max + 4)
                     {
-                        BiomeGenerator.SetNoiseType(FastNoise::Simplex);
-                        float real_x = x + chunk->p_Position.x * CHUNK_SIZE_X;
-                        float real_z = z + chunk->p_Position.z * CHUNK_SIZE_Z;
-                        float biome_noise = BiomeGenerator.GetNoise(real_x, real_z);
-
-                        Biome biome = GetBiome(biome_noise);
-
-                        chunk_data->at(x).at(y).at(z).p_BlockType = BlockType::Water;
-
-                        if (x > 0 && y < water_max - 1)
-                        {
-                            if (chunk_data->at(x - 1).at(y).at(z).IsOpaque())
-                            {
-                                chunk_data->at(x - 1).at(y).at(z).p_BlockType = GetUnderwaterBlock(water_gen);
-                            }
-                        }
-
-                        if (x < CHUNK_SIZE_X - 1 && y < water_max - 1)
-                        {
-                            if (chunk_data->at(x + 1).at(y).at(z).IsOpaque())
-                            {
-                                chunk_data->at(x + 1).at(y).at(z).p_BlockType = GetUnderwaterBlock(water_gen);
-                            }
-                        }
-
-                        if (z > 0 && y < water_max - 1)
-                        {
-                            if (chunk_data->at(x).at(y).at(z - 1).IsOpaque())
-                            {
-                                chunk_data->at(x).at(y).at(z - 1).p_BlockType = GetUnderwaterBlock(water_gen);
-                            }
-                        }
-
-                        if (z < CHUNK_SIZE_Z - 1 && y < water_max - 1)
-                        {
-                            if (chunk_data->at(x).at(y).at(z + 1).IsOpaque())
-                            {
-                                chunk_data->at(x).at(y).at(z + 1).p_BlockType = GetUnderwaterBlock(water_gen);
-                            }
-                        }
-
-                        if (y > 0)
-                        {
-                            if (chunk_data->at(x).at(y - 1).at(z).IsOpaque())
-                            {
-                                chunk_data->at(x).at(y - 1).at(z).p_BlockType = GetUnderwaterBlock(water_gen);
-                            }
-                        }
-
-                        if (y < water_max)
-                        {
-                            if (chunk_data->at(x).at(y + 1).at(z).IsOpaque())
-                            {
-                                chunk_data->at(x).at(y + 1).at(z).p_BlockType = GetUnderwaterBlock(water_gen);
-                            }
-                        }
+                        chunk_data->at(x).at(y).at(z) = { BlockType::Sand };
                     }
                 }
             }
@@ -284,6 +292,13 @@ namespace Minecraft
         }
     }
 
+    float _rounded(const glm::vec2& coord)
+    {
+        auto bump = [](float t) { return glm::max(0.0f, 1.0f - std::pow(t, 6.0f)); };
+        float b = bump(coord.x) * bump(coord.y);
+        return b * 0.9f;
+    }
+
     void GenerateChunk(Chunk* chunk, const int WorldSeed, WorldGenerationType gen_type)
     {
         static Random SeedEngine;
@@ -293,8 +308,8 @@ namespace Minecraft
 
         // Set the chunk state
         chunk->p_ChunkState = ChunkState::Generated;
-        WorldGenerator.SetNoiseType(FastNoise::SimplexFractal);
-        WorldGeneratorMultiply_1.SetNoiseType(FastNoise::SimplexFractal);
+        WorldGenerator.SetNoiseType(FastNoise::Simplex);
+        WorldGeneratorMultiply_1.SetNoiseType(FastNoise::Simplex);
 
         static TreeStructure WorldStructureTree;
         static CactusStructure WorldStructureCactus;
@@ -321,17 +336,25 @@ namespace Minecraft
                     float real_x = x + chunk->p_Position.x * CHUNK_SIZE_X;
                     float real_z = z + chunk->p_Position.z * CHUNK_SIZE_Z;
 
-                    //float height_at = WorldGenerator.GetNoise(real_x, real_z) +
-                    //    (0.5 * WorldGenerator.GetNoise(real_x, real_z)) *
-                    //    WorldGeneratorMultiply_1.GetNoise(real_x * 0.4f, real_z * 0.4f);
-                    float height_at = WorldGenerator.GetNoise(real_x, real_z);
+                    float height_at = (1.0f * WorldGenerator.GetNoise(1.0f * real_x, 1.0f * real_z)) +
+                        (0.5f * WorldGenerator.GetNoise(2.0f * real_x, 2.0f * real_z)) +
+                        (0.25f * WorldGenerator.GetNoise(4.0f * real_x, 4.0f * real_z));
+                    constexpr float multiply_factor = 0.30f;
+                    height_at *= WorldGenerator.GetNoise(multiply_factor * real_x, (multiply_factor)*real_z);
                     generated_x = x;
                     generated_z = z;
 
                     generated_y = ((height_at + 1.0f) / 2) * 200.0f;
 
+                    if (generated_y >= CHUNK_SIZE_Y)
+                    {
+                        generated_y = CHUNK_SIZE_Y - 2;
+                    }
+
                     // The biome of the block column
                     Biome biome = SetVerticalBlocks(chunk, generated_x, generated_z, generated_y, real_x, real_z);
+
+                    bool added_structure = false;
 
                     switch (biome)
                     {
@@ -391,19 +414,14 @@ namespace Minecraft
                         break;
                     }
 
-                    bool added_structure = false;
-
-                    if (WorldTreeGenerator.UnsignedInt(structure_freq) == 3 &&
-                        generated_x + MAX_STRUCTURE_X < CHUNK_SIZE_X &&
-                        generated_z + MAX_STRUCTURE_Z < CHUNK_SIZE_Z &&
-                        generated_y > water_max + 1 && generated_y < CHUNK_SIZE_Y &&
-                        Structure != nullptr)
+                    // EXCEPTION AT : -44, 32
+                    if (WorldTreeGenerator.UnsignedInt(structure_freq) == 3 && Structure != nullptr &&
+                        generated_y > water_max + 4)
                     {
-                        added_structure = true;
-                        FillInWorldStructure(chunk, Structure, generated_x, generated_y - 2, generated_z);
+                         added_structure =  FillInWorldStructure(chunk, Structure, generated_x, generated_y, generated_z);
                     }
 
-                    if (!added_structure && model != BlockType::UnknownBlockType)
+                    if (!added_structure && model != BlockType::UnknownBlockType && generated_y + 1 < CHUNK_SIZE_Y)
                     {
                         if (WorldTreeGenerator.UnsignedInt(12) == true)
                         {
@@ -414,11 +432,6 @@ namespace Minecraft
             }
 
             AddWaterBlocks(chunk);
-
-            if (gen_type == WorldGenerationType::Generation_Normal)
-            {
-                GenerateCaves(chunk, WorldSeed);
-            }
         }
 
         else if (gen_type == WorldGenerationType::Generation_Flat || gen_type == WorldGenerationType::Generation_FlatWithoutStructures)

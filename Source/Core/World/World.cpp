@@ -6,6 +6,9 @@ namespace Minecraft
 	const int render_distance = 6;
 	const int render_distance_x = render_distance, render_distance_z = render_distance;
 
+	constexpr float max_sun = 1500.0f;
+	constexpr float min_sun = 10.0f;
+
 	/*
 		Prints a 3 component vector on the screen
 	*/
@@ -58,7 +61,7 @@ namespace Minecraft
 		: m_Camera2D(0.0f, window_size.x, 0.0f, window_size.y), m_WorldSeed(seed), m_WorldName(world_name), m_WorldGenType(world_gen_type)
 	{
 		m_SunCycle = CurrentSunCycle::Sun_Rising;
-		m_SunPosition = glm::vec4(0.0f, 700.0f, 0.0f, 1.0f);
+		m_SunPosition = glm::vec4(0.0f, max_sun, 0.0f, 1.0f);
 
 		// Generate all the chunks 
 
@@ -239,11 +242,11 @@ namespace Minecraft
 	/*
 		The tick sun ticks the sun by one unit. 
 		This function is called every 'x' frames
+
 	*/
+
 	void World::TickSun()
 	{
-		const float max_sun = 1500.0f;
-		const float min_sun = 10.0f;
 
 		if (m_SunCycle == CurrentSunCycle::Sun_Rising)
 		{
@@ -307,6 +310,11 @@ namespace Minecraft
 			{
 				p_Player->p_CurrentHeldBlock--;
 			}
+		}
+
+		if (e.type == EventSystem::EventTypes::KeyPress && e.key == GLFW_KEY_G)
+		{
+			m_SunPosition.y = max_sun;
 		}
 
 		else if (e.type == EventSystem::EventTypes::MousePress)
