@@ -40,7 +40,7 @@ A Tiny Minecraft clone made with C++ and OpenGL.
 - Dynamic Sun and clouds
 - Weather
 - Multithreading
-- 
+- PCF Shadows with SSAO.
 
 # Compiling 
 This project compiles with Clang and MSVC. 
@@ -56,7 +56,7 @@ Discord : swr#1899 </br>
 # Credits
 The block art, skybox art and fonts are not made by me. All credits go to their owners. </br>
 Notable Websites : </br>
-1) opengameart.org </br>
+1) https://opengameart.org/ </br>
 
 # Special Thanks
 1) Dan Bechard (Discord : @dandymcgee#2568)
