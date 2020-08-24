@@ -17,42 +17,46 @@ A Tiny Minecraft clone made with C++ and OpenGL.
 - Biome generation by noise quantization 
 - Infinite Terrain
 - High Definition texture pack
-- Support for translucent blocks such as Glass (sort of)
+- Support for fully translucent blocks such as Glass and models
 - Fast chunk meshing 
 - Face culling
 - Frustum culling
 - Complete day/night cycle
 - Exponential fog
 - 3D AABB Collision detection
-- Efficient Flood Fill Voxel lighting algorithm using BFS queue
+- Dynamic voxel based lighting
 - Fast world saving and loading
 - Complete main menu and GUI interface using ImGui
 - Logger
+- Over 20 types of blocks (more blocks can be added very easily)
 - Cloud Skybox using cubemaps
 - Accurate block editing using a voxel transversal algorithm
 - Cave generation using 3D perlin noise
 - Water generation 
 - No OS Specific commands/dependencies. 
 
-# Features to come (probably in the rewrite)
-- Multiplayer
-- Sun 
+# Features to come 
+- Multiplayer and networking
+- Dynamic Sun and clouds
 - Weather
 - Multithreading
+- PCF Shadows with SSAO.
 
 # Compiling 
 This project compiles with Clang and MSVC. 
 
 # Benchmarks? 
-- Intel HD 4000 - 200~ FPS
-- Vega 8 iGPU - 500~ FPS
+1) Intel HD 4000 - 200~ FPS </br>
+2) Vega 8 iGPU - 250~ FPS </br>
 
-# Contact me
-- Email : samuelrasquinha@gmail.com
-- Discord : swr#1899
+# Contact me </br> 
+Email : samuelrasquinha@gmail.com </br>
+Discord : swr#1899 </br>
 
 # Credits
-The block art, skybox art and fonts are not made by me. All credits go to their owners. 
+The block art, skybox art and fonts are not made by me. All credits go to their owners. </br>
+Notable Websites : </br>
+1) https://opengameart.org/ </br>
 
 # Special Thanks
 1) Dan Bechard (Discord : @dandymcgee#2568)
@@ -64,9 +68,6 @@ The block art, skybox art and fonts are not made by me. All credits go to their 
 
 # License
 This project is under the MIT license. See LICENSE for more info
-
-# Known issues
-- Transparency issues with glass and models (such as flowers..)
 
 # Screenshots
 
