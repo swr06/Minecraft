@@ -130,6 +130,11 @@ namespace Minecraft
 
 	bool Player::TestBlockCollision(const glm::vec3& position)
 	{
+		if (p_FreeFly)
+		{
+			return false;
+		}
+
 		// Convert center position to top-left position
 		glm::vec3 pos = glm::vec3(
 			position.x - 0.375f,
