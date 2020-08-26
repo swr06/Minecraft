@@ -163,7 +163,7 @@ namespace Minecraft
 
 						float light_level = ChunkLData->at(x).at(y).at(z);
 
-						if (y >= 0 && y < CHUNK_SIZE_Y)
+						if (y >= 0 && y < CHUNK_SIZE_Y - 1)
 						{
 							light_level = ChunkLData->at(x).at(y + 1).at(z);
 						}

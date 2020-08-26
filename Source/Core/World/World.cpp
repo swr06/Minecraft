@@ -570,7 +570,7 @@ namespace Minecraft
 									edit_block.second });
 							}
 
-							if (local_block_pos.y < CHUNK_SIZE_Y)
+							if (local_block_pos.y < CHUNK_SIZE_Y - 1)
 							{
 								m_LightRemovalBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y + 1, local_block_pos.z),
 									edit_block.second->GetTorchLightAt(local_block_pos.x, local_block_pos.y + 1, local_block_pos.z),
@@ -647,7 +647,7 @@ namespace Minecraft
 								m_LightBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y - 1, local_block_pos.z), edit_block.second });
 							}
 
-							if (local_block_pos.y < CHUNK_SIZE_Y)
+							if (local_block_pos.y < CHUNK_SIZE_Y - 1)
 							{
 								m_LightBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y + 1, local_block_pos.z), edit_block.second });
 							}
