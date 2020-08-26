@@ -294,6 +294,7 @@ namespace Minecraft
 				{
 					std::stringstream debug_ss;
 
+					debug_ss << "This menu is experimental! \n";
 					debug_ss << "Total CPU Used : " << m_ProcDebugInfo.cpu_usage << "\n";
 					debug_ss << "Total Memory : " << m_ProcDebugInfo.total_mem << "  /  " << m_ProcDebugInfo.total_mem_used << "\n";
 					debug_ss << "Total Virtual Memory : " << m_ProcDebugInfo.total_vm << "  /  " << m_ProcDebugInfo.total_vm_used << "\n";
@@ -530,6 +531,7 @@ namespace Minecraft
 					{
 						m_World = new World(seed, glm::vec2(w, h), input, static_cast<WorldGenerationType>(world_type));
 						m_GameState = GameState::PlayingState;
+						memset(input, '\0', 64);
 					}
 
 					else

@@ -388,7 +388,6 @@ namespace Minecraft
     void GenerateChunk(Chunk* chunk, const int WorldSeed, WorldGenerationType gen_type)
     {
         static FastNoise WorldGenerator(WorldSeed);
-        static FastNoise WorldGeneratorMultiply_1(WorldSeed);
 
         // Set the chunk state
         WorldGenerator.SetNoiseType(FastNoise::Simplex);
