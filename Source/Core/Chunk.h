@@ -57,11 +57,12 @@ namespace Minecraft
 
 		const glm::vec3 p_Position;
 		ChunkMeshState p_MeshState;
-		ChunkState p_ChunkState;
+		ChunkState p_ChunkState = ChunkState::Ungenerated;
 		std::array<std::array<std::array<Block, CHUNK_SIZE_X>, CHUNK_SIZE_Y>, CHUNK_SIZE_Z> p_ChunkContents;
 		std::array<std::array<std::array<uint8_t, CHUNK_SIZE_X>, CHUNK_SIZE_Y>, CHUNK_SIZE_Z> p_ChunkLightInformation;
 		ChunkLightMapState p_LightMapState;
 		FrustumAABB p_ChunkFrustumAABB;
+		std::array<std::array<uint8_t, CHUNK_SIZE_X>, CHUNK_SIZE_Z> p_HeightMap;
 
 	private :
 		// each chunk will be a 16x16x16 block space. A 3D array

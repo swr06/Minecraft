@@ -12,7 +12,6 @@ uniform float u_SunPositionY; // The normalized sun position
 
 // To transform the positions
 uniform int u_CHUNK_SIZE_X;
-uniform int u_CHUNK_SIZE_Y;
 uniform int u_CHUNK_SIZE_Z;
 uniform int u_ChunkX;
 uniform int u_ChunkZ;

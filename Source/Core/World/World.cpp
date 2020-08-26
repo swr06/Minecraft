@@ -117,8 +117,26 @@ namespace Minecraft
 				{
 					Chunk* chunk = EmplaceChunkInMap(i, j);
 					GenerateChunk(chunk, m_WorldSeed, m_WorldGenType);
-					chunk->p_MeshState = ChunkMeshState::Unbuilt;
 				}
+			}
+		}
+
+		int flora_build_distance_x = build_distance_x - 1;
+		int flora_build_distance_z = build_distance_z - 1;
+
+		for (int i = player_chunk_x - flora_build_distance_x; i < player_chunk_x + flora_build_distance_x; i++)
+		{
+			for (int j = player_chunk_z - flora_build_distance_z; j < player_chunk_z + flora_build_distance_z; j++)
+			{
+				Chunk* chunk = RetrieveChunkFromMap(i, j);
+
+				if (chunk->p_ChunkState == ChunkState::Ungenerated)
+				{
+					GenerateChunkFlora(chunk, m_WorldSeed, m_WorldGenType);
+					chunk->p_MeshState = ChunkMeshState::Unbuilt;
+					chunk->p_ChunkState = ChunkState::Generated;
+				}
+
 			}
 		}
 

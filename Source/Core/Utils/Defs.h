@@ -1,11 +1,11 @@
 #include <string>
 
 #define CHUNK_SIZE_X 16
-#define CHUNK_SIZE_Y 256
+#define CHUNK_SIZE_Y 250
 #define CHUNK_SIZE_Z 16
-#define MAX_STRUCTURE_X 9
-#define MAX_STRUCTURE_Y 9
-#define MAX_STRUCTURE_Z 9
+#define MAX_STRUCTURE_X 10
+#define MAX_STRUCTURE_Y 10
+#define MAX_STRUCTURE_Z 10
 
 
 // For windowing and context creation

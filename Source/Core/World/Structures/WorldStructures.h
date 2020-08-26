@@ -126,7 +126,7 @@ namespace Minecraft
 	public : 
 		CactusStructure()
 		{
-			SetBlocksY(glm::vec3(2, 0, 2), 6, BlockType::Cactus);
+			SetBlocksY(glm::vec3(0, 0, 0), 6, BlockType::Cactus);
 		}
 	};
 }

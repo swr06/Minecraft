@@ -6,6 +6,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/compatibility.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtc/noise.hpp>
 
 // Include fast noise
 #include "../Noise/FastNoise.h"
@@ -19,6 +20,8 @@
 
 namespace Minecraft
 {
+	Block* GetWorldBlock(const glm::vec3& block_pos);
+
 	enum Biome
 	{
 		Grassland = 9,
@@ -29,4 +32,5 @@ namespace Minecraft
 	};
 
 	void GenerateChunk(Chunk* chunk, const int WorldSeed, WorldGenerationType gen_type);
+	void GenerateChunkFlora(Chunk* chunk, const int WorldSeed, WorldGenerationType gen_type);
 }

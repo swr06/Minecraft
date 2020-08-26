@@ -50,7 +50,6 @@ namespace Minecraft
 		m_DefaultChunkShader.SetMatrix4("u_ViewMatrix", camera->GetViewMatrix());
 		m_DefaultChunkShader.SetInteger("u_RenderDistance", render_distance);
 		m_DefaultChunkShader.SetInteger("u_CHUNK_SIZE_X", CHUNK_SIZE_X);
-		m_DefaultChunkShader.SetInteger("u_CHUNK_SIZE_Y", CHUNK_SIZE_Y);
 		m_DefaultChunkShader.SetInteger("u_CHUNK_SIZE_Z", CHUNK_SIZE_Z);
 		m_DefaultChunkShader.SetFloat("u_SunPositionY", sun_position.y);
 		m_DefaultChunkShader.SetVector4f("u_FogColor", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)); // WHITE FOG
