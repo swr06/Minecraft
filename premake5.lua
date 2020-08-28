@@ -22,7 +22,8 @@ project "Minecraft Clone"
 	{
 		"Source/Core/Dependencies/GLEW/include",
 		"Source/Core/Dependencies/GLFW/include",
-		"Source/Core/Dependencies/glm"
+		"Source/Core/Dependencies/glm",
+		"Source/Core/Dependencies/imgui"
 	}
 
 	links
