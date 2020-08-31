@@ -2,12 +2,25 @@
 
 namespace Minecraft
 {
+	/*
+	The below externs are defined in application.cpp and are the variables controled via the setting menu.
+	I know using externs is evil but I was lazy leave me alone :C
+	*/
+
+	extern float ex_PlayerSpeed;
+	extern float ex_PlayerSensitivity;
+
 	void Player::OnUpdate(GLFWwindow* window)
 	{
-		const float camera_speed = 0.05f;
+		const float camera_speed = ex_PlayerSpeed;
 
 		p_Camera.ResetAcceleration();
 		FPSCamera cam = p_Camera;
+
+		if (p_Camera.GetSensitivity() != ex_PlayerSensitivity)
+		{
+			p_Camera.SetSensitivity(ex_PlayerSensitivity);
+		}
 
 		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		{

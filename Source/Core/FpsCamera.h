@@ -41,6 +41,8 @@ namespace Minecraft
 			_Sensitivity = sensitivity;
 		}
 
+		float GetSensitivity() { return _Sensitivity; }
+
 		inline const glm::vec3& GetPosition()
 		{
 			return m_Position;
@@ -121,6 +123,7 @@ namespace Minecraft
 			RecalculateProjectionMatrix();
 			RecalculateViewMatrix();
 		}
+
 		void OnUpdate();
 
 	private : 

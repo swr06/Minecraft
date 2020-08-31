@@ -58,6 +58,10 @@ void GLAPIENTRY gl_debug_callback(GLenum source, GLenum type, GLuint id,
 namespace Minecraft
 {
 	static const constexpr bool ShouldInitializeImgui = true;
+	constexpr float default_player_speed = 0.05f;
+	constexpr float default_player_sensitivity = 0.25f;
+	float ex_PlayerSpeed = default_player_speed;
+	float ex_PlayerSensitivity = default_player_sensitivity;
 
 	Application MinecraftApplication;
 
@@ -360,10 +364,75 @@ namespace Minecraft
 
 				ImGui::NewLine();
 
+				if (ImGui::Button("SETTINGS", ImVec2(200, 48)))
+				{
+					m_GameState = GameState::SettingsState;
+				}
+
+				ImGui::NewLine();
+
 				if (ImGui::Button("EXIT!", ImVec2(200, 48)))
 				{
 					glfwSetWindowShouldClose(m_Window, true);
 				}
+
+				ImGui::PopFont();
+				ImGui::End();
+			}
+		}
+
+		static GameState prev_settings_state;
+
+		if (m_GameState != GameState::SettingsState)
+		{
+			prev_settings_state = m_GameState;
+		}
+
+
+		if (m_GameState == GameState::SettingsState)
+		{
+			glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+
+			bool open = true;
+
+			ImGuiWindowFlags window_flags = 0;
+			window_flags |= ImGuiWindowFlags_NoTitleBar;
+			window_flags |= ImGuiWindowFlags_NoScrollbar;
+			window_flags |= ImGuiWindowFlags_NoMove;
+			window_flags |= ImGuiWindowFlags_NoResize;
+			window_flags |= ImGuiWindowFlags_NoCollapse;
+			window_flags |= ImGuiWindowFlags_NoNav;
+			window_flags |= ImGuiWindowFlags_NoBackground;
+
+			//ImGui::SetNextWindowPos(ImVec2((w / 2) - 250.0f, (h / 2) - 100.0f), ImGuiCond_Always);
+			ImGui::SetNextWindowPos(ImVec2(50,50), ImGuiCond_Always);
+			ImGui::SetNextWindowSize(ImVec2(800, 600), ImGuiCond_Always);
+
+			if (ImGui::Begin("Settings Menu", &open, window_flags))
+			{
+				m_Renderer2D->RenderQuad(glm::vec2(0, 0), &m_BlurMenuBackground, &m_OrthagonalCamera, w, h);
+				ImGui::PushFont(m_Font);
+
+				ImGui::Text("Settings! \n\n");
+
+				ImGui::SliderFloat("Player Speed", &ex_PlayerSpeed, 0.01, 0.1);
+				ImGui::SliderFloat("Sensitivity", &ex_PlayerSensitivity, 0.01, 1.5f);
+
+				ImGui::NewLine();
+				ImGui::NewLine();
+
+				if (ImGui::Button("Ok"))
+				{
+					m_GameState = prev_settings_state;
+				}
+
+				if (ImGui::Button("Reset"))
+				{
+					ex_PlayerSpeed = default_player_speed;
+					ex_PlayerSensitivity = default_player_sensitivity;
+				}
+
+				ImGui::NewLine();
 
 				ImGui::PopFont();
 				ImGui::End();
@@ -395,6 +464,13 @@ namespace Minecraft
 				if (ImGui::Button("RESUME", ImVec2(200, 48)))
 				{
 					m_GameState = GameState::PlayingState;
+				}
+
+				ImGui::NewLine();
+
+				if (ImGui::Button("SETTINGS", ImVec2(200, 48)))
+				{
+					m_GameState = GameState::SettingsState;
 				}
 
 				ImGui::NewLine();

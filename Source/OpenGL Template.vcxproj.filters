@@ -143,6 +143,12 @@
     <ClCompile Include="Core\OpenGL Classes\Framebuffer.cpp">
       <Filter>Abstract OpenGL\Framebuffer</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Particle System\Particle.cpp">
+      <Filter>Minecraft\Particle System</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Particle System\ParticleSystem.cpp">
+      <Filter>Minecraft\Particle System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\OpenGL Classes\Fps.h">
@@ -313,6 +319,12 @@
     <ClInclude Include="Core\OpenGL Classes\Framebuffer.h">
       <Filter>Abstract OpenGL\Framebuffer</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Particle System\ParticleSystem.h">
+      <Filter>Minecraft\Particle System</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Particle System\Particle.h">
+      <Filter>Minecraft\Particle System</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Dependencies">
@@ -417,6 +429,9 @@
     <Filter Include="Abstract OpenGL\Framebuffer">
       <UniqueIdentifier>{9cdd1cbf-28a8-47d2-ab5c-12b14d212d16}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Minecraft\Particle System">
+      <UniqueIdentifier>{4fedbd49-e2ba-4eb0-8538-eb21f5b3c506}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\BlockRendererFrag.glsl">
@@ -471,6 +486,12 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\ModelRendererVertex.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\ParticleFrag.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\ParticleVert.glsl">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
