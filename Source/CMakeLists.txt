@@ -91,7 +91,7 @@ set(Minecraft_source
     Core/OrthographicCamera.h
     Core/TextureAtlas.cpp
     Core/TextureAtlas.h
-    Minecraft.cpp
+    main.cpp
 )
 
 add_executable(Minecraft ${Minecraft_source})
