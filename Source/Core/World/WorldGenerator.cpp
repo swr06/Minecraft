@@ -7,7 +7,7 @@ namespace Minecraft
 
     // Water levels
     constexpr int water_min = 2;
-    constexpr int water_max = 90;
+    constexpr int water_max = 84;
 
     BlockType vein_block = BlockType::Sand;
 

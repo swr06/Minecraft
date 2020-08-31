@@ -596,7 +596,7 @@ namespace Minecraft
 						else
 						{
 							/*
-								We need to update the light when ever a block is placed or remove.
+								We need to update the light when ever a block is removed.
 								Add the surrounding blocks to the removal bfs queue
 								We also need to check for chunk bounds
 							*/
@@ -666,6 +666,17 @@ namespace Minecraft
 							else if (edit_block.first->p_BlockType == BlockType::Bedrock)
 							{
 								return;
+							}
+
+							/*
+							If there is a flower or other model above destroy that too. 
+							*/
+							if (local_block_pos.y >= 0 && local_block_pos.y < CHUNK_SIZE_Y - 1)
+							{
+								if (edit_block.second->p_ChunkContents.at(local_block_pos.x).at(local_block_pos.y + 1).at(local_block_pos.z).DependsOnBelowBlock())
+								{
+									edit_block.second->p_ChunkContents.at(local_block_pos.x).at(local_block_pos.y + 1).at(local_block_pos.z).p_BlockType = BlockType::Air;
+								}
 							}
 
 							edit_block.first->p_BlockType = BlockType::Air;

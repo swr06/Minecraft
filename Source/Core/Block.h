@@ -83,6 +83,19 @@ namespace Minecraft
 			return false;
 		}
 
+		/*
+		Blocks like cactus and flowers need their below block to exist. This function returns true if it depends on it's lower block
+		*/
+		bool DependsOnBelowBlock()
+		{
+			if (IsModel())
+			{
+				return true;
+			}
+
+			return false;
+		}
+
 		bool IsOpaque() const
 		{
 			if (p_BlockType != BlockType::Air && p_BlockType != BlockType::GlassWhite 
