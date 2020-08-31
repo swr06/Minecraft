@@ -33,7 +33,8 @@ A Tiny Minecraft clone made with C++ and OpenGL.
 - Accurate block editing using a voxel transversal algorithm
 - Cave generation using 3D perlin noise
 - Water generation 
-- No OS Specific commands/dependencies. 
+- No OS Specific dependencies
+- Supports windows and linux. (Should work on mac but not tested)
 
 # Features to come 
 - Multiplayer and networking
