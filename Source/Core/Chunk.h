@@ -65,8 +65,6 @@ namespace Minecraft
 		std::array<std::array<uint8_t, CHUNK_SIZE_X>, CHUNK_SIZE_Z> p_HeightMap;
 
 	private :
-		// each chunk will be a 16x16x16 block space. A 3D array
-
 		ChunkMesh m_ChunkMesh;
 	};
 }

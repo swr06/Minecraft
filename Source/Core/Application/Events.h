@@ -11,5 +11,6 @@ namespace Minecraft
 	namespace EventSystem
 	{
 		void InitEventSystem(GLFWwindow* window, std::vector<Event>* event_queue);
+		void QueueEvent(Event e);
 	}
 }

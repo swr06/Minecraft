@@ -175,6 +175,11 @@ namespace Minecraft
 		m_LogoTexture.CreateTexture("Resources/Branding/logo.png", false);
 		m_BlurMenuBackground.CreateTexture("Resources/Branding/menu_blur.png", false);
 		m_Renderer2D = new Renderer2D;
+
+		// Queue a window resize event to properly scale the cameras (according to the window dimensions)
+		EventSystem::Event e;
+		e.type = EventSystem::EventTypes::WindowResize;
+		m_EventQueue.push_back(e);
 	}
 
 	Application::~Application()
@@ -543,6 +548,10 @@ namespace Minecraft
 					{
 						m_World = WorldFileHandler::LoadWorld(Saves.at(i));
 						m_GameState = GameState::PlayingState;
+
+						EventSystem::Event e;
+						e.type = EventSystem::EventTypes::WindowResize;
+						m_EventQueue.push_back(e);
 						break;
 					}
 
@@ -683,8 +692,14 @@ namespace Minecraft
 
 		case EventSystem::EventTypes::WindowResize:
 		{
-			glViewport(0, 0, e.wx, e.wy);
-			m_OrthagonalCamera.SetProjection(0.0f, e.wx, 0.0f, e.wy);
+			int wx = 0, wy = 0 ; 
+
+			glfwGetFramebufferSize(m_Window, &wx, &wy);
+			glViewport(0, 0, wx, wy);
+			m_OrthagonalCamera.SetProjection(0.0f, wx, 0.0f, wy);
+			e.wx = wx;
+			e.wy = wy;
+
 			break;
 		}
 

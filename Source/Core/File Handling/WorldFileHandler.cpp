@@ -137,7 +137,7 @@ namespace Minecraft
                 fclose(world_file);
 
                 World* world = new World(world_data.seed, {DEFAULT_WINDOW_X, DEFAULT_WINDOW_Y}, world_name, (WorldGenerationType)world_data.world_gen_type);
-
+               
                 // iterate through all the files in the chunk directory and read the binary data  
                 for (auto entry : std::filesystem::directory_iterator(cdata_dir_s.str()))
                 {
@@ -182,6 +182,7 @@ namespace Minecraft
 
                 return nullptr;
             }
+
         }
     }
 }

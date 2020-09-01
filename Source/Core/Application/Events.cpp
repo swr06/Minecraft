@@ -4,7 +4,7 @@ namespace Minecraft
 {
 	namespace EventSystem
 	{
-		static std::vector<Event>* EventQueue;
+		static std::vector<Event>* EventQueue = nullptr;
 		
 		void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 		void MouseCallback(GLFWwindow* window, int button, int action, int mods);
@@ -24,6 +24,14 @@ namespace Minecraft
 			glfwSetScrollCallback(window, ScrollCallback);
 			glfwSetCursorPosCallback(window, CursorPosCallback);
 			glfwSetFramebufferSizeCallback(window, FramebufferSizeCallback);
+		}
+
+		void QueueEvent(Event e)
+		{
+			if (EventQueue)
+			{
+				EventQueue->push_back(e);
+			}
 		}
 
 		void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
