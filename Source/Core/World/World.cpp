@@ -255,6 +255,12 @@ namespace Minecraft
 		{
 			TickSun();
 		}
+
+		// TODO : Work on the particle system
+
+		//static ParticleSystem::Particle p(glm::vec3(p_Player->p_Position.x, p_Player->p_Position.y, p_Player->p_Position.z + 2), glm::vec3(0,0,0), 10, 0, 0);
+		//m_ParticleRenderer.RenderParticle(p, &p_Player->p_Camera);
+		//p.OnUpdate();
 	}
 
 	/*

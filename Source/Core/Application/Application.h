@@ -38,7 +38,8 @@ namespace Minecraft
 		PlayingState,
 		PauseState,
 		HelpState,
-		SettingsState
+		SettingsState,
+		CommandMenuState
 	};
 
 	class Application

@@ -20,7 +20,7 @@ namespace Minecraft
 		{
 		public :
 			ParticleRenderer();
-			void RenderParticle(const Particle& particle);
+			void RenderParticle(const Particle& particle, FPSCamera* camera);
 
 		private :
 			GLClasses::Shader m_ParticleShader;

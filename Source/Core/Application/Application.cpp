@@ -415,7 +415,7 @@ namespace Minecraft
 
 				ImGui::Text("Settings! \n\n");
 
-				ImGui::SliderFloat("Player Speed", &ex_PlayerSpeed, 0.01, 0.1);
+				ImGui::SliderFloat("Player Speed", &ex_PlayerSpeed, 0.01, 0.18f);
 				ImGui::SliderFloat("Sensitivity", &ex_PlayerSensitivity, 0.01, 1.5f);
 
 				ImGui::NewLine();

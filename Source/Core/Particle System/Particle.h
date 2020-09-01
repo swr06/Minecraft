@@ -12,7 +12,7 @@ namespace Minecraft
 {
 	namespace ParticleSystem
 	{
-		constexpr float gravity = 1.0f;
+		constexpr float gravity = 1;
 
 		class Particle
 		{
@@ -31,15 +31,15 @@ namespace Minecraft
 			bool OnUpdate()
 			{
 				// Update delta every frame
-				static float prev_time = 0.0f;
-				prev_time = static_cast<float>(glfwGetTime());
-				float delta = glfwGetTime() - prev_time;
+				float delta = 0.0025f;
 
 				// Update the particle
-				p_Velocity.y += gravity * delta;
+				//p_Velocity.y -= gravity * delta; // THIS IS TO MAKE IT FALL OVER TIME!
 				glm::vec3 change = p_Velocity;
 				change *= delta;
 
+				p_Position += change;
+				
 				p_ElapsedTime += delta;
 				return IsAlive();
 			}

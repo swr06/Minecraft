@@ -25,6 +25,8 @@
 #include "../Utils/Ray.h"
 #include "../Clouds/Cloud.h"
 #include "../CubeRenderer.h"
+#include "../Particle System/ParticleSystem.h"
+#include "../Particle System/Particle.h"
 #include "WorldGeneratorType.h"
 #include "WorldGenerator.h"
 
@@ -109,5 +111,7 @@ namespace Minecraft
 
 		const std::string m_WorldName;
 		WorldGenerationType m_WorldGenType;
+		ParticleSystem::ParticleRenderer m_ParticleRenderer;
+		
 	};
 }
