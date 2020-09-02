@@ -56,11 +56,4 @@ namespace Minecraft
 		i16Vec2 texture_coords;
 		uint8_t block_face_lighting;
 	};
-
-	struct ModelVertex
-	{
-		glm::vec3 position;
-		i16Vec2 texture_coords;
-		float lighting_level;
-	};
 }

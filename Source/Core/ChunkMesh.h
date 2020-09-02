@@ -53,11 +53,11 @@ namespace Minecraft
 		void AddFace(Chunk* chunk, BlockFaceType face_type, const glm::vec3& position, BlockType type, uint8_t light_level,
 			bool buffer = true);
 
-		void AddModel(const glm::vec3& position, BlockType type, float light_level);
+		void AddModel(Chunk* chunk, const glm::vec3& local_pos, BlockType type, float light_level);
 
 		std::vector<Vertex> m_Vertices;
 		std::vector<Vertex> m_TransparentVertices;
-		std::vector<ModelVertex> m_ModelVertices;
+		std::vector<Vertex> m_ModelVertices;
 		glm::vec4 m_TopFace[4];
 		glm::vec4 m_BottomFace[4];
 		glm::vec4 m_ForwardFace[4];

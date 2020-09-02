@@ -24,7 +24,7 @@ Meshes :
 A basic algorithm is used to calculate shadows. It checks the highest block in a chunk and sets the shadow level if it is a particular range
 
 -- Lighting -- 
-I retrieve the light value from the 3d light value array in a chunk and store it in a vertex
+I retrieve the light value from the 3d light value array in a chunk and store it in each vertex
 
 -- Info --
 When ever a chunk is updated. The entire mesh is regenerated instead of modifying the existing vertices..
@@ -93,9 +93,10 @@ namespace Minecraft
 		p_ModelVAO.Bind();
 		m_ModelVBO.Bind();
 		StaticIBO.Bind();
-		m_ModelVBO.VertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ModelVertex), (void*)offsetof(ModelVertex, position));
-		m_ModelVBO.VertexAttribIPointer(1, 2, GL_UNSIGNED_SHORT, sizeof(ModelVertex), (void*)offsetof(ModelVertex, texture_coords));
-		m_ModelVBO.VertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, sizeof(ModelVertex), (void*)offsetof(ModelVertex, lighting_level));
+		m_ModelVBO.VertexAttribIPointer(0, 3, GL_UNSIGNED_BYTE, sizeof(Vertex), (void*)offsetof(Vertex, position));
+		m_ModelVBO.VertexAttribIPointer(1, 2, GL_UNSIGNED_SHORT, sizeof(Vertex), (void*)offsetof(Vertex, texture_coords));
+		m_ModelVBO.VertexAttribIPointer(2, 1, GL_UNSIGNED_BYTE, sizeof(Vertex), (void*)offsetof(Vertex, lighting_level));
+		m_ModelVBO.VertexAttribIPointer(3, 1, GL_UNSIGNED_BYTE, sizeof(Vertex), (void*)offsetof(Vertex, block_face_lighting));
 		p_ModelVAO.Unbind();
 
 		// Set the values of the 2D planes
@@ -181,7 +182,7 @@ namespace Minecraft
 
 						if (block->IsModel())
 						{
-							AddModel(world_position, block->p_BlockType, light_level);
+							AddModel(chunk, local_position, block->p_BlockType, light_level);
 							continue;
 						}
 
@@ -493,7 +494,7 @@ namespace Minecraft
 
 		if (m_ModelVertices.size() > 0)
 		{
-			m_ModelVBO.BufferData(this->m_ModelVertices.size() * sizeof(ModelVertex), &this->m_ModelVertices.front(), GL_STATIC_DRAW);
+			m_ModelVBO.BufferData(this->m_ModelVertices.size() * sizeof(Vertex), &this->m_ModelVertices.front(), GL_STATIC_DRAW);
 			p_ModelVerticesCount = m_ModelVertices.size();
 			m_ModelVertices.clear();
 		}
@@ -721,21 +722,29 @@ namespace Minecraft
 	}
 
 	// Adds a model such as a flower or a deadbush to the chunk mesh
-	void ChunkMesh::AddModel(const glm::vec3& position, BlockType type, float light_level)
+	void ChunkMesh::AddModel(Chunk* chunk, const glm::vec3& local_pos, BlockType type, float light_level)
 	{
-		glm::mat4 translation = glm::translate(glm::mat4(1.0f), position);
+		glm::mat4 translation = glm::translate(glm::mat4(1.0f), local_pos);
 		Model model(type);
+
+		uint8_t face_light = 10;
+
+		if (HasShadow(chunk, local_pos.x, local_pos.y, local_pos.z))
+		{
+			face_light -= 2;
+		}
 
 		for (int i = 0; i < model.p_ModelVertices.size(); i++)
 		{
-			ModelVertex vertex;
+			Vertex vertex;
 
 			glm::vec4 pos = glm::vec4(model.p_ModelVertices.at(i).position, 1.0f);
 			pos = translation * pos;
 
-			vertex.position = pos;
-			vertex.texture_coords = { model.p_ModelVertices.at(i).tex_coords };
+			vertex.position = glm::vec3(pos.x, pos.y, pos.z);
+			vertex.texture_coords = model.p_ModelVertices.at(i).tex_coords;
 			vertex.lighting_level = light_level;
+			vertex.block_face_lighting = face_light;
 
 			m_ModelVertices.push_back(vertex);
 		}

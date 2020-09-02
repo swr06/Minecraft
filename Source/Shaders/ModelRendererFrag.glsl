@@ -1,7 +1,7 @@
 #version 330 core
 in float v_Visibility;
 in vec2 v_TexCoord;
-in vec4 v_TintColor;
+in flat vec4 v_TintColor;
 in float v_SunlightIntensity;
 
 out vec4 o_Color;
