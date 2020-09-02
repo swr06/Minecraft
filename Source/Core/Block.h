@@ -96,6 +96,16 @@ namespace Minecraft
 			return false;
 		}
 
+		bool CastsShadow()
+		{
+			if (p_BlockType != BlockType::Air && p_BlockType != BlockType::GlassWhite && !IsModel())
+			{
+				return true;
+			}
+
+			return false;
+		}
+
 		bool IsOpaque() const
 		{
 			if (p_BlockType != BlockType::Air && p_BlockType != BlockType::GlassWhite 

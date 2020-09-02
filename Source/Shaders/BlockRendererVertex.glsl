@@ -38,7 +38,8 @@ void main()
 	lighting_level /= 2;
 	lighting_level /= 10;
 
-	float block_light = float(a_BlockFaceLightLevel) / float(10);
+	float block_light = float(a_BlockFaceLightLevel);
+	block_light /= 10.0f;
 
 	v_SunlightIntensity = max(u_SunPositionY / 1000.0f, 0.6f);
 

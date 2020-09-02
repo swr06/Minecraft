@@ -8,6 +8,7 @@ namespace Minecraft
 
 	constexpr float max_sun = 1500.0f;
 	constexpr float min_sun = 10.0f;
+	constexpr uint8_t LAMP_LIGHT_LEVEL = 32;
 
 	/*
 		Prints a 3 component vector on the screen
@@ -589,7 +590,7 @@ namespace Minecraft
 
 							if (static_cast<BlockType>(p_Player->p_CurrentHeldBlock) == BlockType::Lamp_On)
 							{
-								edit_block.second->SetTorchLightAt(local_block_pos.x, local_block_pos.y, local_block_pos.z, 32);
+								edit_block.second->SetTorchLightAt(local_block_pos.x, local_block_pos.y, local_block_pos.z, LAMP_LIGHT_LEVEL);
 
 								// Push it to the light bfs
 								m_LightBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y, local_block_pos.z), edit_block.second });

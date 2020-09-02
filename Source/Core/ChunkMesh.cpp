@@ -20,6 +20,12 @@ Meshes :
 - Transparent block mesh
 - Model mesh 
 
+-- Shadows -- 
+A basic algorithm is used to calculate shadows. It checks the highest block in a chunk and sets the shadow level if it is a particular range
+
+-- Lighting -- 
+I retrieve the light value from the 3d light value array in a chunk and store it in a vertex
+
 -- Info --
 When ever a chunk is updated. The entire mesh is regenerated instead of modifying the existing vertices..
 Index buffers are used to maximize performance
@@ -504,6 +510,20 @@ namespace Minecraft
 		return glm::ivec3(lx, ly, lz);
 	}
 
+	bool HasShadow(Chunk* chunk, int x, int y, int z)
+	{
+		constexpr int max_shadow = 10;
+		for (int i = y + 1; i < y + max_shadow; i++)
+		{
+			if (chunk->p_ChunkContents.at(x).at(i).at(z).CastsShadow())
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	void ChunkMesh::AddFace(Chunk* chunk, BlockFaceType face_type, const glm::vec3& position, BlockType type, uint8_t light_level,
 		bool buffer)
 	{
@@ -516,12 +536,19 @@ namespace Minecraft
 
 		// Order
 		// Top, bottom, front, back, left, right
-		static const uint8_t lighting_levels[6] = { 10, 2, 6, 7, 6, 7 };
+		static const uint8_t lighting_levels[6] = { 10, 3, 6, 7, 6, 7 };
 
 		switch (face_type)
 		{
 		case BlockFaceType::top:
 		{
+			uint8_t face_light_level = 10;
+
+			if (HasShadow(chunk, position.x, position.y, position.z))
+			{
+				face_light_level -= 2;
+			}
+
 			v1.position = translation * m_TopFace[0];
 			v2.position = translation * m_TopFace[1];
 			v3.position = translation * m_TopFace[2];
@@ -533,10 +560,10 @@ namespace Minecraft
 			v3.lighting_level = light_level;
 			v4.lighting_level = light_level;
 
-			v1.block_face_lighting = lighting_levels[0];
-			v2.block_face_lighting = lighting_levels[0];
-			v3.block_face_lighting = lighting_levels[0];
-			v4.block_face_lighting = lighting_levels[0];
+			v1.block_face_lighting = face_light_level;
+			v2.block_face_lighting = face_light_level;
+			v3.block_face_lighting = face_light_level;
+			v4.block_face_lighting = face_light_level;
 
 			break;
 		}
