@@ -46,7 +46,7 @@ namespace Minecraft
 
 			m_ParticleShader.Use();
 			m_ParticleShader.SetMatrix4("u_ViewMatrix", view_matrix);
-			m_ParticleShader.SetMatrix4("u_ProjectionMatrix", proj_matrix);
+			m_ParticleShader.SetMatrix4("u_ProjectionMatrix", proj_matrix); 
 			m_ParticleShader.SetMatrix4("u_ModelMatrix", model_matrix);
 			VAO.Bind();
 			DebugGLFunction(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0));

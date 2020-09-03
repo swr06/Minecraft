@@ -1,4 +1,5 @@
 #include <iostream>
+#include <glfw3.h>
 
 namespace Minecraft
 {
