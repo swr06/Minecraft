@@ -31,7 +31,7 @@ namespace Minecraft
 		{
 		public : 
 			ParticleEmitter();
-			void EmitParticlesAt(float lifetime, int num_particles, const glm::vec3& origin, const glm::vec2& extent, const glm::vec3& vel);
+			void EmitParticlesAt(float lifetime, int num_particles, const glm::vec3& origin, const glm::vec3& extent, const glm::vec3& vel);
 			void OnUpdateAndRender(FPSCamera* camera);
 			void CleanUpList();
 

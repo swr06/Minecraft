@@ -64,7 +64,7 @@ namespace Minecraft
 
 		}
 
-		void ParticleEmitter::EmitParticlesAt(float lifetime, int num_particles, const glm::vec3& origin, const glm::vec2& extent, const glm::vec3& vel)
+		void ParticleEmitter::EmitParticlesAt(float lifetime, int num_particles, const glm::vec3& origin, const glm::vec3& extent, const glm::vec3& vel)
 		{
 			static Random random;
 
@@ -72,9 +72,22 @@ namespace Minecraft
 			{
 				// Increment the x and z by a random amount
 				float ix = random.UnsignedInt(extent.x) * 0.1f;
-				float iz = random.UnsignedInt(extent.y) * 0.1f;
+				float iy = random.UnsignedInt(extent.y) * 0.1f;
+				float iz = random.UnsignedInt(extent.z) * 0.1f;
+				ParticleDirection dir = ParticleDirection::left;
 
-				Particle p(glm::vec3(origin.x + ix, origin.y, origin.z + iz), vel, lifetime, 0.25f);
+				if (random.Int(4) % 2 == 0) 
+				{ 
+					ix = -ix;
+					iz = -iz; 
+				}
+
+				if (random.Int(2) == 0)
+				{
+					dir = ParticleDirection::right;
+				}
+
+				Particle p(glm::vec3(origin.x + ix, origin.y + iy, origin.z + iz), vel, lifetime, 0.1f, dir);
 				m_Particles.push_back(p);
 			}
 		}

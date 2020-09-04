@@ -257,11 +257,13 @@ namespace Minecraft
 			TickSun();
 		}
 
-		// TODO : Work on the particle system
+		// Clean up the particles every x frames
+		if (m_CurrentFrame % 300 == 0)
+		{
+			m_ParticleEmitter.CleanUpList();
+		}
 
-		static ParticleSystem::Particle p(glm::vec3(p_Player->p_Position.x, p_Player->p_Position.y, p_Player->p_Position.z + 2), glm::vec3(1,1,1), 10, 0.35f);
-		m_ParticleRenderer.RenderParticle(p, &p_Player->p_Camera);
-		p.OnUpdate();
+		m_ParticleEmitter.OnUpdateAndRender(&p_Player->p_Camera);
 	}
 
 	/*
@@ -686,7 +688,18 @@ namespace Minecraft
 								}
 							}
 
+							glm::vec3 particle_pos;
+							particle_pos.x = floor(position.x);
+							particle_pos.y = position.y;
+							particle_pos.z = floor(position.z);
+
+							particle_pos.x += 0.5f;
+							particle_pos.z += 0.5f;
+
 							edit_block.first->p_BlockType = BlockType::Air;
+							m_ParticleEmitter.EmitParticlesAt(3, 50,
+								particle_pos, glm::vec3(5, 5, 5), glm::vec3(0.10f, 1, 0.10f));
+
 							UpdateLights();
 						}
 

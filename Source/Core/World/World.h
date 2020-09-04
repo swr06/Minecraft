@@ -108,10 +108,10 @@ namespace Minecraft
 		CurrentSunCycle m_SunCycle;
 
 		ViewFrustum m_ViewFrustum;
+		ParticleSystem::ParticleEmitter m_ParticleEmitter;
 
 		const std::string m_WorldName;
 		WorldGenerationType m_WorldGenType;
-		ParticleSystem::ParticleRenderer m_ParticleRenderer;
 		
 	};
 }

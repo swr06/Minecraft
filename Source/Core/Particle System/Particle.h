@@ -14,30 +14,49 @@ namespace Minecraft
 	{
 		constexpr float gravity = 1;
 
+		enum class ParticleDirection
+		{
+			left = 0,
+			right
+		};
+
 		class Particle
 		{
 		public :
 
-			Particle(const glm::vec3& position, const glm::vec3& velocity, const float lifetime, const float scale)
+			Particle(const glm::vec3& position, const glm::vec3& velocity, const float lifetime, const float scale, ParticleDirection dir)
 			{
 				p_Position = position;
 				p_Velocity = velocity;
 				p_Lifetime = lifetime;
 				p_Scale = scale;
-
+				p_IsAlive = true;
+				m_Dir = dir;
 			}
 
 			void OnUpdate()
 			{
 				// Update delta every frame
-				float delta = 0.01f;
+				float delta = 0.1f;
 
 				// Update the particle
 				p_Velocity.y -= gravity * delta; 
 				glm::vec3 change = p_Velocity;
 				change *= delta;
 
-				p_Position += change;
+				p_Position.y += change.y;
+
+				if (m_Dir == ParticleDirection::right)
+				{
+					p_Position.x += change.x;
+					p_Position.z += change.z;
+				}
+
+				else
+				{
+					p_Position.x -= change.x;
+					p_Position.z -= change.z;
+				}
 				
 				p_ElapsedTime += delta;
 				p_IsAlive = IsAlive();
@@ -58,7 +77,9 @@ namespace Minecraft
 			float p_Rotation;
 			float p_Scale;
 			bool p_IsAlive;
-			
+
+		private :
+			ParticleDirection m_Dir;
 		};
 	}
 }
