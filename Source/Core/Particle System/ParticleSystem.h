@@ -11,6 +11,7 @@
 #include "../FpsCamera.h"
 
 #include "../Particle System/Particle.h"
+#include "../Utils/Random.h"
 
 namespace Minecraft
 {
@@ -24,6 +25,19 @@ namespace Minecraft
 
 		private :
 			GLClasses::Shader m_ParticleShader;
+		};
+
+		class ParticleEmitter
+		{
+		public : 
+			ParticleEmitter();
+			void EmitParticlesAt(float lifetime, int num_particles, const glm::vec3& origin, const glm::vec2& extent, const glm::vec3& vel);
+			void OnUpdateAndRender(FPSCamera* camera);
+			void CleanUpList();
+
+		private :
+			std::vector<Particle> m_Particles;
+			ParticleRenderer m_Renderer;
 		};
 	}
 }

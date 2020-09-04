@@ -18,37 +18,35 @@ namespace Minecraft
 		{
 		public :
 
-			Particle(const glm::vec3& position, const glm::vec3& velocity, const float lifetime, const float rot, const float scale)
+			Particle(const glm::vec3& position, const glm::vec3& velocity, const float lifetime, const float scale)
 			{
 				p_Position = position;
 				p_Velocity = velocity;
 				p_Lifetime = lifetime;
-				p_Rotation = rot;
 				p_Scale = scale;
 
 			}
 
-			bool OnUpdate()
+			void OnUpdate()
 			{
 				// Update delta every frame
-				float delta = 0.0025f;
+				float delta = 0.01f;
 
 				// Update the particle
-				//p_Velocity.y -= gravity * delta; // THIS IS TO MAKE IT FALL OVER TIME!
+				p_Velocity.y -= gravity * delta; 
 				glm::vec3 change = p_Velocity;
 				change *= delta;
 
 				p_Position += change;
 				
 				p_ElapsedTime += delta;
-				return IsAlive();
+				p_IsAlive = IsAlive();
 			}
 
 			const glm::vec3& GetPosition() const { return p_Position; }
 			const glm::vec3& GetVelocity() const { return p_Velocity; }
 			float GetLifetime() const { return p_Lifetime; }
 			float GetElapsedTime() const { return p_ElapsedTime; }
-			const float GetRot() const { return p_Rotation; }
 			const float GetScale() const { return p_Scale; }
 			bool IsAlive() const { return p_Lifetime > p_ElapsedTime; }
 			bool ISDead() const { return p_Lifetime < p_ElapsedTime; }
@@ -59,7 +57,7 @@ namespace Minecraft
 			float p_ElapsedTime;
 			float p_Rotation;
 			float p_Scale;
-
+			bool p_IsAlive;
 			
 		};
 	}

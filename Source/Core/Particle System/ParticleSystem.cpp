@@ -31,18 +31,24 @@ namespace Minecraft
 			VAO.Unbind();
 
 			glm::mat4 view_matrix = camera->GetViewMatrix();
-			view_matrix[0][0] = 1.0f;
-			view_matrix[0][1] = 0.0f;
-			view_matrix[0][2] = 0.0f;
-			view_matrix[1][0] = 0.0f;
-			view_matrix[1][1] = 1.0f;
-			view_matrix[1][2] = 0.0f;
-			view_matrix[2][0] = 0.0f;
-			view_matrix[2][1] = 0.0f;
-			view_matrix[2][2] = 1.0f;
+			glm::mat4 combine_matrix = glm::rotate(glm::mat4(1.0f), 0.0f, glm::vec3(1, 1, 1));
+
+			view_matrix = view_matrix * combine_matrix;
 
 			glm::mat4 proj_matrix = camera->GetProjectionMatrix();
 			glm::mat4 model_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(particle.p_Position));
+
+			model_matrix[0][0] = view_matrix[0][0];
+			model_matrix[0][1] = view_matrix[1][0];
+			model_matrix[0][2] = view_matrix[2][0];
+			model_matrix[1][0] = view_matrix[0][1];
+			model_matrix[1][1] = view_matrix[1][1];
+			model_matrix[1][2] = view_matrix[2][1];
+			model_matrix[2][0] = view_matrix[0][2];
+			model_matrix[2][1] = view_matrix[1][2];
+			model_matrix[2][2] = view_matrix[2][2];
+
+			model_matrix = model_matrix * glm::scale(glm::mat4(1.0f), glm::vec3(particle.GetScale()));
 
 			m_ParticleShader.Use();
 			m_ParticleShader.SetMatrix4("u_ViewMatrix", view_matrix);
@@ -51,6 +57,51 @@ namespace Minecraft
 			VAO.Bind();
 			DebugGLFunction(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0));
 			VAO.Unbind();
+		}
+
+		ParticleEmitter::ParticleEmitter()
+		{
+
+		}
+
+		void ParticleEmitter::EmitParticlesAt(float lifetime, int num_particles, const glm::vec3& origin, const glm::vec2& extent, const glm::vec3& vel)
+		{
+			static Random random;
+
+			for (int i = 0; i < num_particles; i++)
+			{
+				// Increment the x and z by a random amount
+				float ix = random.UnsignedInt(extent.x) * 0.1f;
+				float iz = random.UnsignedInt(extent.y) * 0.1f;
+
+				Particle p(glm::vec3(origin.x + ix, origin.y, origin.z + iz), vel, lifetime, 0.25f);
+				m_Particles.push_back(p);
+			}
+		}
+
+		void ParticleEmitter::OnUpdateAndRender(FPSCamera* camera)
+		{
+			for (int i = 0; i < m_Particles.size(); i++)
+			{
+				if (!m_Particles[i].p_IsAlive)
+				{
+					continue;
+				}
+
+				m_Particles[i].OnUpdate();
+				m_Renderer.RenderParticle(m_Particles[i], camera);
+			}
+		}
+
+		void ParticleEmitter::CleanUpList()
+		{
+			for (int i = 0; i < m_Particles.size(); i++)
+			{
+				if (!m_Particles[i].p_IsAlive)
+				{
+					m_Particles.erase(m_Particles.begin() + i);
+				}
+			}
 		}
 
 	}

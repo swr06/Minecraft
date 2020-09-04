@@ -11,7 +11,7 @@ namespace Minecraft
 
 		m_Rotation = 0.0f;
 		m_Position = glm::vec3(0.0f, 0.0f, 0.0f);
-		m_Front = glm::vec3(0.0f, 0.0f, -1.0f);
+		m_Front = glm::vec3(0.0f, 0.0f, 1.0f);
 		m_Up = glm::vec3(0.0f, 1.0f, 0.0f);
 		m_Acceleration = glm::vec3(0.0f);
 		m_Velocity = glm::vec3(0.0f);
