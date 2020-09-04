@@ -30,6 +30,8 @@ namespace Minecraft
 		void RenderChunkModels(Chunk* chunk);
 		void EndChunkModelRendering();
 
+		GLClasses::Texture* GetAtlasTexture() { return &m_BlockAtlas; }
+
 	private: 
 		GLClasses::VertexBuffer m_VBO;
 		GLClasses::VertexArray m_VAO;

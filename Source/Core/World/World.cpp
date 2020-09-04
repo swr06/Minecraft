@@ -149,7 +149,11 @@ namespace Minecraft
 		// Increase the frame count 
 		m_CurrentFrame++;
 
-		
+		// Clean up the particles every x frames
+		if (m_CurrentFrame % 300 == 0)
+		{
+			m_ParticleEmitter.CleanUpList();
+		}
 	}
 
 	/*
@@ -257,13 +261,7 @@ namespace Minecraft
 			TickSun();
 		}
 
-		// Clean up the particles every x frames
-		if (m_CurrentFrame % 300 == 0)
-		{
-			m_ParticleEmitter.CleanUpList();
-		}
-
-		m_ParticleEmitter.OnUpdateAndRender(&p_Player->p_Camera);
+		m_ParticleEmitter.OnUpdateAndRender(&p_Player->p_Camera, m_Renderer.GetAtlasTexture());
 	}
 
 	/*
@@ -696,10 +694,11 @@ namespace Minecraft
 							particle_pos.x += 0.5f;
 							particle_pos.z += 0.5f;
 
-							edit_block.first->p_BlockType = BlockType::Air;
-							m_ParticleEmitter.EmitParticlesAt(3, 50,
-								particle_pos, glm::vec3(5, 5, 5), glm::vec3(0.10f, 1, 0.10f));
+							// Emit particles at the block position
+							m_ParticleEmitter.EmitParticlesAt(10, 50,
+								particle_pos, glm::vec3(5, 5, 5), glm::vec3(0.10f, 1, 0.10f), edit_block.first->p_BlockType);
 
+							edit_block.first->p_BlockType = BlockType::Air;
 							UpdateLights();
 						}
 

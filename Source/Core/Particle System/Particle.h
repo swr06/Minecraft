@@ -26,6 +26,8 @@ namespace Minecraft
 
 			Particle(const glm::vec3& position, const glm::vec3& velocity, const float lifetime, const float scale, ParticleDirection dir)
 			{
+				p_ElapsedTime = 0.0f;
+				p_Rotation = 0.0f;
 				p_Position = position;
 				p_Velocity = velocity;
 				p_Lifetime = lifetime;
@@ -77,6 +79,8 @@ namespace Minecraft
 			float p_Rotation;
 			float p_Scale;
 			bool p_IsAlive;
+
+			BlockType p_BlockType;
 
 		private :
 			ParticleDirection m_Dir;
