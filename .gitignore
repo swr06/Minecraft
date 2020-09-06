@@ -343,3 +343,6 @@ Source/imgui.ini
 Source/ClangRelease/Minecraft Clone.tlog/clang-cl.13568.delete.1.tlog
 *.tlog
 Binaries/V_01/imgui.ini
+Source/ikpMP3.dll
+Source/ikpFlac.dll
+Source/irrKlang.dll

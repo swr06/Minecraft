@@ -55,10 +55,10 @@ namespace Minecraft
 
 
 	/*
-		World class constructor 
+		World class constructor
 	*/
 
-	World::World(int seed, const glm::vec2& window_size, const std::string& world_name, WorldGenerationType world_gen_type) 
+	World::World(int seed, const glm::vec2& window_size, const std::string& world_name, WorldGenerationType world_gen_type)
 		: m_Camera2D(0.0f, window_size.x, 0.0f, window_size.y), m_WorldSeed(seed), m_WorldName(world_name), m_WorldGenType(world_gen_type)
 	{
 		m_SunCycle = CurrentSunCycle::Sun_Rising;
@@ -69,18 +69,21 @@ namespace Minecraft
 		p_Player = new Player(window_size.x, window_size.y);
 
 		// Set the players position
-		p_Player->p_Position=glm::vec3(0, 140, 0);
+		p_Player->p_Position = glm::vec3(0, 140, 0);
 		p_Player->p_Camera.SetPosition(p_Player->p_Position);
 
 		Logger::LogToConsole("The World was Constructed!");
 
 		m_CrosshairTexture.CreateTexture("Resources/crosshair.png");
-		
+
 		float cw = floor(static_cast<float>(window_size.x) / static_cast <float>(2.0f));
 		float cy = floor(static_cast<float>(window_size.y) / static_cast<float>(2.0f));
 
 		m_CrosshairPosition = std::pair<float, float>(cw, cy);
 		m_CurrentFrame = 0;
+
+		// Create the sound engine
+		m_SoundEngine = irrklang::createIrrKlangDevice();
 	}
 
 	World::~World()
@@ -154,10 +157,13 @@ namespace Minecraft
 		{
 			m_ParticleEmitter.CleanUpList();
 		}
+
+		// Update the listeners position
+		_SetListenerPosition();
 	}
 
 	/*
-		World::Render world is called to render the world. 
+		World::Render world is called to render the world.
 		Called every frame
 	*/
 	void World::RenderWorld()
@@ -168,7 +174,7 @@ namespace Minecraft
 
 		glDisable(GL_CULL_FACE);
 		m_Skybox.RenderSkybox(&p_Player->p_Camera, m_SunPosition);
-		
+
 		// Enable face culling and depth testing
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LEQUAL);
@@ -262,10 +268,14 @@ namespace Minecraft
 		}
 
 		m_ParticleEmitter.OnUpdateAndRender(&p_Player->p_Camera, m_Renderer.GetAtlasTexture());
+
+		/* TEMPORARY */
+		m_CubeRenderer.RenderCube(glm::vec3(0, 135, 0), &m_CrosshairTexture, 0, p_Player->p_Camera.GetViewProjection(), glm::mat4(1.0f), nullptr);
+
 	}
 
 	/*
-		The tick sun ticks the sun by one unit. 
+		The tick sun ticks the sun by one unit.
 		This function is called every 'x' frames
 
 	*/
@@ -394,7 +404,7 @@ namespace Minecraft
 
 	/*
 		Returns the type of the block at a particular position
-    */
+	*/
 	BlockType World::GetBlockTypeFromPosition(const glm::vec3& pos) noexcept
 	{
 		int block_chunk_x = static_cast<int>(floor(pos.x / CHUNK_SIZE_X));
@@ -407,7 +417,7 @@ namespace Minecraft
 	}
 
 	/*
-		Unloads the chunks when it is too faraway. 
+		Unloads the chunks when it is too faraway.
 		Called every 200~ frames
 		TODO
 	*/
@@ -435,6 +445,38 @@ namespace Minecraft
 		}
 
 		return false;
+	}
+
+	/*
+	Plays the sound for a given block
+	*/
+	void World::_PlayBlockSound(BlockType type, const glm::vec3& position)
+	{
+		const std::string& snd = BlockDatabase::GetBlockSoundPath(type);
+
+		if (snd.size() > 0)
+		{
+			Audio::Audio3D aud(snd, position, m_SoundEngine, false);
+			aud.p_Sound->setIsPaused(false);
+			aud.p_Sound->setMinDistance(10.0f);
+			aud.p_Sound->setVolume(10.0f);
+		}
+	}
+
+	/*
+	Sets the listners position
+	*/
+	void World::_SetListenerPosition()
+	{
+		const glm::vec3& position = p_Player->p_Position;
+		const glm::vec3& front = p_Player->p_Camera.GetFront();
+		const glm::vec3& up = p_Player->p_Camera.GetUp();
+		irrklang::vec3df _position(position.x, position.y, position.z);
+		irrklang::vec3df _vps(0, 0, 0); // not really needed
+		irrklang::vec3df _front(front.x, front.y, front.z);
+		irrklang::vec3df _up(up.x, up.y, up.z);
+
+		m_SoundEngine->setListenerPosition(_position, _front, _vps, _up);
 	}
 
 	/*
@@ -502,6 +544,7 @@ namespace Minecraft
 						Chunk* right_chunk = RetrieveChunkFromMap(chunk_pos.x + 1, chunk_pos.y);
 						Chunk* left_chunk = RetrieveChunkFromMap(chunk_pos.x - 1, chunk_pos.y);
 
+						BlockType snd_type;
 
 						if (place && !TestRayPlayerCollision(position))
 						{
@@ -587,6 +630,7 @@ namespace Minecraft
 							/* Lighting calculations end here */
 
 							edit_block.first->p_BlockType = static_cast<BlockType>(p_Player->p_CurrentHeldBlock);
+							snd_type = edit_block.first->p_BlockType;
 
 							if (static_cast<BlockType>(p_Player->p_CurrentHeldBlock) == BlockType::Lamp_On)
 							{
@@ -633,7 +677,7 @@ namespace Minecraft
 							{
 								m_LightBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y, CHUNK_SIZE_Z - 1), back_chunk });
 							}
-							
+
 							else
 							{
 								m_LightBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y, local_block_pos.z - 1), edit_block.second });
@@ -642,13 +686,13 @@ namespace Minecraft
 							if (local_block_pos.z == CHUNK_SIZE_Z - 1)
 							{
 								m_LightBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y, 0), front_chunk });
-							} 
+							}
 
 							else
 							{
 								m_LightBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y, local_block_pos.z + 1), edit_block.second });
 							}
-							
+
 							if (local_block_pos.y > 0)
 							{
 								m_LightBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y - 1, local_block_pos.z), edit_block.second });
@@ -658,6 +702,8 @@ namespace Minecraft
 							{
 								m_LightBFSQueue.push({ glm::vec3(local_block_pos.x, local_block_pos.y + 1, local_block_pos.z), edit_block.second });
 							}
+
+							snd_type = edit_block.first->p_BlockType;
 
 							/* Lighting calculations end here */
 
@@ -676,7 +722,7 @@ namespace Minecraft
 							}
 
 							/*
-							If there is a flower or other model above destroy that too. 
+							If there is a flower or other model above destroy that too.
 							*/
 							if (local_block_pos.y >= 0 && local_block_pos.y < CHUNK_SIZE_Y - 1)
 							{
@@ -709,6 +755,9 @@ namespace Minecraft
 						// Set the chunk mesh state 
 						edit_block.second->p_MeshState = ChunkMeshState::Edited;
 						edit_block.second->p_ChunkState = ChunkState::Changed;
+
+						/* Play the block sound */
+						_PlayBlockSound(snd_type, position);
 					}
 
 					return;
@@ -759,7 +808,7 @@ namespace Minecraft
 			int light_level = 0;
 
 			if (pos.x >= 0 && pos.x < CHUNK_SIZE_X &&
-				pos.z >= 0 && pos.z < CHUNK_SIZE_Z && 
+				pos.z >= 0 && pos.z < CHUNK_SIZE_Z &&
 				pos.y >= 0 && pos.y < CHUNK_SIZE_Y)
 			{
 				light_level = chunk->GetTorchLightAt(pos.x, pos.y, pos.z);

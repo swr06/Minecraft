@@ -111,14 +111,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Core\Dependencies\GLEW\include;$(SolutionDir)Core\Dependencies\GLFW\include;$(SolutionDir)Core\Dependencies\GLEW\include;$(SolutionDir)Core\Dependencies\imgui;$(SolutionDir)Core\Dependencies\glm</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Core\Dependencies\GLEW\include;$(SolutionDir)Core\Dependencies\GLFW\include;$(SolutionDir)Core\Dependencies\GLEW\include;$(SolutionDir)Core\Dependencies\imgui;$(SolutionDir)Core\Dependencies\glm;$(SolutionDir)Core\Dependencies\irrklang\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\Core\Dependencies\GLEW\lib\64bit;$(SolutionDir)\Core\Dependencies\GLFW\lib\64bit</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Core\Dependencies\GLEW\lib\64bit;$(SolutionDir)\Core\Dependencies\GLFW\lib\64bit;$(SolutionDir)\Core\Dependencies\irrklang\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;irrKlang.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -155,7 +155,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Core\Dependencies\GLEW\include;$(SolutionDir)Core\Dependencies\GLFW\include;$(SolutionDir)Core\Dependencies\GLEW\include;$(SolutionDir)Core\Dependencies\imgui;$(SolutionDir)Core\Dependencies\glm</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Core\Dependencies\GLEW\include;$(SolutionDir)Core\Dependencies\GLFW\include;$(SolutionDir)Core\Dependencies\GLEW\include;$(SolutionDir)Core\Dependencies\imgui;$(SolutionDir)Core\Dependencies\glm;$(SolutionDir)Core\Dependencies\irrklang\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -163,16 +163,14 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\Core\Dependencies\GLEW\lib\64bit;$(SolutionDir)\Core\Dependencies\GLFW\lib\64bit</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Core\Dependencies\GLEW\lib\64bit;$(SolutionDir)\Core\Dependencies\GLFW\lib\64bit;$(SolutionDir)\Core\Dependencies\irrklang\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;irrKlang.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Core\Application\Application.cpp" />
     <ClCompile Include="Core\Application\Events.cpp" />
     <ClCompile Include="Core\Application\PlatformSpecific.cpp" />
-    <ClCompile Include="Core\Audio\Audio.cpp" />
-    <ClCompile Include="Core\Audio\OpenALFunctions.cpp" />
     <ClCompile Include="Core\Block.cpp" />
     <ClCompile Include="Core\BlockDatabase.cpp" />
     <ClCompile Include="Core\Camera.cpp" />
@@ -227,9 +225,7 @@
     <ClInclude Include="Core\Application\Events.h" />
     <ClInclude Include="Core\Application\EventStructs.h" />
     <ClInclude Include="Core\Application\PlatformSpecific.h" />
-    <ClInclude Include="Core\Audio\alut.h" />
     <ClInclude Include="Core\Audio\Audio.h" />
-    <ClInclude Include="Core\Audio\OpenALFunctions.h" />
     <ClInclude Include="Core\Block.h" />
     <ClInclude Include="Core\BlockDatabase.h" />
     <ClInclude Include="Core\Camera.h" />
@@ -304,9 +300,6 @@
     <None Include="Shaders\UI\UIElementVert.glsl" />
     <None Include="Shaders\UI\UITextFrag.glsl" />
     <None Include="Shaders\UI\UITextVert.glsl" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Core\Lighting\Readme.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

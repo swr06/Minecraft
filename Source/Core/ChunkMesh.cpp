@@ -33,8 +33,6 @@ Index buffers are used to maximize performance
 The _GetchunkDataForMeshing() functions are forward declarations and are implemented in main.cpp 
 */
 
-
-
 namespace Minecraft
 {
 	ChunkMesh::ChunkMesh() : m_VBO(GL_ARRAY_BUFFER), m_TransparentVBO(GL_ARRAY_BUFFER), m_ModelVBO(GL_ARRAY_BUFFER)
@@ -513,7 +511,7 @@ namespace Minecraft
 
 	bool HasShadow(Chunk* chunk, int x, int y, int z)
 	{
-		constexpr int max_shadow = 10;
+		constexpr int max_shadow = 24;
 		for (int i = y + 1; i < y + max_shadow; i++)
 		{
 			if (chunk->p_ChunkContents.at(x).at(i).at(z).CastsShadow())

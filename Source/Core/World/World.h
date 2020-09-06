@@ -29,6 +29,7 @@
 #include "../Particle System/Particle.h"
 #include "WorldGeneratorType.h"
 #include "WorldGenerator.h"
+#include "../Audio/Audio.h"
 
 namespace Minecraft
 {
@@ -81,12 +82,15 @@ namespace Minecraft
 		void UpdateLights();
 		void TickSun();
 		bool TestRayPlayerCollision(const glm::vec3& ray_block);
+		void _PlayBlockSound(BlockType type, const glm::vec3& position);
+		void _SetListenerPosition();
 
 		std::pair<float, float> m_CrosshairPosition;
 
 		// Renderers
 		Renderer m_Renderer;
 		Renderer2D m_Renderer2D;
+		CubeRenderer m_CubeRenderer;
 
 		std::map<std::pair<int, int>, Chunk> m_WorldChunks;
 		Skybox m_Skybox;
@@ -112,6 +116,6 @@ namespace Minecraft
 
 		const std::string m_WorldName;
 		WorldGenerationType m_WorldGenType;
-		
+		irrklang::ISoundEngine* m_SoundEngine;
 	};
 }

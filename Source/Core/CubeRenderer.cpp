@@ -90,10 +90,13 @@ namespace Minecraft
         glm::mat4 model = glm::translate(glm::mat4(1.0f), position);
         model = glm::rotate(model, glm::radians(rotation), glm::vec3(1.0f, 0.5f, 0.5f));
 
+        texture->Bind(1);
+
         use_shader->Use();
         use_shader->SetMatrix4("u_Model", model);
         use_shader->SetMatrix4("u_View", view);
         use_shader->SetMatrix4("u_Projection", projection);
+        use_shader->SetInteger("u_Texture", 1);
 
         m_VAO.Bind();
         glDrawArrays(GL_TRIANGLES, 0, 36);

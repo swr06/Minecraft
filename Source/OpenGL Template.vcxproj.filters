@@ -124,12 +124,6 @@
     <ClCompile Include="Core\Clouds\Cloud.cpp">
       <Filter>Minecraft\Clouds</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Audio\Audio.cpp">
-      <Filter>Minecraft\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Audio\OpenALFunctions.cpp">
-      <Filter>Minecraft\Audio</Filter>
-    </ClCompile>
     <ClCompile Include="Core\Models\Model.cpp">
       <Filter>Minecraft\Models</Filter>
     </ClCompile>
@@ -298,15 +292,6 @@
     <ClInclude Include="Core\Clouds\Cloud.h">
       <Filter>Minecraft\Clouds</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Audio\Audio.h">
-      <Filter>Minecraft\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Audio\OpenALFunctions.h">
-      <Filter>Minecraft\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Audio\alut.h">
-      <Filter>Minecraft\Audio</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Models\Model.h">
       <Filter>Minecraft\Models</Filter>
     </ClInclude>
@@ -327,6 +312,9 @@
     </ClInclude>
     <ClInclude Include="Core\World\Biome.h">
       <Filter>Minecraft\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Audio\Audio.h">
+      <Filter>Minecraft\Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -423,9 +411,6 @@
     <Filter Include="Minecraft\Clouds">
       <UniqueIdentifier>{232420d0-e6a4-42fb-bd73-74530efc7ae8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Minecraft\Audio">
-      <UniqueIdentifier>{899fa653-b880-464c-ae21-73c927a87a20}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Minecraft\Models">
       <UniqueIdentifier>{dd76538f-067c-45fd-aa44-1f363b24d0d4}</UniqueIdentifier>
     </Filter>
@@ -434,6 +419,9 @@
     </Filter>
     <Filter Include="Minecraft\Particle System">
       <UniqueIdentifier>{4fedbd49-e2ba-4eb0-8538-eb21f5b3c506}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Minecraft\Audio">
+      <UniqueIdentifier>{38c489a6-dc6b-420d-9b3e-c7888231c32e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -497,10 +485,5 @@
     <None Include="Shaders\ParticleVert.glsl">
       <Filter>Shaders</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Core\Lighting\Readme.txt">
-      <Filter>Minecraft\Lighting</Filter>
-    </Text>
   </ItemGroup>
 </Project>

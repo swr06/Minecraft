@@ -117,6 +117,7 @@ namespace Minecraft
 
 		std::unordered_map<BlockTypeTexture, std::array<uint16_t, 8>> BlockDatabase;
 		std::unordered_map<BlockType, std::string> BlockNameDatabase;
+		std::unordered_map<BlockType, std::string> BlockSoundDatabase;
 
 		const std::array<uint16_t, 8>& GetBlockTexture(BlockType block_type, BlockFaceType face_type)
 		{
@@ -256,6 +257,90 @@ namespace Minecraft
 			}
 
 			return BlockNameDatabase[block_type];
+		}
+
+		// BlockSoundDatabase
+		const std::string& GetBlockSoundPath(BlockType type)
+		{
+			static bool first_run = true;
+			static bool change_grass = false;
+
+			static std::string grass_sound1 = "Resources/Sounds/grass1.ogg";
+			static std::string grass_sound2 = "Resources/Sounds/grass2.ogg";
+			static std::string dirt_sound = "Resources/Sounds/dirt.ogg";
+			static std::string stone_sound1 = "Resources/Sounds/stone1.ogg";
+			static std::string stone_sound2 = "Resources/Sounds/stone2.ogg";
+			static std::string gravel_sound1 = "Resources/Sounds/gravel1.ogg";
+			static std::string gravel_sound2 = "Resources/Sounds/gravel2.ogg";
+			static std::string sand_sound1 = "Resources/Sounds/sand1.ogg";
+			static std::string sand_sound2 = "Resources/Sounds/sand2.ogg";
+			static std::string wood_sound1 = "Resources/Sounds/wood1.ogg";
+			static std::string wood_sound2 = "Resources/Sounds/wood2.ogg";
+			static std::string cloth_sound1 = "Resources/Sounds/cloth1.ogg";
+			static std::string cloth_sound2 = "Resources/Sounds/cloth2.ogg";
+			static std::string no_sound = "";
+
+			if (first_run)
+			{
+				first_run = false;
+
+				BlockSoundDatabase[BlockType::Grass] = grass_sound2;
+				BlockSoundDatabase[BlockType::Dirt] = dirt_sound ;
+				BlockSoundDatabase[BlockType::Stone] = stone_sound1;
+				BlockSoundDatabase[BlockType::Cobblestone] = stone_sound1;
+				BlockSoundDatabase[BlockType::StoneBricks] = stone_sound1;
+				BlockSoundDatabase[BlockType::CarvedStone] = stone_sound1;
+				BlockSoundDatabase[BlockType::OakLeaves] = grass_sound1;
+				BlockSoundDatabase[BlockType::SpruceLeaves] = grass_sound1;
+				BlockSoundDatabase[BlockType::OakLog] = wood_sound1;
+				BlockSoundDatabase[BlockType::Cactus] = cloth_sound1;
+				BlockSoundDatabase[BlockType::Sand] = sand_sound1;
+				BlockSoundDatabase[BlockType::OakPlanks] = wood_sound2;
+				BlockSoundDatabase[BlockType::AcaciaPlanks] = wood_sound2;
+				BlockSoundDatabase[BlockType::DarkOakPlanks] = wood_sound2;
+				BlockSoundDatabase[BlockType::Bricks] = stone_sound2;
+				BlockSoundDatabase[BlockType::GlassWhite] = stone_sound2;
+				BlockSoundDatabase[BlockType::Lamp_On] = stone_sound2;
+				BlockSoundDatabase[BlockType::Lamp_Off] = stone_sound2;
+				BlockSoundDatabase[BlockType::WoolRed] = cloth_sound1;
+				BlockSoundDatabase[BlockType::WoolGreen] = cloth_sound2;
+				BlockSoundDatabase[BlockType::WoolBlue] = cloth_sound1;
+				BlockSoundDatabase[BlockType::WoolYellow] = cloth_sound2;
+				BlockSoundDatabase[BlockType::Gravel] = gravel_sound1;
+				BlockSoundDatabase[BlockType::Clay] = gravel_sound2;
+				BlockSoundDatabase[BlockType::Model_Grass] = grass_sound2;
+				BlockSoundDatabase[BlockType::Model_Deadbush] = grass_sound2;
+				BlockSoundDatabase[BlockType::Model_Kelp] = grass_sound2;
+				BlockSoundDatabase[BlockType::Flower_allium] = grass_sound2;
+				BlockSoundDatabase[BlockType::Flower_orchid] = grass_sound2;
+				BlockSoundDatabase[BlockType::Flower_tulip_red] = grass_sound2;
+				BlockSoundDatabase[BlockType::Flower_tulip_pink] = grass_sound2;
+				BlockSoundDatabase[BlockType::Flower_rose] = grass_sound2;
+				BlockSoundDatabase[BlockType::Flower_dandelion] = grass_sound2;
+				BlockSoundDatabase[BlockType::UnknownBlockType] = no_sound;
+				BlockSoundDatabase[BlockType::Bedrock] = stone_sound2;
+			}
+
+			if (change_grass)
+			{
+				BlockSoundDatabase[BlockType::Grass] = grass_sound1;
+			}
+
+			else
+			{
+				BlockSoundDatabase[BlockType::Grass] = grass_sound2;
+			}
+
+			change_grass = !change_grass;
+
+			std::unordered_map<BlockType, std::string>::iterator iter = BlockSoundDatabase.find(type);
+
+			if (iter == BlockSoundDatabase.end())
+			{
+				return BlockSoundDatabase[BlockType::UnknownBlockType];
+			}
+
+			return BlockSoundDatabase[type];
 		}
 	}
 }
