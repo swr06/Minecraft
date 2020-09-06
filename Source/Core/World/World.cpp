@@ -516,13 +516,13 @@ namespace Minecraft
 				{
 					glm::vec3 normal;
 
-					for (int i = 0; i < 3; ++i)
+					for (int j = 0; j < 3; ++j)
 					{
-						normal[i] = (t == tvec[i]);
+						normal[j] = (t == tvec[j]);
 
-						if (sign[i])
+						if (sign[j])
 						{
-							normal[i] = -normal[i];
+							normal[j] = -normal[j];
 						}
 					}
 
