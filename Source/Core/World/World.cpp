@@ -82,8 +82,12 @@ namespace Minecraft
 		m_CrosshairPosition = std::pair<float, float>(cw, cy);
 		m_CurrentFrame = 0;
 
+		std::cout << std::endl << "------      CREATING THE AUDIO ENGINE        ------" << std::endl;
+
 		// Create the sound engine
 		m_SoundEngine = irrklang::createIrrKlangDevice();
+
+		std::cout << std::endl;
 	}
 
 	World::~World()
@@ -270,8 +274,7 @@ namespace Minecraft
 		m_ParticleEmitter.OnUpdateAndRender(&p_Player->p_Camera, m_Renderer.GetAtlasTexture());
 
 		/* TEMPORARY */
-		m_CubeRenderer.RenderCube(glm::vec3(0, 135, 0), &m_CrosshairTexture, 0, p_Player->p_Camera.GetViewProjection(), glm::mat4(1.0f), nullptr);
-
+		//m_CubeRenderer.RenderCube(glm::vec3(0, 135, 0), &m_CrosshairTexture, 0, p_Player->p_Camera.GetViewProjection(), glm::mat4(1.0f), nullptr);
 	}
 
 	/*
