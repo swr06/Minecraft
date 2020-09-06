@@ -277,6 +277,7 @@
     <ClInclude Include="Core\Utils\Raycast.h" />
     <ClInclude Include="Core\Utils\Timer.h" />
     <ClInclude Include="Core\Utils\Vertex.h" />
+    <ClInclude Include="Core\World\Biome.h" />
     <ClInclude Include="Core\World\Skybox.h" />
     <ClInclude Include="Core\World\Structures\WorldStructures.h" />
     <ClInclude Include="Core\World\World.h" />

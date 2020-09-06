@@ -2,12 +2,12 @@
 
 namespace Minecraft
 {
-    static FastNoise BiomeGenerator(1234);
+    static FastNoise BiomeGenerator(8213); // Biome generation
     Biome GetBiome(float chunk_noise);
 
     // Water levels
     constexpr int water_min = 2;
-    constexpr int water_max = 84;
+    constexpr int water_max = 68;
 
     BlockType vein_block = BlockType::Sand;
 
@@ -15,11 +15,11 @@ namespace Minecraft
     {
         switch (random_gen.UnsignedInt(6))
         {
-        case 0 :
+        case 0:
             return BlockType::Sand;
             break;
 
-        case 5 :
+        case 5:
             return BlockType::Clay;
             break;
         default:
@@ -35,8 +35,7 @@ namespace Minecraft
     {
         BiomeGenerator.SetNoiseType(FastNoise::Simplex);
 
-        float column_noise = BiomeGenerator.GetNoise(real_x, real_z);
-        Biome biome = GetBiome(column_noise);
+        Biome biome = chunk->p_BiomeMap[x][z];
 
         for (int i = 0; i < y_level; i++)
         {
@@ -91,12 +90,10 @@ namespace Minecraft
 
         Random water_gen(chunk->p_Position.x + chunk->p_Position.y);
         ChunkDataTypePtr chunk_data = &chunk->p_ChunkContents;
-        int cx = chunk->p_Position.x;
-        int cz = chunk->p_Position.z;
 
         for (int x = 0; x < CHUNK_SIZE_X; x++)
         {
-            for (int y = 0; y < CHUNK_SIZE_Y; y++)
+            for (int y = water_min; y < water_max + 6; y++)
             {
                 for (int z = 0; z < CHUNK_SIZE_Z; z++)
                 {
@@ -107,12 +104,9 @@ namespace Minecraft
                         if (y > water_min && y < water_max)
                         {
                             BiomeGenerator.SetNoiseType(FastNoise::Simplex);
-                            float real_x = x + chunk->p_Position.x * CHUNK_SIZE_X;
-                            float real_z = z + chunk->p_Position.z * CHUNK_SIZE_Z;
-                            float biome_noise = BiomeGenerator.GetNoise(real_x, real_z);
-
-                            Biome biome = GetBiome(biome_noise);
-
+                            //float real_x = x + chunk->p_Position.x * CHUNK_SIZE_X;
+                            //float real_z = z + chunk->p_Position.z * CHUNK_SIZE_Z;
+                            
                             chunk_data->at(x).at(y).at(z).p_BlockType = BlockType::Water;
 
                             if (x > 0 && y < water_max - 1)
@@ -165,7 +159,7 @@ namespace Minecraft
                         }
                     }
 
-                    else if (block->p_BlockType != BlockType::Air && y > water_max - 2&& y < water_max + 4)
+                    else if (block->p_BlockType != BlockType::Air && y > water_max - 2 && y < water_max + 4)
                     {
                         chunk_data->at(x).at(y).at(z) = { BlockType::Sand };
                     }
@@ -201,7 +195,7 @@ namespace Minecraft
             return BlockType::Flower_dandelion;
             break;
 
-        default :
+        default:
             return BlockType::Flower_tulip_red;
             break;
         }
@@ -227,6 +221,7 @@ namespace Minecraft
         }
     }
 
+    // To freaking slow
     void GenerateCaves(Chunk* chunk, const int seed)
     {
         constexpr int cave_level = 55;
@@ -317,8 +312,7 @@ namespace Minecraft
                 int structure_freq = 0; // The higher the less likely it is to spawn
                 bool added_structure = false;
 
-                float column_noise = BiomeGenerator.GetNoise(real_x, real_z);
-                Biome biome = GetBiome(column_noise);
+                Biome biome = chunk->p_BiomeMap[x][z];
 
                 if (chunk->p_HeightMap[x][z] + MAX_STRUCTURE_Y < CHUNK_SIZE_Y)
                 {
@@ -388,10 +382,13 @@ namespace Minecraft
     void GenerateChunk(Chunk* chunk, const int WorldSeed, WorldGenerationType gen_type)
     {
         static FastNoise WorldGenerator(WorldSeed);
+        static FastNoise WorldGenerator_1(WorldSeed);
 
         // Set the chunk state
-        WorldGenerator.SetNoiseType(FastNoise::Simplex);
-        BiomeGenerator.SetNoiseType(FastNoise::Simplex);
+        WorldGenerator.SetNoiseType(FastNoise::SimplexFractal);
+        WorldGenerator.SetFrequency(0.01);
+        WorldGenerator.SetFractalOctaves(4);
+        WorldGenerator.SetFractalLacunarity(2.0f);
 
         if (gen_type == WorldGenerationType::Generation_Normal || gen_type == WorldGenerationType::Generation_Normal_withoutcaves)
         {
@@ -407,27 +404,26 @@ namespace Minecraft
                 {
                     int real_x = x + chunk->p_Position.x * CHUNK_SIZE_X;
                     int real_z = z + chunk->p_Position.z * CHUNK_SIZE_Z;
+                    float height_at = (WorldGenerator.GetNoise(real_x / 1.9f, real_z / 1.9f));
+                    //height_at *= (WorldGenerator.GetNoise(real_x * 1, real_z * 1));
+                    //height_at *= WorldGenerator_1.GetNoise(real_x * 1.3f, real_z * 1.3f);
 
-                    float height_at = (1.0f * WorldGenerator.GetNoise(1.0f * real_x, 1.0f * real_z)) +
-                        (0.5f * WorldGenerator.GetNoise(2.0f * real_x, 2.0f * real_z)) +
-                        (0.25f * WorldGenerator.GetNoise(4.0f * real_x, 4.0f * real_z));
-
-                    constexpr float multiply_factor = 0.30f;
-                    height_at *= WorldGenerator.GetNoise(multiply_factor * real_x, (multiply_factor)* real_z);
+                    // Generate the biome
+                    float column_noise = BiomeGenerator.GetNoise(real_x, real_z);
+                    Biome biome = GetBiome(column_noise);
+                    chunk->p_BiomeMap[x][z] = biome;
 
                     generated_x = x;
                     generated_z = z;
 
-                    float multiplication_factor = 200.0f;
-
-                    generated_y = ((height_at + 1.0f) / 2) * multiplication_factor;
-                    chunk->p_HeightMap[x][z] = static_cast<uint8_t>(generated_y);
+                    generated_y = ((height_at + 1.0f) / 2) * 220 ;
 
                     if (generated_y >= CHUNK_SIZE_Y)
                     {
                         generated_y = CHUNK_SIZE_Y - 2;
                     }
 
+                    chunk->p_HeightMap[x][z] = static_cast<uint8_t>(generated_y);
                     SetVerticalBlocks(chunk, generated_x, generated_z, generated_y, real_x, real_z);
                 }
             }

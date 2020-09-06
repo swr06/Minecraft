@@ -13,6 +13,7 @@
 #include "Maths/Frustum.h"
 #include "ChunkMesh.h"
 #include "Lighting/Lighting.h"
+#include "World/Biome.h"
 
 namespace Minecraft
 {
@@ -62,7 +63,10 @@ namespace Minecraft
 		std::array<std::array<std::array<uint8_t, CHUNK_SIZE_X>, CHUNK_SIZE_Y>, CHUNK_SIZE_Z> p_ChunkLightInformation;
 		ChunkLightMapState p_LightMapState;
 		FrustumAABB p_ChunkFrustumAABB;
+
+		// Total : 512 bytes for the height and biome maps
 		std::array<std::array<uint8_t, CHUNK_SIZE_X>, CHUNK_SIZE_Z> p_HeightMap;
+		std::array<std::array<Biome, CHUNK_SIZE_X>, CHUNK_SIZE_Z> p_BiomeMap;
 
 	private :
 		ChunkMesh m_ChunkMesh;

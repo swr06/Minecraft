@@ -10,7 +10,8 @@ namespace Minecraft
 
 		memset(&p_ChunkContents, BlockType::Air, CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z);
 		memset(&p_ChunkLightInformation, 0, (CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z * sizeof(std::uint8_t)));
-		memset(&p_HeightMap, 0, CHUNK_SIZE_Y * sizeof(std::uint8_t));
+		memset(&p_HeightMap, 0, CHUNK_SIZE_X * CHUNK_SIZE_Z * sizeof(std::uint8_t));
+		memset(&p_BiomeMap, 0, CHUNK_SIZE_X * CHUNK_SIZE_Z * sizeof(std::uint8_t));
 	}
 
 	Chunk::~Chunk()

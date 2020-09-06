@@ -325,6 +325,9 @@
     <ClInclude Include="Core\Particle System\Particle.h">
       <Filter>Minecraft\Particle System</Filter>
     </ClInclude>
+    <ClInclude Include="Core\World\Biome.h">
+      <Filter>Minecraft\World</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Dependencies">

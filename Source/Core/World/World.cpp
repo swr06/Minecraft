@@ -686,17 +686,21 @@ namespace Minecraft
 								}
 							}
 
-							glm::vec3 particle_pos;
-							particle_pos.x = floor(position.x);
-							particle_pos.y = position.y;
-							particle_pos.z = floor(position.z);
-
-							particle_pos.x += 0.5f;
-							particle_pos.z += 0.5f;
-
 							// Emit particles at the block position
-							m_ParticleEmitter.EmitParticlesAt(10, 50,
-								particle_pos, glm::vec3(5, 5, 5), glm::vec3(0.10f, 1, 0.10f), edit_block.first->p_BlockType);
+
+							if (edit_block.first->p_BlockType != BlockType::Air)
+							{
+								glm::vec3 particle_pos;
+								particle_pos.x = floor(position.x);
+								particle_pos.y = position.y;
+								particle_pos.z = floor(position.z);
+
+								particle_pos.x += 0.5f;
+								particle_pos.z += 0.5f;
+
+								m_ParticleEmitter.EmitParticlesAt(10, 40,
+									particle_pos, glm::vec3(5, 5, 5), glm::vec3(0.06f, 1, 0.06f), edit_block.first->p_BlockType);
+							}
 
 							edit_block.first->p_BlockType = BlockType::Air;
 							UpdateLights();

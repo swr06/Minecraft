@@ -17,19 +17,11 @@
 #include "../Chunk.h"
 #include "../Utils/Random.h"
 #include "../Utils/Defs.h"
+#include "Biome.h"
 
 namespace Minecraft
 {
 	Block* GetWorldBlock(const glm::vec3& block_pos);
-
-	enum Biome
-	{
-		Grassland = 9,
-		Plains,
-		Ocean,
-		Desert,
-		Jungle
-	};
 
 	void GenerateChunk(Chunk* chunk, const int WorldSeed, WorldGenerationType gen_type);
 	void GenerateChunkFlora(Chunk* chunk, const int WorldSeed, WorldGenerationType gen_type);
