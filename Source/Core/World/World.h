@@ -71,6 +71,7 @@ namespace Minecraft
 		int GetSeed();
 
 		uint32_t m_ChunkCount = 0;
+		uint32_t p_ChunksRendered = 0;
 
 	private:
 

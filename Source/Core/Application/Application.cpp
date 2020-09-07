@@ -297,6 +297,7 @@ namespace Minecraft
 				ss << "Player is colliding : " << m_World->p_Player->p_IsColliding << "\n";
 				ss << "Freefly : " << m_World->p_Player->p_FreeFly << "\n";
 				ss << "Chunk amount : " << m_World->m_ChunkCount << "\n";
+				ss << "Chunks being rendered : " << m_World->p_ChunksRendered << "\n";
 				ImGui::Text(ss.str().c_str());
 				
 				if (m_ShowDebugInfo)

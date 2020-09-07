@@ -213,13 +213,15 @@ namespace Minecraft
 					if (chunk->p_MeshState == ChunkMeshState::Built)
 					{
 						m_Renderer.RenderChunk(chunk);
-					}
 
-					// Render the chunks
-					chunks_rendered++;
+						// Render the chunks
+						chunks_rendered++;
+					}
 				}
 			}
 		}
+
+		p_ChunksRendered = chunks_rendered;
 
 		glDisable(GL_CULL_FACE);
 
