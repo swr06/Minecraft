@@ -264,7 +264,7 @@ namespace Minecraft
 			, &m_CrosshairTexture, &m_Camera2D);
 
 		// Tick the sun every x frames 
-		if (m_CurrentFrame % 8 == 0)
+		if (m_CurrentFrame % 32 == 0)
 		{
 			TickSun();
 		}
