@@ -76,7 +76,6 @@ namespace Minecraft
 
 		void UnloadFarChunks();
 		void RayCast(bool place);
-		void UpdateSurroundingChunks(int cx, int cz);
 		void PropogateLight();
 		void RemoveLight();
 		void UpdateLights();

@@ -40,8 +40,15 @@ namespace Minecraft
 
 	void Chunk::Construct()
 	{
-		m_ChunkMesh.ConstructMesh(this, p_Position);
-		p_MeshState = ChunkMeshState::Built;
+		if (m_ChunkMesh.ConstructMesh(this, p_Position))
+		{
+			p_MeshState = ChunkMeshState::Built;
+		}
+
+		else
+		{
+			p_MeshState = ChunkMeshState::Unbuilt;
+		}
 	}
 
 	ChunkMesh* Chunk::GetChunkMesh()

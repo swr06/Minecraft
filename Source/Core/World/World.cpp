@@ -210,12 +210,10 @@ namespace Minecraft
 						chunk->Construct();
 					}
 
-					else if (chunk->p_MeshState == ChunkMeshState::Edited)
+					if (chunk->p_MeshState == ChunkMeshState::Built)
 					{
-						UpdateSurroundingChunks(i, j);
+						m_Renderer.RenderChunk(chunk);
 					}
-
-					m_Renderer.RenderChunk(chunk);
 
 					// Render the chunks
 					chunks_rendered++;
@@ -265,7 +263,7 @@ namespace Minecraft
 			, m_CrosshairPosition.second - (m_CrosshairTexture.GetHeight() / 2), 1.0f)
 			, &m_CrosshairTexture, &m_Camera2D);
 
-		// Tick the sun every 8 frames 
+		// Tick the sun every x frames 
 		if (m_CurrentFrame % 8 == 0)
 		{
 			TickSun();
@@ -460,9 +458,9 @@ namespace Minecraft
 		if (snd.size() > 0)
 		{
 			Audio::Audio3D aud(snd, position, m_SoundEngine, false);
-			aud.p_Sound->setIsPaused(false);
-			aud.p_Sound->setMinDistance(10.0f);
+			aud.p_Sound->setMinDistance(20.0f);
 			aud.p_Sound->setVolume(10.0f);
+			aud.p_Sound->setIsPaused(false);
 		}
 	}
 
@@ -755,8 +753,35 @@ namespace Minecraft
 							UpdateLights();
 						}
 
-						// Set the chunk mesh state 
-						edit_block.second->p_MeshState = ChunkMeshState::Edited;
+						edit_block.second->p_MeshState = ChunkMeshState::Unbuilt;
+
+						/*
+						Check if the edited block was on one of the chunk edges, if it was change the respective neighbouring chunk's mesh state
+						*/
+						if (local_block_pos.x <= 0)
+						{
+							Chunk* update_chunk = RetrieveChunkFromMap(edit_block.second->p_Position.x - 1, edit_block.second->p_Position.z);
+							update_chunk->p_MeshState = ChunkMeshState::Unbuilt;
+						}
+
+						if (local_block_pos.z <= 0)
+						{
+							Chunk* update_chunk = RetrieveChunkFromMap(edit_block.second->p_Position.x, edit_block.second->p_Position.z - 1);
+							update_chunk->p_MeshState = ChunkMeshState::Unbuilt;
+						}
+
+						if (local_block_pos.x >= CHUNK_SIZE_X - 1)
+						{
+							Chunk* update_chunk = RetrieveChunkFromMap(edit_block.second->p_Position.x + 1, edit_block.second->p_Position.z);
+							update_chunk->p_MeshState = ChunkMeshState::Unbuilt;
+						}
+
+						if (local_block_pos.z >= CHUNK_SIZE_Z - 1)
+						{
+							Chunk* update_chunk = RetrieveChunkFromMap(edit_block.second->p_Position.x, edit_block.second->p_Position.z + 1);
+							update_chunk->p_MeshState = ChunkMeshState::Unbuilt;
+						}
+
 						edit_block.second->p_ChunkState = ChunkState::Changed;
 
 						/* Play the block sound */
@@ -767,31 +792,6 @@ namespace Minecraft
 				}
 			}
 		}
-	}
-
-	/*
-		Updates all the chunks to the right, left, front and back of a supplied chunk
-		TODO : Make this faster by only updating required chunks
-	*/
-	void World::UpdateSurroundingChunks(int cx, int cz)
-	{
-		Chunk* chunk;
-		ChunkMesh* mesh;
-
-		chunk = RetrieveChunkFromMap(cx + 1, cz);
-		chunk->Construct();
-
-		chunk = RetrieveChunkFromMap(cx - 1, cz);
-		chunk->Construct();
-
-		chunk = RetrieveChunkFromMap(cx, cz + 1);
-		chunk->Construct();
-
-		chunk = RetrieveChunkFromMap(cx, cz - 1);
-		chunk->Construct();
-
-		chunk = RetrieveChunkFromMap(cx, cz);
-		chunk->Construct();
 	}
 
 	/*

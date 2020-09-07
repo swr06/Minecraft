@@ -39,7 +39,7 @@ namespace Minecraft
 		ChunkMesh();
 		~ChunkMesh();
 
-		void ConstructMesh(Chunk* chunk, const glm::vec3& chunk_pos);
+		bool ConstructMesh(Chunk* chunk, const glm::vec3& chunk_pos);
 		
 		std::uint32_t p_VerticesCount;
 		std::uint32_t p_TransparentVerticesCount;

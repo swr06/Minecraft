@@ -21,7 +21,6 @@ namespace Minecraft
 	{
 		Built = 0,
 		Unbuilt,
-		Edited,
 		error
 	};
 
