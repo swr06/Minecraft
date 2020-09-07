@@ -729,6 +729,23 @@ namespace Minecraft
 							{
 								if (edit_block.second->p_ChunkContents.at(local_block_pos.x).at(local_block_pos.y + 1).at(local_block_pos.z).DependsOnBelowBlock())
 								{
+									// Create the particles for that model
+
+									glm::vec3 particle_pos;
+									particle_pos.x = floor(position.x);
+									particle_pos.y = position.y + 1;
+									particle_pos.z = floor(position.z);
+
+									particle_pos.x += 0.5f;
+									particle_pos.z += 0.5f;
+
+									m_ParticleEmitter.EmitParticlesAt(10, 40,
+										particle_pos, glm::vec3(5, 5, 5), glm::vec3(0.06f, 1, 0.06f), edit_block.second->p_ChunkContents.at(local_block_pos.x).at(local_block_pos.y + 1).at(local_block_pos.z).p_BlockType);
+
+									// play the sound for that model
+									/* Play the block sound */
+									_PlayBlockSound(snd_type, glm::vec3(position.x, position.y + 1, position.z));
+
 									edit_block.second->p_ChunkContents.at(local_block_pos.x).at(local_block_pos.y + 1).at(local_block_pos.z).p_BlockType = BlockType::Air;
 								}
 							}
