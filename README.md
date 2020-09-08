@@ -44,7 +44,6 @@ A Tiny Minecraft clone made with C++ and OpenGL.
 - Dynamic Sun and clouds
 - Weather
 - Multithreading
-- PCF Shadows with SSAO.
 
 # Compiling 
 This project compiles with Clang and MSVC. 
