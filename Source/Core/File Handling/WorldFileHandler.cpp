@@ -1,5 +1,10 @@
 #include "WorldFileHandler.h"
 
+/*
+The functions that are used to load and save the world.
+Uses C style functions for better speed;
+*/
+
 namespace Minecraft
 {
     namespace WorldFileHandler
@@ -14,6 +19,8 @@ namespace Minecraft
         {
             int seed;
             int world_gen_type;
+            float sun_position;
+            CurrentSunCycle sun_cycle_type;
         };
 
         // takes in a string such as "-1, 2" and outputs an std::pair<int,int>
@@ -96,7 +103,7 @@ namespace Minecraft
 
             // A file that has the seed of the world etc..
             FILE* world_data_file;
-            WorldData world_data_w = { world->GetSeed(), world->GetWorldGenerationType() }; // the world data to write in the world.bin file
+            WorldData world_data_w = { world->GetSeed(), world->GetWorldGenerationType(), world->GetSunPositionY(), world->GetSunCycleType() }; // the world data to write in the world.bin file
             stringstream world_data_file_pth;
 
             world_data_file_pth << dir_s.str() << "world.bin";
@@ -137,40 +144,52 @@ namespace Minecraft
                 fclose(world_file);
 
                 World* world = new World(world_data.seed, {DEFAULT_WINDOW_X, DEFAULT_WINDOW_Y}, world_name, (WorldGenerationType)world_data.world_gen_type);
-               
-                // iterate through all the files in the chunk directory and read the binary data  
-                for (auto entry : std::filesystem::directory_iterator(cdata_dir_s.str()))
+                
+                if (world)
                 {
-                    std::pair<int, int> chunk_loc = ParseChunkFilename(entry.path().filename().string());
-                    Chunk* chunk = world->EmplaceChunkInMap(chunk_loc.first, chunk_loc.second);
-                    ChunkFileHandler::ReadChunk(chunk, entry.path().string());
+                    world->SetSunPositionY(world_data.sun_position);
+                    world->SetSunCycleType(world_data.sun_cycle_type);
+
+                    // iterate through all the files in the chunk directory and read the binary data  
+                    for (auto entry : std::filesystem::directory_iterator(cdata_dir_s.str()))
+                    {
+                        std::pair<int, int> chunk_loc = ParseChunkFilename(entry.path().filename().string());
+                        Chunk* chunk = world->EmplaceChunkInMap(chunk_loc.first, chunk_loc.second);
+                        ChunkFileHandler::ReadChunk(chunk, entry.path().string());
+                    }
+
+                    // set the player data
+
+                    FILE* player_data_file;
+                    PlayerData player_data = { world->p_Player->p_Camera, world->p_Player->p_Position };
+
+                    if (std::filesystem::exists(player_file_pth.str()))
+                    {
+                        player_data_file = fopen(player_file_pth.str().c_str(), "rb");
+                        fread(&player_data, sizeof(PlayerData), 1, player_data_file);
+                        fclose(player_data_file);
+                    }
+
+                    else
+                    {
+                        stringstream s;
+                        s << "Couldn't load player data from world dir ! PATH : " << player_file_pth.str() << "  IS INVALID!";
+
+                        Logger::LogToConsole(s.str());
+                    }
+
+                    // Set the player data
+                    world->p_Player->p_Camera = player_data.camera;
+                    world->p_Player->p_Position = player_data.position;
+
+                    return world;
                 }
-
-                // set the player data
-
-                FILE* player_data_file;
-                PlayerData player_data = { world->p_Player->p_Camera, world->p_Player->p_Position };
-
-                if (std::filesystem::exists(player_file_pth.str()))
-                {
-                    player_data_file = fopen(player_file_pth.str().c_str(), "rb");
-                    fread(&player_data, sizeof(PlayerData), 1, player_data_file);
-                    fclose(player_data_file);
-                }
-
+                
                 else
                 {
-                    stringstream s;
-                    s << "Couldn't load player data from world dir ! PATH : " << player_file_pth.str() << "  IS INVALID!";
-
-                    Logger::LogToConsole(s.str());
+                    Logger::LogToConsole("Unable to create the world object! ERR ! Not enough memory ?");
+                    return nullptr;
                 }
-
-                // Set the player data
-                world->p_Player->p_Camera = player_data.camera;
-                world->p_Player->p_Position = player_data.position;
-
-                return world;
             }
 
             else

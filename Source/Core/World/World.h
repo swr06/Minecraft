@@ -33,9 +33,9 @@
 
 namespace Minecraft
 {
-	enum CurrentSunCycle
+	enum CurrentSunCycle : uint8_t
 	{
-		Sun_Setting,
+		Sun_Setting = 0,
 		Sun_Rising
 	};
 
@@ -49,7 +49,7 @@ namespace Minecraft
 		void OnUpdate(GLFWwindow* window);
 		void RenderWorld();
 		void OnEvent(EventSystem::Event e);
-		const std::string& GetName() noexcept { return m_WorldName; }
+		inline const std::string& GetName() noexcept { return m_WorldName; }
 
 		// Gets a world block from the respective chunk. Returns nullptr if invalid
 		std::pair<Block*, Chunk*> GetBlockFromPosition(const glm::vec3& pos) noexcept;
@@ -69,6 +69,10 @@ namespace Minecraft
 
 		Chunk* EmplaceChunkInMap(int cx, int cz);
 		int GetSeed();
+		inline float GetSunPositionY() noexcept  { return m_SunPosition.y; };
+		inline CurrentSunCycle GetSunCycleType() noexcept { return m_SunCycle; }
+		inline void SetSunCycleType(CurrentSunCycle type) noexcept { m_SunCycle = type; }
+		inline void SetSunPositionY(float y) noexcept { m_SunPosition.y = y; };
 
 		uint32_t m_ChunkCount = 0;
 		uint32_t p_ChunksRendered = 0;

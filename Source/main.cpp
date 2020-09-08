@@ -1,6 +1,7 @@
 /*
 -- Project -- 
 Title : Tiny Minecraft Clone
+State : Alpha
 Version : V0.03
 
 -- Dev -- 

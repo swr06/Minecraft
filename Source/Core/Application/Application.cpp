@@ -298,6 +298,7 @@ namespace Minecraft
 				ss << "Freefly : " << m_World->p_Player->p_FreeFly << "\n";
 				ss << "Chunk amount : " << m_World->m_ChunkCount << "\n";
 				ss << "Chunks being rendered : " << m_World->p_ChunksRendered << "\n";
+				ss << "Sun Position : " << m_World->GetSunPositionY() << "\n";  
 				ImGui::Text(ss.str().c_str());
 				
 				if (m_ShowDebugInfo)
