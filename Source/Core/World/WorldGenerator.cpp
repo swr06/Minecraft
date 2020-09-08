@@ -6,8 +6,8 @@ namespace Minecraft
     Biome GetBiome(float chunk_noise);
 
     // Water levels
-    constexpr int water_min = 2;
-    constexpr int water_max = 72;
+    int water_min_default = 2;
+    int water_max_default = 72;
 
     BlockType vein_block = BlockType::Sand;
 
@@ -82,7 +82,7 @@ namespace Minecraft
         return;
     }
 
-    void AddWaterBlocks(Chunk* chunk)
+    void AddWaterBlocks(Chunk* chunk, const int water_min, const int water_max)
     {
         /*
         Generates water in the areas needed inside of the chunk
@@ -219,20 +219,39 @@ namespace Minecraft
 
     void GenerateChunk(Chunk* chunk, const int WorldSeed, WorldGenerationType gen_type)
     {
+        int water_min = water_min_default;
+        int water_max = water_max_default;
+
         static FastNoise WorldGenerator(WorldSeed);
         static FastNoise WorldGenerator_1(WorldSeed);
 
         // Set the chunk state
         WorldGenerator.SetNoiseType(FastNoise::SimplexFractal);
-        WorldGenerator.SetFrequency(0.006);
-        WorldGenerator.SetFractalOctaves(5);
-        WorldGenerator.SetFractalLacunarity(2.0f);
 
-        if (gen_type == WorldGenerationType::Generation_Normal || gen_type == WorldGenerationType::Generation_Normal_withoutcaves)
+        if (gen_type == WorldGenerationType::Generation_Normal)
+        {
+            WorldGenerator.SetFrequency(0.006);
+            WorldGenerator.SetFractalOctaves(5);
+            WorldGenerator.SetFractalLacunarity(2.0f);
+        }
+
+        if (gen_type == WorldGenerationType::Generation_Normal || gen_type == WorldGenerationType::Generation_Islands ||
+            gen_type == WorldGenerationType::Generation_Hilly)
         {
             int generated_x = 0;
             int generated_y = 0;
             int generated_z = 0;
+
+            if (gen_type == WorldGenerationType::Generation_Islands)
+            {
+                water_max = 100;
+                water_max_default = water_max;
+            }
+
+            if (gen_type == WorldGenerationType::Generation_Hilly)
+            {
+                water_max = 80;
+            }
 
             // Generates the world using perlin noise to generate a height map
 
@@ -242,8 +261,20 @@ namespace Minecraft
                 {
                     int real_x = x + chunk->p_Position.x * CHUNK_SIZE_X;
                     int real_z = z + chunk->p_Position.z * CHUNK_SIZE_Z;
-                    float height_at = (WorldGenerator.GetNoise(real_x / 2.0f, real_z / 2.0f));
-                    //height_at *= WorldGenerator_1.GetNoise(real_x * 1.3f, real_z * 1.3f);
+
+                    float height_at = 0.0f;
+
+                    if (gen_type == WorldGenerationType::Generation_Islands || gen_type == WorldGenerationType::Generation_Hilly)
+                    {
+                        height_at = WorldGenerator.GetNoise(real_x, real_z) +
+                            (0.5 * WorldGenerator.GetNoise(real_x, real_z)) *
+                            WorldGenerator.GetNoise(real_x * 0.4f, real_z * 0.4f);
+                    }
+
+                    else if (gen_type == WorldGenerationType::Generation_Normal)
+                    {
+                        height_at = (WorldGenerator.GetNoise(real_x / 2.0f, real_z / 2.0f));
+                    }
 
                     // Generate the biome
                     float column_noise = BiomeGenerator.GetNoise(real_x, real_z);
@@ -267,7 +298,7 @@ namespace Minecraft
                 }
             }
 
-            AddWaterBlocks(chunk);
+            AddWaterBlocks(chunk, water_min, water_max);
         }
 
         else if (gen_type == WorldGenerationType::Generation_Flat || gen_type == WorldGenerationType::Generation_FlatWithoutStructures)
@@ -403,14 +434,14 @@ namespace Minecraft
                         structure = &WorldStructureCactus;
                     }
 
-                    if (structure && WorldTreeGenerator.UnsignedInt(structure_freq) == 0 && chunk->p_HeightMap[x][z] > water_max + 6)
+                    if (structure && WorldTreeGenerator.UnsignedInt(structure_freq) == 0 && chunk->p_HeightMap[x][z] > water_max_default + 6)
                     {
                         added_structure = true;
                         FillInWorldStructure(structure, structure_x, structure_y, structure_z);
                     }
                 }
 
-                if (chunk->p_HeightMap[x][z] + 1 < CHUNK_SIZE_Y && chunk->p_HeightMap[x][z] + 1 > water_max + 6 && !added_structure)
+                if (chunk->p_HeightMap[x][z] + 1 < CHUNK_SIZE_Y && chunk->p_HeightMap[x][z] + 1 > water_max_default + 6 && !added_structure)
                 {
                     int y = chunk->p_HeightMap[x][z];
                     BlockType model_type = BlockType::Air;
