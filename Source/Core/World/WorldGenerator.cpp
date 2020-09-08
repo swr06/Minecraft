@@ -217,6 +217,8 @@ namespace Minecraft
         }
     }
 
+    constexpr double e = 2.718281828459f; // eulers number
+
     void GenerateChunk(Chunk* chunk, const int WorldSeed, WorldGenerationType gen_type)
     {
         int water_min = water_min_default;
@@ -224,7 +226,7 @@ namespace Minecraft
 
         static FastNoise WorldGenerator(WorldSeed);
         static FastNoise WorldGenerator_1(WorldSeed);
-
+        
         // Set the chunk state
         WorldGenerator.SetNoiseType(FastNoise::SimplexFractal);
 
@@ -244,7 +246,7 @@ namespace Minecraft
 
             if (gen_type == WorldGenerationType::Generation_Islands)
             {
-                water_max = 100;
+                water_max = 110;
                 water_max_default = water_max;
             }
 
