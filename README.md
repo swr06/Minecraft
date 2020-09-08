@@ -13,6 +13,7 @@ A Tiny Minecraft clone made with C++ and OpenGL.
 # Current Features
 - 3D Perspective FPS style camera with smooth movement
 - Terrain generation using simplex noise
+- 4 Types of terrain generation options
 - World structures such as trees and cactus
 - Biome generation by noise quantization 
 - Infinite Terrain
@@ -66,8 +67,7 @@ Notable Websites : </br>
 2) Krazer (Discord : @Krazer7877)
 
 # References 
-1) https://www.seedofandromeda.com/blogs/29-fast-flood-fill-lighting-in-a-blocky-voxel-game-pt-1
-2) https://www.seedofandromeda.com/blogs/30-fast-flood-fill-lighting-in-a-blocky-voxel-game-pt-2
+- SoA blog posts
 
 # License
 This project is under the MIT license. See LICENSE for more info
