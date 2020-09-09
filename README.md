@@ -44,14 +44,9 @@ A Tiny Minecraft clone made with C++ and OpenGL.
 - Dynamic Sun and clouds
 - Weather
 - Multithreading
-- PCF Shadows with SSAO.
 
 # Compiling 
 This project compiles with Clang and MSVC. 
-
-# Benchmarks? 
-1) Intel HD 4000 - 200~ FPS </br>
-2) Vega 8 iGPU - 250~ FPS </br>
 
 # Contact me </br> 
 Email : samuelrasquinha@gmail.com </br>
