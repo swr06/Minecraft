@@ -63,6 +63,7 @@ Notable Websites : </br>
 
 # References 
 - SoA blog posts
+- http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.42.3443&rep=rep1&type=pdf
 
 # License
 This project is under the MIT license. See LICENSE for more info
