@@ -79,7 +79,7 @@ This project is under the MIT license. See LICENSE for more info
 </br>
 ![Minecraft in-game](https://github.com/swr06/Minecraft/blob/master/Screenshots/gen-2.png)
 <p align="center">
-  <i>An in-game screenshot</i>
+  <i>Nice looking terrain generation using simplex noise</i>
 </p>
 </br>
 
