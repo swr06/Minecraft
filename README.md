@@ -74,15 +74,21 @@ This project is under the MIT license. See LICENSE for more info
   <i>The Menu screen</i>
 </p>
 
-![Minecraft in-game](https://github.com/swr06/Minecraft/blob/master/Screenshots/in_game.png)
+![Minecraft in-game](https://github.com/swr06/Minecraft/blob/master/Screenshots/gen-1.png)
+</br>
+![Minecraft in-game](https://github.com/swr06/Minecraft/blob/master/Screenshots/gen-2.png)
 <p align="center">
   <i>An in-game screenshot</i>
 </p>
-
-![Minecraft in-game](https://github.com/swr06/Minecraft/blob/master/Screenshots/bfs_light.jpg)
+</br>
+![Minecraft light-1](https://github.com/swr06/Minecraft/blob/master/Screenshots/light-1.jpg)
+</br>
+![Minecraft light-2](https://github.com/swr06/Minecraft/blob/master/Screenshots/light-2.png).
+</br>
+![Minecraft light-3](https://github.com/swr06/Minecraft/blob/master/Screenshots/light-3.jpg).
 <p align="center">
   <i>Lighting Demo with lamps</i>
 </p>
-
+</br>
 # Supporting 
 If you like this project, please consider starring it on github. Thankyou :)
