@@ -253,6 +253,7 @@ namespace Minecraft
             if (gen_type == WorldGenerationType::Generation_Hilly)
             {
                 water_max = 80;
+                water_max_default = water_max;
             }
 
             // Generates the world using perlin noise to generate a height map

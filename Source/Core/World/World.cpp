@@ -348,6 +348,11 @@ namespace Minecraft
 			{
 				p_Player->p_CurrentHeldBlock--;
 			}
+
+			else
+			{
+				p_Player->p_CurrentHeldBlock = BlockType::Clay;
+			}
 		}
 
 		if (e.type == EventSystem::EventTypes::KeyPress && e.key == GLFW_KEY_G)

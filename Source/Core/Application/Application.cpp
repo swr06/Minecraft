@@ -733,7 +733,7 @@ namespace Minecraft
 		}
 		}
 
-		if (m_World)
+		if (m_World && m_GameState == GameState::PlayingState)
 		{
 			m_World->OnEvent(e);
 		}
@@ -746,7 +746,7 @@ namespace Minecraft
 			OnEvent(m_EventQueue[i]);
 		}
 
-		m_EventQueue.erase(m_EventQueue.begin(), m_EventQueue.end());
+		m_EventQueue.clear();
 	}
 
 	Application* GetMinecraftApp()
