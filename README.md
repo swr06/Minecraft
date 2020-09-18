@@ -40,13 +40,14 @@ A Tiny Minecraft clone made with C++ and OpenGL.
 - Supports windows and linux. (Should work on mac but not tested)
 
 # Features to come 
+- Smooth lighting with Ambient Occlusion
 - Multiplayer and networking
 - Dynamic Sun and clouds
 - Weather
 - Multithreading
 
 # Compiling 
-This project compiles with Clang and MSVC. 
+This project compiles with Clang and MSVC. (Should also compile with GCC not tested.)
 
 # Contact me </br> 
 Email : samuelrasquinha@gmail.com </br>
