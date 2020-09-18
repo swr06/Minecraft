@@ -2,7 +2,7 @@
 
 GLenum CheckOpenGLError(const char* File, int Line)
 {
-	GLenum ERR_CODE;
+	/*GLenum ERR_CODE;
 	std::string PRINT_ERROR;
 
 	ERR_CODE = glGetError();
@@ -57,5 +57,5 @@ GLenum CheckOpenGLError(const char* File, int Line)
 		std::cout << "\nOpenGL Error in Line " << Line << " and in File : " << (File) << "\n\tError : " << PRINT_ERROR << "\n";
 	}
 
-	return ERR_CODE;
+	return ERR_CODE;*/
 }

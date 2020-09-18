@@ -26,7 +26,7 @@ namespace GLClasses
 	void VertexBuffer::BufferSubData(GLintptr offset, GLsizeiptr size, void* data)
 	{
 		this->Bind();
-		DebugGLFunction(glBufferSubData(GL_ARRAY_BUFFER, offset, size, data));
+		(glBufferSubData(GL_ARRAY_BUFFER, offset, size, data));
 	}
 
 	void VertexBuffer::Bind()

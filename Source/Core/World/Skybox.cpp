@@ -79,8 +79,8 @@ namespace Minecraft
 
         m_VAO.Bind();
         glActiveTexture(GL_TEXTURE0);
-        DebugGLFunction(glBindTexture(GL_TEXTURE_CUBE_MAP, m_CubeMap.GetID()));
-        DebugGLFunction(glDrawArrays(GL_TRIANGLES, 0, 36));
+        (glBindTexture(GL_TEXTURE_CUBE_MAP, m_CubeMap.GetID()));
+        (glDrawArrays(GL_TRIANGLES, 0, 36));
 
         m_VAO.Unbind();
 

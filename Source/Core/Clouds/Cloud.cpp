@@ -76,9 +76,9 @@ namespace Minecraft
 		Cloud_Texture->Bind(0);
 		Cloud_Shader->SetInteger("u_CloudTexture", 0);
 
-		DebugGLFunction(Cloud_VAO->Bind());
-		DebugGLFunction(Cloud_VBO->BufferData(cloud_vertices.size() * sizeof(CloudVertex), &cloud_vertices.front(), GL_STATIC_DRAW));
-		DebugGLFunction(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0));
+		Cloud_VAO->Bind();
+		Cloud_VBO->BufferData(cloud_vertices.size() * sizeof(CloudVertex), &cloud_vertices.front(), GL_STATIC_DRAW);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		Cloud_VAO->Unbind();
 	}
 
