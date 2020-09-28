@@ -32,7 +32,7 @@ A Tiny Minecraft clone made with C++ and OpenGL.
 - Over 20 types of blocks (more blocks can be added very easily)
 - Cloud Skybox using cubemaps
 - Accurate block editing using a voxel transversal algorithm
-- Cave generation using 3D perlin noise
+- Connected textures/blocks support. 
 - Water generation 
 - Efficient particle emitter
 - Fully 3D Audio
