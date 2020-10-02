@@ -26,7 +26,7 @@ namespace Minecraft
 
 	enum class ChunkLightMapState
 	{
-		ModifiedLightMap = 10,
+		ModifiedLightMap = 0,
 		UnmodifiedLightMap
 	};
 

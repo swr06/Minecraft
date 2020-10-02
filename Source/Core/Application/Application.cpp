@@ -2,56 +2,107 @@
 
 #include <cstdio>
 
-#ifdef _DEBUG
-#define NDEBUG
-#endif
-
-// Needs OpenGL 4+
-#if GL_VERSION_MAJOR > 3
-#define SHOULD_DEBUG_GL
-#endif
-
-void GLAPIENTRY gl_debug_callback(GLenum source, GLenum type, GLuint id,
+/*
+	The OpenGL Debug callback
+*/
+void APIENTRY gl_debug_callback(GLenum source, GLenum type, GLuint id,
 	GLenum severity, GLsizei length,
-	const char* message, const void*)
+	const GLchar* msg, const void* data)
 {
-	const char* sev = "";
+	char* _source;
+	char* _type;
+	char* _severity;
 
-	switch (severity)
-	{
-	case GL_DEBUG_SEVERITY_HIGH: sev = "\e[91m"; break;
-	case GL_DEBUG_SEVERITY_MEDIUM: sev = "\e[93m"; break;
-	case GL_DEBUG_SEVERITY_LOW: sev = "\e[92m"; break;
-	case GL_DEBUG_SEVERITY_NOTIFICATION: sev = "\e[34m"; break;
+	switch (source) {
+	case GL_DEBUG_SOURCE_API:
+		_source = (char*)"API";
+		break;
+
+	case GL_DEBUG_SOURCE_WINDOW_SYSTEM:
+		_source = (char*)"WINDOW SYSTEM";
+		break;
+
+	case GL_DEBUG_SOURCE_SHADER_COMPILER:
+		_source = (char*)"SHADER COMPILER";
+		break;
+
+	case GL_DEBUG_SOURCE_THIRD_PARTY:
+		_source = (char*)"THIRD PARTY";
+		break;
+
+	case GL_DEBUG_SOURCE_APPLICATION:
+		_source = (char*)"APPLICATION";
+		break;
+
+	case GL_DEBUG_SOURCE_OTHER:
+		_source = (char*)"UNKNOWN";
+		break;
+
+	default:
+		_source = (char*)"UNKNOWN";
+		break;
 	}
-
-	const char* src = "?";
-
-	switch (source)
-	{
-	case GL_DEBUG_SOURCE_API: src = "API"; break;
-	case GL_DEBUG_SOURCE_WINDOW_SYSTEM: src = "window system"; break;
-	case GL_DEBUG_SOURCE_SHADER_COMPILER: src = "shader compiler"; break;
-	case GL_DEBUG_SOURCE_THIRD_PARTY: src = "third party"; break;
-	case GL_DEBUG_SOURCE_APPLICATION: src = "app"; break;
-	case GL_DEBUG_SOURCE_OTHER: src = "other"; break;
-	}
-
-	const char* type_str = "?";
 
 	switch (type)
 	{
-	case GL_DEBUG_TYPE_ERROR: type_str = "error"; break;
-	case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR: type_str = "deprecated behavior"; break;
-	case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR: type_str = "undefined behavior"; break;
-	case GL_DEBUG_TYPE_PORTABILITY: type_str = "portability"; break;
-	case GL_DEBUG_TYPE_MARKER: type_str = "marker"; break;
-	case GL_DEBUG_TYPE_PUSH_GROUP: type_str = "push group"; break;
-	case GL_DEBUG_TYPE_POP_GROUP: type_str = "pop group"; break;
-	case GL_DEBUG_TYPE_OTHER: type_str = "other"; break;
+	case GL_DEBUG_TYPE_ERROR:
+		_type = (char*)"ERROR";
+		break;
+
+	case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:
+		_type = (char*)"DEPRECATED BEHAVIOR";
+		break;
+
+	case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:
+		_type = (char*)"UDEFINED BEHAVIOR";
+		break;
+
+	case GL_DEBUG_TYPE_PORTABILITY:
+		_type = (char*)"PORTABILITY";
+		break;
+
+	case GL_DEBUG_TYPE_PERFORMANCE:
+		_type = (char*)"PERFORMANCE";
+		return;
+		break;
+
+	case GL_DEBUG_TYPE_OTHER:
+		_type = (char*)"OTHER";
+		break;
+
+	case GL_DEBUG_TYPE_MARKER:
+		_type = (char*)"MARKER";
+		break;
+
+	default:
+		_type = (char*)"UNKNOWN";
+		break;
 	}
 
-	fprintf(stderr, "debug:%s type: %s, source: %s, message: \"%.*s\"\e[0m\n", sev, type_str, src, length, message);
+	switch (severity) {
+	case GL_DEBUG_SEVERITY_HIGH:
+		_severity = (char*)"HIGH";
+		break;
+
+	case GL_DEBUG_SEVERITY_MEDIUM:
+		_severity = (char*)"MEDIUM";
+		break;
+
+	case GL_DEBUG_SEVERITY_LOW:
+		_severity = (char*)"LOW";
+		break;
+
+	case GL_DEBUG_SEVERITY_NOTIFICATION:
+		_severity = (char*)"NOTIFICATION";
+		break;
+
+	default:
+		_severity = (char*)"UNKNOWN";
+		break;
+	}
+
+	printf("%d: %s of %s severity, raised from %s: %s\n",
+		id, _type, _severity, _source, msg);
 }
 
 
@@ -96,10 +147,11 @@ namespace Minecraft
 		glfwSetErrorCallback(glfwErrorCallback);
 
 		glfwInit();
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, GL_VERSION_MAJOR);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, GL_VERSION_MINOR);
-		glfwWindowHint(GLFW_MAXIMIZED, GLFW_FALSE);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+		glfwWindowHint(GLFW_MAXIMIZED, GLFW_FALSE);
+		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, 1);
 
 		m_Window = glfwCreateWindow(DEFAULT_WINDOW_X, DEFAULT_WINDOW_Y, "A Tiny Minecraft Clone V0.01 By Samuel Rasquinha", NULL, NULL);
 
@@ -116,6 +168,11 @@ namespace Minecraft
 
 		glewInit();
 
+#ifndef NDEBUG
+		glEnable(GL_DEBUG_OUTPUT);
+		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+		glDebugMessageCallback(gl_debug_callback, nullptr);
+#endif
 		char* renderer = (char*)glGetString(GL_RENDERER);
 		char* vendor = (char*)glGetString(GL_VENDOR);
 		char* version = (char*)glGetString(GL_VERSION);
@@ -124,16 +181,6 @@ namespace Minecraft
 
 		// Lock the cursor to the window
 		glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
-		glEnable(GL_DEBUG_OUTPUT);
-
-		// Enable synchronus debugging if the opengl version is 4.0 or 4.0+
-#ifdef SHOULD_DEBUG_GL
-#ifndef NDEBUG
-		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS); // disable if in release
-#endif
-		glDebugMessageCallback(gl_debug_callback, nullptr);
-#endif
 
 		EventSystem::InitEventSystem(m_Window, &m_EventQueue);
 
@@ -305,7 +352,7 @@ namespace Minecraft
 				{
 					std::stringstream debug_ss;
 
-					debug_ss << "This menu is experimental! \n";
+					debug_ss << "This menu is experimental! It is still W.I.P as it is extremely platform specific\n";
 					debug_ss << "Total CPU Used : " << m_ProcDebugInfo.cpu_usage << "\n";
 					debug_ss << "Total Memory : " << m_ProcDebugInfo.total_mem << "  /  " << m_ProcDebugInfo.total_mem_used << "\n";
 					debug_ss << "Total Virtual Memory : " << m_ProcDebugInfo.total_vm << "  /  " << m_ProcDebugInfo.total_vm_used << "\n";
@@ -671,6 +718,9 @@ namespace Minecraft
 				ImGui::Text("FLY - SPACE/LEFT SHIFT");
 				ImGui::Text("BLOCK EDITING - LEFT/RIGHT MOUSE BUTTONS");
 				ImGui::Text("CHANGE CURRENT BLOCK - (Q) or (E)");
+				ImGui::Text("TOGGLE VSYNC - (V)");
+				ImGui::Text("TOGGLE COLLISION DETECTION / FREEFLY - (F)");
+				ImGui::Text("RESET SUN - (G)");
 
 				ImGui::End();
 			}

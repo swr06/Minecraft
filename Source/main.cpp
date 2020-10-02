@@ -21,13 +21,6 @@ Github : @swr06
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "Core/OpenGL Classes/VertexBuffer.h"
-#include "Core/OpenGL Classes/VertexArray.h"
-#include "Core/OpenGL Classes/IndexBuffer.h"
-#include "Core/OpenGL Classes/Shader.h"
-#include "Core/OpenGL Classes/Texture.h"
-#include "Core/OpenGL Classes/Fps.h"
-
 #include "Core/Application/Application.h"
 
 #include <iostream>
