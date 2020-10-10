@@ -536,7 +536,8 @@ namespace Minecraft
 	void ChunkMesh::AddFace(Chunk* chunk, BlockFaceType face_type, const glm::vec3& position, BlockType type, uint8_t light_level,
 		bool buffer)
 	{
-		glm::mat4 translation = glm::translate(glm::mat4(1.0f), position);
+		glm::vec4 translation = glm::vec4(position, 0.0f); // No need to create a model matrix. 
+		// Adding the position to the translation will do the samething but much much faster
 
 		Vertex v1, v2, v3, v4;
 
@@ -558,10 +559,10 @@ namespace Minecraft
 				face_light_level -= 2;
 			}
 
-			v1.position = translation * m_TopFace[0];
-			v2.position = translation * m_TopFace[1];
-			v3.position = translation * m_TopFace[2];
-			v4.position = translation * m_TopFace[3];
+			v1.position = translation + m_TopFace[0];
+			v2.position = translation + m_TopFace[1];
+			v3.position = translation + m_TopFace[2];
+			v4.position = translation + m_TopFace[3];
 
 			// Set the lighting level for the vertex
 			v1.lighting_level = light_level;
@@ -579,10 +580,10 @@ namespace Minecraft
 
 		case BlockFaceType::bottom:
 		{
-			v1.position = translation * m_BottomFace[3];
-			v2.position = translation * m_BottomFace[2];
-			v3.position = translation * m_BottomFace[1];
-			v4.position = translation * m_BottomFace[0];
+			v1.position = translation + m_BottomFace[3];
+			v2.position = translation + m_BottomFace[2];
+			v3.position = translation + m_BottomFace[1];
+			v4.position = translation + m_BottomFace[0];
 
 			// Set the lighting level for the vertex
 			v1.lighting_level = light_level;
@@ -602,10 +603,10 @@ namespace Minecraft
 
 		case BlockFaceType::front:
 		{
-			v1.position = translation * m_ForwardFace[3];
-			v2.position = translation * m_ForwardFace[2];
-			v3.position = translation * m_ForwardFace[1];
-			v4.position = translation * m_ForwardFace[0];
+			v1.position = translation + m_ForwardFace[3];
+			v2.position = translation + m_ForwardFace[2];
+			v3.position = translation + m_ForwardFace[1];
+			v4.position = translation + m_ForwardFace[0];
 
 			// Set the lighting level for the vertex
 			v1.lighting_level = light_level;
@@ -625,10 +626,10 @@ namespace Minecraft
 
 		case BlockFaceType::backward:
 		{
-			v1.position = translation * m_BackFace[0];
-			v2.position = translation * m_BackFace[1];
-			v3.position = translation * m_BackFace[2];
-			v4.position = translation * m_BackFace[3];
+			v1.position = translation + m_BackFace[0];
+			v2.position = translation + m_BackFace[1];
+			v3.position = translation + m_BackFace[2];
+			v4.position = translation + m_BackFace[3];
 
 			v1.lighting_level = light_level;
 			v2.lighting_level = light_level;
@@ -645,10 +646,10 @@ namespace Minecraft
 
 		case BlockFaceType::left:
 		{
-			v1.position = translation * m_LeftFace[3];
-			v2.position = translation * m_LeftFace[2];
-			v3.position = translation * m_LeftFace[1];
-			v4.position = translation * m_LeftFace[0];
+			v1.position = translation + m_LeftFace[3];
+			v2.position = translation + m_LeftFace[2];
+			v3.position = translation + m_LeftFace[1];
+			v4.position = translation + m_LeftFace[0];
 
 			v1.lighting_level = light_level;
 			v2.lighting_level = light_level;
@@ -667,10 +668,10 @@ namespace Minecraft
 
 		case BlockFaceType::right:
 		{
-			v1.position = translation * m_RightFace[0];
-			v2.position = translation * m_RightFace[1];
-			v3.position = translation * m_RightFace[2];
-			v4.position = translation * m_RightFace[3];
+			v1.position = translation + m_RightFace[0];
+			v2.position = translation + m_RightFace[1];
+			v3.position = translation + m_RightFace[2];
+			v4.position = translation + m_RightFace[3];
 
 			v1.lighting_level = light_level;
 			v2.lighting_level = light_level;

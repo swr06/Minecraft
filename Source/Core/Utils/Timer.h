@@ -41,7 +41,7 @@ namespace Minecraft
 			m_EndTime = std::chrono::system_clock::now();
 
 			std::stringstream out;
-			out << m_Output << "  | TIMER ENDED  |  ELAPSED TIME : " << std::chrono::duration_cast<std::chrono::milliseconds>(m_EndTime - m_StartTime).count();
+			out << m_Output << "  | TIMER ENDED  |  ELAPSED TIME : " << std::chrono::duration_cast<std::chrono::microseconds>(m_EndTime - m_StartTime).count() << "  microseconds";
 			Logger::LogToConsole(out.str());
 		}
 		
