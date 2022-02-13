@@ -50,8 +50,7 @@ A Tiny Minecraft clone made with C++ and OpenGL.
 This project compiles with Clang and MSVC. (Should also compile with GCC not tested.)
 
 # Contact me </br> 
-Email : samuelrasquinha@gmail.com </br>
-Discord : swr#1899 </br>
+- See github "about me"
 
 # Credits
 The block art, skybox art and fonts are not made by me. All credits go to their owners. </br>
