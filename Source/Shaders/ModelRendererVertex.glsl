@@ -24,7 +24,7 @@ out flat vec4 v_TintColor;
 out float v_SunlightIntensity;
 
 const float fog_density = 0.01f;
-float fog_gradient = float(u_RenderDistance + 1.0f);
+float fog_gradient = float(4);
 
 void main()
 {
@@ -35,13 +35,14 @@ void main()
 
 	// Calculate fog
 	vec4 relative_camera_pos = u_ViewMatrix * vec4(pos, 1.0f);
-	float fog_distance = length(relative_camera_pos);
+	float fog_distance = (length(relative_camera_pos) / (u_RenderDistance)) * 5.6f;
 	v_Visibility = exp(-pow((fog_distance * fog_density), fog_gradient));
 	v_Visibility = clamp(v_Visibility, 0.0f, 1.0f);
 
 	float lighting_level = a_LightingLevel ;	
-	lighting_level /= 2;
-	lighting_level /= 10;
+	lighting_level /= 24;
+	lighting_level *= lighting_level;
+	lighting_level *= 1.3333;
 
 	v_SunlightIntensity = max(u_SunPositionY / 1000.0f, 0.6f);
 

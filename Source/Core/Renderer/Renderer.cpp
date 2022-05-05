@@ -40,6 +40,9 @@ namespace Minecraft
 		}
 	}
 
+	const glm::vec4 FogColor = glm::vec4((glm::vec3(151.0f, 183.0f, 245.0f) / 255.0f)*1.1f, 1.0f);
+
+
 	void Renderer::StartChunkRendering(FPSCamera* camera, const glm::vec4& ambient_light, int render_distance, const glm::vec4& sun_position)
 	{
 		m_DefaultChunkShader.Use();
@@ -52,7 +55,7 @@ namespace Minecraft
 		m_DefaultChunkShader.SetInteger("u_CHUNK_SIZE_X", CHUNK_SIZE_X);
 		m_DefaultChunkShader.SetInteger("u_CHUNK_SIZE_Z", CHUNK_SIZE_Z);
 		m_DefaultChunkShader.SetFloat("u_SunPositionY", sun_position.y);
-		m_DefaultChunkShader.SetVector4f("u_FogColor", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)); // WHITE FOG
+		m_DefaultChunkShader.SetVector4f("u_FogColor", FogColor); // WHITE FOG
 	}
 
 	void Renderer::EndChunkRendering()
@@ -72,7 +75,7 @@ namespace Minecraft
 		m_DefaultChunkModelShader.SetFloat("u_SunPositionY", sun_position.y);
 		m_DefaultChunkShader.SetInteger("u_CHUNK_SIZE_X", CHUNK_SIZE_X);
 		m_DefaultChunkShader.SetInteger("u_CHUNK_SIZE_Z", CHUNK_SIZE_Z);
-		m_DefaultChunkModelShader.SetVector4f("u_FogColor", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)); // WHITE FOG
+		m_DefaultChunkModelShader.SetVector4f("u_FogColor", FogColor); // WHITE FOG
 		m_DefaultChunkModelShader.SetFloat("u_Time", glfwGetTime(), 0);
 	}
 

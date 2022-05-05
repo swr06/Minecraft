@@ -3,12 +3,11 @@
 namespace Minecraft
 {
 	// The amount of chunks that gets rendered around the player
-	const int render_distance = 6;
-	const int render_distance_x = render_distance, render_distance_z = render_distance;
+	int render_distance = 6;
 
 	constexpr float max_sun = 1500.0f;
 	constexpr float min_sun = 10.0f;
-	constexpr uint8_t LAMP_LIGHT_LEVEL = 32;
+	constexpr uint8_t LAMP_LIGHT_LEVEL = 24;
 
 	/*
 		Prints a 3 component vector on the screen
@@ -101,6 +100,8 @@ namespace Minecraft
 	*/
 	void World::OnUpdate(GLFWwindow* window)
 	{
+		int render_distance_x = render_distance, render_distance_z = render_distance;
+
 		int player_chunk_x = (int)floor(p_Player->p_Position.x / CHUNK_SIZE_X);
 		int player_chunk_z = (int)floor(p_Player->p_Position.z / CHUNK_SIZE_Z);
 
@@ -172,6 +173,8 @@ namespace Minecraft
 	*/
 	void World::RenderWorld()
 	{
+		int render_distance_x = render_distance, render_distance_z = render_distance;
+
 		static float ambient = 0.4f;
 		int player_chunk_x = 0;
 		int player_chunk_z = 0;
@@ -264,12 +267,6 @@ namespace Minecraft
 		m_Renderer2D.RenderQuad(glm::vec3(m_CrosshairPosition.first - (m_CrosshairTexture.GetWidth() / 2)
 			, m_CrosshairPosition.second - (m_CrosshairTexture.GetHeight() / 2), 1.0f)
 			, &m_CrosshairTexture, &m_Camera2D);
-
-		// Tick the sun every x frames 
-		if (m_CurrentFrame % 32 == 0)
-		{
-			TickSun();
-		}
 
 		m_ParticleEmitter.OnUpdateAndRender(&p_Player->p_Camera, m_Renderer.GetAtlasTexture());
 
@@ -377,6 +374,11 @@ namespace Minecraft
 			}
 			}
 		}
+	}
+
+	void World::SetRenderDistance(int x)
+	{
+		render_distance = x;
 	}
 
 	/*

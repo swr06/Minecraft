@@ -49,6 +49,7 @@ namespace Minecraft
 		void OnUpdate(GLFWwindow* window);
 		void RenderWorld();
 		void OnEvent(EventSystem::Event e);
+		void SetRenderDistance(int x);
 		inline const std::string& GetName() noexcept { return m_WorldName; }
 
 		// Gets a world block from the respective chunk. Returns nullptr if invalid

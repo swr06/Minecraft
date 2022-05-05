@@ -38,7 +38,6 @@ namespace Minecraft
 			std::vector<ParticleVertex> m_ParticleVertices;
 
 			GLClasses::VertexBuffer m_VBO;
-			GLClasses::IndexBuffer m_IBO;
 			GLClasses::VertexArray m_VAO;
 		};
 

@@ -10,8 +10,11 @@
 
 namespace Minecraft
 {
+	Block* GetWorldBlock(const glm::vec3& block_pos);
+
 	namespace ParticleSystem
 	{
+
 		constexpr float gravity = 1;
 
 		enum class ParticleDirection
@@ -30,7 +33,7 @@ namespace Minecraft
 				p_Rotation = 0.0f;
 				p_Position = position;
 				p_Velocity = velocity;
-				p_Lifetime = lifetime;
+				p_Lifetime = lifetime / 2;
 				p_Scale = scale;
 				p_IsAlive = true;
 				m_Dir = dir;
@@ -38,28 +41,39 @@ namespace Minecraft
 
 			void OnUpdate()
 			{
+				glm::vec3 pos_before = p_Position;
+
 				// Update delta every frame
 				float delta = 0.1f;
 
 				// Update the particle
-				p_Velocity.y -= gravity * delta; 
+				p_Velocity.y -= gravity * delta;
 				glm::vec3 change = p_Velocity;
 				change *= delta;
 
 				p_Position.y += change.y;
 
+				float multiplier = 1.0f;
+
+				if (GetWorldBlock(glm::floor(p_Position))->Collidable())
+				{
+					p_Position = pos_before;
+					float t = 1.0f - (1.0f / (p_Lifetime - p_ElapsedTime));
+					multiplier = (1.0 - t) * 0.1f + t * 0.015f;
+				}
+
 				if (m_Dir == ParticleDirection::right)
 				{
-					p_Position.x += change.x;
-					p_Position.z += change.z;
+					p_Position.x += change.x * multiplier;
+					p_Position.z += change.z * multiplier;
 				}
 
 				else
 				{
-					p_Position.x -= change.x;
-					p_Position.z -= change.z;
+					p_Position.x -= change.x * multiplier;
+					p_Position.z -= change.z * multiplier;
 				}
-				
+
 				p_ElapsedTime += delta;
 				p_IsAlive = IsAlive();
 			}

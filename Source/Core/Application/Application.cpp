@@ -305,6 +305,8 @@ namespace Minecraft
 
 	void Application::OnImGuiRender()
 	{
+		static int renderdistance = 6;
+
 		static bool first_run = true;
 		int w, h;
 		glfwGetFramebufferSize(m_Window, &w, &h);
@@ -471,6 +473,7 @@ namespace Minecraft
 
 				ImGui::SliderFloat("Player Speed", &ex_PlayerSpeed, 0.01, 0.18f);
 				ImGui::SliderFloat("Sensitivity", &ex_PlayerSensitivity, 0.01, 1.5f);
+				ImGui::SliderInt("Render Distance", &renderdistance, 2, 16);
 
 				ImGui::NewLine();
 				ImGui::NewLine();
@@ -491,6 +494,8 @@ namespace Minecraft
 				ImGui::PopFont();
 				ImGui::End();
 			}
+
+			m_World->SetRenderDistance(renderdistance);
 		}
 
 		else if (m_GameState == GameState::PauseState)

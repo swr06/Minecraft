@@ -9,35 +9,14 @@ namespace Minecraft
 			m_ParticleShader.CreateShaderProgramFromFile("Shaders/ParticleVert.glsl", "Shaders/ParticleFrag.glsl");
 			m_ParticleShader.CompileShaders();
 
-			int index_size = 12000 ; 
+			int index_size = 16000 ; 
 			int index_offset = 0;
 
-			GLuint* IndexBuffer = nullptr;
-			IndexBuffer = new GLuint[index_size * 6];
-
-			for (size_t i = 0; i < index_size; i += 6)
-			{
-				IndexBuffer[i] = 0 + index_offset;
-				IndexBuffer[i + 1] = 1 + index_offset;
-				IndexBuffer[i + 2] = 2 + index_offset;
-				IndexBuffer[i + 3] = 1 + index_offset;
-				IndexBuffer[i + 4] = 2 + index_offset;
-				IndexBuffer[i + 5] = 3 + index_offset;
-
-				index_offset = index_offset + 4;
-			}
-
-			m_IBO.Bind();
-			m_IBO.BufferData(index_size * 6 * sizeof(GLuint), IndexBuffer, GL_STATIC_DRAW);
-			m_IBO.Unbind();
 			m_VAO.Bind();
-			m_IBO.Bind();
 			m_VBO.Bind();
 			m_VBO.VertexAttribPointer(0, 3, GL_FLOAT, false, sizeof(ParticleVertex), (void*)offsetof(ParticleVertex, position));
 			m_VBO.VertexAttribPointer(1, 2, GL_FLOAT, false, sizeof(ParticleVertex), (void*)offsetof(ParticleVertex, texture_coords));
 			m_VAO.Unbind();
-
-			delete[] IndexBuffer;
 		}
 
 		void ParticleRenderer::StartParticleRender()
@@ -80,6 +59,8 @@ namespace Minecraft
 			m_ParticleVertices.push_back(v1);
 			m_ParticleVertices.push_back(v2);
 			m_ParticleVertices.push_back(v3);
+			m_ParticleVertices.push_back(v2);
+			m_ParticleVertices.push_back(v3);
 			m_ParticleVertices.push_back(v4);
 		}
 
@@ -93,7 +74,7 @@ namespace Minecraft
 				texture_atlas->Bind(0);
 				m_VAO.Bind();
 				m_VBO.BufferData(m_ParticleVertices.size() * sizeof(ParticleVertex), &m_ParticleVertices.front(), GL_STATIC_DRAW);
-				glDrawElements(GL_TRIANGLES, (m_ParticleVertices.size()) * 6, GL_UNSIGNED_INT, 0);
+				glDrawArrays(GL_TRIANGLES, 0, m_ParticleVertices.size());
 				m_VAO.Unbind();
 			}
 
