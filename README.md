@@ -10,6 +10,9 @@ Created by Samuel Rasquinha using C++17 and OpenGL 3.3 :game_die:
 # A Tiny Minecraft Clone
 A Tiny Minecraft clone made with C++ and OpenGL. 
 
+# Project status 
+This project has long since been abandoned and I will not be adding any new features to it.
+
 # Current Features
 - 3D Perspective FPS style camera with smooth movement
 - Terrain generation using simplex noise
@@ -50,8 +53,7 @@ A Tiny Minecraft clone made with C++ and OpenGL.
 This project compiles with Clang and MSVC. (Should also compile with GCC not tested.)
 
 # Contact me </br> 
-Email : samuelrasquinha@gmail.com </br>
-Discord : swr#1899 </br>
+- See github "about me"
 
 # Credits
 The block art, skybox art and fonts are not made by me. All credits go to their owners. </br>
