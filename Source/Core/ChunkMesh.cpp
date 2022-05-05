@@ -693,6 +693,14 @@ namespace Minecraft
 		}
 		}
 
+		if (type == BlockType::Water) {
+
+			v1.block_face_lighting = 85;
+			v2.block_face_lighting = 85;
+			v3.block_face_lighting = 85;
+			v4.block_face_lighting = 85;
+		}
+
 		// Get required texture coordinates
 
 		const std::array<uint16_t, 8>& TextureCoordinates = BlockDatabase::GetBlockTexture(type, face_type);

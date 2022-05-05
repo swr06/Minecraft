@@ -33,7 +33,7 @@ void main()
 	vec3 SkyTint = vec3(151.0f, 183.0f, 245.0f) / 255.0f;
 	o_Color.xyz = mix(o_Color.xyz * 1.1f, o_Color.xyz * 1.1 * SkyTint.xyz, 0.65f);
 
-	o_Color = mix(u_FogColor, o_Color, v_Visibility);
+	o_Color = mix(vec4(pow(u_FogColor.xyz, vec3(1.6)), u_FogColor.w), o_Color, v_Visibility);
 
 	o_Color = vec4(RomBinDaHouseToneMapping(o_Color.xyz), o_Color.w);
 }
